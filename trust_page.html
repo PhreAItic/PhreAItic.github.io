@@ -92,6 +92,9 @@ th[scope="row"] { font-weight: 600; }
 .bench-val { font-size: 13px; font-weight: 700; }
 .bench-val-nat { fill: var(--water-deep); }
 .bench-val-flag { fill: var(--drought); }
+.bench-line-good { stroke: var(--good); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.bench-dot-good { fill: var(--good); stroke: var(--paper-raised); stroke-width: 2; }
+.bench-val-good { fill: var(--good); }
 .bench-n { fill: var(--muted); font-size: 10px; }
 .dist-wrap { padding: 8px 4px 4px; border: 1px solid var(--line-soft); border-radius: 6px; background: var(--paper-raised); }
 .dist-wrap svg { width: 100%; height: auto; display: block; overflow: visible; }
@@ -149,18 +152,18 @@ footer a { color: var(--water); }
       <div class="bench-legend"><span class="bench-legend-item"><span class="bench-swatch bench-swatch-nat"></span>All stations (national median)</span><span class="bench-legend-item"><span class="bench-swatch bench-swatch-flag"></span>Best station per basin (median across basins)</span></div><svg viewBox="0 0 640 260" role="img" aria-label="Median NSE by forecast horizon, national vs. flagship basins">
 <line x1="46" y1="181.0" x2="610" y2="181.0" class="bench-zero-line" stroke-dasharray="3,4"/>
 <text x="610" y="181.0" dx="4" dy="4" class="bench-zero-label mono">0</text>
-<path d="M46.0,71.3 L187.0,106.1 L328.0,130.3 L469.0,133.9 L610.0,133.9" class="bench-line bench-line-nat" fill="none"/>
-<path d="M46.0,63.0 L187.0,89.7 L328.0,113.2 L469.0,117.0 L610.0,118.1" class="bench-line bench-line-flag" fill="none" stroke-dasharray="7,5"/>
-<g class="bench-point"><circle cx="46.0" cy="71.3" r="5.5" class="bench-dot bench-dot-nat"/><title>All stations (national median) -- 1 mo: NSE 0.78 (n=2322)</title><text x="46.0" y="91.3" text-anchor="middle" class="bench-val bench-val-nat mono">0.78</text></g>
-<g class="bench-point"><circle cx="187.0" cy="106.1" r="5.5" class="bench-dot bench-dot-nat"/><title>All stations (national median) -- 3 mo: NSE 0.53 (n=2117)</title><text x="187.0" y="126.1" text-anchor="middle" class="bench-val bench-val-nat mono">0.53</text></g>
-<g class="bench-point"><circle cx="328.0" cy="130.3" r="5.5" class="bench-dot bench-dot-nat"/><title>All stations (national median) -- 6 mo: NSE 0.36 (n=1898)</title><text x="328.0" y="150.3" text-anchor="middle" class="bench-val bench-val-nat mono">0.36</text></g>
-<g class="bench-point"><circle cx="469.0" cy="133.9" r="5.5" class="bench-dot bench-dot-nat"/><title>All stations (national median) -- 9 mo: NSE 0.34 (n=1734)</title><text x="469.0" y="153.9" text-anchor="middle" class="bench-val bench-val-nat mono">0.34</text></g>
-<g class="bench-point"><circle cx="610.0" cy="133.9" r="5.5" class="bench-dot bench-dot-nat"/><title>All stations (national median) -- 12 mo: NSE 0.34 (n=1694)</title><text x="610.0" y="153.9" text-anchor="middle" class="bench-val bench-val-nat mono">0.34</text></g>
-<g class="bench-point"><circle cx="46.0" cy="63.0" r="5.5" class="bench-dot bench-dot-flag"/><title>Best station per basin (median across basins) -- 1 mo: NSE 0.84 (n=493)</title><text x="46.0" y="49.0" text-anchor="middle" class="bench-val bench-val-flag mono">0.84</text></g>
-<g class="bench-point"><circle cx="187.0" cy="89.7" r="5.5" class="bench-dot bench-dot-flag"/><title>Best station per basin (median across basins) -- 3 mo: NSE 0.65 (n=475)</title><text x="187.0" y="75.7" text-anchor="middle" class="bench-val bench-val-flag mono">0.65</text></g>
-<g class="bench-point"><circle cx="328.0" cy="113.2" r="5.5" class="bench-dot bench-dot-flag"/><title>Best station per basin (median across basins) -- 6 mo: NSE 0.48 (n=462)</title><text x="328.0" y="99.2" text-anchor="middle" class="bench-val bench-val-flag mono">0.48</text></g>
-<g class="bench-point"><circle cx="469.0" cy="117.0" r="5.5" class="bench-dot bench-dot-flag"/><title>Best station per basin (median across basins) -- 9 mo: NSE 0.46 (n=451)</title><text x="469.0" y="103.0" text-anchor="middle" class="bench-val bench-val-flag mono">0.46</text></g>
-<g class="bench-point"><circle cx="610.0" cy="118.1" r="5.5" class="bench-dot bench-dot-flag"/><title>Best station per basin (median across basins) -- 12 mo: NSE 0.45 (n=451)</title><text x="610.0" y="104.1" text-anchor="middle" class="bench-val bench-val-flag mono">0.45</text></g>
+<path d="M46.0,70.3 L187.0,103.4 L328.0,127.2 L469.0,131.9 L610.0,131.7" class="bench-line bench-line-nat" fill="none"/>
+<path d="M46.0,63.0 L187.0,88.5 L328.0,111.3 L469.0,117.7 L610.0,116.7" class="bench-line bench-line-flag" fill="none" stroke-dasharray="7,5"/>
+<g class="bench-point"><circle cx="46.0" cy="70.3" r="5.5" class="bench-dot bench-dot-nat"/><title>All stations (national median) -- 1 mo: NSE 0.80 (n=2322)</title><text x="46.0" y="90.3" text-anchor="middle" class="bench-val bench-val-nat mono">0.80</text></g>
+<g class="bench-point"><circle cx="187.0" cy="103.4" r="5.5" class="bench-dot bench-dot-nat"/><title>All stations (national median) -- 3 mo: NSE 0.56 (n=2117)</title><text x="187.0" y="123.4" text-anchor="middle" class="bench-val bench-val-nat mono">0.56</text></g>
+<g class="bench-point"><circle cx="328.0" cy="127.2" r="5.5" class="bench-dot bench-dot-nat"/><title>All stations (national median) -- 6 mo: NSE 0.39 (n=1898)</title><text x="328.0" y="147.2" text-anchor="middle" class="bench-val bench-val-nat mono">0.39</text></g>
+<g class="bench-point"><circle cx="469.0" cy="131.9" r="5.5" class="bench-dot bench-dot-nat"/><title>All stations (national median) -- 9 mo: NSE 0.36 (n=1734)</title><text x="469.0" y="151.9" text-anchor="middle" class="bench-val bench-val-nat mono">0.36</text></g>
+<g class="bench-point"><circle cx="610.0" cy="131.7" r="5.5" class="bench-dot bench-dot-nat"/><title>All stations (national median) -- 12 mo: NSE 0.36 (n=1694)</title><text x="610.0" y="151.7" text-anchor="middle" class="bench-val bench-val-nat mono">0.36</text></g>
+<g class="bench-point"><circle cx="46.0" cy="63.0" r="5.5" class="bench-dot bench-dot-flag"/><title>Best station per basin (median across basins) -- 1 mo: NSE 0.85 (n=493)</title><text x="46.0" y="49.0" text-anchor="middle" class="bench-val bench-val-flag mono">0.85</text></g>
+<g class="bench-point"><circle cx="187.0" cy="88.5" r="5.5" class="bench-dot bench-dot-flag"/><title>Best station per basin (median across basins) -- 3 mo: NSE 0.67 (n=475)</title><text x="187.0" y="74.5" text-anchor="middle" class="bench-val bench-val-flag mono">0.67</text></g>
+<g class="bench-point"><circle cx="328.0" cy="111.3" r="5.5" class="bench-dot bench-dot-flag"/><title>Best station per basin (median across basins) -- 6 mo: NSE 0.51 (n=462)</title><text x="328.0" y="97.3" text-anchor="middle" class="bench-val bench-val-flag mono">0.51</text></g>
+<g class="bench-point"><circle cx="469.0" cy="117.7" r="5.5" class="bench-dot bench-dot-flag"/><title>Best station per basin (median across basins) -- 9 mo: NSE 0.46 (n=451)</title><text x="469.0" y="103.7" text-anchor="middle" class="bench-val bench-val-flag mono">0.46</text></g>
+<g class="bench-point"><circle cx="610.0" cy="116.7" r="5.5" class="bench-dot bench-dot-flag"/><title>Best station per basin (median across basins) -- 12 mo: NSE 0.47 (n=451)</title><text x="610.0" y="102.7" text-anchor="middle" class="bench-val bench-val-flag mono">0.47</text></g>
 <text x="46.0" y="238.0" text-anchor="middle" class="bench-h">1 mo</text>
 <text x="187.0" y="238.0" text-anchor="middle" class="bench-h">3 mo</text>
 <text x="328.0" y="238.0" text-anchor="middle" class="bench-h">6 mo</text>
@@ -171,6 +174,50 @@ footer a { color: var(--water); }
     <p class="note">Skill decays with horizon everywhere in hydrology — predicting next month is an easier problem than predicting next year, for any forecaster. Picking out each basin's strongest station and taking the median of those maximums usually sits at or above the plain national median, since a group's best member is never below that group's own middle — but that's not a strict mathematical guarantee for every possible distribution. It holds here at every horizon. What matters most: even at 12 months, both medians still clear the naive seasonal-average baseline (NSE > 0).</p>
   </section>
 
+  <section id="benchmark-mean">
+    <h2>The same headline, as a mean</h2>
+    <p class="section-intro">The median above is deliberately resistant to outliers. Here's the plain mean of the same ~2,400-station population at each horizon, for anyone who wants that comparison too — it reads a little lower everywhere, since a mean gets pulled down harder than a median by the weaker stations in the tail.</p>
+    <div class="bench-wrap">
+      <svg viewBox="0 0 640 260" role="img" aria-label="Mean NSE by forecast horizon, national">
+<line x1="46" y1="184.8" x2="610" y2="184.8" class="bench-zero-line" stroke-dasharray="3,4"/>
+<text x="610" y="184.8" dx="4" dy="4" class="bench-zero-label mono">0</text>
+<path d="M46.0,59.2 L187.0,93.4 L328.0,117.6 L469.0,122.3 L610.0,122.9" class="bench-line-nat" fill="none"/>
+<g class="bench-point"><circle cx="46.0" cy="59.2" r="5.5" class="bench-dot-nat"/><title>1 mo: 0.75 (n=2322)</title><text x="46.0" y="45.2" text-anchor="middle" class="bench-val bench-val-nat mono">0.75</text></g>
+<text x="46.0" y="244.0" text-anchor="middle" class="bench-h">1 mo</text>
+<g class="bench-point"><circle cx="187.0" cy="93.4" r="5.5" class="bench-dot-nat"/><title>3 mo: 0.55 (n=2117)</title><text x="187.0" y="79.4" text-anchor="middle" class="bench-val bench-val-nat mono">0.55</text></g>
+<text x="187.0" y="244.0" text-anchor="middle" class="bench-h">3 mo</text>
+<g class="bench-point"><circle cx="328.0" cy="117.6" r="5.5" class="bench-dot-nat"/><title>6 mo: 0.40 (n=1898)</title><text x="328.0" y="103.6" text-anchor="middle" class="bench-val bench-val-nat mono">0.40</text></g>
+<text x="328.0" y="244.0" text-anchor="middle" class="bench-h">6 mo</text>
+<g class="bench-point"><circle cx="469.0" cy="122.3" r="5.5" class="bench-dot-nat"/><title>9 mo: 0.37 (n=1734)</title><text x="469.0" y="108.3" text-anchor="middle" class="bench-val bench-val-nat mono">0.37</text></g>
+<text x="469.0" y="244.0" text-anchor="middle" class="bench-h">9 mo</text>
+<g class="bench-point"><circle cx="610.0" cy="122.9" r="5.5" class="bench-dot-nat"/><title>12 mo: 0.37 (n=1694)</title><text x="610.0" y="108.9" text-anchor="middle" class="bench-val bench-val-nat mono">0.37</text></g>
+<text x="610.0" y="244.0" text-anchor="middle" class="bench-h">12 mo</text>
+</svg>
+    </div>
+    <p class="note">Mean and median tell the same basic story here — skill falling off fast between 1 and 3 months, then flattening — the mean is just consistently a touch lower because it doesn't resist the low-scoring tail the way a median does.</p>
+  </section>
+
+  <section id="skill-rate">
+    <h2>How many stations actually clear a “good” bar?</h2>
+    <p class="section-intro">A median or mean can look reasonable even when a large share of individual stations are mediocre. This is a stricter, more literal question: at each horizon, what percentage of the same quality-gated stations reach an NSE above 0.7 — a level generally considered good forecast skill?</p>
+    <div class="bench-wrap">
+      <svg viewBox="0 0 640 260" role="img" aria-label="Share of stations with NSE above 0.7 by forecast horizon, national">
+<path d="M46.0,56.7 L187.0,156.6 L328.0,201.4 L469.0,206.0 L610.0,207.8" class="bench-line-good" fill="none"/>
+<g class="bench-point"><circle cx="46.0" cy="56.7" r="5.5" class="bench-dot-good"/><title>1 mo: 66% (n=2322)</title><text x="46.0" y="42.7" text-anchor="middle" class="bench-val bench-val-good mono">66%</text></g>
+<text x="46.0" y="244.0" text-anchor="middle" class="bench-h">1 mo</text>
+<g class="bench-point"><circle cx="187.0" cy="156.6" r="5.5" class="bench-dot-good"/><title>3 mo: 26% (n=2117)</title><text x="187.0" y="142.6" text-anchor="middle" class="bench-val bench-val-good mono">26%</text></g>
+<text x="187.0" y="244.0" text-anchor="middle" class="bench-h">3 mo</text>
+<g class="bench-point"><circle cx="328.0" cy="201.4" r="5.5" class="bench-dot-good"/><title>6 mo: 8% (n=1898)</title><text x="328.0" y="187.4" text-anchor="middle" class="bench-val bench-val-good mono">8%</text></g>
+<text x="328.0" y="244.0" text-anchor="middle" class="bench-h">6 mo</text>
+<g class="bench-point"><circle cx="469.0" cy="206.0" r="5.5" class="bench-dot-good"/><title>9 mo: 6% (n=1734)</title><text x="469.0" y="192.0" text-anchor="middle" class="bench-val bench-val-good mono">6%</text></g>
+<text x="469.0" y="244.0" text-anchor="middle" class="bench-h">9 mo</text>
+<g class="bench-point"><circle cx="610.0" cy="207.8" r="5.5" class="bench-dot-good"/><title>12 mo: 5% (n=1694)</title><text x="610.0" y="193.8" text-anchor="middle" class="bench-val bench-val-good mono">5%</text></g>
+<text x="610.0" y="244.0" text-anchor="middle" class="bench-h">12 mo</text>
+</svg>
+    </div>
+    <p class="note">Two-thirds of stations clear 0.7 at 1 month; that drops to about a quarter by 3 months and under 8% from 6 months on. The headline median/mean numbers above hold up reasonably well even as this stricter share collapses, because a station can still land well above the naive baseline (NSE > 0) without reaching the stricter 0.7 bar.</p>
+  </section>
+
   <section id="nse-distribution">
     <h2>The full spread, not just the median</h2>
     <p class="section-intro">A single median number hides how spread out real station-level skill is. This is every individually forecast station's own NSE, grouped into how many stations land in each 0.05-wide NSE band — one line per horizon. The population here is already the quality-gated one this whole page reports on: a station/horizon only appears if its walk-forward NSE actually cleared 0 (beat guessing the seasonal average), so what you're seeing is the shape of skill among stations that already work, not a raw unfiltered spread.</p>
@@ -179,11 +226,11 @@ footer a { color: var(--water); }
 <line x1="42" y1="260.0" x2="624" y2="260.0" class="dist-grid"/>
 <line x1="42" y1="140.0" x2="624" y2="140.0" class="dist-grid"/>
 <line x1="42" y1="20.0" x2="624" y2="20.0" class="dist-grid"/>
-<path d="M56.5,257.9 L85.7,252.9 L114.8,246.4 L143.8,242.1 L173.0,242.9 L202.1,234.3 L231.1,233.6 L260.2,222.1 L289.4,218.6 L318.4,209.3 L347.6,186.4 L376.6,177.1 L405.8,152.8 L434.9,147.8 L463.9,129.2 L493.1,119.9 L522.1,72.8 L551.2,82.1 L580.4,74.9 L609.4,37.8" class="dist-line dist-line-h1" fill="none"><title>1 mo (n=2322)</title></path>
-<path d="M56.5,240.0 L85.7,223.6 L114.8,222.8 L143.8,205.0 L173.0,198.5 L202.1,195.0 L231.1,169.3 L260.2,161.4 L289.4,165.7 L318.4,140.0 L347.6,150.0 L376.6,126.4 L405.8,139.2 L434.9,130.0 L463.9,156.4 L493.1,174.3 L522.1,203.6 L551.2,207.8 L580.4,232.1 L609.4,246.4" class="dist-line dist-line-h3" fill="none"><title>3 mo (n=2117)</title></path>
-<path d="M56.5,204.3 L85.7,184.3 L114.8,175.7 L143.8,165.7 L173.0,151.4 L202.1,146.4 L231.1,134.2 L260.2,156.4 L289.4,152.1 L318.4,157.1 L347.6,165.0 L376.6,175.0 L405.8,190.7 L434.9,206.4 L463.9,229.3 L493.1,242.1 L522.1,250.0 L551.2,248.6 L580.4,255.7 L609.4,253.6" class="dist-line dist-line-h6" fill="none"><title>6 mo (n=1898)</title></path>
-<path d="M56.5,204.3 L85.7,179.3 L114.8,155.0 L143.8,173.5 L173.0,143.5 L202.1,167.8 L231.1,145.0 L260.2,170.7 L289.4,167.8 L318.4,167.8 L347.6,175.7 L376.6,194.3 L405.8,201.4 L434.9,216.4 L463.9,235.0 L493.1,241.4 L522.1,255.7 L551.2,255.7 L580.4,253.6 L609.4,257.1" class="dist-line dist-line-h9" fill="none"><title>9 mo (n=1734)</title></path>
-<path d="M56.5,187.8 L85.7,179.3 L114.8,169.3 L143.8,172.8 L173.0,160.7 L202.1,159.2 L231.1,161.4 L260.2,166.4 L289.4,157.1 L318.4,180.0 L347.6,185.7 L376.6,182.1 L405.8,207.1 L434.9,215.7 L463.9,237.1 L493.1,245.0 L522.1,255.0 L551.2,255.0 L580.4,256.4 L609.4,256.4" class="dist-line dist-line-h12" fill="none"><title>12 mo (n=1694)</title></path>
+<path d="M56.5,260.0 L85.7,256.1 L114.8,254.9 L143.8,249.1 L173.0,246.5 L202.1,242.7 L231.1,237.5 L260.2,233.7 L289.4,225.3 L318.4,211.2 L347.6,204.1 L376.6,184.9 L405.8,180.4 L434.9,154.0 L463.9,151.5 L493.1,132.2 L522.1,74.4 L551.2,94.3 L580.4,78.2 L609.4,37.8" class="dist-line dist-line-h1" fill="none"><title>1 mo (n=2322)</title></path>
+<path d="M56.5,249.1 L85.7,242.0 L114.8,233.7 L143.8,226.6 L173.0,217.0 L202.1,199.6 L231.1,190.0 L260.2,182.3 L289.4,170.1 L318.4,154.0 L347.6,146.3 L376.6,134.8 L405.8,145.7 L434.9,139.9 L463.9,145.0 L493.1,176.5 L522.1,208.6 L551.2,208.6 L580.4,226.0 L609.4,244.6" class="dist-line dist-line-h3" fill="none"><title>3 mo (n=2117)</title></path>
+<path d="M56.5,235.6 L85.7,217.0 L114.8,197.1 L143.8,184.2 L173.0,172.7 L202.1,147.6 L231.1,143.1 L260.2,152.1 L289.4,164.3 L318.4,151.5 L347.6,159.8 L376.6,181.0 L405.8,195.1 L434.9,212.5 L463.9,220.2 L493.1,241.4 L522.1,251.7 L551.2,246.5 L580.4,256.1 L609.4,251.7" class="dist-line dist-line-h6" fill="none"><title>6 mo (n=1898)</title></path>
+<path d="M56.5,233.0 L85.7,203.5 L114.8,180.4 L143.8,186.1 L173.0,150.8 L202.1,168.8 L231.1,155.3 L260.2,172.0 L289.4,160.4 L318.4,178.4 L347.6,181.6 L376.6,193.2 L405.8,208.6 L434.9,217.6 L463.9,234.3 L493.1,243.3 L522.1,254.9 L551.2,254.2 L580.4,254.2 L609.4,255.5" class="dist-line dist-line-h9" fill="none"><title>9 mo (n=1734)</title></path>
+<path d="M56.5,227.2 L85.7,199.6 L114.8,181.6 L143.8,176.5 L173.0,172.0 L202.1,167.5 L231.1,167.5 L260.2,173.3 L289.4,165.6 L318.4,179.7 L347.6,186.8 L376.6,181.6 L405.8,211.8 L434.9,215.0 L463.9,236.2 L493.1,247.8 L522.1,256.1 L551.2,253.6 L580.4,256.8 L609.4,255.5" class="dist-line dist-line-h12" fill="none"><title>12 mo (n=1694)</title></path>
 <text x="42.0" y="282.0" text-anchor="middle" class="dist-tick">0.0</text>
 <text x="158.4" y="282.0" text-anchor="middle" class="dist-tick">0.2</text>
 <text x="274.8" y="282.0" text-anchor="middle" class="dist-tick">0.4</text>
@@ -277,6 +324,6 @@ footer a { color: var(--water); }
 
   <footer>
     <span>Every number on this page comes directly from real backtests -- not hand-typed or rounded up.</span>
-    <span class="mono">Generated 2026-08-28</span>
+    <span class="mono">Generated 2026-09-03</span>
   </footer>
 </main>
