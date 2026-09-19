@@ -317,19 +317,19 @@ footer a { color: var(--water); }
 
   <section id="soil-moisture">
     <h2>Soil moisture: a separate, newer product</h2>
-    <p class="section-intro">A second, independent forecast this project now serves alongside groundwater levels: root-zone (7–28cm) soil moisture on an evenly spaced 0.5° grid (263 points across mainland France, decoupled from where groundwater stations happen to exist — see the map's own "Soil moisture" toggle). Same metric and the same backtest discipline as everything above: median forecast skill (NSE) at each horizon.</p>
+    <p class="section-intro">A second, independent forecast this project now serves alongside groundwater levels: root-zone (7–28cm) soil moisture on an evenly spaced 0.5° grid (263 points across mainland France, decoupled from where groundwater stations happen to exist — see the map's own "Soil moisture" toggle), forecast for every week out to 12 months ahead, not just a handful of anchor horizons. Same metric and the same backtest discipline as everything above: median forecast skill (NSE) at each horizon, with empirically calibrated (not assumed) uncertainty bands.</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Horizon</th><th>Median NSE (263 points)</th></tr></thead>
-        <tbody><tr><td>1 week</td><td class="nse-cell tier-good"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:87%"></div></div><div class="nse-numbers"><span class="nse-val">0.87</span></div></td></tr>
-<tr><td>2 weeks</td><td class="nse-cell tier-good"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:75%"></div></div><div class="nse-numbers"><span class="nse-val">0.75</span></div></td></tr>
-<tr><td>4 weeks</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:60%"></div></div><div class="nse-numbers"><span class="nse-val">0.60</span></div></td></tr>
-<tr><td>8 weeks</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:52%"></div></div><div class="nse-numbers"><span class="nse-val">0.52</span></div></td></tr>
-<tr><td>13 weeks</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:49%"></div></div><div class="nse-numbers"><span class="nse-val">0.49</span></div></td></tr>
-<tr><td>26 weeks</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:48%"></div></div><div class="nse-numbers"><span class="nse-val">0.48</span></div></td></tr></tbody>
+        <tbody><tr><td>1 week</td><td class="nse-cell tier-good"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:85%"></div></div><div class="nse-numbers"><span class="nse-val">0.85</span></div></td></tr>
+<tr><td>1 month</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:63%"></div></div><div class="nse-numbers"><span class="nse-val">0.63</span></div></td></tr>
+<tr><td>3 months</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:47%"></div></div><div class="nse-numbers"><span class="nse-val">0.47</span></div></td></tr>
+<tr><td>6 months</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:49%"></div></div><div class="nse-numbers"><span class="nse-val">0.49</span></div></td></tr>
+<tr><td>9 months</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:47%"></div></div><div class="nse-numbers"><span class="nse-val">0.47</span></div></td></tr>
+<tr><td>12 months</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:45%"></div></div><div class="nse-numbers"><span class="nse-val">0.45</span></div></td></tr></tbody>
       </table>
     </div>
-    <p class="note">Skill decays with horizon like every forecast on this page, but stays positive out to 26 weeks (~6 months) — soil moisture is a slower, more seasonal signal than groundwater level, which these numbers bear out. This product is newer than the groundwater-level forecasts above and doesn't yet have a learnability-ceiling comparison of its own — the bars here are raw NSE, not % of a ceiling.</p>
+    <p class="note">Skill drops fast in the first month (0.85 at 1 week to 0.63 at 1 month) then stabilizes: it holds in a narrow 0.45-0.49 band from 3 months all the way out to 12 months. Unlike groundwater level, which keeps decaying and often goes negative at long horizons, soil moisture's own seasonal cycle gives this a genuine, stable signal to anchor to even a year out. This beats a naive persistence forecast ("tomorrow looks like today") in 99% of the 13,676 (grid point, horizon) cells checked. This product is newer than the groundwater-level forecasts above and doesn't yet have a learnability-ceiling comparison of its own -- the bars here are raw NSE, not % of a ceiling.</p>
   </section>
 
   <section id="honest">
