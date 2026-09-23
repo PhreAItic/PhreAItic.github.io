@@ -317,19 +317,22 @@ footer a { color: var(--water); }
 
   <section id="soil-moisture">
     <h2>Soil moisture: a separate, newer product</h2>
-    <p class="section-intro">A second, independent forecast this project now serves alongside groundwater levels: root-zone (7–28cm) soil moisture on an evenly spaced 0.5° grid (263 points across mainland France, decoupled from where groundwater stations happen to exist — see the map's own "Soil moisture" toggle), forecast for every week out to 12 months ahead, not just a handful of anchor horizons. Same metric and the same backtest discipline as everything above: median forecast skill (NSE) at each horizon, with empirically calibrated (not assumed) uncertainty bands.</p>
+    <p class="section-intro">A second, independent forecast this project now serves alongside groundwater levels: root-zone soil moisture on an evenly spaced 0.1° grid (6433 points across mainland France, ERA5-Land's own native resolution, decoupled from where groundwater stations happen to exist — see the map's own "Soil moisture" toggle), forecast for every week out to 12 months ahead, not just a handful of anchor horizons. Most points use ERA5-Land's own root-zone (7–28cm) measure; the rest, where that per-point fetch hasn't reached yet, use a NASA POWER root-zone measure instead — a different quantity, backtested and reported separately below, never blended into one number. Same metric and the same backtest discipline as everything above: median forecast skill (NSE) at each horizon, with empirically calibrated (not assumed) uncertainty bands.</p>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Horizon</th><th>Median NSE (263 points)</th></tr></thead>
-        <tbody><tr><td>1 week</td><td class="nse-cell tier-good"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:85%"></div></div><div class="nse-numbers"><span class="nse-val">0.85</span></div></td></tr>
-<tr><td>1 month</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:63%"></div></div><div class="nse-numbers"><span class="nse-val">0.63</span></div></td></tr>
-<tr><td>3 months</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:47%"></div></div><div class="nse-numbers"><span class="nse-val">0.47</span></div></td></tr>
-<tr><td>6 months</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:49%"></div></div><div class="nse-numbers"><span class="nse-val">0.49</span></div></td></tr>
-<tr><td>9 months</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:47%"></div></div><div class="nse-numbers"><span class="nse-val">0.47</span></div></td></tr>
-<tr><td>12 months</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:45%"></div></div><div class="nse-numbers"><span class="nse-val">0.45</span></div></td></tr></tbody>
+        <thead><tr><th>Horizon</th>
+          <th>ERA5-Land, median NSE (1158 backtest points)</th>
+          <th>NASA POWER fallback, median NSE (660 sampled points)</th>
+        </tr></thead>
+        <tbody><tr><td>1 week</td><td class="nse-cell tier-good"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:85%"></div></div><div class="nse-numbers"><span class="nse-val">0.85</span></div></td><td class="nse-cell tier-good"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:97%"></div></div><div class="nse-numbers"><span class="nse-val">0.97</span></div></td></tr>
+<tr><td>1 month</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:61%"></div></div><div class="nse-numbers"><span class="nse-val">0.61</span></div></td><td class="nse-cell tier-good"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:90%"></div></div><div class="nse-numbers"><span class="nse-val">0.90</span></div></td></tr>
+<tr><td>3 months</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:52%"></div></div><div class="nse-numbers"><span class="nse-val">0.52</span></div></td><td class="nse-cell tier-good"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:78%"></div></div><div class="nse-numbers"><span class="nse-val">0.78</span></div></td></tr>
+<tr><td>6 months</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:54%"></div></div><div class="nse-numbers"><span class="nse-val">0.54</span></div></td><td class="nse-cell tier-good"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:67%"></div></div><div class="nse-numbers"><span class="nse-val">0.67</span></div></td></tr>
+<tr><td>9 months</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:53%"></div></div><div class="nse-numbers"><span class="nse-val">0.53</span></div></td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:63%"></div></div><div class="nse-numbers"><span class="nse-val">0.63</span></div></td></tr>
+<tr><td>12 months</td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:51%"></div></div><div class="nse-numbers"><span class="nse-val">0.51</span></div></td><td class="nse-cell tier-fair"><div class="nse-bar-track"><div class="nse-bar-fill" style="width:63%"></div></div><div class="nse-numbers"><span class="nse-val">0.63</span></div></td></tr></tbody>
       </table>
     </div>
-    <p class="note">Skill drops fast in the first month (0.85 at 1 week to 0.63 at 1 month) then stabilizes: it holds in a narrow 0.45-0.49 band from 3 months all the way out to 12 months. Unlike groundwater level, which keeps decaying and often goes negative at long horizons, soil moisture's own seasonal cycle gives this a genuine, stable signal to anchor to even a year out. This beats a naive persistence forecast ("tomorrow looks like today") in 99% of the 13,676 (grid point, horizon) cells checked. This product is newer than the groundwater-level forecasts above and doesn't yet have a learnability-ceiling comparison of its own -- the bars here are raw NSE, not % of a ceiling.</p>
+    <p class="note">ERA5-Land tier: skill drops from a strong 0.85 at 1 week to around 0.51-0.54 from 3 months out all the way to 12 months, holding roughly flat rather than continuing to decay. Unlike groundwater level, which keeps decaying and often goes negative at long horizons, soil moisture's own seasonal cycle gives this a genuine, stable signal to anchor to even a year out. Beats a naive persistence forecast ("tomorrow looks like today") in 99% of the 60,104 (grid point, horizon) cells checked. NASA POWER fallback tier: even stronger numbers (0.97 at 1 week to around 0.63 at 6-12 months, 100% of 34,320 cells beating persistence) -- read this as a smoother, more spatially-averaged reanalysis product being mechanically easier to forecast, not as this tier being more informative than ERA5-Land's own finer-grained reading. Both tiers are newer than the groundwater-level forecasts above and don't yet have a learnability-ceiling comparison of their own -- the bars here are raw NSE, not % of a ceiling.</p>
   </section>
 
   <section id="honest">
@@ -342,6 +345,6 @@ footer a { color: var(--water); }
   <footer>
     <span>Every number on this page comes directly from real backtests -- not hand-typed or rounded up.</span>
     <span>Questions or feedback? <a href="mailto:antoinedesjard@gmail.com">antoinedesjard@gmail.com</a></span>
-    <span class="mono">Generated 2026-09-20</span>
+    <span class="mono">Generated 2026-09-22</span>
   </footer>
 </main>
