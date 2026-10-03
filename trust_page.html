@@ -1,4 +1,5 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How Good Is This, Really?</title>
 <style>
 @font-face {
@@ -32,6 +33,7 @@
   }
 }
 * { box-sizing: border-box; }
+html, body { overflow-x: clip; }
 body {
   margin: 0; background: var(--paper); color: var(--ink);
   font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
@@ -149,6 +151,8 @@ footer a { color: var(--water); }
 .contact h2 { margin-bottom: 6px; }
 .contact p { margin: 6px 0; }
 .contact-row { display: flex; gap: 18px; align-items: flex-start; }
+.contact-row > div { flex: 1; min-width: 0; }
+@media (max-width: 560px) { .contact-row { flex-direction: column; } }
 .contact-photo { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; }
 .contact-name { font-weight: 700; margin-top: 10px !important; }
 .contact-mail { font-size: 17px; font-weight: 700; color: var(--water); }
