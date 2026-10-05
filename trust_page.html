@@ -346,7 +346,7 @@ footer a { color: var(--water); }
 
   <section id="calibration">
     <h2>Uncertainty bands: are they honest?</h2>
-    <p class="section-intro">When a forecast says “90% confidence interval,” that's a testable claim: across every real backtested week, does the true level actually fall inside that band 90% of the time? Here's the measured answer, averaged across all 9 basins:</p>
+    <p class="section-intro">When a forecast says “90% confidence interval,” that's a testable claim: across every real backtested week, does the true level actually fall inside that band 90% of the time? Here's the measured answer, averaged across 9 basins with a long-record reference piezometer:</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Horizon</th><th>Target</th><th>Actual coverage</th></tr></thead>
@@ -362,7 +362,7 @@ footer a { color: var(--water); }
 
 </div><div class="tab-panel" role="tabpanel" id="panel-wells" aria-labelledby="tab-wells"><h2 class="panel-title">Week by week & wells</h2><div class="plain"><p class="eyebrow">In plain words</p><div class="pcards"><div class="pcard"><div class="pnum mono">84%</div><p>of forecasts one week ahead were closer to the real level than the seasonal average.</p></div><div class="pcard"><div class="pnum mono">70%</div><p>of forecasts three months (13 weeks) ahead were within 50 cm of the real level.</p></div></div></div><p class="eyebrow detail-h">The details</p><p>The week-by-week path behind the map and the “Will my well run dry?” tool, graded on every quarter since 2014 at 2,118 wells. “Closer” and “further” compare our forecast with the seasonal average for that week; where we show the seasonal average itself, the two match.</p><div class="table-wrap"><table><thead><tr><th>Weeks ahead</th><th>Closer than the seasonal average</th><th>Same</th><th>Further</th><th>Inside our 90% range</th><th>Within 50 cm</th></tr></thead><tbody><tr><td>1</td><td class="mono">84%</td><td class="mono">5%</td><td class="mono">11%</td><td class="mono">90%</td><td class="mono">94%</td></tr><tr><td>4</td><td class="mono">74%</td><td class="mono">5%</td><td class="mono">22%</td><td class="mono">90%</td><td class="mono">83%</td></tr><tr><td>13</td><td class="mono">49%</td><td class="mono">28%</td><td class="mono">23%</td><td class="mono">86%</td><td class="mono">70%</td></tr><tr><td>26</td><td class="mono">28%</td><td class="mono">57%</td><td class="mono">15%</td><td class="mono">82%</td><td class="mono">63%</td></tr><tr><td>52</td><td class="mono">19%</td><td class="mono">70%</td><td class="mono">11%</td><td class="mono">81%</td><td class="mono">61%</td></tr></tbody></table></div><h3>Week-by-week groundwater outlook (well tool)</h3><p>Behind the “Will my well run dry?” tool: for each of 2,118 stations, one forecast of every week from 1 to 52 ahead, backtested from quarterly start dates since 2014 and graded at every week against the seasonal average and “no change”. At each station and for each 4-week block of lead time, the tool shows the forecast where it beat the seasonal average there, and the seasonal average otherwise, easing between the two over four weeks. The path shown is graded out of sample (the choice is made on half of the backtest dates and scored on the other half). The 50% and 90% ranges are calibrated per week ahead; the coverage below is measured on stations the calibration was not fitted on.</p><div class="table-wrap"><table><thead><tr><th>Weeks ahead</th><th>Mean error: path shown</th><th>forecast model</th><th>seasonal average</th><th>“no change”</th><th>Stations on the forecast</th><th>50% range held</th><th>90% range held</th></tr></thead><tbody><tr><td>1</td><td class="mono">0.18 m</td><td class="mono">0.16 m</td><td class="mono">0.85 m</td><td class="mono">0.18 m</td><td class="mono">100%</td><td class="mono">50%</td><td class="mono">90%</td></tr><tr><td>4</td><td class="mono">0.44 m</td><td class="mono">0.40 m</td><td class="mono">0.91 m</td><td class="mono">0.52 m</td><td class="mono">100%</td><td class="mono">51%</td><td class="mono">90%</td></tr><tr><td>13</td><td class="mono">0.63 m</td><td class="mono">0.71 m</td><td class="mono">0.90 m</td><td class="mono">1.09 m</td><td class="mono">58%</td><td class="mono">50%</td><td class="mono">90%</td></tr><tr><td>26</td><td class="mono">0.86 m</td><td class="mono">0.89 m</td><td class="mono">0.91 m</td><td class="mono">1.49 m</td><td class="mono">39%</td><td class="mono">50%</td><td class="mono">90%</td></tr><tr><td>39</td><td class="mono">0.78 m</td><td class="mono">0.94 m</td><td class="mono">0.91 m</td><td class="mono">1.31 m</td><td class="mono">32%</td><td class="mono">50%</td><td class="mono">90%</td></tr><tr><td>52</td><td class="mono">0.91 m</td><td class="mono">0.94 m</td><td class="mono">0.92 m</td><td class="mono">1.02 m</td><td class="mono">33%</td><td class="mono">50%</td><td class="mono">90%</td></tr></tbody></table></div></div><div class="tab-panel" role="tabpanel" id="panel-restrictions" aria-labelledby="tab-restrictions"><h2 class="panel-title">Drought restrictions</h2><div class="plain"><p class="eyebrow">In plain words</p><div class="pcards"><div class="pcard"><div class="pnum mono">94%</div><p>of drought-threshold crossings were flagged one month ahead (64 of 68), with 7 false alarms.</p></div><div class="pcard"><div class="pnum mono">2.6</div><p>weeks: typical timing error one month ahead.</p></div><div class="pcard"><div class="pnum mono">85%</div><p>were flagged three months ahead (45 of 53).</p></div></div></div><p class="eyebrow detail-h">The details</p>  <section id="vigilance">
     <h2>Predicting real drought restrictions</h2>
-    <p class="section-intro">Beyond raw water levels, this project tries to predict the event that actually matters to most people: will this area face an official VigiEau restriction? That model is trained and tested on 1,274 stations with real restriction history nationally, not just the 9 flagships.</p>
+    <p class="section-intro">Beyond raw water levels, this project tries to predict the event that actually matters to most people: will this area face an official VigiEau restriction? That model is trained and tested on 1,274 stations with real restriction history nationally, not just a few long-record basins.</p>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Horizon</th><th>Precision score (average precision, 1 = perfect)</th></tr></thead>
@@ -462,7 +462,8 @@ footer a { color: var(--water); }
     menu.classList.remove("open"); scrim.classList.remove("open");
     btn.setAttribute("aria-expanded", "false");
     setTimeout(function () { if (!menu.classList.contains("open")) { menu.hidden = true; scrim.hidden = true; } }, 230);
-    btn.focus();
+    // without preventScroll, focusing the header button would scroll back up after "Contact" jumped down
+    btn.focus({ preventScroll: true });
   }
   btn.addEventListener("click", open);
   closeBtn.addEventListener("click", close);
@@ -476,6 +477,10 @@ footer a { color: var(--water); }
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     }
+  });
+  // switching language keeps the place: the accuracy report's open tab is in the hash
+  menu.querySelectorAll("a[hreflang]").forEach(function (a) {
+    a.addEventListener("click", function () { if (location.hash) a.href = a.href.split("#")[0] + location.hash; });
   });
   var tb = menu.querySelectorAll("[data-theme-set]");
   function paint() {
