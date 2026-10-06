@@ -1,18 +1,49 @@
+<!doctype html>
+<html lang="en">
 <meta charset="utf-8">
+<meta name="description" content="Groundwater levels, river flow, soil moisture, wildfire risk and drought restrictions, forecast up to 12 months ahead from public data and checked against years of held-out history.">
+<meta name="theme-color" content="#1C6E8C">
+<link rel="canonical" href="https://phreaitic.github.io/index.html">
+<link rel="alternate" hreflang="en" href="https://phreaitic.github.io/index.html">
+<link rel="alternate" hreflang="fr" href="https://phreaitic.github.io/nappes_de_france_fr.html">
+<link rel="alternate" hreflang="es" href="https://phreaitic.github.io/nappes_de_france_es.html">
+<link rel="alternate" hreflang="de" href="https://phreaitic.github.io/nappes_de_france_de.html">
+<link rel="alternate" hreflang="x-default" href="https://phreaitic.github.io/index.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PhreAItic">
+<meta property="og:title" content="PhreAItic — Underground weather forecasting">
+<meta property="og:description" content="Groundwater levels, river flow, soil moisture, wildfire risk and drought restrictions, forecast up to 12 months ahead from public data and checked against years of held-out history.">
+<meta property="og:url" content="https://phreaitic.github.io/index.html">
+<meta property="og:image" content="https://phreaitic.github.io/og_card_en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="data/map_core.242a75a664.bin" as="fetch" crossorigin="anonymous">
 <link rel="preload" href="data/basin_paths.df97619171.json" as="fetch" crossorigin="anonymous">
-<link rel="preload" href="data/world_countries.ffc48ac93a.json" as="fetch" crossorigin="anonymous">
+<link rel="preload" href="data/world_countries.a90d41f02c.json" as="fetch" crossorigin="anonymous">
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PhreAItic — Underground weather forecasting</title>
 <script>
-(function() {
+(function () {
   try {
     var saved = localStorage.getItem("nappes-theme");
     if (saved === "light" || saved === "dark") document.documentElement.dataset.theme = saved;
   } catch (e) {}
+  try {
+    if (!localStorage.getItem("nappes-lang") && !/[?&]lang=en/.test(location.search)) {
+      var T = {"fr": "nappes_de_france_fr.html", "es": "nappes_de_france_es.html", "de": "nappes_de_france_de.html"}, L = navigator.languages || [navigator.language || ""];
+      for (var i = 0; i < L.length; i++) {
+        var c = (L[i] || "").slice(0, 2).toLowerCase();
+        if (c === "en") break;
+        if (T[c]) { location.replace(T[c] + location.hash); break; }
+      }
+    }
+  } catch (e) {}
 })();
 </script>
+<script>document.documentElement.classList.add("page-loading");</script>
 <style>
 @font-face {
   font-family: "Instrument Mono";
@@ -287,6 +318,7 @@ a { color: var(--water); }
   body:not(.world-mode):not([data-mode]) #detail-panel, body:not(.world-mode)[data-mode="gw"] #detail-panel,
   body:not(.world-mode)[data-mode="soil"] #detail-panel {
     grid-column: 2; grid-row: 1; position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow-y: auto; }
+  .bar-on .map-grid .map-side, .bar-on #detail-panel { top: 62px !important; max-height: calc(100vh - 74px) !important; }
   body:not(.world-mode):not([data-mode]) .map-grid, body:not(.world-mode)[data-mode="gw"] .map-grid,
   body:not(.world-mode)[data-mode="soil"] .map-grid { grid-template-columns: 1fr; }
   body:not(.world-mode):not([data-mode]) .map-grid .map-side, body:not(.world-mode)[data-mode="gw"] .map-grid .map-side,
@@ -376,7 +408,36 @@ body { overflow-x: clip; }
   padding: 12px 14px; cursor: pointer; font: inherit; color: var(--ink); box-shadow: var(--shadow);
   display: flex; flex-direction: column; gap: 4px; transition: border-color .15s ease;
 }
-.chooser button:hover { border-color: var(--water); }
+.chooser button:hover { border-color: var(--water); transform: translateY(-2px); box-shadow: 0 8px 22px rgba(10,18,22,.08); }
+.chooser button { transition: border-color .15s ease, transform .18s ease, box-shadow .18s ease; }
+.chooser .c-top { display: flex; align-items: center; gap: 8px; }
+.chooser .c-ico { width: 26px; height: 26px; flex: none; border-radius: 7px; display: grid; place-items: center;
+  background: var(--line-soft); color: var(--water); }
+.chooser button.active .c-ico { background: var(--water); color: var(--paper-raised); }
+.chooser .c-ico svg { width: 16px; height: 16px; }
+
+.chooser:empty { min-height: 214px; border-radius: 12px;
+  background: linear-gradient(100deg, var(--line-soft) 30%, var(--paper-raised) 50%, var(--line-soft) 70%) 0 0 / 300% 100%;
+  animation: skel 1.4s ease-in-out infinite; }
+@keyframes skel { from { background-position: 100% 0; } to { background-position: 0 0; } }
+.page-loading #map-panel, .page-loading #detail-panel { position: relative; }
+.page-loading #map-panel::after { content: attr(data-loading); position: absolute; inset: 0; display: grid; place-items: center;
+  font-size: 14px; color: var(--muted); background: var(--paper-raised); border-radius: inherit; z-index: 5; }
+
+.how { margin: 44px 0 10px; }
+.how h2 { font-size: 24px; margin: 0 0 6px; }
+.how .how-lede { color: var(--muted); margin: 0 0 22px; max-width: 46em; }
+.how-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; counter-reset: step; list-style: none; padding: 0; margin: 0; }
+.how-steps li { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 12px; padding: 18px 18px 16px; box-shadow: var(--shadow); }
+.how-steps li::before { counter-increment: step; content: counter(step, decimal-leading-zero); display: block;
+  font-family: "Instrument Mono", monospace; font-size: 13px; color: var(--water); font-weight: 700; margin-bottom: 8px; }
+.how-steps h3 { font-size: 15.5px; margin: 0 0 6px; }
+.how-steps p { margin: 0; font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
+.how-for { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 20px 0 0; padding: 0; list-style: none; }
+.how-for .lbl { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+.how-for li:not(.lbl) { font-size: 13.5px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper-raised); }
+@media (max-width: 900px) { .how-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .how-steps { grid-template-columns: 1fr; } }
 .chooser button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .chooser button.active { border-color: var(--water); box-shadow: inset 0 0 0 2px var(--water), var(--shadow); }
 .chooser .c-kind { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--water); font-weight: 600; }
@@ -950,15 +1011,19 @@ svg.chart { width: 100%; height: auto; display: block; }
 .wq-item strong { color: var(--ink); }
 .wq-flag { color: var(--drought); font-weight: 700; }
 
-footer {
+.page-fine {
   margin-top: 34px;
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
-  font-size: 11.5px;
+  font-size: 12px;
   color: var(--muted);
   line-height: 1.7;
 }
-footer a { color: var(--muted); text-decoration: underline; }
+.page-fine a { color: var(--muted); text-decoration: underline; }
+details.disclaimer summary { cursor: pointer; font-weight: 600; color: var(--ink-soft); list-style: none; display: flex; align-items: center; gap: 8px; }
+details.disclaimer summary::-webkit-details-marker { display: none; }
+details.disclaimer summary::before { content: ""; width: 7px; height: 7px; border-right: 1.6px solid currentColor; border-bottom: 1.6px solid currentColor;
+  transform: rotate(-45deg); transition: transform .2s ease; flex: none; }
+details.disclaimer[open] summary { margin-bottom: 8px; }
+details.disclaimer[open] summary::before { transform: rotate(45deg); }
 
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
@@ -1006,14 +1071,46 @@ footer a { color: var(--muted); text-decoration: underline; }
 
 .site-nav { display: flex; align-items: center; gap: 22px; }
 .site-nav a { font-size: 14px; color: var(--ink-soft); text-decoration: none; padding: 4px 0;
-  border-bottom: 2px solid transparent; }
+  border-bottom: 2px solid transparent; transition: color .15s ease, border-color .15s ease; }
 .site-nav a:hover { color: var(--water); }
 .site-nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--water); }
 .menu-btn { display: inline-flex; align-items: center; gap: 8px; font: inherit; font-size: 14px;
-  color: var(--ink); background: none; border: 1px solid var(--line); border-radius: 6px;
-  padding: 6px 12px; cursor: pointer; }
+  color: var(--ink); background: none; border: 1px solid var(--line); border-radius: 8px;
+  padding: 6px 12px; cursor: pointer; transition: border-color .15s ease, color .15s ease; }
 .menu-btn:hover { border-color: var(--water); color: var(--water); }
 .menu-btn svg { width: 16px; height: 16px; }
+
+.lang-pick { position: relative; }
+.lang-pick summary { list-style: none; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+  font-size: 13px; letter-spacing: .04em; color: var(--ink-soft); padding: 6px 10px; border: 1px solid var(--line);
+  border-radius: 8px; user-select: none; transition: border-color .15s ease, color .15s ease; }
+.lang-pick summary::-webkit-details-marker { display: none; }
+.lang-pick summary:hover, .lang-pick[open] summary { color: var(--water); border-color: var(--water); }
+.lang-pick summary svg { width: 15px; height: 15px; }
+.lang-pick ul { position: absolute; right: 0; top: calc(100% + 6px); z-index: 60; min-width: 150px; margin: 0; padding: 6px;
+  list-style: none; background: var(--paper-raised); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); }
+.lang-pick li a { display: block; padding: 8px 10px; border-radius: 6px; color: var(--ink); text-decoration: none; font-size: 14px; }
+.lang-pick li a:hover { background: var(--line-soft, rgba(28,110,140,.1)); color: var(--water); }
+.lang-pick li a[aria-current="page"] { color: var(--water); font-weight: 600; }
+
+.site-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 900; transform: translateY(-105%);
+  transition: transform .25s ease, box-shadow .25s ease; background: var(--paper);
+  background: color-mix(in srgb, var(--paper) 86%, transparent); backdrop-filter: saturate(1.4) blur(10px);
+  -webkit-backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--line); }
+.site-bar.show { transform: none; box-shadow: 0 6px 24px rgba(10,18,22,.08); }
+.site-bar-in { max-width: 1280px; margin: 0 auto; padding: 8px 20px; display: flex; align-items: center; gap: 18px; }
+.site-bar .sb-brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none;
+  font-family: "Instrument Mono", "Space Mono", ui-monospace, monospace; font-weight: 700; font-size: 16px; margin-right: auto; }
+.site-bar .sb-brand img { width: 30px; height: 30px; border-radius: 7px; }
+.site-bar .sb-menu { padding: 5px 10px; }
+.to-top { position: fixed; right: 18px; bottom: 18px; z-index: 900; width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid var(--line); background: var(--paper-raised); color: var(--ink); box-shadow: var(--shadow);
+  display: grid; place-items: center; cursor: pointer; opacity: 0; transform: translateY(12px); pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease, color .15s ease, border-color .15s ease; }
+.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+.to-top:hover { color: var(--water); border-color: var(--water); }
+.to-top svg { width: 18px; height: 18px; }
+
 .menu-scrim { position: fixed; inset: 0; background: rgba(10,18,22,0.45); z-index: 1000;
   opacity: 0; transition: opacity .2s ease; }
 .menu-scrim.open { opacity: 1; }
@@ -1041,9 +1138,28 @@ footer a { color: var(--muted); text-decoration: underline; }
 .seg > *:last-child { border-right: none; }
 .seg > *:hover { color: var(--water); }
 .seg > [aria-pressed="true"], .seg > [aria-current="page"] { background: var(--water); color: var(--paper-raised); }
+.seg.langs { display: grid; grid-template-columns: 1fr 1fr; }
+.seg.langs > * { border-bottom: 1px solid var(--line); }
+.seg.langs > *:nth-child(2n) { border-right: none; }
+.seg.langs > *:nth-last-child(-n+2) { border-bottom: none; }
 .site-menu .seg-hint { font-size: 12px; color: var(--muted); margin: 6px 0 0; }
-@media (max-width: 760px) { .site-nav { display: none; } }
-@media (prefers-reduced-motion: reduce) { .site-menu, .menu-scrim { transition: none; } }
+
+.site-foot { margin-top: 56px; padding: 40px 0 28px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 14px; }
+.site-foot .sf-grid { display: grid; grid-template-columns: 1.4fr 1fr 1.6fr 1fr; gap: 32px; }
+.site-foot h4 { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin: 0 0 12px; }
+.site-foot a { color: var(--ink-soft); text-decoration: none; }
+.site-foot a:hover { color: var(--water); }
+.site-foot nav, .site-foot .sf-langs { display: flex; flex-direction: column; gap: 8px; }
+.site-foot .sf-name { font-family: "Instrument Mono", "Space Mono", ui-monospace, monospace; font-weight: 700; font-size: 18px; color: var(--ink); margin: 0 0 6px; }
+.site-foot p { margin: 0 0 8px; line-height: 1.55; }
+.site-foot .sf-langs a[aria-current="page"] { color: var(--water); font-weight: 600; }
+.site-foot .sf-note { margin-top: 28px; }
+.site-foot .sf-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin-top: 28px;
+  padding-top: 18px; border-top: 1px solid var(--line-soft, var(--line)); font-size: 13px; color: var(--muted); }
+@media (max-width: 860px) { .site-foot .sf-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .site-foot .sf-grid { grid-template-columns: 1fr; gap: 24px; } }
+@media (max-width: 760px) { .site-nav, .lang-pick { display: none; } }
+@media (prefers-reduced-motion: reduce) { .site-menu, .menu-scrim, .site-bar, .to-top { transition: none; } }
 
 </style>
 
@@ -1061,10 +1177,7 @@ footer a { color: var(--muted); text-decoration: underline; }
     <li><a href="PhreAItic_presentation_EN.pdf" id="brochure-link" download>Brochure (PDF)</a></li>
   </ul>
   <h3>Language</h3>
-  <div class="seg" role="group" aria-label="Language">
-    <a href="index.html" lang="en" hreflang="en" aria-current="page">English</a>
-    <a href="nappes_de_france_fr.html" lang="fr" hreflang="fr">Français</a>
-  </div>
+  <div class="seg langs" role="group" aria-label="Language"><a href="index.html" lang="en" hreflang="en" data-lang="en" aria-current="page">English</a><a href="nappes_de_france_fr.html" lang="fr" hreflang="fr" data-lang="fr">Français</a><a href="nappes_de_france_es.html" lang="es" hreflang="es" data-lang="es">Español</a><a href="nappes_de_france_de.html" lang="de" hreflang="de" data-lang="de">Deutsch</a></div>
   <h3>Theme</h3>
   <div class="seg" role="group" aria-label="Theme">
     <button type="button" data-theme-set="light">Light</button>
@@ -1073,6 +1186,14 @@ footer a { color: var(--muted); text-decoration: underline; }
   </div>
   <p class="seg-hint">Auto: follows your device setting</p>
 </aside>
+<div class="site-bar" id="site-bar" aria-hidden="true">
+  <div class="site-bar-in">
+    <a class="sb-brand" href="index.html" tabindex="-1"><img src="data:image/png;base64,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" alt="" width="30" height="30">PhreAItic</a>
+    <nav class="site-nav"><a href="index.html" tabindex="-1" aria-current="page">Map</a><a href="trust_page.html" tabindex="-1">Coverage and Performance</a><a href="#contact" tabindex="-1">Contact</a></nav>
+    <button class="menu-btn sb-menu" type="button" tabindex="-1" data-open-menu><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg><span>Menu</span></button>
+  </div>
+</div>
+<button class="to-top" id="to-top" type="button" aria-label="Back to top" title="Back to top"><svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg></button>
 <div class="shell">
   <div class="topbar">
     <div class="brand">
@@ -1084,7 +1205,7 @@ footer a { color: var(--muted); text-decoration: underline; }
         <div class="data-stamp" id="data-stamp"></div>
       </div>
     </div>
-    <div class="topbar-actions"><nav class="site-nav" aria-label="Pages"><a href="index.html" aria-current="page">Map</a><a href="trust_page.html">Coverage and Performance</a><a href="#contact" id="contact-link">Contact</a></nav><button class="menu-btn" id="menu-btn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="site-menu"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg><span>Menu</span></button></div>
+    <div class="topbar-actions"><nav class="site-nav" aria-label="Pages"><a href="index.html" aria-current="page">Map</a><a href="trust_page.html">Coverage and Performance</a><a href="#contact" id="contact-link">Contact</a></nav><details class="lang-pick"><summary aria-label="Language"><svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="8" cy="8" r="6.3"/><path d="M1.8 8h12.4M8 1.7c1.8 1.9 2.6 4 2.6 6.3S9.8 12.4 8 14.3C6.2 12.4 5.4 10.3 5.4 8S6.2 3.6 8 1.7z"/></svg><span>EN</span></summary><ul><li><a href="index.html" lang="en" hreflang="en" data-lang="en" aria-current="page">English</a></li><li><a href="nappes_de_france_fr.html" lang="fr" hreflang="fr" data-lang="fr">Français</a></li><li><a href="nappes_de_france_es.html" lang="es" hreflang="es" data-lang="es">Español</a></li><li><a href="nappes_de_france_de.html" lang="de" hreflang="de" data-lang="de">Deutsch</a></li></ul></details><button class="menu-btn" id="menu-btn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="site-menu"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg><span>Menu</span></button></div>
   </div>
 
 
@@ -1117,7 +1238,7 @@ footer a { color: var(--muted); text-decoration: underline; }
 
   <div class="layout">
     <div class="left-col" style="display:flex; flex-direction:column; gap:22px;">
-      <section class="panel" id="map-panel" aria-labelledby="map-h">
+      <section class="panel" id="map-panel" aria-labelledby="map-h" data-loading="Loading the latest forecasts&hellip;">
        <div class="map-grid">
         <div class="map-side">
         <div class="mode-title"><h2 id="map-h">Groundwater bodies of France</h2><p id="mode-desc"></p><p class="mode-hint" id="mode-hint"></p></div>
@@ -1461,9 +1582,23 @@ footer a { color: var(--muted); text-decoration: underline; }
     </section>
   </div>
 
+  <section class="how" aria-labelledby="how-h">
+    <h2 id="how-h">How it works</h2>
+    <p class="how-lede">The same four steps for every station, in every country we cover.</p>
+    <ol class="how-steps">
+      <li><h3>Public measurements</h3><p>Readings from national monitoring networks (wells and river gauges), with decades of weather and soil records.</p></li>
+      <li><h3>Tested on unseen years</h3><p>Each station gets the model that forecast best in walk-forward backtests: trained on the past, graded on later years held out.</p></li>
+      <li><h3>Honest ranges</h3><p>Every forecast comes with a calibrated range and its own track record, so you can judge how far to trust it.</p></li>
+      <li><h3>Refreshed weekly</h3><p>New readings come in each week and the forecasts are issued again; each view shows how recent its data is.</p></li>
+    </ol>
+    <ul class="how-for">
+      <li class="lbl">Built for</li><li>Farmers and irrigators</li><li>Water utilities</li><li>Insurers</li><li>Local authorities</li><li>Well and basement owners</li>
+    </ul>
+  </section>
+
   <section class="panel contact-panel" id="contact" aria-labelledby="contact-h"></section>
 
-  <footer>
+  <div class="page-fine">
     <p>
       Data: Hub&rsquo;Eau <em>niveaux_nappes</em> (ADES network) &middot; Open-Meteo ERA5 &amp; historical forecast archive &middot;
       arr&ecirc;t&eacute;s-cadre s&eacute;cheresse (data.gouv.fr / VigiEau). Models: selected per station via
@@ -1471,7 +1606,8 @@ footer a { color: var(--muted); text-decoration: underline; }
       Full methodology and limitations in the
       <a href="trust_page.html">coverage and performance report</a>.
     </p>
-    <div class="disclaimer">
+    <details class="disclaimer">
+      <summary>About this data and its limits</summary>
       <strong>Independent forecasting platform &mdash; not an official government product.</strong>
       Built from public Hub&rsquo;Eau piezometry and Open-Meteo weather data. Not produced or endorsed
       by BRGM, DREAL, or any préfecture. <span id="n-basins-note">Some</span> of France&rsquo;s ~639 official
@@ -1487,12 +1623,24 @@ footer a { color: var(--muted); text-decoration: underline; }
       bulletins, but this project only tracks one piezometric threshold per basin (real arr&ecirc;t&eacute;s
       often define several) &mdash; the 3 non-normal tiers are carved out of the margin to that single
       threshold, not a second official boundary.
-    </div>
-  </footer>
+    </details>
+  </div>
+<footer class="site-foot">
+  <div class="sf-grid">
+    <div><p class="sf-name">PhreAItic</p><p>Underground weather forecasting</p><p>Independent project, not an official government product.</p></div>
+    <nav aria-label="Explore"><h4>Explore</h4>
+      <a href="index.html">Map</a><a href="trust_page.html">Coverage and Performance</a>
+      <a href="#contact">Contact</a><a href="PhreAItic_presentation_EN.pdf" download>Brochure (PDF)</a></nav>
+    <div><h4>Data</h4><p>Public monitoring networks (Hub'Eau, USGS, Environment Agency, NVE, WMO WHOS, IGRAC GGMN and more national agencies), ERA5 and Open-Meteo weather.</p><p><a href="trust_page.html">Methodology and accuracy &rarr;</a></p></div>
+    <div><h4>Language</h4><div class="sf-langs"><a href="index.html" lang="en" hreflang="en" data-lang="en" aria-current="page">English</a><a href="nappes_de_france_fr.html" lang="fr" hreflang="fr" data-lang="fr">Français</a><a href="nappes_de_france_es.html" lang="es" hreflang="es" data-lang="es">Español</a><a href="nappes_de_france_de.html" lang="de" hreflang="de" data-lang="de">Deutsch</a></div></div>
+  </div>
+  
+  <div class="sf-bottom"><span>&copy; 2026 PhreAItic</span><span>Underground weather forecasting</span></div>
+</footer>
 </div>
 
 <script type="module">
-const DATA_FILES = {"core": "data/map_core.242a75a664.bin", "more": "data/map_more.2dc05368a7.bin", "basins": "data/basin_paths.df97619171.json", "world": "data/world_countries.ffc48ac93a.json"};
+const DATA_FILES = {"core": "data/map_core.242a75a664.bin", "more": "data/map_more.2dc05368a7.bin", "basins": "data/basin_paths.df97619171.json", "world": "data/world_countries.a90d41f02c.json"};
 async function fetchGz(url) {
   const r = await fetch(url);
   if (!r.ok) throw new Error(url + " " + r.status);
@@ -1511,7 +1659,7 @@ function heroStats() {
     countries: 1 + WORLD.filter(c => c.code !== "FRA" && (c.nr || c.ng)).length,
     grid: WORLD.filter(c => c.ns || c.nf).length,
   };
-  const loc = LANG === "fr" ? "fr-FR" : "en-GB";
+  const loc = LOC;
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
   document.querySelectorAll(".hero-stats b[data-stat]").forEach(el => {
     const v = vals[el.dataset.stat];
@@ -1531,57 +1679,6 @@ function heroStats() {
 
 const MESO_TO_BASIN = {};
 DATA.basins.forEach(b => { if (b.meta && b.meta.meso_code) MESO_TO_BASIN[b.meta.meso_code] = b.key; });
-
-
-(function () {
-  var btn = document.getElementById("menu-btn"), menu = document.getElementById("site-menu"),
-      scrim = document.getElementById("menu-scrim"), closeBtn = document.getElementById("menu-close");
-  if (!btn || !menu) return;
-  function open() {
-    menu.hidden = false; scrim.hidden = false;
-    requestAnimationFrame(function () { menu.classList.add("open"); scrim.classList.add("open"); });
-    btn.setAttribute("aria-expanded", "true"); closeBtn.focus();
-  }
-  function close() {
-    menu.classList.remove("open"); scrim.classList.remove("open");
-    btn.setAttribute("aria-expanded", "false");
-    setTimeout(function () { if (!menu.classList.contains("open")) { menu.hidden = true; scrim.hidden = true; } }, 230);
-    btn.focus({ preventScroll: true });
-  }
-  btn.addEventListener("click", open);
-  closeBtn.addEventListener("click", close);
-  scrim.addEventListener("click", close);
-  menu.querySelectorAll("[data-close]").forEach(function (a) { a.addEventListener("click", close); });
-  document.addEventListener("keydown", function (e) {
-    if (menu.hidden) return;
-    if (e.key === "Escape") { close(); return; }
-    if (e.key === "Tab") {
-      var f = menu.querySelectorAll("a[href], button"), first = f[0], last = f[f.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    }
-  });
-  menu.querySelectorAll("a[hreflang]").forEach(function (a) {
-    a.addEventListener("click", function () { if (location.hash) a.href = a.href.split("#")[0] + location.hash; });
-  });
-  var tb = menu.querySelectorAll("[data-theme-set]");
-  function paint() {
-    var x = document.documentElement.dataset.theme;
-    var cur = x === "light" || x === "dark" ? x : "auto";
-    tb.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.themeSet === cur ? "true" : "false"); });
-  }
-  tb.forEach(function (b) {
-    b.addEventListener("click", function () {
-      var v = b.dataset.themeSet;
-      if (v === "auto") delete document.documentElement.dataset.theme;
-      else document.documentElement.dataset.theme = v;
-      try { if (v === "auto") localStorage.removeItem("nappes-theme"); else localStorage.setItem("nappes-theme", v); } catch (e) {}
-      paint();
-      document.dispatchEvent(new CustomEvent("themechange"));
-    });
-  });
-  paint();
-})();
 
 
 function project(lon, lat) {
@@ -1666,6 +1763,9 @@ function zoomToBboxView(bbox) {
 }
 
 const LANG = "en";
+const LOC = { en: "en-GB", fr: "fr-FR", es: "es-ES", de: "de-DE" }[LANG] || "en-GB";
+const PCT = LANG === "en" ? "%" : " %";
+const tr = o => o[LANG] ?? o.en;
 const HORIZON_LABELS = {1:"1 month", 3:"3 months", 6:"6 months", 9:"9 months", 12:"12 months"};
 
 function fmt(n, d=2) { return (n === null || n === undefined || Number.isNaN(n)) ? "—" : n.toFixed(d); }
@@ -2995,14 +3095,20 @@ function selectPiezo(code) {
 const RISK_CATEGORY_LABELS = {
   en: { contamination: "Water quality", quantity: "Water quantity", flood: "Flood risk" },
   fr: { contamination: "Qualité de l'eau", quantity: "Quantité d'eau", flood: "Risque d'inondation" },
+  es: { contamination: "Calidad del agua", quantity: "Cantidad de agua", flood: "Riesgo de inundación" },
+  de: { contamination: "Wasserqualität", quantity: "Wassermenge", flood: "Überflutungsrisiko" },
 };
 const RISK_EVIDENCE_BADGES = {
   en: { researched: "documented", official_registry: "official record" },
   fr: { researched: "documenté", official_registry: "registre officiel" },
+  es: { researched: "documentado", official_registry: "registro oficial" },
+  de: { researched: "belegt", official_registry: "amtlicher Eintrag" },
 };
 function vigieauLabel(level) {
   const L = { en: { vigilance: "vigilance", alerte: "alert", alerte_renforcee: "heightened alert", crise: "crisis" },
-              fr: { vigilance: "vigilance", alerte: "alerte", alerte_renforcee: "alerte renforcée", crise: "crise" } };
+              fr: { vigilance: "vigilance", alerte: "alerte", alerte_renforcee: "alerte renforcée", crise: "crise" },
+              es: { vigilance: "vigilancia", alerte: "alerta", alerte_renforcee: "alerta reforzada", crise: "crisis" },
+              de: { vigilance: "Vorwarnung", alerte: "Alarm", alerte_renforcee: "verschärfter Alarm", crise: "Krise" } };
   return (L[LANG] || L.en)[level] || String(level || "").replace(/_/g, " ");
 }
 function riskText(field) {
@@ -3106,6 +3212,102 @@ const WELL_TXT = {
     caveat: "Une indication, pas une garantie : la construction du puits, les pompages voisins et la géologie locale comptent aussi, et les fourchettes à 90 % de la prévision ont été respectées environ 86 à 88 % du temps en backtest. Les mois entre les échéances testées (1, 3, 6, 9 et 12 mois) sont interpolés.",
     under: "moins de 5 %", over: "plus de 95 %",
   },
+  es: {
+    summary: "¿Se secará mi pozo?",
+    pick: "Marcar el pozo en el mapa", picking: "Haga clic en la ubicación del pozo en el mapa…",
+    pump: "B · Profundidad de aspiración de la bomba (m)",
+    pumpHelp: "A qué profundidad bajo el suelo, en la boca del pozo, está la bomba, es decir, su punto de aspiración. No la profundidad total del sondeo: la bomba aspira aire en cuanto el agua baja de ese punto.",
+    now: "A · Nivel del agua en el pozo hoy (m, opcional)",
+    nowHelp: "Desde el suelo en la boca del pozo hasta la superficie del agua, medido con la bomba parada desde hace unas horas (nivel estático). Se mide con una sonda de nivel o una cinta lastrada. Déjelo vacío si no lo sabe.",
+    diagram: "Un pozo: A es la profundidad del suelo a la superficie del agua, B la profundidad del suelo a la aspiración de la bomba.",
+    ground: "suelo",
+    run: "Comprobar", needPoint: "Marque primero la ubicación del pozo en el mapa.", needPump: "Indique la profundidad de la aspiración de la bomba bajo el suelo.",
+    none: "No hay ningún piezómetro con previsión a menos de 50 km de este punto, así que no hay nada fiable en que basar una respuesta.",
+    already: "El nivel de agua indicado (A) ya está por debajo de la aspiración de la bomba (B): la bomba estaría aspirando aire ya, sea cual sea la previsión.",
+    headline: (p, m) => `Mayor riesgo en los próximos 12 meses: <span class="well-big">${p}</span> en ${m}`,
+    when: (a, b) => a === b ? `La probabilidad es del 10 % o más en ${a}.` : `La probabilidad es del 10 % o más de ${a} a ${b}.`,
+    whenLow: "La probabilidad se mantiene por debajo del 10 % todos los meses mostrados.",
+    chart1: "Probabilidad de que el agua baje de la aspiración de la bomba, por mes",
+    chart1w: "Probabilidad de que el agua baje de la aspiración de la bomba, semana a semana",
+    allLow: `Probabilidad de que el agua baje de su bomba: <span class="well-big">menos del 5 %</span> en cada uno de los próximos 12 meses.`,
+    allLowW: `Probabilidad de que el agua baje de su bomba: <span class="well-big">menos del 5 %</span> cada semana de los próximos 12 meses.`,
+    whenLowW: "La probabilidad se mantiene por debajo del 10 % todas las semanas mostradas.",
+    stationBelow: (pz, pump) => `En el piezómetro de referencia el agua ya está a ${pz} m bajo el suelo, más abajo que su bomba (${pump} m). Si su pozo se le parece, la bomba ya está por encima del agua: indique el nivel actual del agua en su pozo (A) para obtener una respuesta sobre su propio pozo.`,
+    chart2: "Profundidad probable de la superficie del agua en el pozo (m bajo el suelo)",
+    legLow: "menos del 10 %", legMid: "10–30 %", legHigh: "30–60 %", legVHigh: "60 % o más",
+    legInterp: "más claro: mes entre dos horizontes de previsión probados (interpolado)",
+    legMedian: "lo más probable", leg50: "rango del 50 %", leg90: "rango del 90 %", legPump: "aspiración de la bomba (B)",
+    pumpLine: (d) => `bomba ${d} m`, today: "hoy",
+    tipChance: "probabilidad bajo la bomba", tipDepth: "profundidad probable del agua", tipRange90: "rango del 90 %",
+    tipTested: "horizonte de previsión probado", tipInterp: "interpolado entre horizontes probados",
+    tipModel: "modelo de previsión (superó a la media estacional con esta antelación aquí, en pruebas retrospectivas)",
+    tipSeasonal: "media estacional (el modelo no la superó con esta antelación en esta estación)",
+    weekOf: (d) => `semana del ${d}`,
+    tipBlend: "una mezcla del modelo de previsión y la media estacional, pasando gradualmente de uno a otra",
+    legSeasonal: "rayado: semanas mostradas con la media estacional",
+    caveatWeekly: "Una orientación, no una garantía: la construcción del pozo, los bombeos cercanos y la geología local también cuentan. Cada semana de antelación se evaluó en pruebas retrospectivas en esta estación (previsiones trimestrales desde 2014); donde el modelo no superó a la media estacional se muestra la media estacional, con una transición de cuatro semanas, y los rangos del 50 % y 90 % están calibrados por semana de antelación en estaciones que no se usaron para la calibración.",
+    table: "Mostrar como tabla",
+    month: "Mes", chance: "Probabilidad bajo la bomba", depth: "Profundidad probable del agua (m)", range90: "Rango del 90 % (m)",
+    station: (c, com, d) => `Según el piezómetro ${c}${com ? " (" + com + ")" : ""}, a ${d} km.`,
+    methodNow: (dn, pz) => `Se supone que su pozo sube y baja lo mismo que este piezómetro, partiendo de los ${dn} m que indicó (hoy el agua del piezómetro está a ${pz} m bajo su suelo).`,
+    methodSame: (pz) => `Sin el nivel actual del agua en su pozo (A), se supone que está a la misma profundidad bajo el suelo que el agua de este piezómetro (${pz} m hoy). Es una estimación aproximada: indicar A da una respuesta mucho mejor.`,
+    grade: "Hasta qué punto este piezómetro representa su ubicación:",
+    gGood: "bien", gFair: "aceptable", gPoor: "mal",
+    sameBody: "Capta la misma masa de agua subterránea que su ubicación.", otherBody: "NO está en una masa de agua subterránea que cubra su ubicación, así que puede medir otro acuífero.",
+    far: (d) => `Está a ${d} km; el nivel freático puede variar mucho en esa distancia.`,
+    skill: (n) => `Su previsión a 12 meses obtuvo un NSE de ${n} en pruebas retrospectivas (1 es perfecto, 0 no mejora la media estacional).`,
+    lag: (d) => `Su última lectura tiene ${d} días.`,
+    caveat: "Una orientación, no una garantía: la construcción del pozo, los bombeos cercanos y la geología local también cuentan, y los rangos del 90 % de la previsión se cumplieron alrededor del 86–88 % de las veces en pruebas retrospectivas. Los meses entre los horizontes probados (1, 3, 6, 9 y 12 meses) están interpolados.",
+    under: "menos del 5 %", over: "más del 95 %",
+  },
+  de: {
+    summary: "Fällt mein Brunnen trocken?",
+    pick: "Brunnen auf der Karte setzen", picking: "Klicken Sie auf den Standort des Brunnens…",
+    pump: "B · Ansaugtiefe der Pumpe (m)",
+    pumpHelp: "Wie tief unter dem Boden am Brunnenkopf die Pumpe sitzt, also die Tiefe ihrer Ansaugöffnung. Nicht die Gesamttiefe der Bohrung: Die Pumpe zieht Luft, sobald das Wasser unter die Ansaugung fällt.",
+    now: "A · Wasserstand im Brunnen heute (m, freiwillig)",
+    nowHelp: "Vom Boden am Brunnenkopf bis zur Wasseroberfläche, gemessen nachdem die Pumpe einige Stunden aus war (Ruhewasserspiegel). Ein Lichtlot oder ein beschwertes Maßband liefert ihn. Leer lassen, wenn unbekannt.",
+    diagram: "Ein Brunnen: A ist die Tiefe vom Boden bis zur Wasseroberfläche, B die Tiefe vom Boden bis zur Pumpenansaugung.",
+    ground: "Boden",
+    run: "Prüfen", needPoint: "Setzen Sie zuerst den Standort des Brunnens auf der Karte.", needPump: "Geben Sie die Tiefe der Pumpenansaugung unter dem Boden an.",
+    none: "Keine Messstelle mit Prognose im Umkreis von 50 km, es gibt also keine verlässliche Grundlage für eine Antwort.",
+    already: "Der angegebene Wasserstand (A) liegt bereits unter der Pumpenansaugung (B): Die Pumpe würde schon jetzt Luft ziehen, egal was die Prognose sagt.",
+    headline: (p, m) => `Höchstes Risiko in den nächsten 12 Monaten: <span class="well-big">${p}</span> im ${m}`,
+    when: (a, b) => a === b ? `Die Wahrscheinlichkeit liegt im ${a} bei 10 % oder mehr.` : `Die Wahrscheinlichkeit liegt von ${a} bis ${b} bei 10 % oder mehr.`,
+    whenLow: "Die Wahrscheinlichkeit bleibt in jedem gezeigten Monat unter 10 %.",
+    chart1: "Wahrscheinlichkeit, dass das Wasser unter die Pumpenansaugung fällt, nach Monat",
+    chart1w: "Wahrscheinlichkeit, dass das Wasser unter die Pumpenansaugung fällt, Woche für Woche",
+    allLow: `Wahrscheinlichkeit, dass das Wasser unter Ihre Pumpe fällt: <span class="well-big">unter 5 %</span> in jedem der nächsten 12 Monate.`,
+    allLowW: `Wahrscheinlichkeit, dass das Wasser unter Ihre Pumpe fällt: <span class="well-big">unter 5 %</span> in jeder Woche der nächsten 12 Monate.`,
+    whenLowW: "Die Wahrscheinlichkeit bleibt in jeder gezeigten Woche unter 10 %.",
+    stationBelow: (pz, pump) => `An der Referenz-Messstelle steht das Wasser schon ${pz} m unter dem Boden, tiefer als Ihre Pumpe (${pump} m). Ist Ihr Brunnen ähnlich, sitzt die Pumpe bereits über dem Wasser: Geben Sie den heutigen Wasserstand in Ihrem Brunnen (A) an, um eine Antwort für Ihren eigenen Brunnen zu erhalten.`,
+    chart2: "Wahrscheinliche Tiefe der Wasseroberfläche im Brunnen (m unter Boden)",
+    legLow: "unter 10 %", legMid: "10–30 %", legHigh: "30–60 %", legVHigh: "60 % oder mehr",
+    legInterp: "heller: Monat zwischen zwei geprüften Prognosehorizonten (interpoliert)",
+    legMedian: "am wahrscheinlichsten", leg50: "50-%-Bereich", leg90: "90-%-Bereich", legPump: "Pumpenansaugung (B)",
+    pumpLine: (d) => `Pumpe ${d} m`, today: "heute",
+    tipChance: "Wahrscheinlichkeit unter der Pumpe", tipDepth: "wahrscheinliche Wassertiefe", tipRange90: "90-%-Bereich",
+    tipTested: "geprüfter Prognosehorizont", tipInterp: "zwischen geprüften Horizonten interpoliert",
+    tipModel: "Prognosemodell (es schlug hier in Rückrechnungen das saisonale Mittel bei diesem Vorlauf)",
+    tipSeasonal: "saisonales Mittel (das Modell schlug es an dieser Messstelle bei diesem Vorlauf nicht)",
+    weekOf: (d) => `Woche ab ${d}`,
+    tipBlend: "eine Mischung aus Prognosemodell und saisonalem Mittel, mit Übergang vom einen zum anderen",
+    legSeasonal: "schraffiert: Wochen mit saisonalem Mittel",
+    caveatWeekly: "Eine Orientierung, keine Garantie: Bauweise des Brunnens, Entnahmen in der Nähe und die örtliche Geologie spielen mit. Jede Vorlaufwoche wurde an dieser Messstelle in Rückrechnungen bewertet (vierteljährliche Prognosen seit 2014); wo das Modell das saisonale Mittel nicht schlug, wird das saisonale Mittel gezeigt, mit einem Übergang über vier Wochen, und die 50-%- und 90-%-Bereiche sind je Vorlaufwoche an Messstellen kalibriert, die nicht zur Kalibrierung dienten.",
+    table: "Als Tabelle zeigen",
+    month: "Monat", chance: "Wahrscheinlichkeit unter der Pumpe", depth: "Wahrscheinliche Wassertiefe (m)", range90: "90-%-Bereich (m)",
+    station: (c, com, d) => `Auf Grundlage der Messstelle ${c}${com ? " (" + com + ")" : ""}, ${d} km entfernt.`,
+    methodNow: (dn, pz) => `Es wird angenommen, dass Ihr Brunnen um denselben Betrag steigt und fällt wie diese Messstelle, ausgehend von den angegebenen ${dn} m (das Wasser der Messstelle steht heute ${pz} m unter ihrem Boden).`,
+    methodSame: (pz) => `Ohne den heutigen Wasserstand in Ihrem Brunnen (A) wird angenommen, dass er in derselben Tiefe unter dem Boden liegt wie das Wasser dieser Messstelle (heute ${pz} m). Das ist eine grobe Annahme: Mit A wird die Antwort deutlich besser.`,
+    grade: "Wie gut diese Messstelle Ihren Standort abbildet:",
+    gGood: "gut", gFair: "mittel", gPoor: "schwach",
+    sameBody: "Sie erschließt denselben Grundwasserkörper wie Ihr Standort.", otherBody: "Sie liegt NICHT in einem Grundwasserkörper, der Ihren Standort abdeckt, und misst womöglich einen anderen Grundwasserleiter.",
+    far: (d) => `Sie ist ${d} km entfernt; Grundwasserstände können sich über diese Entfernung stark unterscheiden.`,
+    skill: (n) => `Ihre 12-Monats-Prognose erreichte in Rückrechnungen einen NSE von ${n} (1 ist perfekt, 0 ist nicht besser als das saisonale Mittel).`,
+    lag: (d) => `Ihr letzter Messwert ist ${d} Tage alt.`,
+    caveat: "Eine Orientierung, keine Garantie: Bauweise des Brunnens, Entnahmen in der Nähe und die örtliche Geologie spielen mit, und die 90-%-Bereiche der Prognose trafen in Rückrechnungen etwa 86–88 % der Fälle. Monate zwischen den geprüften Horizonten (1, 3, 6, 9 und 12 Monate) sind interpoliert.",
+    under: "unter 5 %", over: "über 95 %",
+  },
 };
 const CELLAR_TXT = {
   en: {
@@ -3154,9 +3356,55 @@ const CELLAR_TXT = {
     caveatWeekly: "Une indication, pas une garantie : l'eau entre aussi dans les caves par les réseaux d'évacuation, après de fortes pluies sur un sol saturé ou par une fuite, ce que ce calcul ne couvre pas ; la géologie locale compte aussi. Chaque semaine d'échéance a été évaluée en backtest à cette station (prévisions trimestrielles depuis 2014) ; là où le modèle n'a pas battu la moyenne saisonnière, c'est elle qui est affichée, avec une transition sur quatre semaines, et les fourchettes à 50 % et 90 % sont calibrées par échéance sur des stations qui n'ont pas servi à la calibration.",
     caveat: "Une indication, pas une garantie : l'eau entre aussi dans les caves par les réseaux d'évacuation, après de fortes pluies sur un sol saturé ou par une fuite, ce que ce calcul ne couvre pas ; la géologie locale compte aussi. Les fourchettes à 90 % de la prévision ont été respectées environ 86 à 88 % du temps en backtest. Les mois entre les échéances testées (1, 3, 6, 9 et 12 mois) sont interpolés.",
   },
+  es: {
+    pump: "B · Profundidad del suelo del sótano (m)",
+    pumpHelp: "Desde el suelo exterior hasta el suelo del sótano, la bodega o el garaje subterráneo. El agua empieza a filtrarse desde abajo en cuanto el nivel freático sube por encima de este nivel.",
+    now: "A · Profundidad del nivel freático en casa hoy (m, opcional)",
+    nowHelp: "Si la conoce: el nivel de agua en reposo de un pozo, arqueta o sondeo en su terreno, medido desde el suelo. Déjelo vacío si no lo sabe.",
+    diagram: "Una casa con sótano: A es la profundidad del suelo al nivel freático, B la profundidad del suelo al suelo del sótano.",
+    needPoint: "Marque primero la ubicación de su vivienda en el mapa.", needPump: "Indique la profundidad del suelo del sótano bajo el terreno.",
+    pick: "Marcar mi vivienda en el mapa", picking: "Haga clic en la ubicación de su vivienda en el mapa…",
+    already: "La profundidad del nivel freático indicada (A) ya está por encima del suelo del sótano (B): el agua puede filtrarse ya, sea cual sea la previsión.",
+    headline: (p, m) => `Mayor riesgo de que el agua subterránea alcance el suelo de su sótano en los próximos 12 meses: <span class="well-big">${p}</span> en ${m}`,
+    chart1: "Probabilidad de que el nivel freático suba por encima del suelo del sótano, por mes",
+    chart1w: "Probabilidad de que el nivel freático suba por encima del suelo del sótano, semana a semana",
+    allLow: `Probabilidad de que el nivel freático alcance el suelo de su sótano: <span class="well-big">menos del 5 %</span> en cada uno de los próximos 12 meses.`,
+    allLowW: `Probabilidad de que el nivel freático alcance el suelo de su sótano: <span class="well-big">menos del 5 %</span> cada semana de los próximos 12 meses.`,
+    stationBelow: (pz, floor) => `En el piezómetro de referencia el nivel freático ya está a ${pz} m bajo el suelo, por encima del suelo de su sótano (${floor} m). Si su vivienda se le parece, el agua subterránea puede estar ya en su sótano: indique la profundidad actual del nivel freático en su casa (A) para obtener una respuesta sobre su propia vivienda.`,
+    chart2: "Profundidad probable del nivel freático en su vivienda (m bajo el suelo)",
+    legPump: "suelo del sótano (B)", pumpLine: (d) => `sótano ${d} m`,
+    tipChance: "probabilidad sobre el suelo", chance: "Probabilidad sobre el suelo", depth: "Profundidad probable del nivel freático (m)",
+    methodNow: (dn, pz) => `Se supone que el nivel freático en su vivienda sube y baja lo mismo que en este piezómetro, partiendo de los ${dn} m que indicó (hoy el agua del piezómetro está a ${pz} m bajo su suelo).`,
+    methodSame: (pz) => `Sin la profundidad actual del nivel freático en su vivienda (A), se supone que está a la misma profundidad bajo el suelo que en este piezómetro (${pz} m hoy). Es una estimación aproximada: el nivel freático puede estar a profundidades muy distintas a pocos cientos de metros, así que indicar A da una respuesta mucho mejor.`,
+    caveatWeekly: "Una orientación, no una garantía: el agua también entra en los sótanos por los desagües, tras lluvias intensas sobre suelo saturado o por una tubería rota, y nada de eso está cubierto aquí; la geología local también cuenta. Cada semana de antelación se evaluó en pruebas retrospectivas en esta estación (previsiones trimestrales desde 2014); donde el modelo no superó a la media estacional se muestra la media estacional, con una transición de cuatro semanas, y los rangos del 50 % y 90 % están calibrados por semana de antelación en estaciones que no se usaron para la calibración.",
+    caveat: "Una orientación, no una garantía: el agua también entra en los sótanos por los desagües, tras lluvias intensas sobre suelo saturado o por una tubería rota, y nada de eso está cubierto aquí; la geología local también cuenta. Los rangos del 90 % de la previsión se cumplieron alrededor del 86–88 % de las veces en pruebas retrospectivas. Los meses entre los horizontes probados (1, 3, 6, 9 y 12 meses) están interpolados.",
+  },
+  de: {
+    pump: "B · Tiefe des Kellerbodens (m)",
+    pumpHelp: "Vom Boden draußen bis zum Boden des Kellers, Untergeschosses oder der Tiefgarage. Wasser von unten dringt ein, sobald das Grundwasser über diese Höhe steigt.",
+    now: "A · Grundwasserabstand bei Ihnen heute (m, freiwillig)",
+    nowHelp: "Falls bekannt: der Ruhewasserspiegel in einem Brunnen, Pumpensumpf oder Bohrloch auf Ihrem Grundstück, vom Boden aus gemessen. Leer lassen, wenn unbekannt.",
+    diagram: "Ein Haus mit Keller: A ist die Tiefe vom Boden bis zum Grundwasser, B die Tiefe vom Boden bis zum Kellerboden.",
+    needPoint: "Setzen Sie zuerst den Standort Ihres Hauses auf der Karte.", needPump: "Geben Sie die Tiefe des Kellerbodens unter dem Gelände an.",
+    pick: "Mein Haus auf der Karte setzen", picking: "Klicken Sie auf den Standort Ihres Hauses…",
+    already: "Der angegebene Grundwasserabstand (A) liegt bereits über Ihrem Kellerboden (B): Wasser kann schon jetzt eindringen, egal was die Prognose sagt.",
+    headline: (p, m) => `Höchstes Risiko, dass Grundwasser Ihren Kellerboden erreicht, in den nächsten 12 Monaten: <span class="well-big">${p}</span> im ${m}`,
+    chart1: "Wahrscheinlichkeit, dass das Grundwasser über den Kellerboden steigt, nach Monat",
+    chart1w: "Wahrscheinlichkeit, dass das Grundwasser über den Kellerboden steigt, Woche für Woche",
+    allLow: `Wahrscheinlichkeit, dass das Grundwasser Ihren Kellerboden erreicht: <span class="well-big">unter 5 %</span> in jedem der nächsten 12 Monate.`,
+    allLowW: `Wahrscheinlichkeit, dass das Grundwasser Ihren Kellerboden erreicht: <span class="well-big">unter 5 %</span> in jeder Woche der nächsten 12 Monate.`,
+    stationBelow: (pz, floor) => `An der Referenz-Messstelle steht das Grundwasser schon ${pz} m unter dem Boden, über Ihrem Kellerboden (${floor} m). Ist Ihr Haus ähnlich, steht das Grundwasser vielleicht schon an Ihrem Kellerboden: Geben Sie den heutigen Grundwasserabstand bei Ihnen (A) an, um eine Antwort für Ihr eigenes Haus zu erhalten.`,
+    chart2: "Wahrscheinlicher Grundwasserabstand bei Ihnen (m unter Boden)",
+    legPump: "Kellerboden (B)", pumpLine: (d) => `Keller ${d} m`,
+    tipChance: "Wahrscheinlichkeit über dem Boden", chance: "Wahrscheinlichkeit über dem Boden", depth: "Wahrscheinlicher Grundwasserabstand (m)",
+    methodNow: (dn, pz) => `Es wird angenommen, dass das Grundwasser bei Ihnen um denselben Betrag steigt und fällt wie an dieser Messstelle, ausgehend von den angegebenen ${dn} m (das Wasser der Messstelle steht heute ${pz} m unter ihrem Boden).`,
+    methodSame: (pz) => `Ohne den heutigen Grundwasserabstand bei Ihnen (A) wird angenommen, dass er derselbe ist wie an dieser Messstelle (heute ${pz} m). Das ist eine grobe Annahme: Grundwasser kann schon wenige hundert Meter entfernt in ganz anderer Tiefe stehen, mit A wird die Antwort deutlich besser.`,
+    caveatWeekly: "Eine Orientierung, keine Garantie: Wasser gelangt auch über Abflüsse, nach Starkregen auf gesättigtem Boden oder durch ein geplatztes Rohr in Keller, was hier nicht abgedeckt ist; auch die örtliche Geologie spielt mit. Jede Vorlaufwoche wurde an dieser Messstelle in Rückrechnungen bewertet (vierteljährliche Prognosen seit 2014); wo das Modell das saisonale Mittel nicht schlug, wird das saisonale Mittel gezeigt, mit einem Übergang über vier Wochen, und die 50-%- und 90-%-Bereiche sind je Vorlaufwoche an Messstellen kalibriert, die nicht zur Kalibrierung dienten.",
+    caveat: "Eine Orientierung, keine Garantie: Wasser gelangt auch über Abflüsse, nach Starkregen auf gesättigtem Boden oder durch ein geplatztes Rohr in Keller, was hier nicht abgedeckt ist; auch die örtliche Geologie spielt mit. Die 90-%-Bereiche der Prognose trafen in Rückrechnungen etwa 86–88 % der Fälle. Monate zwischen den geprüften Horizonten (1, 3, 6, 9 und 12 Monate) sind interpoliert.",
+  },
 };
-const WELL_MODES = { en: ["My well running dry", "My basement flooding"], fr: ["Mon puits à sec", "Ma cave inondée"] };
-const WELL_SUMMARY = { en: "Will my well run dry, or my basement flood?", fr: "Mon puits va-t-il s'assécher, ma cave être inondée ?" };
+const WELL_MODES = { en: ["My well running dry", "My basement flooding"], fr: ["Mon puits à sec", "Ma cave inondée"], es: ["Mi pozo se seca", "Mi sótano se inunda"], de: ["Mein Brunnen fällt trocken", "Mein Keller läuft voll"] };
+const WELL_SUMMARY = { en: "Will my well run dry, or my basement flood?", fr: "Mon puits va-t-il s'assécher, ma cave être inondée ?", es: "¿Se secará mi pozo o se inundará mi sótano?", de: "Fällt mein Brunnen trocken, läuft mein Keller voll?" };
 let wellMode = "well";
 let wellPoint = null, wellPicking = false, bodyPath2D = null;
 const WELL_MAX_KM = 50;  // beyond this, no station can stand in for a well
@@ -3301,12 +3549,12 @@ function runWellCheck() {
   const pzDepthNow = p.altitude_m - levelNow;
   const thr = dNow != null ? levelNow - (pump - dNow) : p.altitude_m - pump;
   const toWellDepth = lvl => dNow != null ? dNow + (levelNow - lvl) : p.altitude_m - lvl;
-  const fr = LANG === "fr";
-  const fx = (x, n = 1) => x.toFixed(n).replace(".", fr ? "," : ".");
-  const fmtP = r => r.edge ? T[r.edge] : `${Math.round(r.p * 100)}${fr ? " %" : "%"}`;
-  const monthLong = iso => new Date(iso + "T00:00:00Z").toLocaleDateString(fr ? "fr-FR" : "en-GB", { month: "long", year: "numeric", timeZone: "UTC" });
-  const monthShort = iso => new Date(iso + "T00:00:00Z").toLocaleDateString(fr ? "fr-FR" : "en-GB", { month: "short", timeZone: "UTC" }).replace(".", "");
-  const dayLong = iso => new Date(iso + "T00:00:00Z").toLocaleDateString(fr ? "fr-FR" : "en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+  const comma = LANG !== "en";  // decimal comma
+  const fx = (x, n = 1) => x.toFixed(n).replace(".", comma ? "," : ".");
+  const fmtP = r => r.edge ? T[r.edge] : `${Math.round(r.p * 100)}${PCT}`;
+  const monthLong = iso => new Date(iso + "T00:00:00Z").toLocaleDateString(LOC, { month: "long", year: "numeric", timeZone: "UTC" });
+  const monthShort = iso => new Date(iso + "T00:00:00Z").toLocaleDateString(LOC, { month: "short", timeZone: "UTC" }).replace(".", "");
+  const dayLong = iso => new Date(iso + "T00:00:00Z").toLocaleDateString(LOC, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
   const when_ = iso => weekly ? T.weekOf(dayLong(iso)) : monthLong(iso);
   const rows = series.map(f => ({ f, r: (cellar ? probAbove(f, thr) : probBelow(f, thr)) || { p: 0, edge: "under" },
     dMid: toWellDepth(f.point), d50: [toWellDepth(f.q75), toWellDepth(f.q25)], d90: [toWellDepth(f.q95), toWellDepth(f.q05)] }));
@@ -3336,7 +3584,7 @@ function runWellCheck() {
   const H1 = 150, top1 = 12, base1 = 120, bw = Math.max(2, Math.min(24, band - (weekly ? 2 : 6)));
   const y1 = v => base1 - (base1 - top1) * v;
   const grid1 = [0, 0.25, 0.5, 0.75, 1].map(v => `<line class="wc-grid" x1="${L}" x2="${W - R}" y1="${y1(v)}" y2="${y1(v)}"></line>
-    <text class="wc-axis" x="${L - 5}" y="${y1(v) + 3}" text-anchor="end">${Math.round(v * 100)}${fr ? " %" : "%"}</text>`).join("");
+    <text class="wc-axis" x="${L - 5}" y="${y1(v) + 3}" text-anchor="end">${Math.round(v * 100)}${PCT}</text>`).join("");
   const bars = rows.map((x, i) => {
     const h = x.r.edge === "under" ? 2 : Math.max(0, base1 - y1(x.r.p)), x0 = cx(i) - bw / 2, r = Math.min(4, h / 2);
     const path = h <= 0 ? "" : `M${x0},${base1} V${base1 - h + r} Q${x0},${base1 - h} ${x0 + r},${base1 - h} H${x0 + bw - r} Q${x0 + bw},${base1 - h} ${x0 + bw},${base1 - h + r} V${base1} Z`;
@@ -3587,6 +3835,160 @@ const EXTRA_TXT = {
     catBt: (y0, y1, b, a, ab) => `Backtest ${y0}–${y1}, chaque année exclue de l'apprentissage : score de Brier ${b} par rapport au taux passé de chaque commune ; AUC ${a} (taux passé seul : ${ab}).`,
     catNote: (y) => `Une probabilité de reconnaissance, pas de dégâts : le maire doit en faire la demande, et les arrêtés pour ${y} paraîtront surtout en ${y + 1}. Construit à partir des arrêtés GASPAR, de l'humidité des sols SIM2 de Météo-France et de la carte des argiles du BRGM.`,
   },
+  es: {
+    label: "Más capas", off: "Desactivadas", rivers: "Caudal de los ríos", catnat: "Siniestros por sequía en arcillas (CatNat)", gwflood: "Inundación por aguas subterráneas",
+    legGw: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % de probabilidad de que el nivel freático llegue a 1 m bajo el suelo"],
+    legGw2: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % de probabilidad de que el nivel freático llegue a 2 m bajo el suelo"],
+    tier1: "Inundación (1 m)", tier2: "Cerca de la superficie (2 m)",
+    dangerNames: ["bajo", "moderado", "alto", "muy alto"],
+    wkHead: (lvl, p, w) => `Mayor peligro de inundación en los próximos 12 meses: <strong>${lvl}</strong> (${p}) la semana del ${w}.`,
+    wkHead2: (lvl, p, w) => `Mayor peligro cerca de la superficie en los próximos 12 meses: <strong>${lvl}</strong> (${p}) la semana del ${w}.`,
+    wkWhen: (a, b) => `Peligro moderado o superior de la semana del ${a} a la semana del ${b}.`,
+    wkLow: "El peligro se mantiene bajo todas las semanas de los próximos 12 meses.",
+    wkChart1: "Probabilidad de que el nivel freático llegue a menos de 1 m del suelo, semana a semana",
+    wkChart1b: "Probabilidad de que el nivel freático llegue a menos de 2 m del suelo, semana a semana",
+    wkChart2: "Profundidad probable del nivel freático (m bajo el suelo)",
+    wkLegLvl: ["bajo < 10 %", "moderado 10–30 %", "alto 30–60 %", "muy alto ≥ 60 %"],
+    wkLegSeas: "rayado: semanas mostradas con la media estacional",
+    wkLegMed: "lo más probable", wkLeg50: "rango del 50 %", wkLeg90: "rango del 90 %", wkLine1: "nivel de inundación (1 m)", wkLine2: "2 m",
+    wkToday: "hoy", wkTipChance: "probabilidad", wkTipDanger: "peligro", wkTipDepth: "profundidad probable", wkTipRange: "rango del 90 %",
+    wkBt: (s1, a1, a0, s4, r3) => `Prueba retrospectiva semana a semana, todas las estaciones propensas a inundación, previsiones trimestrales desde 2014: Brier skill ${s1} para las semanas 1–4 (ROC-AUC ${a1}, frecuencia estacional sola ${a0}), ${s4} para las semanas 14–26. Cuando el peligro mostrado era “alto”, el agua alcanzó el nivel de inundación el ${r3} de las veces.`,
+    gwFc2: (p) => `Probabilidad de subir a menos de 2 m del suelo (sótanos y cimientos húmedos): <strong>${p}</strong>.`,
+    gwCols2: ["Semana del", "A menos de 1 m", "A menos de 2 m", "Profundidad probable"],
+    riverrestr: "Restricciones de bombeo en ríos",
+    legRr: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % de probabilidad de restricciones de bombeo (alerta o peor)"],
+    rrLevels: ["sin restricción", "vigilancia", "alerta", "alerta reforzada", "crisis"],
+    rrHead: (z) => `${z.name} <span class="hint">(${z.dept})</span>`,
+    rrNow: (l) => `En vigor hoy: <strong>${l}</strong>.`,
+    rrP: (d, p, s) => `Probabilidad de restricciones de bombeo (alerta o peor) hacia ${d}: <strong>${p}</strong>. En años anteriores en esta época: ${s}.`,
+    rrCrise: (p) => `Probabilidad del nivel de crisis (la mayoría de usos cortados): ${p}.`,
+    rrNone: "Sin previsión para este mes: fuera de la temporada de restricciones (de abril a noviembre) o no evaluado con esta antelación.",
+    rrChart: "Probabilidad de restricciones de bombeo, mes a mes",
+    rrGauges: (g) => `A partir de la previsión fluvial en ${g}.`,
+    rrBt: (y0, y1, n, s1, s0, l3) => `Prueba retrospectiva ${y0}–${y1}, cada año previsto solo con años anteriores, ${n} zonas: a un mes vista, Brier skill ${s1} frente al historial de la zona para esa época del año y ${s0} frente al nivel actual más la estación solos. Cuando la probabilidad mostrada era del 60 % o más, había restricciones en vigor el ${l3} de las veces.`,
+    rrNote: "Las restricciones las decide la prefectura; esto es la probabilidad de que se apliquen, leída de la previsión fluvial y de decisiones pasadas.",
+    gwcommunes: "Siniestros por inundación de aguas subterráneas (municipios)",
+    legGwc: (c) => [`< ${c[0]}`, `${c[0]}–${c[1]}`, `${c[1]}–${c[2]}`, `≥ ${c[2]} de probabilidad de reconocimiento por inundación de aguas subterráneas`],
+    gwcHead: (c) => `${c.name || c.code}`,
+    gwcP: (season, p) => `Probabilidad de un reconocimiento oficial de catástrofe por inundación de aguas subterráneas (CatNat) para una inundación que empiece entre hoy y agosto de ${season}: <strong>${p}</strong>.`,
+    gwcReg: "El registro de riesgos del municipio incluye inundaciones por subida del nivel freático.",
+    gwcPast: (n) => n ? `Reconocimientos anteriores por inundación de aguas subterráneas aquí: ${n}.` : "Ningún reconocimiento anterior por inundación de aguas subterráneas aquí.",
+    gwcBt: (y0, y1, b, a, a0, ar) => `Prueba retrospectiva ${y0}–${y1}, cada temporada excluida: Brier skill ${b} frente a la tasa histórica de reconocimientos de cada municipio; ROC-AUC ${a} (tasa histórica sola: ${a0}; registro de riesgos solo: ${ar}).`,
+    gwcNote: (r) => `Construido a partir del registro de riesgos del municipio y de decretos anteriores (GASPAR), y de las previsiones de inundación por aguas subterráneas en piezómetros propensos a inundación a menos de ${r} km.`,
+    gwHead: (s) => `${s.commune || s.code} <span class="hint">(${s.code})</span>`,
+    gwNow: (d, date) => d < 1
+      ? `Nivel freático a <strong>${d} m</strong> bajo el suelo (semana hasta ${date}): ya a menos de 1 m, el nivel al que se inundan sótanos y zonas bajas.`
+      : `Nivel freático a <strong>${d} m</strong> bajo el suelo (semana hasta ${date}). Los sótanos y las zonas bajas se inundan cuando llega a menos de 1 m.`,
+    gwFc: (t, p, d, lo, hi) => `Semana del ${t}: probabilidad de subir a menos de 1 m del suelo <strong>${p}</strong>. Profundidad probable ${d} m (rango del 80 % de ${lo} a ${hi} m).`,
+    gwDepthOnly: (t, d, lo, hi) => `Semana del ${t}: profundidad probable ${d} m (rango del 80 % de ${lo} a ${hi} m). No se muestra probabilidad de inundación con esta antelación: aquí la previsión no superó a estimaciones más simples en pruebas retrospectivas.`,
+    gwSkill: (b, a, a0) => `Prueba retrospectiva en todas las estaciones propensas a inundación, 2017–2025, años no usados para construirla: Brier skill ${b} frente a la frecuencia estacional de inundación de cada estación; ROC-AUC ${a} (frecuencia estacional sola: ${a0}).`,
+    gwCellar: "Comprobar mi sótano a su propia profundidad →",
+    gwSrc: (share, pairs) => `Niveles de la piezometría de Hub'Eau; cota del terreno según la ficha de la estación. Contrastado con los decretos oficiales de catástrofe por inundación de aguas subterráneas: en torno a ${pairs} pares decreto–estación, la estación registró su nivel de inundación el ${share} de las veces.`,
+    gwTable: "Mes a mes", gwCols: ["Semana del", "Probabilidad", "Profundidad probable"],
+    at: "Meses vista", hTitle: m => `a ${m} mes${m > 1 ? "es" : ""} vista`,
+    legRiver: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % de probabilidad bajo el QMNA5"], legNo: "sin previsión",
+    legCat: ["5–20 %", "20–50 %", "≥ 50 % de probabilidad de reconocimiento"],
+    riverHead: (s) => `${s.name}`,
+    riverNow: (f, d, q) => `Último caudal medio semanal <strong>${f} m³/s</strong> (semana hasta ${d}). Referencia de estiaje (QMNA5, el caudal mensual que no se alcanza un año de cada cinco): <strong>${q} m³/s</strong>.`,
+    riverFc: (t, m, lo, hi) => `Semana del ${t}: probablemente <strong>${m} m³/s</strong> (rango del 80 % ${lo}–${hi}).`,
+    riverP: (p) => `Probabilidad de estar por debajo del QMNA5: <strong>${p}</strong>.`,
+    riverNoFc: "Con esta antelación, la previsión no superó a estimaciones más simples en esta estación en pruebas retrospectivas, así que no se muestra.",
+    riverSkill: (m, c, pe, n) => `Prueba retrospectiva en esta estación (${n} previsiones con esta antelación, en años no usados para construirla): error típico ×${m} (media estacional ×${c}, “sin cambios” ×${pe}).`,
+    riverFloodM: "Probabilidad de crecida esa semana", riverFloodUsual: "Habitual esa semana",
+    riverFlood: (p, s) => `Probabilidad de alcanzar su nivel de crecida de 2 años esa semana (el caudal diario superado un año de cada dos, cuando el río más o menos se sale de su cauce): <strong>${p}</strong> (habitual esa semana: ${s}).`,
+    riverFloodBt: (y0, y1, ss, sn, a, as) => `Probabilidad de crecida probada retrospectivamente ${y0}–${y1} en todas las estaciones, años no usados para construirla: Brier skill ${ss} frente al historial estacional de cada estación y ${sn} frente a “sin cambios”; distingue las semanas de crecida con un ROC-AUC de ${a} (historial estacional ${as}). Solo se muestra a 1–2 meses vista, donde superó a ambos.`,
+    riverChart: "Caudal medio semanal, últimos 6 meses y próximos 12 (m³/s, escala logarítmica). Banda: rango del 80 %. Discontinua: QMNA5. Meses sin punto: ninguna previsión superó ahí a las estimaciones más simples.",
+    riverObs: "medido", riverMed: "previsión", riverBand: "rango del 80 %", riverTable: "Mes a mes",
+    riverCols: ["Semana del", "Caudal probable", "Rango del 80 %", "Bajo el QMNA5"],
+    riverTipRange: "rango del 80 %", riverTipP: "probabilidad bajo el QMNA5", riverNone: "sin previsión",
+    riverPool: (b) => `La probabilidad se evalúa con todas las estaciones juntas, de junio a octubre: Brier skill ${b} frente a la frecuencia estacional.`,
+    riverNoP: "La probabilidad de estiaje no se muestra con esta antelación: con todas las estaciones juntas, no superó a la frecuencia estacional en pruebas retrospectivas.",
+    riverSrc: "Caudales diarios de la hidrometría de Hub'Eau. Cada previsión combina los modelos que mejor funcionaron para esta estación y antelación en una prueba retrospectiva 2016–2025. Los decretos de restricción usan sus propios umbrales por estación, que pueden diferir del QMNA5.",
+    catHead: (c) => `${c}`,
+    catP: (y, p) => `Probabilidad de un reconocimiento CatNat por sequía (retracción-hinchamiento de arcillas) para ${y}: <strong>${p}</strong>.`,
+    catClay: (c) => `Exposición a arcillas (media o alta): alrededor del <strong>${c}</strong> de la superficie del municipio (mapa del BRGM).`,
+    catSwi: (d, p) => `Humedad del suelo este año, estación más seca hasta ${d}: percentil <strong>${p}</strong> de 1991–2020 (más bajo es más seco).`,
+    catMeterP: "Probabilidad este año", catMeterClay: "Superficie sobre arcillas", catMeterSwi: "Percentil de humedad del suelo",
+    catBt: (y0, y1, b, a, ab) => `Prueba retrospectiva ${y0}–${y1}, cada año excluido: Brier skill ${b} frente a la tasa histórica de reconocimientos de cada municipio; ROC AUC ${a} (tasa histórica sola: ${ab}).`,
+    catNote: (y) => `Una probabilidad de reconocimiento, no de daños: el alcalde debe solicitarlo, y los decretos de ${y} saldrán sobre todo en ${y + 1}. Construido a partir de los decretos GASPAR, la humedad del suelo SIM2 de Météo-France y el mapa de arcillas del BRGM.`,
+  },
+  de: {
+    label: "Weitere Ebenen", off: "Aus", rivers: "Abfluss", catnat: "Dürreschäden an Tonböden (CatNat)", gwflood: "Überflutung durch Grundwasser",
+    legGw: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % Wahrscheinlichkeit, dass das Grundwasser bis 1 m unter Gelände steigt"],
+    legGw2: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % Wahrscheinlichkeit, dass das Grundwasser bis 2 m unter Gelände steigt"],
+    tier1: "Überflutung (1 m)", tier2: "Oberflächennah (2 m)",
+    dangerNames: ["gering", "mäßig", "hoch", "sehr hoch"],
+    wkHead: (lvl, p, w) => `Höchste Überflutungsgefahr in den nächsten 12 Monaten: <strong>${lvl}</strong> (${p}) in der Woche ab ${w}.`,
+    wkHead2: (lvl, p, w) => `Höchste oberflächennahe Gefahr in den nächsten 12 Monaten: <strong>${lvl}</strong> (${p}) in der Woche ab ${w}.`,
+    wkWhen: (a, b) => `Gefahr mäßig oder höher von der Woche ab ${a} bis zur Woche ab ${b}.`,
+    wkLow: "Die Gefahr bleibt in jeder Woche der nächsten 12 Monate gering.",
+    wkChart1: "Wahrscheinlichkeit, dass das Grundwasser näher als 1 m an die Oberfläche kommt, Woche für Woche",
+    wkChart1b: "Wahrscheinlichkeit, dass das Grundwasser näher als 2 m an die Oberfläche kommt, Woche für Woche",
+    wkChart2: "Wahrscheinlicher Grundwasserabstand (m unter Gelände)",
+    wkLegLvl: ["gering < 10 %", "mäßig 10–30 %", "hoch 30–60 %", "sehr hoch ≥ 60 %"],
+    wkLegSeas: "schraffiert: Wochen mit saisonalem Mittel",
+    wkLegMed: "am wahrscheinlichsten", wkLeg50: "50-%-Bereich", wkLeg90: "90-%-Bereich", wkLine1: "Überflutungshöhe (1 m)", wkLine2: "2 m",
+    wkToday: "heute", wkTipChance: "Wahrscheinlichkeit", wkTipDanger: "Gefahr", wkTipDepth: "wahrscheinliche Tiefe", wkTipRange: "90-%-Bereich",
+    wkBt: (s1, a1, a0, s4, r3) => `Wochenweise Rückrechnung, alle überflutungsgefährdeten Messstellen, vierteljährliche Prognosen seit 2014: Brier Skill ${s1} für die Wochen 1–4 (ROC-AUC ${a1}, saisonale Häufigkeit allein ${a0}), ${s4} für die Wochen 14–26. War die gezeigte Gefahr „hoch“, erreichte das Wasser in ${r3} der Fälle die Überflutungshöhe.`,
+    gwFc2: (p) => `Wahrscheinlichkeit, bis auf 2 m unter Gelände zu steigen (feuchte Keller und Fundamente): <strong>${p}</strong>.`,
+    gwCols2: ["Woche ab", "Bis 1 m", "Bis 2 m", "Wahrscheinliche Tiefe"],
+    riverrestr: "Entnahmebeschränkungen an Flüssen",
+    legRr: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % Wahrscheinlichkeit von Entnahmebeschränkungen (Alarm oder schärfer)"],
+    rrLevels: ["keine Einschränkung", "Vorwarnung", "Alarm", "verschärfter Alarm", "Krise"],
+    rrHead: (z) => `${z.name} <span class="hint">(${z.dept})</span>`,
+    rrNow: (l) => `Heute in Kraft: <strong>${l}</strong>.`,
+    rrP: (d, p, s) => `Wahrscheinlichkeit von Entnahmebeschränkungen (Alarm oder schärfer) um ${d}: <strong>${p}</strong>. In früheren Jahren um diese Zeit: ${s}.`,
+    rrCrise: (p) => `Wahrscheinlichkeit der Krisenstufe (die meisten Nutzungen untersagt): ${p}.`,
+    rrNone: "Keine Prognose für diesen Monat: außerhalb der Beschränkungssaison (April bis November) oder bei diesem Vorlauf nicht bewertet.",
+    rrChart: "Wahrscheinlichkeit von Entnahmebeschränkungen, Monat für Monat",
+    rrGauges: (g) => `Aus der Abflussprognose bei ${g}.`,
+    rrBt: (y0, y1, n, s1, s0, l3) => `Rückrechnung ${y0}–${y1}, jedes Jahr nur aus früheren Jahren vorhergesagt, ${n} Zonen: einen Monat voraus Brier Skill ${s1} gegenüber der Geschichte der Zone für diese Jahreszeit und ${s0} gegenüber dem heutigen Stand plus Jahreszeit allein. Lag die gezeigte Wahrscheinlichkeit bei 60 % oder mehr, galten in ${l3} der Fälle Beschränkungen.`,
+    rrNote: "Beschränkungen beschließt die Präfektur; dies ist die Wahrscheinlichkeit, dass sie gelten, abgeleitet aus der Abflussprognose und früheren Entscheidungen.",
+    gwcommunes: "Grundwasser-Überflutungsschäden (Gemeinden)",
+    legGwc: (c) => [`< ${c[0]}`, `${c[0]}–${c[1]}`, `${c[1]}–${c[2]}`, `≥ ${c[2]} Wahrscheinlichkeit einer Anerkennung wegen Grundwasser-Überflutung`],
+    gwcHead: (c) => `${c.name || c.code}`,
+    gwcP: (season, p) => `Wahrscheinlichkeit einer amtlichen Anerkennung als Naturkatastrophe wegen Grundwasser-Überflutung (CatNat) für eine Überflutung, die zwischen jetzt und August ${season} beginnt: <strong>${p}</strong>.`,
+    gwcReg: "Das Risikoregister der Gemeinde führt Überflutung durch steigendes Grundwasser.",
+    gwcPast: (n) => n ? `Frühere Anerkennungen wegen Grundwasser-Überflutung hier: ${n}.` : "Hier gab es noch keine Anerkennung wegen Grundwasser-Überflutung.",
+    gwcBt: (y0, y1, b, a, a0, ar) => `Rückrechnung ${y0}–${y1}, jede Saison ausgelassen: Brier Skill ${b} gegenüber der bisherigen Anerkennungsrate jeder Gemeinde; ROC-AUC ${a} (bisherige Rate allein: ${a0}; Risikoregister allein: ${ar}).`,
+    gwcNote: (r) => `Aufgebaut aus dem Risikoregister der Gemeinde und früheren Erlassen (GASPAR) sowie den Grundwasser-Überflutungsprognosen an gefährdeten Messstellen im Umkreis von ${r} km.`,
+    gwHead: (s) => `${s.commune || s.code} <span class="hint">(${s.code})</span>`,
+    gwNow: (d, date) => d < 1
+      ? `Grundwasser <strong>${d} m</strong> unter Gelände (Woche bis ${date}): schon näher als 1 m, die Höhe, bei der Keller und tiefe Lagen überflutet werden.`
+      : `Grundwasser <strong>${d} m</strong> unter Gelände (Woche bis ${date}). Keller und tiefe Lagen werden überflutet, wenn es näher als 1 m kommt.`,
+    gwFc: (t, p, d, lo, hi) => `Woche ab ${t}: Wahrscheinlichkeit, bis auf 1 m unter Gelände zu steigen, <strong>${p}</strong>. Wahrscheinliche Tiefe ${d} m (80-%-Bereich ${lo} bis ${hi} m).`,
+    gwDepthOnly: (t, d, lo, hi) => `Woche ab ${t}: wahrscheinliche Tiefe ${d} m (80-%-Bereich ${lo} bis ${hi} m). Bei diesem Vorlauf wird keine Überflutungswahrscheinlichkeit gezeigt: Hier schlug die Prognose in Rückrechnungen einfachere Schätzungen nicht.`,
+    gwSkill: (b, a, a0) => `Rückrechnung an allen überflutungsgefährdeten Messstellen, 2017–2025, an Jahren, die nicht zum Aufbau dienten: Brier Skill ${b} gegenüber der saisonalen Überflutungshäufigkeit jeder Messstelle; ROC-AUC ${a} (saisonale Häufigkeit allein: ${a0}).`,
+    gwCellar: "Meinen Keller in seiner eigenen Tiefe prüfen →",
+    gwSrc: (share, pairs) => `Wasserstände aus der Hub'Eau-Grundwassermessung; Geländehöhe aus dem Stammdatensatz der Messstelle. Abgeglichen mit amtlichen Katastrophenerlassen wegen Grundwasser-Überflutung: Bei rund ${pairs} Paaren aus Erlass und Messstelle verzeichnete die Messstelle in ${share} der Fälle ihre Überflutungshöhe.`,
+    gwTable: "Monat für Monat", gwCols: ["Woche ab", "Wahrscheinlichkeit", "Wahrscheinliche Tiefe"],
+    at: "Monate voraus", hTitle: m => `${m} Monat${m > 1 ? "e" : ""} voraus`,
+    legRiver: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % Wahrscheinlichkeit unter QMNA5"], legNo: "keine Prognose",
+    legCat: ["5–20 %", "20–50 %", "≥ 50 % Wahrscheinlichkeit einer Anerkennung"],
+    riverHead: (s) => `${s.name}`,
+    riverNow: (f, d, q) => `Letzter Wochenmittel-Abfluss <strong>${f} m³/s</strong> (Woche bis ${d}). Niedrigwasser-Referenz (QMNA5, der Monatsabfluss, der in einem von fünf Jahren unterschritten wird): <strong>${q} m³/s</strong>.`,
+    riverFc: (t, m, lo, hi) => `Woche ab ${t}: wahrscheinlich <strong>${m} m³/s</strong> (80-%-Bereich ${lo}–${hi}).`,
+    riverP: (p) => `Wahrscheinlichkeit, unter QMNA5 zu liegen: <strong>${p}</strong>.`,
+    riverNoFc: "Bei diesem Vorlauf schlug die Prognose an dieser Messstelle in Rückrechnungen einfachere Schätzungen nicht, daher wird keine gezeigt.",
+    riverSkill: (m, c, pe, n) => `Rückrechnung an dieser Messstelle (${n} Prognosen bei diesem Vorlauf, an Jahren, die nicht zum Aufbau dienten): typischer Fehler ×${m} (saisonales Mittel ×${c}, „keine Änderung“ ×${pe}).`,
+    riverFloodM: "Hochwasserwahrscheinlichkeit in dieser Woche", riverFloodUsual: "Üblich in dieser Woche",
+    riverFlood: (p, s) => `Wahrscheinlichkeit, in dieser Woche das 2-jährliche Hochwasser zu erreichen (der Tagesabfluss, der in einem von zwei Jahren überschritten wird, etwa dort, wo der Fluss über die Ufer tritt): <strong>${p}</strong> (üblich in dieser Woche: ${s}).`,
+    riverFloodBt: (y0, y1, ss, sn, a, as) => `Hochwasserwahrscheinlichkeit rückgerechnet ${y0}–${y1} an allen Pegeln, an Jahren, die nicht zum Aufbau dienten: Brier Skill ${ss} gegenüber der saisonalen Geschichte jedes Pegels und ${sn} gegenüber „keine Änderung“; sie erkennt Hochwasserwochen mit ROC-AUC ${a} (saisonale Geschichte ${as}). Nur 1–2 Monate voraus gezeigt, wo sie beide schlug.`,
+    riverChart: "Wochenmittel-Abfluss, letzte 6 und nächste 12 Monate (m³/s, logarithmisch). Band: 80-%-Bereich. Gestrichelt: QMNA5. Monate ohne Punkt: Dort schlug keine Prognose die einfacheren Schätzungen.",
+    riverObs: "gemessen", riverMed: "Prognose", riverBand: "80-%-Bereich", riverTable: "Monat für Monat",
+    riverCols: ["Woche ab", "Wahrscheinlicher Abfluss", "80-%-Bereich", "Unter QMNA5"],
+    riverTipRange: "80-%-Bereich", riverTipP: "Wahrscheinlichkeit unter QMNA5", riverNone: "keine Prognose gezeigt",
+    riverPool: (b) => `Die Wahrscheinlichkeit wird über alle Messstellen gemeinsam bewertet, Juni bis Oktober: Brier Skill ${b} gegenüber der saisonalen Häufigkeit.`,
+    riverNoP: "Die Niedrigwasser-Wahrscheinlichkeit wird bei diesem Vorlauf nicht gezeigt: Über alle Messstellen gemeinsam schlug sie in Rückrechnungen die saisonale Häufigkeit nicht.",
+    riverSrc: "Tägliche Abflüsse aus der Hub'Eau-Hydrometrie. Jede Prognose mischt die Modelle, die für diese Messstelle und diesen Vorlauf in einer Rückrechnung 2016–2025 am besten waren. Beschränkungserlasse nutzen eigene Schwellen je Messstelle, die von QMNA5 abweichen können.",
+    catHead: (c) => `${c}`,
+    catP: (y, p) => `Wahrscheinlichkeit einer CatNat-Anerkennung wegen Dürre (Schrumpfen und Quellen von Ton) für ${y}: <strong>${p}</strong>.`,
+    catClay: (c) => `Ton-Exposition (mittel oder hoch): etwa <strong>${c}</strong> der Gemeindefläche (BRGM-Karte).`,
+    catSwi: (d, p) => `Bodenfeuchte in diesem Jahr, trockenste Jahreszeit bis ${d}: Perzentil <strong>${p}</strong> von 1991–2020 (niedriger ist trockener).`,
+    catMeterP: "Wahrscheinlichkeit dieses Jahr", catMeterClay: "Fläche auf Ton", catMeterSwi: "Bodenfeuchte-Perzentil",
+    catBt: (y0, y1, b, a, ab) => `Rückrechnung ${y0}–${y1}, jedes Jahr ausgelassen: Brier Skill ${b} gegenüber der bisherigen Anerkennungsrate jeder Gemeinde; ROC AUC ${a} (bisherige Rate allein: ${ab}).`,
+    catNote: (y) => `Eine Wahrscheinlichkeit der Anerkennung, nicht des Schadens: Der Bürgermeister muss sie beantragen, und Erlasse für ${y} erscheinen meist ${y + 1}. Aufgebaut aus GASPAR-Erlassen, der SIM2-Bodenfeuchte von Météo-France und der Tonkarte des BRGM.`,
+  },
 };
 var extraLayer = "off", riverHorizon = "1", extraPicked = null, gwTier = "1";
 const GWC_CUTS = [0.02, 0.05, 0.15];
@@ -3599,10 +4001,10 @@ function gwcRows() {
 }
 var _gwcCache = null;
 function extraT() { return EXTRA_TXT[LANG] || EXTRA_TXT.en; }
-const fmtPct = p => p == null ? "–" : (p < 0.01 ? (LANG === "fr" ? "< 1 %" : "< 1%") : (Math.round(p * 100) + (LANG === "fr" ? " %" : "%")));
-const fmtNum = (x, n) => x == null || !isFinite(x) ? "–" : (Math.abs(x) < 0.5 * 10 ** -n ? 0 : x).toLocaleString(LANG === "fr" ? "fr-FR" : "en-GB", { minimumFractionDigits: n, maximumFractionDigits: n });
+const fmtPct = p => p == null ? "–" : (p < 0.01 ? "< 1" + PCT : (Math.round(p * 100) + PCT));
+const fmtNum = (x, n) => x == null || !isFinite(x) ? "–" : (Math.abs(x) < 0.5 * 10 ** -n ? 0 : x).toLocaleString(LOC, { minimumFractionDigits: n, maximumFractionDigits: n });
 function fmtFlow(q) { return q == null ? "–" : fmtNum(q, q >= 100 ? 0 : q >= 10 ? 1 : q >= 1 ? 2 : 3); }
-function fmtDate(iso) { return new Date(iso + "T00:00:00Z").toLocaleDateString(LANG === "fr" ? "fr-FR" : "en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }); }
+function fmtDate(iso) { return new Date(iso + "T00:00:00Z").toLocaleDateString(LOC, { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }); }
 function probColor(p, cuts) {
   if (p >= cuts[2]) return "var(--alert-severe)";
   if (p >= cuts[1]) return "var(--drought)";
@@ -3737,8 +4139,8 @@ function renderExtraLegend() {
 }
 
 function riverPText(p) {
-  return p <= 0.05 ? (LANG === "fr" ? "5 % ou moins" : "5% or less")
-    : p >= 0.95 ? (LANG === "fr" ? "95 % ou plus" : "95% or more") : fmtPct(p);
+  return p <= 0.05 ? tr({ en: "5% or less", fr: "5 % ou moins", es: "5 % o menos", de: "5 % oder weniger" })
+    : p >= 0.95 ? tr({ en: "95% or more", fr: "95 % ou plus", es: "95 % o más", de: "95 % oder mehr" }) : fmtPct(p);
 }
 
 function riverChart(it) {
@@ -3768,7 +4170,7 @@ function riverChart(it) {
     if (d < t0 || d > t1) continue;
     const dd = new Date(d * 864e5), mo = dd.getUTCMonth();
     if (mo % 2) continue;
-    const lab = dd.toLocaleDateString(LANG === "fr" ? "fr-FR" : "en-GB", { month: "short", timeZone: "UTC" }) + (mo === 0 ? " " + dd.getUTCFullYear() : "");
+    const lab = dd.toLocaleDateString(LOC, { month: "short", timeZone: "UTC" }) + (mo === 0 ? " " + dd.getUTCFullYear() : "");
     g += `<line class="rc-tick" x1="${X(d)}" x2="${X(d)}" y1="${H - B}" y2="${H - B + 4}"></line><text class="rc-ax" x="${X(d)}" y="${H - B + 15}" text-anchor="middle">${lab}</text>`;
   }
   const tNow = day(it.last_week);
@@ -3839,11 +4241,11 @@ function gwWeeklyCharts(it) {
   const lvl = p => p >= 0.6 ? 3 : p >= 0.3 ? 2 : p >= 0.1 ? 1 : 0;
   const pctTxt = p => riverPText(p);
   const W = 520, L = 34, R = 12, band = (W - L - R) / n, cx = i => L + band * (i + 0.5);
-  const monthShort = d => new Date(d + "T00:00:00Z").toLocaleDateString(LANG === "fr" ? "fr-FR" : "en-GB", { month: "short", timeZone: "UTC" }).replace(".", "");
+  const monthShort = d => new Date(d + "T00:00:00Z").toLocaleDateString(LOC, { month: "short", timeZone: "UTC" }).replace(".", "");
   const xLabels = y => P.map((_, i) => (i > 0 && iso(i).slice(0, 7) === iso(i - 1).slice(0, 7)) ? "" :
     `<text class="wc-axis" x="${cx(i)}" y="${y}" text-anchor="middle">${monthShort(iso(i))}</text>`).join("");
   const H1 = 150, top1 = 12, base1 = 120, bw = Math.max(2, band - 2), y1 = v => base1 - (base1 - top1) * v;
-  const grid1 = [0, 0.25, 0.5, 0.75, 1].map(v => `<line class="wc-grid" x1="${L}" x2="${W - R}" y1="${y1(v)}" y2="${y1(v)}"></line><text class="wc-axis" x="${L - 5}" y="${y1(v) + 3}" text-anchor="end">${Math.round(v * 100)}${LANG === "fr" ? " %" : "%"}</text>`).join("");
+  const grid1 = [0, 0.25, 0.5, 0.75, 1].map(v => `<line class="wc-grid" x1="${L}" x2="${W - R}" y1="${y1(v)}" y2="${y1(v)}"></line><text class="wc-axis" x="${L - 5}" y="${y1(v) + 3}" text-anchor="end">${Math.round(v * 100)}${PCT}</text>`).join("");
   const bars = P.map((p, i) => {
     const h = Math.max(1.5, base1 - y1(p)), x0 = cx(i) - bw / 2, r = Math.min(2, h / 2);
     const d = `M${x0},${base1} V${base1 - h + r} Q${x0},${base1 - h} ${x0 + r},${base1 - h} H${x0 + bw - r} Q${x0 + bw},${base1 - h} ${x0 + bw},${base1 - h + r} V${base1} Z`;
@@ -3919,7 +4321,7 @@ function wireGwWeekly(it) {
 function rrChart(z) {
   const T = extraT(), months = (DATA.river_restrictions.months || []).map(String);
   const W = 520, H = 150, L = 8, B = 30, bw = (W - L * 2) / months.length;
-  const mon = iso => new Date(iso + "T00:00:00Z").toLocaleDateString(LANG === "fr" ? "fr-FR" : "en-GB", { month: "short", timeZone: "UTC" });
+  const mon = iso => new Date(iso + "T00:00:00Z").toLocaleDateString(LOC, { month: "short", timeZone: "UTC" });
   let s = `<svg viewBox="0 0 ${W} ${H}" class="rr-chart" role="img" aria-label="${T.rrChart}">`;
   s += `<line x1="${L}" y1="${H - B}" x2="${W - L}" y2="${H - B}" stroke="var(--line)"/>`;
   months.forEach((m, i) => {
@@ -3958,7 +4360,7 @@ function renderExtraInfo() {
         (low.skill > 0 ? T.riverPool(fmtNum(low.skill, 2)) : T.riverNoP) + `</p>`;
       const fk = ((rf.floods || {}).skill || {})[riverHorizon];
       if (f.hf != null && fk) {
-        const pc = v => v < 0.01 ? (LANG === "fr" ? "moins de 1 %" : "under 1%") : fmtPct(v);
+        const pc = v => v < 0.01 ? tr({ en: "under 1%", fr: "moins de 1 %", es: "menos del 1 %", de: "unter 1 %" }) : fmtPct(v);
         const fm = (label, v, color) => `<div class="meter"><span class="meter-l">${label}</span><span class="meter-t"><span class="meter-f" style="width:${Math.max(1, Math.min(100, v * 100))}%;background:${color}"></span></span><span class="meter-v">${pc(v)}</span></div>`;
         body += `<div class="meters">${fm(T.riverFloodM, f.hf, probColor(f.hf, [0.05, 0.15, 0.3]))}${fm(T.riverFloodUsual, f.hfs, "var(--muted)")}</div>`;
         body += `<p>${T.riverFlood(pc(f.hf), pc(f.hfs))}</p><p class="hint">${T.riverFloodBt(rf.floods.years[0], rf.floods.years[1],
@@ -4171,6 +4573,66 @@ const CHOOSER_TXT = {
     brochureHref: "PhreAItic_presentation_FR.pdf",
     brochureP: "Notre présentation : ce que nous prévoyons, les données nécessaires à chaque prévision et leur fiabilité.",
   },
+  es: {
+    hint: {
+      gw: "",
+      soil: "Cada punto es una celda de 10 km. Elija una fecha con los botones de abajo.",
+      fire: "Cada punto es una celda de 10 km. Elija una semana o un mes vista abajo.",
+      rivers: "Haga clic en una estación de aforo para ver su previsión a 12 meses. Elija los meses vista abajo.",
+      gwflood: "Haga clic en un pozo para ver su gráfico de peligro semana a semana. Cambie entre los niveles de 1 m (inundación) y 2 m (cerca de la superficie).",
+      gwcommunes: "Haga clic en un municipio para ver su probabilidad y su historial.",
+      riverrestr: "Haga clic en una zona para ver su probabilidad de restricciones mes a mes. Elija los meses vista abajo.",
+      catnat: "Haga clic en un municipio para ver su probabilidad y lo que la determina.",
+    },
+    head: "¿Qué quiere ver?",
+    groups: { water: "Agua", vegetation: "Vegetación", regulatory: "Normativa" },
+    gw: ["Acuíferos", "Niveles de los acuíferos", "Índice de sequía de cada masa de agua subterránea, hoy y de 1 a 12 meses vista"],
+    soil: ["Suelo", "Humedad del suelo", "Humedad de la zona radicular (7–28 cm de profundidad) en una cuadrícula de 10 km, hasta 12 meses vista"],
+    fire: ["Riesgo", "Riesgo de incendio", "Nivel semanal de riesgo de incendio en una cuadrícula de 10 km, hasta 12 meses vista"],
+    rivers: ["Ríos", "Caudal de los ríos", "Caudal en cada estación de 1 a 12 meses vista, y probabilidad de estiaje y de crecida"],
+    gwflood: ["Riesgo", "Inundación por aguas subterráneas", "Peligro semana a semana de que el nivel freático alcance la superficie"],
+    riverrestr: ["Normas", "Restricciones de bombeo en ríos", "Probabilidad de que cada zona de alerta fluvial tenga restricciones de bombeo (alerta o peor), de 1 a 6 meses vista"],
+    gwcommunes: ["Riesgo", "Siniestros por inundación por municipio", "Probabilidad de que un municipio obtenga un reconocimiento de catástrofe por inundación de aguas subterráneas esta temporada"],
+    catnat: ["Seguros", "Siniestros CatNat por sequía", "Probabilidad de que un municipio obtenga cobertura de catástrofe por sequía (retracción-hinchamiento de arcillas) este año"],
+    well: ["Herramienta", "Mi pozo o sótano", "Elija un lugar y una profundidad: probabilidad semanal de que su pozo se seque o su sótano se inunde"],
+    contactHead: "Contacto",
+    contactP: "¿Preguntas, colaboraciones de datos o una previsión para su zona, sus instalaciones o su cartera? Escríbanos:",
+    contactP2: "Solemos responder en pocos días.",
+    contactLink: "Contacto",
+    brochureLink: "Folleto (PDF, en inglés)",
+    brochureHref: "PhreAItic_presentation_EN.pdf",
+    brochureP: "Nuestra presentación: qué prevemos, qué datos necesita cada previsión y qué precisión tiene cada una.",
+  },
+  de: {
+    hint: {
+      gw: "",
+      soil: "Jeder Punkt ist eine 10-km-Zelle. Wählen Sie unten mit den Schaltflächen einen Zeitpunkt.",
+      fire: "Jeder Punkt ist eine 10-km-Zelle. Wählen Sie unten eine Woche oder einen Monat voraus.",
+      rivers: "Einen Pegel anklicken für seine 12-Monats-Prognose. Wählen Sie unten die Monate voraus.",
+      gwflood: "Einen Brunnen anklicken für seine wochenweise Gefahrengrafik. Zwischen 1 m (Überflutung) und 2 m (oberflächennah) wechseln.",
+      gwcommunes: "Eine Gemeinde anklicken für ihre Wahrscheinlichkeit und Geschichte.",
+      riverrestr: "Eine Zone anklicken für ihre monatliche Wahrscheinlichkeit von Beschränkungen. Wählen Sie unten die Monate voraus.",
+      catnat: "Eine Gemeinde anklicken für ihre Wahrscheinlichkeit und was sie bestimmt.",
+    },
+    head: "Was möchten Sie sehen?",
+    groups: { water: "Wasser", vegetation: "Vegetation", regulatory: "Behördliches" },
+    gw: ["Grundwasser", "Grundwasserstände", "Dürreindex jedes Grundwasserkörpers, heute und 1–12 Monate voraus"],
+    soil: ["Boden", "Bodenfeuchte", "Feuchte im Wurzelraum (7–28 cm tief) auf einem 10-km-Raster, bis 12 Monate voraus"],
+    fire: ["Risiko", "Waldbrandgefahr", "Wöchentliche Waldbrandgefahr auf einem 10-km-Raster, bis 12 Monate voraus"],
+    rivers: ["Flüsse", "Abfluss", "Abfluss an jedem Pegel 1–12 Monate voraus, mit Niedrigwasser- und Hochwasserwahrscheinlichkeit"],
+    gwflood: ["Risiko", "Überflutung durch Grundwasser", "Wochenweise Gefahr, dass das Grundwasser die Oberfläche erreicht"],
+    riverrestr: ["Regeln", "Entnahmebeschränkungen an Flüssen", "Wahrscheinlichkeit von Entnahmebeschränkungen (Alarm oder schärfer) je Warnzone, 1–6 Monate voraus"],
+    gwcommunes: ["Risiko", "Überflutungsschäden nach Gemeinde", "Wahrscheinlichkeit, dass eine Gemeinde diese Saison als Grundwasser-Überflutungskatastrophe anerkannt wird"],
+    catnat: ["Versicherung", "CatNat-Dürreschäden", "Wahrscheinlichkeit, dass eine Gemeinde dieses Jahr Katastrophendeckung für Dürre (Schrumpfen und Quellen von Ton) erhält"],
+    well: ["Werkzeug", "Mein Brunnen oder Keller", "Ort und Tiefe wählen: wöchentliche Wahrscheinlichkeit, dass Ihr Brunnen trockenfällt oder Ihr Keller vollläuft"],
+    contactHead: "Kontakt",
+    contactP: "Fragen, Datenpartnerschaften oder eine Prognose für Ihr Gebiet, Ihre Standorte oder Ihr Portfolio? Schreiben Sie uns:",
+    contactP2: "Wir antworten meist innerhalb weniger Tage.",
+    contactLink: "Kontakt",
+    brochureLink: "Broschüre (PDF, Englisch)",
+    brochureHref: "PhreAItic_presentation_EN.pdf",
+    brochureP: "Unsere Präsentation: was wir vorhersagen, welche Daten jede Prognose braucht und wie genau jede ist.",
+  },
 };
 const CONTACT_EMAIL = "antoinedesjard@gmail.com";
 const CONTACT_NAME = "Antoine Desjardins";
@@ -4212,6 +4674,18 @@ function setMode(mode) {
   });
 }
 
+const _ico = d => `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const CHOOSER_ICONS = {
+  gw: _ico('<path d="M1.5 5.5c1.6-1.3 3.2-1.3 4.8 0s3.2 1.3 4.8 0 2.4-1 3.4-.3"/><path d="M1.5 9h13M1.5 12.5h13" stroke-dasharray="1.6 1.8"/>'),
+  well: _ico('<ellipse cx="8" cy="4" rx="4.5" ry="1.6"/><path d="M3.5 4v8c0 .9 2 1.6 4.5 1.6s4.5-.7 4.5-1.6V4"/><path d="M3.5 9.5c1.5.8 7.5.8 9 0"/>'),
+  gwflood: _ico('<path d="M3 8.5 8 4l5 4.5V12H3z"/><path d="M1.5 13.8c1.2-.9 2.4-.9 3.6 0s2.4.9 3.6 0 2.4-.9 3.6 0 1.8.6 2.2.2"/>'),
+  rivers: _ico('<path d="M5 1.5c-2 2.5 2 4 0 6.5s2 4 0 6.5M11 1.5c-2 2.5 2 4 0 6.5s2 4 0 6.5"/>'),
+  soil: _ico('<path d="M8 13V7.5"/><path d="M8 8c0-2.4 1.6-3.8 4.2-3.8C12.2 6.7 10.6 8 8 8zM8 9.5C8 7.6 6.6 6.4 4.3 6.4 4.3 8.4 5.7 9.5 8 9.5z"/><path d="M2 13.5h12"/>'),
+  fire: _ico('<path d="M8 14.5c-2.6 0-4.3-1.7-4.3-4 0-2.9 2.6-4.1 3-7 1.9 1.2 2.4 3 2.1 4.5.6-.4 1.1-1.1 1.2-2 1.5 1.3 2.3 2.8 2.3 4.5 0 2.3-1.7 4-4.3 4z"/>'),
+  riverrestr: _ico('<path d="M2.5 6h6.5a2 2 0 0 1 2 2v1.5"/><path d="M6 6V3.5M4 3.5h4"/><path d="M11 12.2c0 .9-.6 1.4-1.2 1.4s-1.2-.5-1.2-1.4c0-.7 1.2-2 1.2-2s1.2 1.3 1.2 2z"/><path d="M2 14 14 2"/>'),
+  gwcommunes: _ico('<path d="M2 13V8l3-2.5L8 8v5M8 13V6.5l3-2.5 3 2.5V13M1.5 13h13"/>'),
+  catnat: _ico('<path d="M3 7.5 8 3l5 4.5V13H3z"/><path d="M8.5 5.5 7.3 8l1.6 1.2L7.6 13"/>'),
+};
 function initChooser() {
   const T = CHOOSER_TXT[LANG] || CHOOSER_TXT.en;
   const has = {
@@ -4234,7 +4708,7 @@ function initChooser() {
     if (!ks.length) return "";
     return `<div class="c-group" style="--n:${Math.min(ks.length, 4)}"><div class="c-group-head">${T.groups[g]}</div>` + ks.map(k =>
       `<button type="button" data-mode="${k}" aria-pressed="false">` +
-      `<span class="c-title">${T[k][1]}</span><span class="c-desc">${T[k][2]}</span><span class="c-status" hidden></span></button>`).join("") + `</div>`;
+      `<span class="c-top"><span class="c-ico" aria-hidden="true">${CHOOSER_ICONS[k] || ""}</span><span class="c-title">${T[k][1]}</span></span><span class="c-desc">${T[k][2]}</span><span class="c-status" hidden></span></button>`).join("") + `</div>`;
   }).join("");
   nav.addEventListener("click", e => {
     const b = e.target.closest("button[data-mode]");
@@ -4267,7 +4741,7 @@ function initChooser() {
 
 const PRODUCTS = ["gw", "soil", "fire", "rivers", "gwflood", "gwcommunes", "riverrestr", "catnat", "well"];
 const PLANNED = new Set();  // countries with a product announced as coming (none at the moment)
-const COUNTRIES = WORLD.map(w => ({ code: w.code, en: w.en, fr: w.fr, continent: w.continent, bbox: w.bbox, rings: w.rings,
+const COUNTRIES = WORLD.map(w => ({ code: w.code, en: w.en, fr: w.fr, es: w.es || w.en, de: w.de || w.en, continent: w.continent, bbox: w.bbox, rings: w.rings,
   ns: w.ns, nf: w.nf, nr: w.nr || 0, ng: w.ng || 0, nd: w.nd || 0, nt: w.nt || 0, intl: w.intl, live: w.code === "FRA", planned: PLANNED.has(w.code) }))
   .sort((a, b) => (a[LANG] || a.en).localeCompare(b[LANG] || b.en, LANG));
 const FRANCE_ONLY = new Set(["catnat", "gwcommunes"]);
@@ -4286,6 +4760,14 @@ const COUNTRY_TXT = {
         noteSoon: c => `${c} : les prévisions arrivent. La carte montre encore la France.`,
         noteLater: c => `${c} : pas encore couvert. Contactez-nous si besoin. La carte montre encore la France.`,
         unknown: "Aucun résultat : choisissez un pays dans la liste." },
+  es: { label: "País", ph: "Buscar un país…", soon: "Próximamente", later: "Aún no disponible", na: "No aplicable aquí",
+        noteSoon: c => `${c}: las previsiones están en camino. Por ahora el mapa sigue mostrando Francia.`,
+        noteLater: c => `${c}: aún no está cubierto. Contáctenos si lo necesita. El mapa sigue mostrando Francia.`,
+        unknown: "Sin resultados: elija un país de la lista." },
+  de: { label: "Land", ph: "Land suchen…", soon: "Demnächst", later: "Noch nicht verfügbar", na: "Hier nicht zutreffend",
+        noteSoon: c => `${c}: Prognosen sind in Arbeit. Die Karte zeigt vorerst weiter Frankreich.`,
+        noteLater: c => `${c}: noch nicht abgedeckt. Kontaktieren Sie uns bei Bedarf. Die Karte zeigt weiter Frankreich.`,
+        unknown: "Kein Treffer: Wählen Sie ein Land aus der Liste." },
 };
 let country = COUNTRIES.find(c => c.code === "FRA") || COUNTRIES[0];
 
@@ -4320,7 +4802,7 @@ function initCountry() {
     const ALIAS = { usa: "USA", us: "USA", "united states": "USA", uk: "GBR", "great britain": "GBR", england: "GBR", angleterre: "GBR" };
     const v = norm(input.value);
     if (!v) return;
-    const names = x => [x.en, x.fr, x.code].filter(Boolean).map(norm);
+    const names = x => [x.en, x.fr, x.es, x.de, x.code].filter(Boolean).map(norm);
     let c = COUNTRIES.find(x => x.code === ALIAS[v]) || COUNTRIES.find(x => names(x).includes(v));
     if (!c && v.length >= 3) {
       const hits = COUNTRIES.filter(x => names(x).some(n => n.startsWith(v)));
@@ -4540,6 +5022,210 @@ const WORLD_TXT = {
     loading: "Chargement des données mondiales…", failed: "Les données mondiales n’ont pas pu être chargées.",
     continents: { "Africa": "Afrique", "Asia": "Asie", "Europe": "Europe", "North America": "Amérique du Nord", "South America": "Amérique du Sud", "Oceania": "Océanie", "World": "le monde" },
   },
+  es: {
+    desc: { catnat: "Probabilidad de que cada condado cumpla el criterio de catástrofe por sequía del USDA (sequía severa durante 8 semanas, o sequía extrema), de 1 a 6 meses vista",
+            soil: "Humedad de la zona radicular en una cuadrícula de ~55 km, hasta 12 meses vista, frente a las mismas semanas de años anteriores", fire: "Probabilidad de un mes con incendio en una cuadrícula de ~55 km, de 1 a 6 meses vista",
+            rivers: "Caudal en cada estación de aforo, de 1 a 12 meses vista, frente a las mismas semanas de años anteriores", gw: "Nivel del agua subterránea en cada pozo de control, de 1 a 12 meses vista, frente a las mismas semanas de años anteriores" },
+    noteIntl: (c, r, g) => `${c}: previsiones ${r && g ? "fluviales y de aguas subterráneas" : r ? "fluviales" : "de aguas subterráneas"} a partir de redes públicas de control, más humedad del suelo e incendios a partir de datos satelitales y meteorológicos.`,
+    stLegNow: "Historial demasiado corto para compararlo con años anteriores",
+    stLeg: ["Muy bajo (10 % más bajo)", "Bajo (10–20 %)", "Por debajo de lo normal (20–40 %)", "Normal o superior", "No se muestra (no superó aquí a las referencias simples)"],
+    stHint: { rivers: "Haga clic en una estación de aforo para ver su previsión a 12 meses. Color: caudal previsto frente a las mismas semanas de años anteriores.", gw: "Haga clic en un pozo para ver su previsión a 12 meses. Color: nivel previsto frente a las mismas semanas de años anteriores." },
+    stNow: (v, u, d, c) => `Última lectura (semana del ${d}): <strong>${v} ${u}</strong>${c ? `, ${c} para la época del año` : ""}.`,
+    stAt: (d, v, u, lo, hi, c) => `Hacia el ${d}: <strong>${v} ${u}</strong> (rango del 80 % de ${lo} a ${hi})${c ? `, ${c} para la época del año` : ""}.`,
+    stLow: p => `Probabilidad de bajar del caudal de estiaje de referencia a 5 años de esta estación: <strong>${p}</strong>.`,
+    stNo: "No se muestra con esta antelación: la previsión no superó a la vez a la media estacional y a “sin cambios” en esta estación.",
+    stChart: "Percentil frente a años anteriores, mes a mes (más bajo = más seco)",
+    stBt: (n, y0, y1, s1) => `Prueba retrospectiva ${y0}–${y1} en ${n} estaciones, cada horizonte evaluado en años no usados para elegirlo: a un mes vista, se muestra en el ${s1} de ellas.`,
+    stSrc: { US: "USGS National Water Information System", PR: "USGS National Water Information System", GB: "Environment Agency, hidrología (Inglaterra)", SCT: "SEPA (Escocia)",
+             CA: "Water Survey of Canada (HYDAT y datos en tiempo real)", FI: "Instituto Finlandés de Medio Ambiente (SYKE)", SE: "SMHI (ríos), SGU (aguas subterráneas)", NL: "Rijkswaterstaat", NO: "Dirección Noruega de Recursos Hídricos y Energía (NVE)", VL: "waterinfo.be (Flandes)",
+             IE: "OPW hydro-data (Irlanda)", DK: "VandA (Agencia Danesa de Protección Ambiental) y GEUS Jupiter (aguas subterráneas)", BC: "Red provincial de pozos de observación de aguas subterráneas de B.C.",
+             DE: "NIWIS (BfG) y organismos regionales (GKD Bayern, HLNUG, Wasserportal Berlin, LANUV NRW, LfU Schleswig-Holstein)",
+             NZ: "consejos regionales (Greater Wellington, Northland, Marlborough, Horizons)", CH: "Oficina Federal de Medio Ambiente (FOEN)", QC: "Ministerio de Medio Ambiente de Quebec", CZ: "Instituto Hidrometeorológico Checo (ČHMÚ)", EE: "Agencia Estonia de Medio Ambiente", AR: "Instituto Nacional del Agua (INA)", CO: "IDEAM", WAL: "SPW hydrométrie (Valonia)", QLD: "Gobierno de Queensland, control de aguas", VIC: "Victorian Water Measurement Information System", AUB: "Bureau of Meteorology Water Data Online vía OMM WHOS (CC BY)", UY: "DINAGUA vía OMM WHOS", GGMN: "Red Mundial de Control de Aguas Subterráneas del IGRAC (GGMN)" },
+    stData: "Datos: ",
+    stUnit: { depth: "m bajo el suelo", aod: "m sobre el nivel del mar" }, stNet: "Red",
+    stClass: ["muy bajo", "bajo", "por debajo de lo normal", "normal o superior"],
+    at: "En", now: "Último", wk: h => h === 1 ? "+1 sem." : h === 4 ? "+1 mes" : `+${Math.round(h / 4.345)} meses`, mo: m => m === 1 ? "+1 mes" : `+${m} meses`,
+    soilClass: ["sequedad severa", "seco", "por debajo de lo normal", "adecuado"],
+    soilLeg: ["Severo (10 % más seco)", "Seco (10–20 %)", "Por debajo de lo normal (20–40 %)", "Adecuado", "Sin previsión"],
+    fireLeg: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % de probabilidad de un mes con incendio", "Sin previsión"],
+    note: c => `${c}: se muestran las previsiones disponibles en todo el mundo (humedad del suelo, incendios), a partir de datos satelitales y meteorológicos. Las demás necesitan datos de sensores locales.`,
+    noteNone: c => `${c}: aún no está cubierto. Contáctenos si lo necesita.`,
+    hint: { catnat: "Haga clic en un condado para ver su probabilidad mes a mes. “Último” muestra el Drought Monitor de este mes.", soil: "Haga clic en una celda para ver su previsión. Las celdas miden unos 55 km.", fire: "Haga clic en una celda para ver su previsión mes a mes. Las celdas miden unos 55 km; solo se dibujan los lugares que ardieron al menos 3 meses desde 2001." },
+    cell: (la, lo) => `Celda ${Math.abs(la).toFixed(2)}°${la >= 0 ? "N" : "S"}, ${Math.abs(lo).toFixed(2)}°${lo >= 0 ? "E" : "O"}`,
+    soilNow: (c, p) => `Última lectura (semana del ${p}): <strong>${c}</strong> para la época del año. Las semanas más recientes proceden de una fuente provisional que aún no coincide con el historial, así que se omiten.`,
+    soilAt: (d, c, p) => `Hacia el ${d}: <strong>${c}</strong> (percentil ${p} frente a años anteriores para esa semana).`,
+    soilNoH: "No se muestra con esta antelación: en este continente la previsión no superó a la media estacional en la prueba retrospectiva.",
+    soilChart: "Percentil frente a años anteriores, por horizonte (más bajo = más seco)",
+    soilBt: (cont, h, cl, sk, n, o0, o1) => `Prueba retrospectiva en ${n} celdas de muestra de todo el mundo, previsiones emitidas de ${o0} a ${o1}: en ${cont}, a ${h} vista, la previsión se acercó más que la media estacional el ${cl} de las veces (skill ${sk}).`,
+    fireAt: (m, p, c) => `Probabilidad de un mes con incendio en ${m}: <strong>${p}</strong> (en años anteriores: ${c}).`,
+    fireNoH: "No se muestra con esta antelación: en este continente la previsión no superó al propio historial de incendios de la celda en la prueba retrospectiva.",
+    fireChart: "Probabilidad de un mes con incendio, mes a mes",
+    fireBt: (cont, y0, y1, bs, a, a0, l3) => `Prueba retrospectiva ${y0}–${y1}, cada año previsto solo con años anteriores: en ${cont}, a un mes vista, Brier skill ${bs} frente al propio historial de incendios de cada celda; ROC-AUC ${a} (historial solo: ${a0}). Cuando la probabilidad mostrada era del 60 % o más, la celda ardió el ${l3} de las veces.`,
+    src: { soil: "Humedad del suelo en la zona radicular: NASA POWER (MERRA-2). Percentiles frente a las mismas semanas de años anteriores.", fire: "Historial de incendios: GFED4.1s, materia seca quemada mensual, 2001–2023. Sequedad: NASA POWER." },
+    noteDd: "Además: la probabilidad de que cada condado cumpla el criterio de catástrofe por sequía del USDA.",
+    ddCard: ["Normativa", "Catástrofe por sequía del USDA", "Probabilidad de que un condado cumpla el criterio de catástrofe por sequía del USDA, de 1 a 6 meses vista"],
+    tw: {
+      ddCard: ["Normativa", "Restricciones de agua en Taiwán", "Probabilidad de que una zona de abastecimiento de Taiwán tenga restricciones de agua (fase 1 o peor), de 1 a 3 meses vista"],
+      desc: { catnat: "Probabilidad de que cada zona de abastecimiento de Taiwán tenga restricciones de agua (fase 1 o peor en los boletines de sequía de la Agencia de Recursos Hídricos), de 1 a 3 meses vista" },
+      hint: { catnat: "Haga clic en una zona para ver su probabilidad en cada horizonte. “Último” muestra el estado del último boletín de sequía." },
+      ddLeg: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % de probabilidad de restricciones de agua", "No se muestra en este horizonte"],
+      ddLegNow: ["Normal", "Ligeramente justo (aviso)", "Restricción de fase 1", "Restricciones de fase 2–3"],
+      ddSrc: d => `Boletines de alerta temprana de sequía de la Agencia de Recursos Hídricos (último ${d}); el estado de una zona se mantiene 45 días tras un boletín. Las zonas se muestran como discos.`,
+      ddNow: (d, lev) => `Estado: <strong>${["normal", "ligeramente justo (aviso)", "restricción de fase 1", "restricción de fase 2", "restricción de fase 3"][lev] || "–"}</strong> (último boletín ${d}).`,
+      ddAt: (m, p, c) => `Probabilidad de restricciones de agua el ${m}: <strong>${p}</strong> (en años anteriores, esas semanas: ${c}).`,
+      ddNoH: "No se muestra en este horizonte: la previsión no superó ni al historial de la zona ni a la persistencia en la prueba retrospectiva.",
+      ddChart: "Probabilidad de restricciones de agua, por horizonte",
+      ddBt: (y0, y1, n, sc, sp, l3) => `Prueba retrospectiva ${y0}–${y1} en ${n} zonas de abastecimiento, cada año previsto solo con años anteriores: a un mes vista, Brier skill ${sc} frente al propio historial de cada zona y ${sp} frente a la persistencia. Cuando la probabilidad mostrada era del 60 % o más, la zona tuvo restricciones el ${l3} de las veces.`,
+      noteDd: "Taiwán tiene una previsión de restricciones de agua (Normativa).",
+      townWhat: { rivers: "estación de aforo", gw: "pozo de control", soil: "celda", fire: "celda con riesgo de incendio", catnat: "zona de abastecimiento" },
+    },
+    mx: {
+      ddCard: ["Normativa", "Emergencia por sequía en México", "Probabilidad de que un municipio esté en sequía severa o peor en el Monitor de Sequía de la CONAGUA (la condición para las medidas de emergencia por sequía), de 1 a 6 meses vista"],
+      desc: { catnat: "Probabilidad de que cada municipio mexicano esté en sequía severa o peor (D2+) en el Monitor de Sequía de la CONAGUA, la condición para aplicar los acuerdos de emergencia por sequía de la CONAGUA, de 1 a 6 meses vista" },
+      hint: { catnat: "Haga clic en un municipio para ver su probabilidad mes a mes. “Último” muestra el último Monitor de Sequía." },
+      ddLeg: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % de probabilidad de sequía severa o peor", "No se muestra en este horizonte"],
+      ddLegNow: ["Sin sequía o anormalmente seco (D0)", "Sequía moderada (D1)", "Sequía severa (D2): se aplican medidas de emergencia", "Sequía extrema o excepcional (D3–D4)"],
+      ddSrc: d => `Monitor de Sequía de México (CONAGUA / SMN), mapa del ${d}. Límites municipales: INEGI.`,
+      ddNow: (d, cat, _, st, now) => `Monitor de Sequía del ${d}: <strong>${["sin sequía", "anormalmente seco (D0)", "sequía moderada (D1)", "sequía severa (D2)", "sequía extrema (D3)", "sequía excepcional (D4)"][cat] || "–"}</strong>${now && st ? `, sequía severa o peor durante ${st} mes${st === 1 ? "" : "es"} seguido${st === 1 ? "" : "s"}` : ""}.`,
+      ddAt: (m, p, c) => `Probabilidad de sequía severa o peor en ${m}: <strong>${p}</strong> (en años anteriores, ese mes: ${c}).`,
+      ddNoH: "No se muestra en este horizonte: la previsión no superó ni al historial del municipio ni a la persistencia en la prueba retrospectiva.",
+      ddChart: "Probabilidad de sequía severa o peor, mes a mes",
+      ddBt: (y0, y1, n, sc, sp, l3) => `Prueba retrospectiva ${y0}–${y1} en ${n} municipios, cada año previsto solo con años anteriores: a un mes vista, Brier skill ${sc} frente al propio historial de cada municipio y ${sp} frente a la persistencia. Cuando la probabilidad mostrada era del 60 % o más, el municipio estuvo en sequía severa o peor el ${l3} de las veces.`,
+      noteDd: "México también tiene una previsión de emergencia por sequía (Normativa).",
+      townWhat: { rivers: "estación de aforo", gw: "pozo de control", soil: "celda", fire: "celda con riesgo de incendio", catnat: "municipio" },
+    },
+    bc: {
+      ddCard: ["Normativa", "Nivel de sequía 4+ en B.C.", "Probabilidad de que una cuenca de Columbia Británica alcance el nivel de sequía 4 o 5, de 1 a 3 meses vista"],
+      desc: { catnat: "Probabilidad de que cada cuenca de Columbia Británica alcance el nivel de sequía 4 o 5 (cuando la provincia puede restringir el uso del agua), de 1 a 3 meses vista" },
+      hint: { catnat: "Haga clic en una cuenca para ver su probabilidad en cada horizonte. “Último” muestra los niveles de sequía actuales de la provincia." },
+      ddLeg: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % de probabilidad de nivel 4+", "No se muestra en este horizonte"],
+      ddLegNow: ["Nivel 0–1 o sin evaluar", "Nivel 2", "Nivel 3", "Nivel 4–5: posibles restricciones de uso del agua"],
+      ddSrc: d => `Niveles de sequía del B.C. Drought Information Portal a ${d} (Open Government Licence – British Columbia); caudales: Water Survey of Canada.`,
+      ddNow: (d, lev, _, g, now) => `Nivel de sequía a ${d}: <strong>${lev < 0 ? "sin evaluar" : lev}</strong> en la escala de 0 a 5. ${g ? `${g} estación${g > 1 ? "es" : ""} de aforo del Water Survey of Canada en la cuenca.` : "Ninguna estación de aforo del Water Survey of Canada en la cuenca."}`,
+      ddAt: (m, p, c) => `Probabilidad de nivel de sequía 4+ el ${m}: <strong>${p}</strong> (en años anteriores, esas semanas: ${c}).`,
+      ddNoH: "No se muestra en este horizonte: la previsión no superó ni al historial de la cuenca ni a la persistencia en la prueba retrospectiva.",
+      ddChart: "Probabilidad de nivel de sequía 4+, por horizonte",
+      ddBt: (y0, y1, n, sc, sp, l3) => `Prueba retrospectiva ${y0}–${y1} en ${n} cuencas, cada año previsto solo con años anteriores: a un mes vista, Brier skill ${sc} frente al propio historial de cada cuenca y ${sp} frente a la persistencia. Cuando la probabilidad mostrada era del 60 % o más, la cuenca estuvo en nivel 4+ el ${l3} de las veces.`,
+      noteDd: "Columbia Británica también tiene una previsión del nivel de sequía (Normativa).",
+      townWhat: { rivers: "estación de aforo", gw: "pozo de control", soil: "celda", fire: "celda con riesgo de incendio", catnat: "cuenca" },
+    },
+    ddLeg: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % de probabilidad de cumplir el criterio", "No se muestra en este horizonte"],
+    ddLegNow: ["Sin sequía severa", "Sequía severa (D2), menos de 8 semanas", "Cumple el criterio: sequía severa 8+ semanas", "Cumple el criterio: sequía extrema (D3+)"],
+    ddSrc: d => `US Drought Monitor (NDMC, USDA, NOAA), semana del ${d}. Límites de condados: US Census Bureau.`,
+    ddNow: (d, d2, d3, st, now) => `Drought Monitor, semana del ${d}: sequía severa (D2+) en el <strong>${d2} %</strong> del condado, extrema (D3+) en el ${d3} %; sequía severa durante ${st} semana${st === 1 ? "" : "s"} seguida${st === 1 ? "" : "s"}. ${now ? "<strong>Cumple el criterio del USDA este mes.</strong>" : "No cumple el criterio del USDA este mes."}`,
+    ddAt: (m, p, c) => `Probabilidad de cumplir el criterio en ${m}: <strong>${p}</strong> (en años anteriores, ese mes: ${c}).`,
+    ddNoH: "No se muestra en este horizonte: la previsión no superó al propio historial del condado ni a la persistencia en la prueba retrospectiva.",
+    ddChart: "Probabilidad de cumplir el criterio, mes a mes",
+    ddBt: (y0, y1, n, sc, sp, l3) => `Prueba retrospectiva ${y0}–${y1} en ${n} condados, cada año previsto solo con años anteriores: a un mes vista, Brier skill ${sc} frente al propio historial de cada condado y ${sp} frente a la persistencia. Cuando la probabilidad mostrada era del 60 % o más, el condado cumplió el criterio el ${l3} de las veces. Criterio: sequía severa (D2) durante 8 semanas seguidas o sequía extrema (D3) en cualquier parte del condado.`,
+    extAll: "Todo el país", extMain: "Territorio principal", extNet: "Zona de la red", extReset: "Volver al mapa completo",
+    townPh: "Buscar una localidad…", townCredit: "Búsqueda de localidades: GeoNames (CC BY 4.0).", townNone: q => `No se encontró ninguna localidad para “${q}”`, townLoad: "Cargando localidades…",
+    townNear: (t, what, km) => `Lo más cercano a ${t}: ${what}, a ${km} km.`, townWhat: { rivers: "estación de aforo", gw: "pozo de control", soil: "celda", fire: "celda con riesgo de incendio", catnat: "condado" },
+    townNoCell: (t, what) => `No hay ${what} a menos de 150 km de ${t}.`,
+    loading: "Cargando datos mundiales…", failed: "No se pudieron cargar los datos mundiales.",
+    continents: { "Africa": "África", "Asia": "Asia", "Europe": "Europa", "North America": "Norteamérica", "South America": "Sudamérica", "Oceania": "Oceanía", "World": "el mundo" },
+  },
+  de: {
+    desc: { catnat: "Wahrscheinlichkeit, dass jedes County das Dürre-Katastrophenkriterium des USDA erfüllt (8 Wochen schwere Dürre oder extreme Dürre), 1 bis 6 Monate voraus",
+            soil: "Feuchte im Wurzelraum auf einem ~55-km-Raster, bis 12 Monate voraus, im Vergleich zu denselben Wochen früherer Jahre", fire: "Wahrscheinlichkeit eines Brandmonats auf einem ~55-km-Raster, 1 bis 6 Monate voraus",
+            rivers: "Abfluss an jedem Pegel, 1 bis 12 Monate voraus, im Vergleich zu denselben Wochen früherer Jahre", gw: "Grundwasserstand an jeder Messstelle, 1 bis 12 Monate voraus, im Vergleich zu denselben Wochen früherer Jahre" },
+    noteIntl: (c, r, g) => `${c}: ${r && g ? "Abfluss- und Grundwasserprognosen" : r ? "Abflussprognosen" : "Grundwasserprognosen"} aus öffentlichen Messnetzen, dazu Bodenfeuchte und Waldbrand aus Satelliten- und Wetterdaten.`,
+    stLegNow: "Zu kurze Reihe für einen Vergleich mit früheren Jahren",
+    stLeg: ["Sehr niedrig (unterste 10 %)", "Niedrig (10–20 %)", "Unter normal (20–40 %)", "Normal oder darüber", "Nicht gezeigt (schlug hier die einfachen Referenzen nicht)"],
+    stHint: { rivers: "Einen Pegel anklicken für seine 12-Monats-Prognose. Farbe: prognostizierter Abfluss im Vergleich zu denselben Wochen früherer Jahre.", gw: "Eine Messstelle anklicken für ihre 12-Monats-Prognose. Farbe: prognostizierter Stand im Vergleich zu denselben Wochen früherer Jahre." },
+    stNow: (v, u, d, c) => `Letzter Messwert (Woche ab ${d}): <strong>${v} ${u}</strong>${c ? `, ${c} für die Jahreszeit` : ""}.`,
+    stAt: (d, v, u, lo, hi, c) => `Um den ${d}: <strong>${v} ${u}</strong> (80-%-Bereich ${lo} bis ${hi})${c ? `, ${c} für die Jahreszeit` : ""}.`,
+    stLow: p => `Wahrscheinlichkeit, unter die 5-jährliche Niedrigwasser-Referenz dieses Pegels zu fallen: <strong>${p}</strong>.`,
+    stNo: "Bei diesem Horizont hier nicht gezeigt: Die Prognose schlug an dieser Messstelle nicht zugleich das saisonale Mittel und „keine Änderung“.",
+    stChart: "Perzentil im Vergleich zu früheren Jahren, Monat für Monat (niedriger = trockener)",
+    stBt: (n, y0, y1, s1) => `Rückrechnung ${y0}–${y1} an ${n} Messstellen, jeder Horizont an Jahren bewertet, die nicht zu seiner Auswahl dienten: einen Monat voraus an ${s1} davon gezeigt.`,
+    stSrc: { US: "USGS National Water Information System", PR: "USGS National Water Information System", GB: "Environment Agency, Hydrologie (England)", SCT: "SEPA (Schottland)",
+             CA: "Water Survey of Canada (HYDAT und Echtzeitdaten)", FI: "Finnisches Umweltinstitut (SYKE)", SE: "SMHI (Flüsse), SGU (Grundwasser)", NL: "Rijkswaterstaat", NO: "Norwegische Direktion für Wasserressourcen und Energie (NVE)", VL: "waterinfo.be (Flandern)",
+             IE: "OPW hydro-data (Irland)", DK: "VandA (Dänische Umweltschutzbehörde) und GEUS Jupiter (Grundwasser)", BC: "Provinzielles Grundwasser-Beobachtungsnetz von B.C.",
+             DE: "NIWIS (BfG) und Landesbehörden (GKD Bayern, HLNUG, Wasserportal Berlin, LANUV NRW, LfU Schleswig-Holstein)",
+             NZ: "Regionalräte (Greater Wellington, Northland, Marlborough, Horizons)", CH: "Bundesamt für Umwelt (BAFU)", QC: "Umweltministerium von Québec", CZ: "Tschechisches Hydrometeorologisches Institut (ČHMÚ)", EE: "Estnische Umweltagentur", AR: "Instituto Nacional del Agua (INA)", CO: "IDEAM", WAL: "SPW hydrométrie (Wallonien)", QLD: "Wassermessnetz der Regierung von Queensland", VIC: "Victorian Water Measurement Information System", AUB: "Bureau of Meteorology Water Data Online über WMO WHOS (CC BY)", UY: "DINAGUA über WMO WHOS", GGMN: "Globales Grundwasser-Messnetz von IGRAC (GGMN)" },
+    stData: "Daten: ",
+    stUnit: { depth: "m unter Gelände", aod: "m über dem Meer" }, stNet: "Messnetz",
+    stClass: ["sehr niedrig", "niedrig", "unter normal", "normal oder darüber"],
+    at: "Zeitpunkt", now: "Aktuell", wk: h => h === 1 ? "+1 Wo." : h === 4 ? "+1 Mon." : `+${Math.round(h / 4.345)} Mon.`, mo: m => `+${m} Mon.`,
+    soilClass: ["starke Trockenheit", "trocken", "unter normal", "ausreichend"],
+    soilLeg: ["Stark (trockenste 10 %)", "Trocken (10–20 %)", "Unter normal (20–40 %)", "Ausreichend", "Keine Prognose"],
+    fireLeg: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % Wahrscheinlichkeit eines Brandmonats", "Keine Prognose"],
+    note: c => `${c}: Gezeigt werden die weltweit verfügbaren Prognosen (Bodenfeuchte, Waldbrand) aus Satelliten- und Wetterdaten. Die übrigen brauchen örtliche Messdaten.`,
+    noteNone: c => `${c}: noch nicht abgedeckt. Kontaktieren Sie uns bei Bedarf.`,
+    hint: { catnat: "Ein County anklicken für seine monatliche Wahrscheinlichkeit. „Aktuell“ zeigt den Drought Monitor dieses Monats.", soil: "Eine Zelle anklicken für ihre Prognose. Die Zellen sind etwa 55 km groß.", fire: "Eine Zelle anklicken für ihre monatliche Prognose. Die Zellen sind etwa 55 km groß; gezeigt werden nur Orte, die seit 2001 in mindestens 3 Monaten gebrannt haben." },
+    cell: (la, lo) => `Zelle ${Math.abs(la).toFixed(2)}°${la >= 0 ? "N" : "S"}, ${Math.abs(lo).toFixed(2)}°${lo >= 0 ? "O" : "W"}`,
+    soilNow: (c, p) => `Letzter Messwert (Woche ab ${p}): <strong>${c}</strong> für die Jahreszeit. Die neuesten Wochen stammen aus einer vorläufigen Quelle, die noch nicht zur Messgeschichte passt, und sind daher weggelassen.`,
+    soilAt: (d, c, p) => `Um den ${d}: <strong>${c}</strong> (Perzentil ${p} im Vergleich zu früheren Jahren für diese Woche).`,
+    soilNoH: "Bei diesem Horizont hier nicht gezeigt: Auf diesem Kontinent schlug die Prognose das saisonale Mittel in der Rückrechnung nicht.",
+    soilChart: "Perzentil im Vergleich zu früheren Jahren, nach Horizont (niedriger = trockener)",
+    soilBt: (cont, h, cl, sk, n, o0, o1) => `Rückrechnung an ${n} Stichprobenzellen weltweit, Prognosen ausgegeben ${o0} bis ${o1}: In ${cont}, ${h} voraus, lag die Prognose in ${cl} der Fälle näher als das saisonale Mittel (Skill ${sk}).`,
+    fireAt: (m, p, c) => `Wahrscheinlichkeit eines Brandmonats im ${m}: <strong>${p}</strong> (in früheren Jahren: ${c}).`,
+    fireNoH: "Bei diesem Vorlauf hier nicht gezeigt: Auf diesem Kontinent schlug die Prognose die eigene Brandgeschichte der Zelle in der Rückrechnung nicht.",
+    fireChart: "Wahrscheinlichkeit eines Brandmonats, Monat für Monat",
+    fireBt: (cont, y0, y1, bs, a, a0, l3) => `Rückrechnung ${y0}–${y1}, jedes Jahr nur aus früheren Jahren vorhergesagt: in ${cont}, einen Monat voraus, Brier Skill ${bs} gegenüber der eigenen Brandgeschichte jeder Zelle; ROC-AUC ${a} (Geschichte allein: ${a0}). Lag die gezeigte Wahrscheinlichkeit bei 60 % oder mehr, brannte die Zelle in ${l3} der Fälle.`,
+    src: { soil: "Bodenfeuchte im Wurzelraum: NASA POWER (MERRA-2). Perzentile im Vergleich zu denselben Wochen früherer Jahre.", fire: "Brandgeschichte: GFED4.1s, monatlich verbrannte Trockenmasse, 2001–2023. Trockenheit: NASA POWER." },
+    noteDd: "Außerdem: die Wahrscheinlichkeit, dass jedes County das Dürre-Katastrophenkriterium des USDA erfüllt.",
+    ddCard: ["Behördliches", "USDA-Dürrekatastrophe", "Wahrscheinlichkeit, dass ein County das Dürre-Katastrophenkriterium des USDA erfüllt, 1–6 Monate voraus"],
+    tw: {
+      ddCard: ["Behördliches", "Wasserbeschränkungen in Taiwan", "Wahrscheinlichkeit, dass ein taiwanisches Versorgungsgebiet Wasserbeschränkungen hat (Stufe 1 oder schärfer), 1–3 Monate voraus"],
+      desc: { catnat: "Wahrscheinlichkeit, dass jedes taiwanische Versorgungsgebiet Wasserbeschränkungen hat (Stufe 1 oder schärfer in den Dürrebulletins der Water Resources Agency), 1 bis 3 Monate voraus" },
+      hint: { catnat: "Ein Gebiet anklicken für seine Wahrscheinlichkeit bei jedem Horizont. „Aktuell“ zeigt den Stand des letzten Dürrebulletins." },
+      ddLeg: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % Wahrscheinlichkeit von Wasserbeschränkungen", "Bei diesem Horizont nicht gezeigt"],
+      ddLegNow: ["Normal", "Leicht angespannt (Warnung)", "Beschränkung Stufe 1", "Beschränkungen Stufe 2–3"],
+      ddSrc: d => `Dürre-Frühwarnbulletins der Water Resources Agency (neuestes ${d}); der Stand eines Gebiets gilt 45 Tage nach einem Bulletin. Gebiete werden als Kreise gezeigt.`,
+      ddNow: (d, lev) => `Stand: <strong>${["normal", "leicht angespannt (Warnung)", "Beschränkung Stufe 1", "Beschränkung Stufe 2", "Beschränkung Stufe 3"][lev] || "–"}</strong> (neuestes Bulletin ${d}).`,
+      ddAt: (m, p, c) => `Wahrscheinlichkeit von Wasserbeschränkungen am ${m}: <strong>${p}</strong> (in früheren Jahren, in diesen Wochen: ${c}).`,
+      ddNoH: "Bei diesem Horizont nicht gezeigt: Die Prognose schlug in der Rückrechnung weder die Geschichte des Gebiets noch die Fortschreibung.",
+      ddChart: "Wahrscheinlichkeit von Wasserbeschränkungen, nach Horizont",
+      ddBt: (y0, y1, n, sc, sp, l3) => `Rückrechnung ${y0}–${y1} an ${n} Versorgungsgebieten, jedes Jahr nur aus früheren Jahren vorhergesagt: einen Monat voraus Brier Skill ${sc} gegenüber der eigenen Geschichte jedes Gebiets und ${sp} gegenüber der Fortschreibung. Lag die gezeigte Wahrscheinlichkeit bei 60 % oder mehr, galten in ${l3} der Fälle Beschränkungen.`,
+      noteDd: "Für Taiwan gibt es eine Prognose der Wasserbeschränkungen (Behördliches).",
+      townWhat: { rivers: "Pegel", gw: "Messstelle", soil: "Rasterzelle", fire: "brandgefährdete Rasterzelle", catnat: "Versorgungsgebiet" },
+    },
+    mx: {
+      ddCard: ["Behördliches", "Dürrenotstand in Mexiko", "Wahrscheinlichkeit, dass eine Gemeinde im Dürremonitor der CONAGUA in schwerer Dürre oder schlimmer liegt (die Bedingung für Notmaßnahmen), 1–6 Monate voraus"],
+      desc: { catnat: "Wahrscheinlichkeit, dass jede mexikanische Gemeinde im Dürremonitor der CONAGUA in schwerer Dürre oder schlimmer (D2+) liegt, der Bedingung für die Dürrenotstands-Vereinbarungen der CONAGUA, 1 bis 6 Monate voraus" },
+      hint: { catnat: "Eine Gemeinde anklicken für ihre monatliche Wahrscheinlichkeit. „Aktuell“ zeigt den neuesten Dürremonitor." },
+      ddLeg: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % Wahrscheinlichkeit schwerer Dürre oder schlimmer", "Bei diesem Horizont nicht gezeigt"],
+      ddLegNow: ["Keine Dürre oder ungewöhnlich trocken (D0)", "Mäßige Dürre (D1)", "Schwere Dürre (D2): Notmaßnahmen gelten", "Extreme oder außergewöhnliche Dürre (D3–D4)"],
+      ddSrc: d => `Monitor de Sequía de México (CONAGUA / SMN), Karte vom ${d}. Gemeindegrenzen: INEGI.`,
+      ddNow: (d, cat, _, st, now) => `Dürremonitor vom ${d}: <strong>${["keine Dürre", "ungewöhnlich trocken (D0)", "mäßige Dürre (D1)", "schwere Dürre (D2)", "extreme Dürre (D3)", "außergewöhnliche Dürre (D4)"][cat] || "–"}</strong>${now && st ? `, schwere Dürre oder schlimmer seit ${st} Monat${st === 1 ? "" : "en"} in Folge` : ""}.`,
+      ddAt: (m, p, c) => `Wahrscheinlichkeit schwerer Dürre oder schlimmer im ${m}: <strong>${p}</strong> (in früheren Jahren, in diesem Monat: ${c}).`,
+      ddNoH: "Bei diesem Horizont nicht gezeigt: Die Prognose schlug in der Rückrechnung weder die Geschichte der Gemeinde noch die Fortschreibung.",
+      ddChart: "Wahrscheinlichkeit schwerer Dürre oder schlimmer, Monat für Monat",
+      ddBt: (y0, y1, n, sc, sp, l3) => `Rückrechnung ${y0}–${y1} an ${n} Gemeinden, jedes Jahr nur aus früheren Jahren vorhergesagt: einen Monat voraus Brier Skill ${sc} gegenüber der eigenen Geschichte jeder Gemeinde und ${sp} gegenüber der Fortschreibung. Lag die gezeigte Wahrscheinlichkeit bei 60 % oder mehr, war die Gemeinde in ${l3} der Fälle in schwerer Dürre oder schlimmer.`,
+      noteDd: "Für Mexiko gibt es außerdem eine Prognose des Dürrenotstands (Behördliches).",
+      townWhat: { rivers: "Pegel", gw: "Messstelle", soil: "Rasterzelle", fire: "brandgefährdete Rasterzelle", catnat: "Gemeinde" },
+    },
+    bc: {
+      ddCard: ["Behördliches", "B.C.-Dürrestufe 4+", "Wahrscheinlichkeit, dass ein Einzugsgebiet in British Columbia Dürrestufe 4 oder 5 erreicht, 1–3 Monate voraus"],
+      desc: { catnat: "Wahrscheinlichkeit, dass jedes Einzugsgebiet in British Columbia Dürrestufe 4 oder 5 erreicht (dann kann die Provinz die Wassernutzung beschränken), 1 bis 3 Monate voraus" },
+      hint: { catnat: "Ein Einzugsgebiet anklicken für seine Wahrscheinlichkeit bei jedem Horizont. „Aktuell“ zeigt die derzeitigen Dürrestufen der Provinz." },
+      ddLeg: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % Wahrscheinlichkeit von Stufe 4+", "Bei diesem Horizont nicht gezeigt"],
+      ddLegNow: ["Stufe 0–1 oder nicht bewertet", "Stufe 2", "Stufe 3", "Stufe 4–5: Beschränkungen der Wassernutzung möglich"],
+      ddSrc: d => `Dürrestufen des B.C. Drought Information Portal, Stand ${d} (Open Government Licence – British Columbia); Abflüsse: Water Survey of Canada.`,
+      ddNow: (d, lev, _, g, now) => `Dürrestufe, Stand ${d}: <strong>${lev < 0 ? "nicht bewertet" : lev}</strong> auf der Skala von 0 bis 5. ${g ? `${g} Pegel des Water Survey of Canada im Einzugsgebiet.` : "Kein Pegel des Water Survey of Canada im Einzugsgebiet."}`,
+      ddAt: (m, p, c) => `Wahrscheinlichkeit von Dürrestufe 4+ am ${m}: <strong>${p}</strong> (in früheren Jahren, in diesen Wochen: ${c}).`,
+      ddNoH: "Bei diesem Horizont nicht gezeigt: Die Prognose schlug in der Rückrechnung weder die Geschichte des Einzugsgebiets noch die Fortschreibung.",
+      ddChart: "Wahrscheinlichkeit von Dürrestufe 4+, nach Horizont",
+      ddBt: (y0, y1, n, sc, sp, l3) => `Rückrechnung ${y0}–${y1} an ${n} Einzugsgebieten, jedes Jahr nur aus früheren Jahren vorhergesagt: einen Monat voraus Brier Skill ${sc} gegenüber der eigenen Geschichte jedes Gebiets und ${sp} gegenüber der Fortschreibung. Lag die gezeigte Wahrscheinlichkeit bei 60 % oder mehr, lag das Gebiet in ${l3} der Fälle auf Stufe 4+.`,
+      noteDd: "Für British Columbia gibt es außerdem eine Prognose der Dürrestufen (Behördliches).",
+      townWhat: { rivers: "Pegel", gw: "Messstelle", soil: "Rasterzelle", fire: "brandgefährdete Rasterzelle", catnat: "Einzugsgebiet" },
+    },
+    ddLeg: ["< 10 %", "10–30 %", "30–60 %", "≥ 60 % Wahrscheinlichkeit, das Kriterium zu erfüllen", "Bei diesem Horizont nicht gezeigt"],
+    ddLegNow: ["Keine schwere Dürre", "Schwere Dürre (D2), unter 8 Wochen", "Erfüllt das Kriterium: schwere Dürre 8+ Wochen", "Erfüllt das Kriterium: extreme Dürre (D3+)"],
+    ddSrc: d => `US Drought Monitor (NDMC, USDA, NOAA), Woche ab ${d}. County-Grenzen: US Census Bureau.`,
+    ddNow: (d, d2, d3, st, now) => `Drought Monitor, Woche ab ${d}: schwere Dürre (D2+) auf <strong>${d2} %</strong> des County, extreme (D3+) auf ${d3} %; schwere Dürre seit ${st} Woche${st === 1 ? "" : "n"} in Folge. ${now ? "<strong>Erfüllt diesen Monat das USDA-Kriterium.</strong>" : "Erfüllt diesen Monat das USDA-Kriterium nicht."}`,
+    ddAt: (m, p, c) => `Wahrscheinlichkeit, das Kriterium im ${m} zu erfüllen: <strong>${p}</strong> (in früheren Jahren, in diesem Monat: ${c}).`,
+    ddNoH: "Bei diesem Horizont nicht gezeigt: Die Prognose schlug in der Rückrechnung weder die eigene Geschichte des County noch die Fortschreibung.",
+    ddChart: "Wahrscheinlichkeit, das Kriterium zu erfüllen, Monat für Monat",
+    ddBt: (y0, y1, n, sc, sp, l3) => `Rückrechnung ${y0}–${y1} an ${n} Countys, jedes Jahr nur aus früheren Jahren vorhergesagt: einen Monat voraus Brier Skill ${sc} gegenüber der eigenen Geschichte jedes County und ${sp} gegenüber der Fortschreibung. Lag die gezeigte Wahrscheinlichkeit bei 60 % oder mehr, erfüllte das County in ${l3} der Fälle das Kriterium. Kriterium: schwere Dürre (D2) 8 Wochen in Folge oder extreme Dürre (D3) irgendwo im County.`,
+    extAll: "Ganzes Land", extMain: "Hauptgebiet", extNet: "Gebiet des Messnetzes", extReset: "Zurück zur ganzen Karte",
+    townPh: "Ort suchen…", townCredit: "Ortssuche: GeoNames (CC BY 4.0).", townNone: q => `Kein Ort gefunden für „${q}“`, townLoad: "Orte werden geladen…",
+    townNear: (t, what, km) => `Am nächsten an ${t}: ${what}, ${km} km entfernt.`, townWhat: { rivers: "Pegel", gw: "Messstelle", soil: "Rasterzelle", fire: "brandgefährdete Rasterzelle", catnat: "County" },
+    townNoCell: (t, what) => `Im Umkreis von 150 km um ${t} gibt es nichts dergleichen (${what}).`,
+    loading: "Weltweite Daten werden geladen…", failed: "Die weltweiten Daten konnten nicht geladen werden.",
+    continents: { "Africa": "Afrika", "Asia": "Asien", "Europe": "Europa", "North America": "Nordamerika", "South America": "Südamerika", "Oceania": "Ozeanien", "World": "der Welt" },
+  },
 };
 const WT = () => WORLD_TXT[LANG] || WORLD_TXT.en;
 const isBC = c => !!c && c.code === "CAN";
@@ -4635,7 +5321,7 @@ function renderWorldLegend(k, SD) {
 }
 
 function worldLabel(k, o) {
-  const W = WT(), loc = LANG === "fr" ? "fr-FR" : "en-GB";
+  const W = WT(), loc = LOC;
   if (o === "now") return W.now;
   if (k === "rivers" || k === "gw") return new Date(worldStationDates[o] + "T00:00:00Z").toLocaleDateString(loc, { day: "numeric", month: "short", timeZone: "UTC" });
   if (k === "catnat") { const t = DD().targets[o]; return t.length > 7 ? new Date(t + "T00:00:00Z").toLocaleDateString(loc, { day: "numeric", month: "short", timeZone: "UTC" }) : new Date(t + "-01T00:00:00Z").toLocaleDateString(loc, { month: "short", year: "2-digit", timeZone: "UTC" }); }
@@ -4784,7 +5470,7 @@ async function worldTownSearch(q) {
   }
   worldTownResults = starts.concat(within).slice(0, 8);  // the list is largest first
   worldTownActive = -1;
-  const loc = LANG === "fr" ? "fr-FR" : "en-GB";
+  const loc = LOC;
   el.innerHTML = worldTownResults.length ? worldTownResults.map((t, i) =>
     `<li role="option" data-i="${i}">${escapeHtml(t[0])}${t[4] ? ` <span class="commune-pop">${escapeHtml(t[4])}</span>` : ""}<span class="commune-pop">${t[3] ? t[3].toLocaleString(loc) : ""}</span></li>`).join("")
     : `<li class="map-search-empty">${escapeHtml(W.townNone(q.trim()))}</li>`;
@@ -4908,7 +5594,7 @@ function renderWorldCounties() {
 function renderCountyInfo() {
   const el = document.getElementById("world-info"), W = DW(), D = DD(), r = D.counties[worldPick];
   if (worldPick == null || !r) { el.hidden = true; return; }
-  const h = worldH.catnat, mon = ym => ym.length > 7 ? fmtDate(ym) : new Date(ym + "-01T00:00:00Z").toLocaleDateString(LANG === "fr" ? "fr-FR" : "en-GB", { month: "long", year: "numeric", timeZone: "UTC" });
+  const h = worldH.catnat, mon = ym => ym.length > 7 ? fmtDate(ym) : new Date(ym + "-01T00:00:00Z").toLocaleDateString(LOC, { month: "long", year: "numeric", timeZone: "UTC" });
   let body = `<h4>${escapeHtml(r[1])}, ${r[2]}</h4><p>${W.ddNow(fmtDate(D.usdm_through), r[7], r[8], r[9], r[10])}</p>`;
   if (h !== "now") {
     const v = r[5][+h - 1], c0 = r[6][+h - 1];
@@ -4995,9 +5681,9 @@ function renderWorldInfo() {
       [W.now, ...hs.map(h => worldLabel("soil", h))], v => SOIL_COLORS[v < 0.1 ? 0 : v < 0.2 ? 1 : v < 0.4 ? 2 : 3], v => Math.round(v * 100));
     const by = D.backtest.by[cont] || D.backtest.by.World, hh = worldH.soil === "now" ? "1" : worldH.soil;
     const b = by[hh] || D.backtest.by.World[hh];
-    if (b) body += `<p class="hint">${W.soilBt(cn, hh === "1" ? W.wk(1) : W.wk(+hh), fmtPct(b.closer_than_seasonal), fmtNum(b.skill_seasonal, 2), D.backtest.sample_cells.toLocaleString(LANG === "fr" ? "fr-FR" : "en-GB"), D.backtest.origins[0], D.backtest.origins[1])}</p>`;
+    if (b) body += `<p class="hint">${W.soilBt(cn, hh === "1" ? W.wk(1) : W.wk(+hh), fmtPct(b.closer_than_seasonal), fmtNum(b.skill_seasonal, 2), D.backtest.sample_cells.toLocaleString(LOC), D.backtest.origins[0], D.backtest.origins[1])}</p>`;
   } else {
-    const mon = ym => new Date(ym + "-01T00:00:00Z").toLocaleDateString(LANG === "fr" ? "fr-FR" : "en-GB", { month: "long", year: "numeric", timeZone: "UTC" });
+    const mon = ym => new Date(ym + "-01T00:00:00Z").toLocaleDateString(LOC, { month: "long", year: "numeric", timeZone: "UTC" });
     const L = worldH.fire, v = r[cols["p" + L]], c0 = r[cols["c" + L]];
     body += v != null ? `<p>${W.fireAt(mon(D.targets[L]), fmtPct(v), fmtPct(c0))}</p>` : `<p>${W.fireNoH}</p>`;
     const ym = new Date().toISOString().slice(0, 7), ls = D.leads.filter(l => D.targets[l] >= ym);
@@ -5032,10 +5718,10 @@ function renderStationInfo(k) {
   const today = new Date().toISOString().slice(0, 10);
   const ms = Object.keys(s.fc).sort((a, b) => a - b).filter(m => s.fc[m].t >= today);
   body += `<h5 class="wk-title">${W.stChart}</h5>` + _worldBars([s.pn, ...ms.map(m => s.fc[m].s ? s.fc[m].pct : null)].map(v => v == null ? null : v / 100),
-    [W.now, ...ms.map(m => new Date(s.fc[m].t + "T00:00:00Z").toLocaleDateString(LANG === "fr" ? "fr-FR" : "en-GB", { day: "numeric", month: "short", timeZone: "UTC" }))],
+    [W.now, ...ms.map(m => new Date(s.fc[m].t + "T00:00:00Z").toLocaleDateString(LOC, { day: "numeric", month: "short", timeZone: "UTC" }))],
     v => SOIL_COLORS[_stClass(v * 100)], v => Math.round(v * 100));
   const s1 = (N.summary["1"] || {}).share_served;
-  body += `<p class="hint">${W.stBt(N.n, N.years[0], N.years[1], s1 === 0 ? (LANG === "fr" ? "0 %" : "0%") : fmtPct(s1))}${SD.nets.length > 1 ? ` ${W.stNet}: ${W.stSrc[N.key] || W.stSrc[N.key.replace(/\d+$/, "").split("_")[0]] || N.key}.` : ""}</p>`;
+  body += `<p class="hint">${W.stBt(N.n, N.years[0], N.years[1], s1 === 0 ? "0" + PCT : fmtPct(s1))}${SD.nets.length > 1 ? ` ${W.stNet}: ${W.stSrc[N.key] || W.stSrc[N.key.replace(/\d+$/, "").split("_")[0]] || N.key}.` : ""}</p>`;
   el.innerHTML = body; el.hidden = false;
 }
 
@@ -5135,27 +5821,37 @@ function renderWaterQuality(b) {
   const el = document.getElementById("wq-block");
   const wq = b.water_quality;
   if (!wq || !(wq.nitrate || wq.pesticides_total)) { el.innerHTML = ""; return; }
-  const fr = LANG === "fr";
-  const num = (x, n) => x == null ? "–" : x.toFixed(n).replace(".", fr ? "," : ".");
+  const num = (x, n) => x == null ? "–" : x.toFixed(n).replace(".", LANG === "en" ? "." : ",");
   const sign = (x, n) => x == null ? "–" : (x > 0 ? "+" : "") + num(x, n);
   const item = (w, name, n) => {
     if (!w || !w.n_recent_stations) return "";
     const over = w.n_recent_over_limit > 0
       ? `<span class="wq-flag">${w.n_recent_over_limit}</span>` : "0";
-    const level = fr
-      ? `<strong>${name}</strong> : niveau typique sur les 3 dernières années <strong>${num(w.recent_median, n)} ${w.unit}</strong> (${w.n_recent_stations} stations ; ${over} au-dessus de la limite de ${num(w.limit, n)} ${w.unit}${w.vigilance ? `, ${w.n_recent_over_vigilance} au-dessus du seuil d'action de ${num(w.vigilance, 1)} ${w.unit}` : ""}).`
-      : `<strong>${name}</strong>: typical level over the last 3 years <strong>${num(w.recent_median, n)} ${w.unit}</strong> (${w.n_recent_stations} stations; ${over} above the ${num(w.limit, n)} ${w.unit} limit${w.vigilance ? `, ${w.n_recent_over_vigilance} above the ${num(w.vigilance, 1)} ${w.unit} action threshold` : ""}).`;
-    const trend = !w.n_with_trend ? "" : (fr
-      ? ` Depuis 2006, sur ${w.n_with_trend} stations avec assez d'historique : ${w.n_rising > 0 ? `<span class="wq-flag">${w.n_rising}</span>` : 0} en hausse nette, ${w.n_falling} en baisse nette ; évolution médiane ${sign(w.median_slope_per_decade, n)} ${w.unit} par décennie.`
-      : ` Since 2006, among ${w.n_with_trend} stations with enough history: ${w.n_rising > 0 ? `<span class="wq-flag">${w.n_rising}</span>` : 0} clearly rising, ${w.n_falling} clearly falling; median change ${sign(w.median_slope_per_decade, n)} ${w.unit} per decade.`);
+    const med = `${num(w.recent_median, n)} ${w.unit}`, lim = `${num(w.limit, n)} ${w.unit}`, vig = w.vigilance ? `${num(w.vigilance, 1)} ${w.unit}` : "";
+    const level = tr({
+      en: `<strong>${name}</strong>: typical level over the last 3 years <strong>${med}</strong> (${w.n_recent_stations} stations; ${over} above the ${lim} limit${vig ? `, ${w.n_recent_over_vigilance} above the ${vig} action threshold` : ""}).`,
+      fr: `<strong>${name}</strong> : niveau typique sur les 3 dernières années <strong>${med}</strong> (${w.n_recent_stations} stations ; ${over} au-dessus de la limite de ${lim}${vig ? `, ${w.n_recent_over_vigilance} au-dessus du seuil d'action de ${vig}` : ""}).`,
+      es: `<strong>${name}</strong>: nivel típico en los últimos 3 años <strong>${med}</strong> (${w.n_recent_stations} estaciones; ${over} por encima del límite de ${lim}${vig ? `, ${w.n_recent_over_vigilance} por encima del umbral de actuación de ${vig}` : ""}).`,
+      de: `<strong>${name}</strong>: typischer Wert der letzten 3 Jahre <strong>${med}</strong> (${w.n_recent_stations} Messstellen; ${over} über dem Grenzwert von ${lim}${vig ? `, ${w.n_recent_over_vigilance} über dem Handlungswert von ${vig}` : ""}).`,
+    });
+    const up = w.n_rising > 0 ? `<span class="wq-flag">${w.n_rising}</span>` : 0, slope = `${sign(w.median_slope_per_decade, n)} ${w.unit}`;
+    const trend = !w.n_with_trend ? "" : tr({
+      en: ` Since 2006, among ${w.n_with_trend} stations with enough history: ${up} clearly rising, ${w.n_falling} clearly falling; median change ${slope} per decade.`,
+      fr: ` Depuis 2006, sur ${w.n_with_trend} stations avec assez d'historique : ${up} en hausse nette, ${w.n_falling} en baisse nette ; évolution médiane ${slope} par décennie.`,
+      es: ` Desde 2006, de ${w.n_with_trend} estaciones con historial suficiente: ${up} en clara subida, ${w.n_falling} en clara bajada; cambio mediano ${slope} por década.`,
+      de: ` Seit 2006, unter ${w.n_with_trend} Messstellen mit genug Messgeschichte: ${up} deutlich steigend, ${w.n_falling} deutlich fallend; mittlere Änderung ${slope} je Jahrzehnt.`,
+    });
     return `<p class="wq-item">${level}${trend}</p>`;
   };
-  el.innerHTML = `<h4>${fr ? "Qualité de l'eau mesurée" : "Measured water quality"}</h4>` +
-    item(wq.nitrate, fr ? "Nitrates" : "Nitrates", 1) +
-    item(wq.pesticides_total, fr ? "Pesticides (total)" : "Pesticides (total)", 2) +
-    `<p class="hint">${fr
-      ? "Analyses du réseau national ADES (Hub'Eau). « Nette » : test de Mann-Kendall à p < 0,05 sur les médianes annuelles de chaque station (au moins 6 années, dont une depuis 2019). Des mesures, pas une prévision."
-      : "Analyses from the national ADES network (Hub'Eau). \"Clearly\" means a Mann-Kendall test at p < 0.05 on each station's annual medians (at least 6 years, one since 2019). Measurements, not a forecast."}</p>`;
+  el.innerHTML = `<h4>${tr({ en: "Measured water quality", fr: "Qualité de l'eau mesurée", es: "Calidad del agua medida", de: "Gemessene Wasserqualität" })}</h4>` +
+    item(wq.nitrate, tr({ en: "Nitrates", fr: "Nitrates", es: "Nitratos", de: "Nitrat" }), 1) +
+    item(wq.pesticides_total, tr({ en: "Pesticides (total)", fr: "Pesticides (total)", es: "Plaguicidas (total)", de: "Pestizide (gesamt)" }), 2) +
+    `<p class="hint">${tr({
+      en: "Analyses from the national ADES network (Hub'Eau). \"Clearly\" means a Mann-Kendall test at p < 0.05 on each station's annual medians (at least 6 years, one since 2019). Measurements, not a forecast.",
+      fr: "Analyses du réseau national ADES (Hub'Eau). « Nette » : test de Mann-Kendall à p < 0,05 sur les médianes annuelles de chaque station (au moins 6 années, dont une depuis 2019). Des mesures, pas une prévision.",
+      es: "Análisis de la red nacional francesa ADES (Hub'Eau). «Clara» significa una prueba de Mann-Kendall con p < 0,05 sobre las medianas anuales de cada estación (al menos 6 años, uno desde 2019). Mediciones, no una previsión.",
+      de: "Analysen aus dem französischen Messnetz ADES (Hub'Eau). „Deutlich“ heißt: Mann-Kendall-Test mit p < 0,05 auf den Jahresmedianen jeder Messstelle (mindestens 6 Jahre, eines seit 2019). Messungen, keine Prognose.",
+    })}</p>`;
 }
 
 function renderIrrigationQuota(b) {
@@ -5163,14 +5859,16 @@ function renderIrrigationQuota(b) {
   const q = b.irrigation_quota;
   if (!q || !(q.sectors || []).length) { sec.hidden = true; return; }
   sec.hidden = false;
-  const fr = LANG === "fr";
-  const pct = x => `${Math.round(x * 100)}${fr ? " %" : "%"}`;
-  const c2 = x => x == null ? "–" : x.toFixed(2).replace(".", fr ? "," : ".");
-  const monthName = m => new Date(Date.UTC(2000, m - 1, 1)).toLocaleDateString(fr ? "fr-FR" : "en-GB", { month: "long", timeZone: "UTC" });
+  const pct = x => `${Math.round(x * 100)}${PCT}`;
+  const c2 = x => x == null ? "–" : x.toFixed(2).replace(".", LANG === "en" ? "." : ",");
+  const monthName = m => new Date(Date.UTC(2000, m - 1, 1)).toLocaleDateString(LOC, { month: "long", timeZone: "UTC" });
   const first = q.sectors[0];
-  document.getElementById("quota-title").textContent = fr
-    ? `Volumes d'irrigation de la nappe de Beauce — campagne ${first.season}`
-    : `Beauce irrigation allocation — ${first.season} season`;
+  document.getElementById("quota-title").textContent = tr({
+    en: `Beauce irrigation allocation — ${first.season} season`,
+    fr: `Volumes d'irrigation de la nappe de Beauce — campagne ${first.season}`,
+    es: `Dotación de riego del acuífero de Beauce — campaña ${first.season}`,
+    de: `Bewässerungskontingent im Grundwasser der Beauce — Saison ${first.season}`,
+  });
   const nextServed = s => {
     const now = new Date().getUTCMonth() + 1;
     for (let i = 1; i <= 12; i++) { const m = (now - 1 + i) % 12 + 1; if ((s.served_months || []).includes(m)) return m; }
@@ -5182,32 +5880,50 @@ function renderIrrigationQuota(b) {
     let outlook;
     if (s.served) {
       const range = s.p10 === s.p90 ? c2(s.median) : `${c2(s.p10)}–${c2(s.p90)}`;
-      outlook = fr
-        ? `<strong class="mono">${pct(s.p_full)}</strong> de chances d'un coefficient 1 ; probable ${c2(s.median)} (80 % : ${range})`
-        : `<strong class="mono">${pct(s.p_full)}</strong> chance of coefficient 1; likely ${c2(s.median)} (80%: ${range})`;
+      const pf = `<strong class="mono">${pct(s.p_full)}</strong>`;
+      outlook = tr({
+        en: `${pf} chance of coefficient 1; likely ${c2(s.median)} (80%: ${range})`,
+        fr: `${pf} de chances d'un coefficient 1 ; probable ${c2(s.median)} (80 % : ${range})`,
+        es: `${pf} de probabilidad de coeficiente 1; probable ${c2(s.median)} (80 %: ${range})`,
+        de: `${pf} Wahrscheinlichkeit für Koeffizient 1; wahrscheinlich ${c2(s.median)} (80 %: ${range})`,
+      });
     } else {
       const m = nextServed(s);
-      outlook = fr
-        ? `pas de prévision fiable à cette date${m ? ` ; fiable à partir de ${monthName(m)}` : ""}`
-        : `no reliable forecast yet${m ? `; reliable from ${monthName(m)}` : ""}`;
+      outlook = tr({
+        en: `no reliable forecast yet${m ? `; reliable from ${monthName(m)}` : ""}`,
+        fr: `pas de prévision fiable à cette date${m ? ` ; fiable à partir de ${monthName(m)}` : ""}`,
+        es: `aún no hay previsión fiable${m ? `; fiable a partir de ${monthName(m)}` : ""}`,
+        de: `noch keine verlässliche Prognose${m ? `; verlässlich ab ${monthName(m)}` : ""}`,
+      });
     }
     const bt = s.backtest_this_month;
-    const track = bt ? (fr
-      ? `erreur moyenne ${c2(bt.mean_abs_error)} (« pas de changement » ${c2(bt.mean_abs_error_persistence)}), ${bt.n_seasons} campagnes`
-      : `mean error ${c2(bt.mean_abs_error)} ("no change" ${c2(bt.mean_abs_error_persistence)}), ${bt.n_seasons} seasons`) : "–";
+    const e1 = c2(bt && bt.mean_abs_error), e0 = c2(bt && bt.mean_abs_error_persistence);
+    const track = bt ? tr({
+      en: `mean error ${e1} ("no change" ${e0}), ${bt.n_seasons} seasons`,
+      fr: `erreur moyenne ${e1} (« pas de changement » ${e0}), ${bt.n_seasons} campagnes`,
+      es: `error medio ${e1} («sin cambios» ${e0}), ${bt.n_seasons} campañas`,
+      de: `mittlerer Fehler ${e1} („keine Änderung“ ${e0}), ${bt.n_seasons} Saisons`,
+    }) : "–";
     return `<tr><td>${s.name}</td><td>${decided}</td><td>${outlook}</td><td class="hint">${track}</td></tr>`;
   }).join("");
-  const head = fr
-    ? `<tr><th>Secteur</th><th>Coefficient ${first.season - 1}</th><th>Perspective ${first.season}</th><th>Backtest (prévisions faites ce mois-ci)</th></tr>`
-    : `<tr><th>Sector</th><th>${first.season - 1} coefficient</th><th>${first.season} outlook</th><th>Backtest (forecasts made this month)</th></tr>`;
+  const y0 = first.season - 1, y1 = first.season;
+  const head = tr({
+    en: `<tr><th>Sector</th><th>${y0} coefficient</th><th>${y1} outlook</th><th>Backtest (forecasts made this month)</th></tr>`,
+    fr: `<tr><th>Secteur</th><th>Coefficient ${y0}</th><th>Perspective ${y1}</th><th>Backtest (prévisions faites ce mois-ci)</th></tr>`,
+    es: `<tr><th>Sector</th><th>Coeficiente ${y0}</th><th>Previsión ${y1}</th><th>Prueba retrospectiva (previsiones hechas este mes)</th></tr>`,
+    de: `<tr><th>Sektor</th><th>Koeffizient ${y0}</th><th>Aussicht ${y1}</th><th>Rückrechnung (in diesem Monat erstellte Prognosen)</th></tr>`,
+  });
   const val = q.validation || [];
   const exact = val.filter(v => v.rule_on_our_indicator != null && Math.abs(v.rule_on_our_indicator - v.published) < 0.005).length;
-  const rule = fr
-    ? `Règle du SAGE Nappe de Beauce : chaque secteur a un indicateur (moyenne de piézomètres désignés) et trois seuils ; au 1er avril estimé (niveau du 1er mars prolongé de sa variation sur 31 jours), le coefficient vaut 1 au-dessus du premier seuil, 0,63 au deuxième, 0,15 au troisième (0,43 pour le Fusin), 0 en dessous, et chaque irrigant peut prélever ce coefficient fois son volume de référence. Appliquée à nos indicateurs, la règle retrouve ${exact} des ${val.length} coefficients publiés (2021–2026) à l'identique ; le Fusin est approché (un piézomètre remplacé en 2019–2021). Aucune autre nappe française dotée d'une règle publiée de ce type n'a été trouvée : ailleurs, l'irrigation est réduite par les niveaux de restriction des arrêtés-cadres, que la carte prévoit déjà. Source : ${q.source}.`
-    : `SAGE Nappe de Beauce rule: each sector has an indicator (mean of named piezometers) and three thresholds; on the estimated 1 April level (the 1 March level extended by its change over 31 days), the coefficient is 1 above the first threshold, 0.63 at the second, 0.15 at the third (0.43 for the Fusin), 0 below, and each irrigator may draw that coefficient times their reference volume. Applied to our indicators, the rule reproduces ${exact} of the ${val.length} published coefficients (2021–2026) exactly; the Fusin is approximate (one piezometer was replaced in 2019–2021). No other French aquifer was found with a published rule of this kind: elsewhere, irrigation is cut by the restriction levels of each département's arrêté-cadre, which the map already forecasts. Source: ${q.source}.`;
+  const rule = tr({
+    en: `SAGE Nappe de Beauce rule: each sector has an indicator (mean of named piezometers) and three thresholds; on the estimated 1 April level (the 1 March level extended by its change over 31 days), the coefficient is 1 above the first threshold, 0.63 at the second, 0.15 at the third (0.43 for the Fusin), 0 below, and each irrigator may draw that coefficient times their reference volume. Applied to our indicators, the rule reproduces ${exact} of the ${val.length} published coefficients (2021–2026) exactly; the Fusin is approximate (one piezometer was replaced in 2019–2021). No other French aquifer was found with a published rule of this kind: elsewhere, irrigation is cut by the restriction levels of each département's arrêté-cadre, which the map already forecasts. Source: ${q.source}.`,
+    fr: `Règle du SAGE Nappe de Beauce : chaque secteur a un indicateur (moyenne de piézomètres désignés) et trois seuils ; au 1er avril estimé (niveau du 1er mars prolongé de sa variation sur 31 jours), le coefficient vaut 1 au-dessus du premier seuil, 0,63 au deuxième, 0,15 au troisième (0,43 pour le Fusin), 0 en dessous, et chaque irrigant peut prélever ce coefficient fois son volume de référence. Appliquée à nos indicateurs, la règle retrouve ${exact} des ${val.length} coefficients publiés (2021–2026) à l'identique ; le Fusin est approché (un piézomètre remplacé en 2019–2021). Aucune autre nappe française dotée d'une règle publiée de ce type n'a été trouvée : ailleurs, l'irrigation est réduite par les niveaux de restriction des arrêtés-cadres, que la carte prévoit déjà. Source : ${q.source}.`,
+    es: `Regla del SAGE Nappe de Beauce: cada sector tiene un indicador (media de piezómetros designados) y tres umbrales; sobre el nivel estimado del 1 de abril (el nivel del 1 de marzo prolongado con su variación en 31 días), el coeficiente vale 1 por encima del primer umbral, 0,63 en el segundo, 0,15 en el tercero (0,43 para el Fusin) y 0 por debajo, y cada regante puede extraer ese coeficiente por su volumen de referencia. Aplicada a nuestros indicadores, la regla reproduce exactamente ${exact} de los ${val.length} coeficientes publicados (2021–2026); el Fusin es aproximado (un piezómetro se sustituyó en 2019–2021). No se ha encontrado ningún otro acuífero francés con una regla publicada de este tipo: en los demás, el riego se reduce con los niveles de restricción del arrêté-cadre de cada departamento, que el mapa ya prevé. Fuente: ${q.source}.`,
+    de: `Regel des SAGE Nappe de Beauce: Jeder Sektor hat einen Indikator (Mittel benannter Messstellen) und drei Schwellen; auf den geschätzten Stand vom 1. April (der Stand vom 1. März, fortgeschrieben um seine Änderung über 31 Tage) angewandt, ist der Koeffizient 1 über der ersten Schwelle, 0,63 an der zweiten, 0,15 an der dritten (0,43 für den Fusin) und 0 darunter, und jeder Bewässerer darf diesen Koeffizienten mal seiner Referenzmenge entnehmen. Auf unsere Indikatoren angewandt, trifft die Regel ${exact} der ${val.length} veröffentlichten Koeffizienten (2021–2026) genau; der Fusin ist angenähert (eine Messstelle wurde 2019–2021 ersetzt). Kein anderer französischer Grundwasserleiter mit einer veröffentlichten Regel dieser Art wurde gefunden: Anderswo wird die Bewässerung über die Beschränkungsstufen des arrêté-cadre jedes Départements gekürzt, die die Karte bereits vorhersagt. Quelle: ${q.source}.`,
+  });
   document.getElementById("quota-body").innerHTML =
     `<div class="table-wrap"><table class="quota-table"><thead>${head}</thead><tbody>${rows}</tbody></table></div>` +
-    `<p class="hint">${fr ? `Données au ${first.as_of}.` : `Data as of ${first.as_of}.`} ${rule}</p>`;
+    `<p class="hint">${tr({ en: `Data as of ${first.as_of}.`, fr: `Données au ${first.as_of}.`, es: `Datos a ${first.as_of}.`, de: `Datenstand ${first.as_of}.` })} ${rule}</p>`;
 }
 
 function renderRiskFactors(b) {
@@ -5223,7 +5939,7 @@ function renderRiskFactors(b) {
   el.innerHTML = risks.map(r => `<li class="risk-item sev-${r.severity}">
       <div class="risk-item-head">
         <span class="risk-item-title">${riskText(r.title)}</span>
-        <span class="risk-item-badge">${RISK_CATEGORY_LABELS[LANG][r.category] || r.category}${RISK_EVIDENCE_BADGES[LANG][r.evidence] ? " &middot; " + RISK_EVIDENCE_BADGES[LANG][r.evidence] : ""}</span>
+        <span class="risk-item-badge">${(RISK_CATEGORY_LABELS[LANG] || RISK_CATEGORY_LABELS.en)[r.category] || r.category}${(RISK_EVIDENCE_BADGES[LANG] || RISK_EVIDENCE_BADGES.en)[r.evidence] ? " &middot; " + (RISK_EVIDENCE_BADGES[LANG] || RISK_EVIDENCE_BADGES.en)[r.evidence] : ""}</span>
       </div>
       <div class="risk-item-text">${riskText(r.text)}</div>
     </li>`).join("");
@@ -5231,10 +5947,10 @@ function renderRiskFactors(b) {
 
 const ABSTRACTION_USAGE_ORDER = ["EAU POTABLE", "INDUSTRIE et ACTIVITES ECONOMIQUES (hors irrigation, hors énergie)", "IRRIGATION", "ENERGIE"];
 const ABSTRACTION_USAGE_META = {
-  "EAU POTABLE": { color: "var(--abs-aep)", en: "Drinking water", fr: "Eau potable" },
-  "INDUSTRIE et ACTIVITES ECONOMIQUES (hors irrigation, hors énergie)": { color: "var(--abs-ind)", en: "Industry", fr: "Industrie" },
-  "IRRIGATION": { color: "var(--abs-irr)", en: "Irrigation", fr: "Irrigation" },
-  "ENERGIE": { color: "var(--abs-nrj)", en: "Energy", fr: "Énergie" },
+  "EAU POTABLE": { color: "var(--abs-aep)", en: "Drinking water", fr: "Eau potable", es: "Agua potable", de: "Trinkwasser" },
+  "INDUSTRIE et ACTIVITES ECONOMIQUES (hors irrigation, hors énergie)": { color: "var(--abs-ind)", en: "Industry", fr: "Industrie", es: "Industria", de: "Industrie" },
+  "IRRIGATION": { color: "var(--abs-irr)", en: "Irrigation", fr: "Irrigation", es: "Riego", de: "Bewässerung" },
+  "ENERGIE": { color: "var(--abs-nrj)", en: "Energy", fr: "Énergie", es: "Energía", de: "Energie" },
 };
 
 function renderAbstraction(b) {
@@ -5250,9 +5966,12 @@ function renderAbstraction(b) {
     svg.innerHTML = "";
     legendEl.innerHTML = "";
     actorsEl.innerHTML = "";
-    emptyNote.textContent = LANG === "fr"
-      ? "Aucun point de prélèvement souterrain déclaré n'a été trouvé pour cette masse d'eau (base BNPE)."
-      : "No declared groundwater withdrawal point was found for this body (BNPE database).";
+    emptyNote.textContent = tr({
+      en: "No declared groundwater withdrawal point was found for this body (BNPE database).",
+      fr: "Aucun point de prélèvement souterrain déclaré n'a été trouvé pour cette masse d'eau (base BNPE).",
+      es: "No se encontró ningún punto de extracción de agua subterránea declarado para esta masa (base BNPE).",
+      de: "Für diesen Körper wurde keine gemeldete Grundwasser-Entnahmestelle gefunden (Datenbank BNPE).",
+    });
     return;
   }
   emptyNote.textContent = "";
@@ -5319,9 +6038,13 @@ function renderAbstraction(b) {
     const meta = ABSTRACTION_USAGE_META[u] || { color: "var(--muted)", en: u, fr: u };
     const d = dom[u];
     const name = escapeHtml(d.nom_ouvrage);
-    const text = LANG === "fr"
-      ? `<strong>${name}</strong> représente ${fmt(d.share_pct,0)}% des prélèvements « ${meta.fr} » déclarés sur les 3 dernières années disponibles (sur ${d.n_actors} points recensés dans cette masse d'eau).`
-      : `<strong>${name}</strong> accounts for ${fmt(d.share_pct,0)}% of declared "${meta.en}" withdrawals over the last 3 available years (out of ${d.n_actors} points on record in this body).`;
+    const sh = fmt(d.share_pct, 0) + PCT;
+    const text = tr({
+      en: `<strong>${name}</strong> accounts for ${sh} of declared "${meta.en}" withdrawals over the last 3 available years (out of ${d.n_actors} points on record in this body).`,
+      fr: `<strong>${name}</strong> représente ${sh} des prélèvements « ${meta.fr} » déclarés sur les 3 dernières années disponibles (sur ${d.n_actors} points recensés dans cette masse d'eau).`,
+      es: `<strong>${name}</strong> supone el ${sh} de las extracciones declaradas de «${meta.es}» en los 3 últimos años disponibles (de ${d.n_actors} puntos registrados en esta masa).`,
+      de: `<strong>${name}</strong> macht ${sh} der gemeldeten Entnahmen für „${meta.de}“ in den letzten 3 verfügbaren Jahren aus (von ${d.n_actors} erfassten Stellen in diesem Körper).`,
+    });
     return `<div class="abstraction-actor"><span class="swatch" style="background:${meta.color}"></span><span>${text}</span></div>`;
   }).join("");
 }
@@ -5717,6 +6440,7 @@ initChooser();
 initWorld();
 initCountry();
 heroStats();
+document.documentElement.classList.remove("page-loading");
 fetchGz(DATA_FILES.more).then(M => {
   DATA.soil_moisture_grid = M.soil_moisture_grid || [];
   DATA.fire_risk_grid = M.fire_risk_grid || [];
@@ -5731,13 +6455,94 @@ fetchGz(DATA_FILES.more).then(M => {
 }).catch(e => console.error("deferred data", e));
 </script>
 <script>
+
+(function () {
+  var btn = document.getElementById("menu-btn"), menu = document.getElementById("site-menu"),
+      scrim = document.getElementById("menu-scrim"), closeBtn = document.getElementById("menu-close");
+  if (!btn || !menu) return;
+  function open() {
+    menu.hidden = false; scrim.hidden = false;
+    requestAnimationFrame(function () { menu.classList.add("open"); scrim.classList.add("open"); });
+    btn.setAttribute("aria-expanded", "true"); closeBtn.focus();
+  }
+  function close() {
+    menu.classList.remove("open"); scrim.classList.remove("open");
+    btn.setAttribute("aria-expanded", "false");
+    setTimeout(function () { if (!menu.classList.contains("open")) { menu.hidden = true; scrim.hidden = true; } }, 230);
+    btn.focus({ preventScroll: true });
+  }
+  btn.addEventListener("click", open);
+  document.querySelectorAll("[data-open-menu]").forEach(function (b) { b.addEventListener("click", open); });
+  closeBtn.addEventListener("click", close);
+  scrim.addEventListener("click", close);
+  menu.querySelectorAll("[data-close]").forEach(function (a) { a.addEventListener("click", close); });
+  document.addEventListener("keydown", function (e) {
+    if (menu.hidden) return;
+    if (e.key === "Escape") { close(); return; }
+    if (e.key === "Tab") {
+      var f = menu.querySelectorAll("a[href], button"), first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+  document.querySelectorAll("a[data-lang]").forEach(function (a) {
+    a.addEventListener("click", function () {
+      try { localStorage.setItem("nappes-lang", a.dataset.lang); } catch (e) {}
+      if (location.hash) a.href = a.href.split("#")[0] + location.hash;
+    });
+  });
+  var pick = document.querySelector(".lang-pick");
+  if (pick) {
+    document.addEventListener("click", function (e) { if (pick.open && !pick.contains(e.target)) pick.open = false; });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && pick.open) { pick.open = false; pick.querySelector("summary").focus(); } });
+  }
+  var tb = menu.querySelectorAll("[data-theme-set]");
+  function paint() {
+    var x = document.documentElement.dataset.theme;
+    var cur = x === "light" || x === "dark" ? x : "auto";
+    tb.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.themeSet === cur ? "true" : "false"); });
+  }
+  tb.forEach(function (b) {
+    b.addEventListener("click", function () {
+      var v = b.dataset.themeSet;
+      if (v === "auto") delete document.documentElement.dataset.theme;
+      else document.documentElement.dataset.theme = v;
+      try { if (v === "auto") localStorage.removeItem("nappes-theme"); else localStorage.setItem("nappes-theme", v); } catch (e) {}
+      paint();
+      document.dispatchEvent(new CustomEvent("themechange"));
+    });
+  });
+  paint();
+  var bar = document.getElementById("site-bar"), top = document.getElementById("to-top"),
+      head = document.querySelector(".topbar, header.top");
+  if (bar && head && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (es) {
+      var on = !es[0].isIntersecting && es[0].boundingClientRect.top < 0;
+      bar.classList.toggle("show", on);
+      document.documentElement.classList.toggle("bar-on", on);
+      bar.setAttribute("aria-hidden", on ? "false" : "true");
+      bar.querySelectorAll("a, button").forEach(function (x) { x.tabIndex = on ? 0 : -1; });
+    }).observe(head);
+  }
+  if (top) {
+    var ticking = false;
+    window.addEventListener("scroll", function () {
+      if (ticking) return; ticking = true;
+      requestAnimationFrame(function () { top.classList.toggle("show", window.scrollY > window.innerHeight * 1.5); ticking = false; });
+    }, { passive: true });
+    top.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    });
+  }
+})();
+
 (function () {
   if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   document.documentElement.classList.add("js-reveal");
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
   }), { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
-  const watch = () => document.querySelectorAll(".hero, #country-bar, .chooser, .layout, .contact-panel, footer").forEach(el => {
+  const watch = () => document.querySelectorAll(".hero, #country-bar, .chooser, .layout, .how-steps li, .how-for, .contact-panel, .site-foot").forEach(el => {
     if (!el.classList.contains("reveal")) { el.classList.add("reveal"); io.observe(el); }
   });
   watch();
