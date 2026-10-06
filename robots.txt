@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://phreaitic.github.io/sitemap.xml

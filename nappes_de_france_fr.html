@@ -4,11 +4,11 @@
 <meta name="description" content="Niveaux des nappes, débits des rivières, humidité des sols, risque d&#x27;incendie et restrictions sécheresse, prévus jusqu&#x27;à 12 mois à l&#x27;avance à partir de données publiques et vérifiés sur des années d&#x27;historique mis de côté.">
 <meta name="theme-color" content="#1C6E8C">
 <link rel="canonical" href="https://phreaitic.github.io/nappes_de_france_fr.html">
-<link rel="alternate" hreflang="en" href="https://phreaitic.github.io/index.html">
+<link rel="alternate" hreflang="en" href="https://phreaitic.github.io/">
 <link rel="alternate" hreflang="fr" href="https://phreaitic.github.io/nappes_de_france_fr.html">
 <link rel="alternate" hreflang="es" href="https://phreaitic.github.io/nappes_de_france_es.html">
 <link rel="alternate" hreflang="de" href="https://phreaitic.github.io/nappes_de_france_de.html">
-<link rel="alternate" hreflang="x-default" href="https://phreaitic.github.io/index.html">
+<link rel="alternate" hreflang="x-default" href="https://phreaitic.github.io/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PhreAItic">
 <meta property="og:title" content="PhreAItic — Prévision de la météo souterraine">
@@ -2968,10 +2968,36 @@ function resolveDetailBasin() {
   return DATA.basins.find(x => x.key === activeBasinKey);
 }
 
+function regionLabel(r) {
+  const m = /^Near (.+)$/.exec(r || "");
+  return m ? tr({ en: `Near ${m[1]}`, fr: `Près de ${m[1]}`, es: `Cerca de ${m[1]}`, de: `Bei ${m[1]}` }) : (r || "");
+}
+const AQUIFER_LABELS = {
+  "Sedimentary, non-alluvial (limestone/chalk/sandstone matrix)": { fr: "Sédimentaire, non alluvial (matrice calcaire/craie/grès)", es: "Sedimentario, no aluvial (matriz de caliza/creta/arenisca)", de: "Sedimentär, nicht alluvial (Kalk-, Kreide- oder Sandsteinmatrix)" },
+  "Alluvial (river-deposited sediment)": { fr: "Alluvial (sédiments déposés par les cours d'eau)", es: "Aluvial (sedimentos depositados por los ríos)", de: "Alluvial (von Flüssen abgelagerte Sedimente)" },
+  'Crystalline basement ("socle": granite/schist, fractured-rock flow)': { fr: "Socle cristallin (granite/schiste, écoulement en roche fracturée)", es: "Zócalo cristalino (granito/esquisto, flujo en roca fracturada)", de: "Kristallines Grundgebirge (Granit/Schiefer, Kluftgrundwasser)" },
+  "Low-permeability formation, locally productive": { fr: "Formation peu perméable, localement productive", es: "Formación poco permeable, localmente productiva", de: "Gering durchlässige Formation, örtlich ergiebig" },
+  "Intensely folded mountain massif": { fr: "Massif montagneux intensément plissé", es: "Macizo montañoso intensamente plegado", de: "Stark gefaltetes Gebirgsmassiv" },
+  "Volcanic edifice": { fr: "Édifice volcanique", es: "Edificio volcánico", de: "Vulkanbau" },
+  "Limestone plateau aquifer (unconfined, large unsaturated zone)": { fr: "Aquifère de plateau calcaire (libre, grande zone non saturée)", es: "Acuífero de meseta caliza (libre, gran zona no saturada)", de: "Kalkplateau-Grundwasserleiter (ungespannt, große ungesättigte Zone)" },
+  "Rhine alluvial gravel aquifer (shallow, high permeability)": { fr: "Aquifère alluvial de graviers du Rhin (peu profond, très perméable)", es: "Acuífero aluvial de gravas del Rin (somero, muy permeable)", de: "Rhein-Kiesgrundwasserleiter (flach, sehr durchlässig)" },
+  "Alluvial conglomerate, Mediterranean climate, recharge partly irrigation-driven": { fr: "Conglomérat alluvial, climat méditerranéen, recharge en partie par l'irrigation", es: "Conglomerado aluvial, clima mediterráneo, recarga en parte por riego", de: "Alluviales Konglomerat, Mittelmeerklima, Neubildung teils durch Bewässerung" },
+  "Fractured schist/granite (Armorican Massif), thin, oceanic climate": { fr: "Schiste/granite fracturé (Massif armoricain), peu épais, climat océanique", es: "Esquisto/granito fracturado (Macizo Armoricano), delgado, clima oceánico", de: "Geklüfteter Schiefer/Granit (Armorikanisches Massiv), geringmächtig, ozeanisches Klima" },
+  "Karst limestone (Causses du Quercy), fast conduit flow": { fr: "Calcaire karstique (Causses du Quercy), écoulement rapide en conduits", es: "Caliza kárstica (Causses du Quercy), flujo rápido por conductos", de: "Karstkalk (Causses du Quercy), schneller Fluss in Karströhren" },
+  "Chalk plateau aquifer (unconfined), similar lithology to Beauce but an independent system": { fr: "Aquifère de plateau crayeux (libre), lithologie proche de la Beauce mais système indépendant", es: "Acuífero de meseta de creta (libre), litología similar a Beauce pero sistema independiente", de: "Kreideplateau-Grundwasserleiter (ungespannt), ähnliche Gesteine wie die Beauce, aber eigenständiges System" },
+  "Coastal/alluvial plain aquifer, Mediterranean climate": { fr: "Aquifère de plaine côtière/alluviale, climat méditerranéen", es: "Acuífero de llanura costera/aluvial, clima mediterráneo", de: "Grundwasserleiter einer Küsten-/Schwemmebene, Mittelmeerklima" },
+  "Alpine alluvial gravel aquifer, snowmelt-influenced recharge": { fr: "Aquifère alluvial de graviers alpin, recharge influencée par la fonte des neiges", es: "Acuífero aluvial de gravas alpino, recarga influida por el deshielo", de: "Alpiner Kiesgrundwasserleiter, Neubildung durch Schneeschmelze geprägt" },
+  "Chalk plateau aquifer (unconfined), same lithology class as Beauce and picardie_chalk but a distinct, geographically separate system": { fr: "Aquifère de plateau crayeux (libre), même lithologie que la Beauce et la craie picarde mais système distinct", es: "Acuífero de meseta de creta (libre), misma litología que Beauce y la creta de Picardía pero sistema distinto", de: "Kreideplateau-Grundwasserleiter (ungespannt), gleiche Gesteinsklasse wie Beauce und Picardie, aber eigenes System" },
+};
+function aquiferLabel(t) {
+  const k = (t || "").split(" -- ")[0];
+  return LANG === "en" ? k : ((AQUIFER_LABELS[k] || {})[LANG] || k);
+}
+
 function renderDetail() {
   const b = resolveDetailBasin();
   if (!b) return; // national body without a flagship-equivalent forecast -- detail panel stays on whatever was last shown
-  document.getElementById("detail-region").textContent = b.region + " · " + b.aquifer_type.split(" -- ")[0];
+  document.getElementById("detail-region").textContent = regionLabel(b.region) + " · " + aquiferLabel(b.aquifer_type);
   document.getElementById("detail-name").textContent = b.label;
   const piezoForHeader = activePiezoCode ? b.piezometers.find(p => p.code_bss === activePiezoCode) : null;
   const headerSeries = piezoForHeader || b;
@@ -3004,7 +3030,7 @@ function renderDetail() {
 
 function renderMetrics(b) {
   const el = document.getElementById("metrics-grid");
-  el.innerHTML = b.performance.map(p => {
+  el.innerHTML = b.performance.filter(p => [1, 3, 6, 9, 12].includes(p.horizon)).map(p => {
     const nseColor = p.nse > 0.3 ? "var(--good)" : (p.nse > -0.5 ? "#D9A441" : "var(--drought)");
     return `<div class="metric-cell">
       <div class="h">Fiabilité à ${p.horizon} mois (NSE)</div>
@@ -3063,7 +3089,7 @@ function renderMetaGrid(b) {
     <div class="meta-cell"><div class="h">Régime</div><div class="n small">${regimeGuess(b)}</div></div>
     <div class="meta-cell"><div class="h">Plage d'altitude</div><div class="n small">${elev}</div></div>
     <div class="meta-cell"><div class="h">Superficie</div><div class="n small">${area}</div></div>
-    <div class="meta-cell"><div class="h">Population<sup>*</sup></div><div class="n small">${pop}</div></div>
+    <div class="meta-cell"><div class="h">${tr({ en: "Population", fr: "Population", es: "Población", de: "Bevölkerung" })}<sup>*</sup></div><div class="n small">${pop}</div></div>
   `;
 
   const nameBox = document.getElementById("official-name-box");
@@ -3071,7 +3097,12 @@ function renderMetaGrid(b) {
     const ourDesc = b.aquifer_type.split(" -- ")[0];
     const mismatchable = !m.meso_name.toLowerCase().includes((ourDesc.split(" ")[0] || "").toLowerCase());
     nameBox.innerHTML = `Masse d'eau souterraine officielle (Sandre) : <strong>${m.meso_name}</strong> <span class="mono">(${m.meso_code})</span>${m.multicouche ? ", aquifère multicouche" : ""}.
-      <br><span style="font-size:11px">* Population = residents of communes whose centre falls inside this groundwater body's boundary, from INSEE/geo.api.gouv.fr commune data &mdash; an approximation, not a precise areal overlay.</span>
+      <br><span style="font-size:11px">${tr({
+        en: "* Population = residents of communes whose centre falls inside this groundwater body's boundary, from INSEE/geo.api.gouv.fr commune data &mdash; an approximation, not a precise areal overlay.",
+        fr: "* Population = habitants des communes dont le centre tombe dans le périmètre de cette masse d'eau, d'après les données communales INSEE/geo.api.gouv.fr &mdash; une approximation, pas un recoupement surfacique précis.",
+        es: "* Población = habitantes de los municipios cuyo centro cae dentro del perímetro de esta masa de agua, según los datos municipales de INSEE/geo.api.gouv.fr &mdash; una aproximación, no un cruce exacto de superficies.",
+        de: "* Bevölkerung = Einwohner der Gemeinden, deren Mittelpunkt innerhalb dieses Grundwasserkörpers liegt, nach Gemeindedaten von INSEE/geo.api.gouv.fr &mdash; eine Näherung, kein genauer Flächenverschnitt.",
+      })}</span>
       ${mismatchable ? `<span class="mismatch-note">Remarque : la description de ce projet ("${ourDesc}") et le nom officiel Sandre ci-dessus ne concordent pas totalement &mdash; la station de surveillance capte peut-étre localement une formation différente (ex. alluvions au-dessus/à côté de l'aquifère régional) que la caractérisation habituelle du bassin. Affiché tel quel plutôt que réconcilié silencieusement.</span>` : ""}`;
   } else {
     nameBox.innerHTML = "";
