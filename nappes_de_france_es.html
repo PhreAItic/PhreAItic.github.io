@@ -54,6 +54,8 @@
   --paper: #EEF0EC;
   --paper-raised: #F8F9F6;
   --land: #E4EADA;
+  --sea: #DCEAF1;
+  --nb-land: #ECEDE9;
   --land-line: #98A293;
   --river: #6FA9C4;
   --lake: #C9E0EA;
@@ -85,6 +87,8 @@
     --paper: #10181C;
     --paper-raised: #16211F;
     --land: #1D2A27;
+    --sea: #14262E;
+    --nb-land: #1E2322;
     --land-line: #3E4D49;
     --river: #3C7E99;
     --lake: #1F3D48;
@@ -114,6 +118,8 @@
   --paper: #10181C;
   --paper-raised: #16211F;
   --land: #1D2A27;
+  --sea: #14262E;
+  --nb-land: #1E2322;
   --land-line: #3E4D49;
   --river: #3C7E99;
   --lake: #1F3D48;
@@ -321,6 +327,8 @@ a { color: var(--water); }
 .world-wrap { padding: 12px; }
 #world-svg { width: 100%; height: auto; display: block; max-height: 78vh; }
 #world-svg .w-land { fill: var(--land); stroke: none; }
+#world-svg .w-sea { fill: var(--sea); pointer-events: none; }
+#world-svg .w-nb { fill: var(--nb-land); stroke: var(--land-line); stroke-width: 0.7; stroke-linejoin: round; vector-effect: non-scaling-stroke; pointer-events: none; }
 
 #world-svg .w-base { pointer-events: none; }
 #world-svg .w-admin { fill: none; stroke: var(--land-line); stroke-width: 0.9; stroke-dasharray: 4 3; vector-effect: non-scaling-stroke; }
@@ -1044,14 +1052,14 @@ details.disclaimer[open] summary::before { transform: rotate(45deg); }
 .hero { position: static; padding: 44px 0 104px; }
 .hero-in { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); gap: 48px; align-items: center; }
 .hero-art { width: 100%; height: auto; max-width: 520px; justify-self: end; overflow: visible; }
-.hero-art .wt { animation: hero-bob 7s ease-in-out infinite; }
-.hero-art .fc { stroke-dasharray: 320; stroke-dashoffset: 320; animation: hero-draw 2.4s .5s ease-out forwards; }
-.hero-art .fc-band { opacity: 0; animation: hero-fade 1.2s 1.6s ease-out forwards; }
+.hero-art .past { stroke-dasharray: 340; stroke-dashoffset: 340; animation: hero-draw 1.8s .3s ease-out forwards; }
+.hero-art .fc-line, .hero-art .fc-band { opacity: 0; animation: hero-fade 1.2s 1.9s ease-out forwards; }
+.hero-art .pulse { transform-box: fill-box; transform-origin: center; animation: hero-pulse-ring 2.6s 2s ease-out infinite; opacity: 0; }
 .hero-art .drop { animation: hero-drop 3.2s ease-in infinite; }
 .hero-art .drop.d2 { animation-delay: 1.1s; } .hero-art .drop.d3 { animation-delay: 2.2s; }
-@keyframes hero-bob { 50% { transform: translateY(5px); } }
 @keyframes hero-draw { to { stroke-dashoffset: 0; } }
 @keyframes hero-fade { to { opacity: 1; } }
+@keyframes hero-pulse-ring { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(3.2); opacity: 0; } }
 @keyframes hero-drop { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: .9; } 100% { transform: translateY(46px); opacity: 0; } }
 .hero-eyebrow { font-family: "Instrument Mono", monospace; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; opacity: .85; margin: 0 0 12px; }
 .hero h2 { font-size: clamp(28px, 4.4vw, 50px); line-height: 1.08; margin: 0 0 16px; max-width: 16em; color: #fff; }
@@ -1251,48 +1259,44 @@ details.disclaimer[open] summary::before { transform: rotate(45deg); }
       <a class="ghost" href="trust_page_es.html#coverage">Cobertura y rendimiento</a>
     </div>
     </div>
-    <svg class="hero-art" viewBox="0 0 520 400" aria-hidden="true" focusable="false">
+    <svg class="hero-art" viewBox="0 50 520 350" aria-hidden="true" focusable="false">
         <defs>
           <linearGradient id="ha-soil" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity=".05"/></linearGradient>
-          <linearGradient id="ha-aq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FD3E8" stop-opacity=".55"/><stop offset="1" stop-color="#7FD3E8" stop-opacity=".18"/></linearGradient>
-          <radialGradient id="ha-fadeg" cx=".5" cy=".18" r=".62"><stop offset=".55" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>
-          <mask id="ha-fade" maskUnits="userSpaceOnUse" x="0" y="190" width="520" height="210"><rect x="0" y="190" width="520" height="210" fill="url(#ha-fadeg)"/></mask>
-          <clipPath id="ha-ground"><path d="M20 236 C 90 226 140 222 200 230 S 300 240 340 236 S 440 222 500 230 V 392 H 20 Z"/></clipPath>
+          <linearGradient id="ha-aq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FD3E8" stop-opacity=".50"/><stop offset="1" stop-color="#7FD3E8" stop-opacity=".12"/></linearGradient>
+          <radialGradient id="ha-fadeg" cx=".5" cy=".25" r=".7"><stop offset=".6" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>
+          <mask id="ha-fade" maskUnits="userSpaceOnUse" x="0" y="90" width="520" height="270"><rect x="0" y="90" width="520" height="270" fill="url(#ha-fadeg)"/></mask>
+          <clipPath id="ha-ground"><path d="M20 140 C 90 130 140 126 200 134 S 300 144 340 140 S 440 126 500 134 V 360 H 20 Z"/></clipPath>
         </defs>
-        
-        <g transform="translate(150 14)">
-          <rect width="350" height="150" rx="16" fill="#fff" fill-opacity=".10" stroke="#fff" stroke-opacity=".28"/>
-          <text x="18" y="28" fill="#fff" fill-opacity=".8" font-family="Instrument Mono, monospace" font-size="11" letter-spacing="1.2">ACU&#205;FERO &#183; PREVISI&#211;N A 12 MESES</text>
-          <path d="M18 120 H 332" stroke="#fff" stroke-opacity=".18"/>
-          <path d="M196 40 V 128" stroke="#fff" stroke-opacity=".45" stroke-dasharray="3 4"/>
-          <path class="fc-band" d="M196 84 C 230 74 260 62 290 66 S 320 58 332 56 V 112 C 320 110 300 112 290 108 S 230 100 196 92 Z" fill="#7FD3E8" fill-opacity=".30"/>
-          <path d="M18 96 C 40 86 56 70 78 74 S 112 110 134 104 S 172 78 196 88" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
-          <path class="fc" d="M196 88 C 230 80 262 70 290 78 S 322 74 332 72" fill="none" stroke="#BFF0FF" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 5"/>
-          <circle cx="196" cy="88" r="4.5" fill="#fff"/>
+        <g mask="url(#ha-fade)">
+          <g clip-path="url(#ha-ground)">
+            <rect x="20" y="120" width="480" height="240" fill="url(#ha-soil)"/>
+            
+            <path d="M20 236 C 60 222 90 214 120 222 S 170 256 205 252 S 265 230 300 238 C 340 230 380 226 420 230 S 480 228 500 224 V 360 H 20 Z" fill="url(#ha-aq)"/>
+            <path class="fc-band" d="M300 238 C 340 222 380 210 420 212 S 480 202 500 194 V 258 C 480 258 450 258 420 254 S 340 246 300 238 Z" fill="#BFF0FF" fill-opacity=".28"/>
+            <g fill="#fff" fill-opacity=".2"><circle cx="70" cy="300" r="2.4"/><circle cx="140" cy="322" r="2"/><circle cx="230" cy="296" r="2.6"/><circle cx="372" cy="310" r="2.4"/><circle cx="452" cy="330" r="2.2"/><circle cx="100" cy="186" r="1.8"/><circle cx="420" cy="176" r="2"/></g>
+            <g fill="#BFF0FF"><circle class="drop" cx="96" cy="150" r="2.2"/><circle class="drop d2" cx="250" cy="152" r="2.2"/><circle class="drop d3" cx="460" cy="148" r="2.2"/></g>
+          </g>
+          <path class="past" d="M20 236 C 60 222 90 214 120 222 S 170 256 205 252 S 265 230 300 238" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
+          <path class="fc-line" d="M300 238 C 340 230 380 226 420 230 S 480 228 500 224" fill="none" stroke="#BFF0FF" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 6"/>
+          
+          <g stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"><path d="M294 112 V 352" stroke-opacity=".85"/><path d="M306 112 V 352" stroke-opacity=".85"/><path d="M288 112 H 312"/></g>
+          <rect x="295" y="238" width="10" height="114" fill="#7FD3E8" fill-opacity=".7"/>
+          <path d="M300 238 V 360" stroke="#fff" stroke-opacity=".35" stroke-dasharray="2 4"/>
         </g>
-        
-        <g mask="url(#ha-fade)"><g clip-path="url(#ha-ground)">
-          <rect x="20" y="220" width="480" height="180" fill="url(#ha-soil)"/>
-          <g class="wt"><path d="M20 300 C 100 292 160 306 240 300 S 400 290 500 298 V 400 H 20 Z" fill="url(#ha-aq)"/>
-            <path d="M20 300 C 100 292 160 306 240 300 S 400 290 500 298" fill="none" stroke="#BFF0FF" stroke-width="2" stroke-dasharray="7 6"/></g>
-          <path d="M20 352 C 140 346 260 360 500 350" fill="none" stroke="#fff" stroke-opacity=".14"/>
-          <g fill="#fff" fill-opacity=".22"><circle cx="70" cy="330" r="2.4"/><circle cx="130" cy="352" r="2"/><circle cx="208" cy="326" r="2.6"/><circle cx="300" cy="344" r="2"/><circle cx="372" cy="322" r="2.4"/><circle cx="452" cy="340" r="2.2"/><circle cx="100" cy="376" r="2"/><circle cx="410" cy="372" r="2.4"/></g>
-          <g fill="#BFF0FF"><circle class="drop" cx="96" cy="246" r="2.2"/><circle class="drop d2" cx="250" cy="248" r="2.2"/><circle class="drop d3" cx="430" cy="244" r="2.2"/></g>
+        <circle cx="300" cy="238" r="6" fill="#fff"/><circle class="pulse" cx="300" cy="238" r="6" fill="none" stroke="#fff" stroke-width="2"/>
+        <path d="M20 140 C 90 130 140 126 200 134 S 300 144 340 140 S 440 126 500 134" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
+        <path d="M352 140 C 368 154 404 156 420 137" fill="#7FD3E8" fill-opacity=".6" stroke="#BFF0FF" stroke-width="1.5"/>
+        <g fill="#fff" fill-opacity=".55"><circle cx="64" cy="114" r="13"/><rect x="62" y="122" width="4" height="12"/><circle cx="90" cy="118" r="9"/><rect x="88.5" y="124" width="3" height="9"/></g>
+        <g fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="2" stroke-linejoin="round"><path d="M176 136 V 114 L 192 100 L 208 114 V 138"/><path d="M188 138 V 124 H 196 V 138"/></g>
+        <g transform="translate(252 70)"><rect width="96" height="28" rx="8" fill="#fff"/><text x="48" y="18.5" text-anchor="middle" fill="#0E4A60" font-family="Instrument Mono, monospace" font-size="11.5" font-weight="700">&#8722;7.2 m</text></g>
+        <path d="M300 98 V 112" stroke="#fff" stroke-width="2"/>
+        <g fill="#fff" font-family="Instrument Mono, monospace" font-size="10.5" letter-spacing="1.2">
+          <path d="M20 372 H 500" stroke="#fff" stroke-opacity=".3"/>
+          <path d="M300 366 V 378" stroke="#fff" stroke-opacity=".7"/>
+          <text x="20" y="390" fill-opacity=".7">PASADO</text>
+          <text x="300" y="390" text-anchor="middle" font-weight="700">HOY</text>
+          <text x="500" y="390" text-anchor="end" fill-opacity=".7">+12 MESES</text>
         </g>
-        <path d="M20 236 C 90 226 140 222 200 230 S 300 240 340 236 S 440 222 500 230" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
-        
-        <path d="M352 236 C 368 250 404 252 420 232" fill="#7FD3E8" fill-opacity=".6" stroke="#BFF0FF" stroke-width="1.5"/>
-        
-        <g fill="#fff" fill-opacity=".55"><circle cx="70" cy="212" r="13"/><rect x="68" y="220" width="4" height="12"/><circle cx="96" cy="216" r="9"/><rect x="94.5" y="222" width="3" height="9"/></g>
-        <g fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="2" stroke-linejoin="round"><path d="M240 232 V 210 L 256 196 L 272 210 V 234"/><path d="M252 234 V 220 H 260 V 234"/></g>
-        
-        <g stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round">
-          <path d="M160 206 V 384" stroke-opacity=".85"/><path d="M172 206 V 384" stroke-opacity=".85"/><path d="M154 206 H 178"/>
-        </g>
-        <rect x="161" y="300" width="10" height="84" fill="#7FD3E8" fill-opacity=".7" class="wt"/>
-        </g>
-        <g transform="translate(118 168)"><rect width="96" height="28" rx="8" fill="#fff"/><text x="48" y="18.5" text-anchor="middle" fill="#0E4A60" font-family="Instrument Mono, monospace" font-size="11.5" font-weight="700">&#8722;7.2 m</text></g>
-        <path d="M166 196 V 206" stroke="#fff" stroke-width="2"/>
       </svg>
    </div>
     <ul class="hero-stats">
@@ -5598,6 +5602,24 @@ function worldTownSelect(t) {
   if (window.innerWidth < 900) document.getElementById("world-wrap").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+function worldSurround(P) {
+  const c = worldCountry, x0 = P.minx - 2, x1 = P.minx + P.W / (P.kx * P.S) + 2, y1 = P.maxy + 2, y0 = P.maxy - P.H / P.S - 2;
+  let d = "";
+  for (const o of COUNTRIES) {
+    if (o === c || !o.bbox) continue;
+    const bx0 = P.X(o.bbox[0]), bx1 = P.X(o.bbox[2]);
+    if (o.bbox[2] - o.bbox[0] <= 180 && (Math.max(bx0, bx1) < x0 || Math.min(bx0, bx1) > x1 || o.bbox[3] < y0 || o.bbox[1] > y1)) continue;
+    for (const r of o.rings) {
+      let a = Infinity, b = -Infinity, e = Infinity, f = -Infinity;
+      for (const [x, y] of r) { const xx = P.X(x); if (xx < a) a = xx; if (xx > b) b = xx; if (y < e) e = y; if (y > f) f = y; }
+      if (b < x0 || a > x1 || f < y0 || e > y1) continue;
+      d += "M" + r.map(([x, y]) => `${P.px(x).toFixed(1)},${P.py(y).toFixed(1)}`).join("L") + "Z";
+    }
+  }
+  return `<rect class="w-sea" x="${(-P.W).toFixed(0)}" y="${(-P.H).toFixed(0)}" width="${(3 * P.W).toFixed(0)}" height="${(3 * P.H).toFixed(0)}"></rect>` +
+    (d ? `<path class="w-nb" d="${d}"></path>` : "");
+}
+
 const worldBasemaps = {};
 function worldBase(P, z) {
   const c = worldCountry, B = worldBasemaps[c.code];
@@ -5666,7 +5688,7 @@ function renderWorld() {
     return `<rect class="w-cell${worldPick === i ? " picked" : ""}" data-i="${i}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${(cw + 0.3).toFixed(1)}" height="${(ch + 0.3).toFixed(1)}" fill="${fill}"></rect>`;
   }).join("");
   const z = applyWorldZoom(P, svg), bm = worldBase(P, z);
-  svg.innerHTML = `<path class="w-land" d="${path}"></path>${bm.under}${cells}${bm.over}<path class="w-edge" d="${path}"></path>${bm.top}${worldTownMark(P, z)}`;
+  svg.innerHTML = `${worldSurround(P)}<path class="w-land" d="${path}"></path>${bm.under}${cells}${bm.over}<path class="w-edge" d="${path}"></path>${bm.top}${worldTownMark(P, z)}`;
   const bt = D.backtest;
   if (k === "soil") document.getElementById("world-bt").textContent = W.src.soil;
   else document.getElementById("world-bt").textContent = W.src.fire;
@@ -5696,7 +5718,7 @@ function renderWorldCounties() {
     return `<path class="w-cell w-county${worldPick === i ? " picked" : ""}" data-i="${i}" d="${d}" fill="${fill}"></path>`;
   }).join("");
   const bm = worldBase(P, z);
-  svg.innerHTML = `<path class="w-land" d="${path}"></path>${bm.under}${polys}${bm.over}<path class="w-edge" d="${path}"></path>${bm.top}${worldTownMark(P, z)}`;
+  svg.innerHTML = `${worldSurround(P)}<path class="w-land" d="${path}"></path>${bm.under}${polys}${bm.over}<path class="w-edge" d="${path}"></path>${bm.top}${worldTownMark(P, z)}`;
   document.getElementById("world-bt").textContent = W.ddSrc(fmtDate(D.usdm_through));
   renderWorldInfo();
 }
@@ -5747,7 +5769,7 @@ function renderWorldStations(k) {
     return `<circle class="w-cell${worldPick === i ? " picked" : ""}" data-i="${i}" cx="${x}" cy="${y}" r="${rr}" fill="${fill}" stroke="${cls == null ? "var(--muted)" : "var(--paper)"}" stroke-width="1.2"></circle>`;
   }).join("");
   const bm = worldBase(P, z);
-  svg.innerHTML = `<path class="w-land" d="${path}"></path>${bm.under}${bm.over}<path class="w-edge" d="${path}"></path>${dots}${bm.top}${worldTownMark(P, z)}`;
+  svg.innerHTML = `${worldSurround(P)}<path class="w-land" d="${path}"></path>${bm.under}${bm.over}<path class="w-edge" d="${path}"></path>${dots}${bm.top}${worldTownMark(P, z)}`;
   document.getElementById("world-bt").textContent = W.stData + SD.nets.map(n => W.stSrc[n.key] || W.stSrc[n.key.replace(/\d+$/, "").split("_")[0]] || n.key).join(", ") + ".";
   renderWorldInfo();
 }
