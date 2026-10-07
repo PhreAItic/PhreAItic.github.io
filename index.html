@@ -386,7 +386,7 @@ body.world-mode .map-wrap, body.world-mode #map-side-rest, body.world-mode .gw-o
 body.world-mode #river-horizon-wrap, body.world-mode .panel-head:has(#soil-moisture-toggle), body.world-mode .panel-head:has(#fire-risk-toggle),
 body.world-mode #soil-moisture-horizon-wrap, body.world-mode #fire-risk-horizon-wrap, body.world-mode #map-search-wrap,
 body.world-mode #layer-info, body.world-mode #detail-panel, body.world-mode #list-panel,
-body.world-mode #map-horizon-note, body.world-mode #well-panel { display: none !important; }
+body.world-mode #map-horizon-note, body.world-mode:not(.world-ng) #well-panel { display: none !important; }
 body.world-mode #world-wrap, body.world-mode #world-side { display: block !important; }
 .rr-chart { width: 100%; height: auto; display: block; margin: 4px 0 8px; }
 .map-side .legend { flex-direction: column; gap: 8px; padding: 6px 18px 16px; }
@@ -604,7 +604,7 @@ body.well-picking #france-svg { cursor: crosshair; }
 .well-tip strong { font-size: 13px; }
 .well-when { margin: 4px 0; }
 @media (max-width: 520px) { .well-inputs { flex-direction: column; } .well-diagram { width: 100px; } }
-#well-marker { fill: var(--water); stroke: var(--paper); vector-effect: non-scaling-stroke; stroke-width: 2; }
+#well-marker, #well-marker-w { fill: var(--water); stroke: var(--paper); vector-effect: non-scaling-stroke; stroke-width: 2; }
 
 
 .map-horizon-note {
@@ -3315,7 +3315,7 @@ const WELL_TXT = {
     methodSame: (pz) => `Without today's water level in your well (A), it is assumed to sit at the same depth below ground as this piezometer's water (${pz} m today). That is a rough guess: entering A gives a much better answer.`,
     grade: "How well this piezometer represents your spot:",
     gGood: "good", gFair: "fair", gPoor: "poor",
-    sameBody: "It taps the same groundwater body as your spot.", otherBody: "It is NOT in a groundwater body that covers your spot, so it may be measuring a different aquifer.",
+    demNote: "Its ground height comes from a 90 m elevation model and can be a few metres off: enter today's water depth in your well to anchor the depths.", sameBody: "It taps the same groundwater body as your spot.", otherBody: "It is NOT in a groundwater body that covers your spot, so it may be measuring a different aquifer.",
     far: (d) => `It is ${d} km away; water tables can differ a lot over that distance.`,
     skill: (n) => `Its 12-month forecast scored NSE ${n} in backtests (1 is perfect, 0 is no better than the seasonal average).`,
     lag: (d) => `Its latest reading is ${d} days old.`,
@@ -3363,7 +3363,7 @@ const WELL_TXT = {
     methodSame: (pz) => `Sans le niveau actuel de l'eau dans votre puits (A), on suppose qu'elle est à la même profondeur sous le sol que celle du piézomètre (${pz} m aujourd'hui). C'est une estimation grossière : indiquer A donne une réponse bien meilleure.`,
     grade: "Représentativité de ce piézomètre pour votre puits :",
     gGood: "bonne", gFair: "moyenne", gPoor: "faible",
-    sameBody: "Il capte la même masse d'eau souterraine que votre puits.", otherBody: "Il n'est PAS dans une masse d'eau qui couvre votre puits : il peut mesurer une autre nappe.",
+    demNote: "Sa hauteur au sol vient d'un modèle d'élévation à 90 m et peut être fausse de quelques mètres : indiquez la profondeur de l'eau aujourd'hui dans votre puits pour caler les profondeurs.", sameBody: "Il capte la même masse d'eau souterraine que votre puits.", otherBody: "Il n'est PAS dans une masse d'eau qui couvre votre puits : il peut mesurer une autre nappe.",
     far: (d) => `Il est à ${d} km ; le niveau des nappes peut beaucoup varier sur une telle distance.`,
     skill: (n) => `Sa prévision à 12 mois a obtenu un NSE de ${n} en backtest (1 est parfait, 0 ne fait pas mieux que la moyenne saisonnière).`,
     lag: (d) => `Sa dernière mesure date de ${d} jours.`,
@@ -3411,7 +3411,7 @@ const WELL_TXT = {
     methodSame: (pz) => `Sin el nivel actual del agua en su pozo (A), se supone que está a la misma profundidad bajo el suelo que el agua de este piezómetro (${pz} m hoy). Es una estimación aproximada: indicar A da una respuesta mucho mejor.`,
     grade: "Hasta qué punto este piezómetro representa su ubicación:",
     gGood: "bien", gFair: "aceptable", gPoor: "mal",
-    sameBody: "Capta la misma masa de agua subterránea que su ubicación.", otherBody: "NO está en una masa de agua subterránea que cubra su ubicación, así que puede medir otro acuífero.",
+    demNote: "Su cota del terreno procede de un modelo de elevación de 90 m y puede desviarse unos metros: indique la profundidad del agua hoy en su pozo para ajustar las profundidades.", sameBody: "Capta la misma masa de agua subterránea que su ubicación.", otherBody: "NO está en una masa de agua subterránea que cubra su ubicación, así que puede medir otro acuífero.",
     far: (d) => `Está a ${d} km; el nivel freático puede variar mucho en esa distancia.`,
     skill: (n) => `Su previsión a 12 meses obtuvo un NSE de ${n} en pruebas retrospectivas (1 es perfecto, 0 no mejora la media estacional).`,
     lag: (d) => `Su última lectura tiene ${d} días.`,
@@ -3459,7 +3459,7 @@ const WELL_TXT = {
     methodSame: (pz) => `Ohne den heutigen Wasserstand in Ihrem Brunnen (A) wird angenommen, dass er in derselben Tiefe unter dem Boden liegt wie das Wasser dieser Messstelle (heute ${pz} m). Das ist eine grobe Annahme: Mit A wird die Antwort deutlich besser.`,
     grade: "Wie gut diese Messstelle Ihren Standort abbildet:",
     gGood: "gut", gFair: "mittel", gPoor: "schwach",
-    sameBody: "Sie erschließt denselben Grundwasserkörper wie Ihr Standort.", otherBody: "Sie liegt NICHT in einem Grundwasserkörper, der Ihren Standort abdeckt, und misst womöglich einen anderen Grundwasserleiter.",
+    demNote: "Ihre Geländehöhe stammt aus einem 90-m-Höhenmodell und kann einige Meter abweichen: Geben Sie die heutige Wassertiefe in Ihrem Brunnen an, um die Tiefen zu verankern.", sameBody: "Sie erschließt denselben Grundwasserkörper wie Ihr Standort.", otherBody: "Sie liegt NICHT in einem Grundwasserkörper, der Ihren Standort abdeckt, und misst womöglich einen anderen Grundwasserleiter.",
     far: (d) => `Sie ist ${d} km entfernt; Grundwasserstände können sich über diese Entfernung stark unterscheiden.`,
     skill: (n) => `Ihre 12-Monats-Prognose erreichte in Rückrechnungen einen NSE von ${n} (1 ist perfekt, 0 ist nicht besser als das saisonale Mittel).`,
     lag: (d) => `Ihr letzter Messwert ist ${d} Tage alt.`,
@@ -3587,6 +3587,18 @@ function bodiesContaining(lon, lat) {
 
 function wellCandidates() {
   const out = [];
+  if (document.body.classList.contains("world-mode")) {
+    const SD = worldCountry && (worldData["intl_" + worldCountry.intl] || {}).gw;
+    for (const s of (SD && SD.stations) || []) {
+      const ref = s.ref || (SD.nets[s.nt || 0] || {}).ref, alt = ref === "depth" ? 0 : s.el;
+      if (alt == null || s.last == null) continue;
+      const fcs = Object.entries(s.fc).filter(([, f]) => f.q).map(([m, f]) => ({ horizon_months: +m, point: f.med,
+        q05: f.q[0], q25: f.q[2], q75: f.q[3], q95: f.q[5], src: f.s ? "model" : "seasonal" }));
+      if (fcs.length) out.push({ p: { code: s.code, lon: s.lon, lat: s.lat, altitude_m: alt, dem: ref !== "depth",
+        current_level: s.last, as_of: s.lw, forecasts: fcs }, b: {}, bodyCode: null });
+    }
+    return out;
+  }
   const add = (b, code) => {
     if (/below|sous|depth|profondeur|local/i.test(b.level_unit || "")) return;
     for (const p of b.piezometers || []) {
@@ -3654,7 +3666,7 @@ function wellMonthlySeries(p) {
                      q75: p.current_level, q95: p.current_level, tested: true }]
     .concat(p.forecasts.filter(f => !f.interpolated && f.point != null)
       .map(f => ({ h: f.horizon_months, q05: f.q05 ?? f.point, q25: f.q25 ?? f.point, point: f.point,
-                   q75: f.q75 ?? f.point, q95: f.q95 ?? f.point, nse: f.nse, tested: true })))
+                   q75: f.q75 ?? f.point, q95: f.q95 ?? f.point, nse: f.nse, tested: true, src: f.src })))
     .sort((a, b) => a.h - b.h);
   const maxH = anchors[anchors.length - 1].h;
   const t0 = new Date(p.as_of + "T00:00:00Z");
@@ -3662,7 +3674,7 @@ function wellMonthlySeries(p) {
   for (let m = 1; m <= maxH; m++) {
     const hi = anchors.find(a => a.h >= m), lo = [...anchors].reverse().find(a => a.h <= m);
     const w = hi.h === lo.h ? 0 : (m - lo.h) / (hi.h - lo.h);
-    const f = { h: m, tested: hi.h === m };
+    const f = { h: m, tested: hi.h === m, src: hi.h === m ? hi.src : undefined };
     for (const k of ["q05", "q25", "point", "q75", "q95"]) f[k] = lo[k] + w * (hi[k] - lo[k]);
     const t = new Date(t0.getTime() + m * 30.44 * 86400000);
     f.target_date = t.toISOString().slice(0, 10);
@@ -3689,7 +3701,8 @@ function runWellCheck() {
   if (dNow != null && !(dNow >= 0)) { out.textContent = T.needPump; return; }
   if (dNow != null && (cellar ? dNow <= pump : dNow >= pump)) { out.textContent = T.already; return; }
 
-  const inside = bodiesContaining(wellPoint.lon, wellPoint.lat);
+  const abroad = document.body.classList.contains("world-mode");
+  const inside = abroad ? new Set() : bodiesContaining(wellPoint.lon, wellPoint.lat);
   const all = wellCandidates().map(c => ({ ...c, d: haversineKm(wellPoint.lon, wellPoint.lat, c.p.lon, c.p.lat) }))
     .sort((a, b) => a.d - b.d);
   const near = all.filter(c => c.d <= WELL_MAX_KM);
@@ -3700,8 +3713,10 @@ function runWellCheck() {
   const pool = (() => { const same = cands.filter(c => inside.has(c.bodyCode)); return same.length && same[0].d <= 30 ? same : cands; })();
   const full = pool.filter(c => reach(c) >= 12);
   const pick = full.length && full[0].d <= pool[0].d + 10 ? full[0] : pool[0];
-  const { p, d } = pick, sameBody = inside.has(pick.bodyCode);
-  const { series, anchors, weekly } = p.weekly ? wellWeeklySeries(p) : wellMonthlySeries(p);
+  const { p, d } = pick, sameBody = abroad || inside.has(pick.bodyCode);
+  const built = p.weekly ? wellWeeklySeries(p) : wellMonthlySeries(p), { anchors, weekly } = built;
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const series = built.series.some(f => f.target_date >= todayIso) ? built.series.filter(f => f.target_date >= todayIso) : built.series;
 
   const levelNow = weekly && p.weekly.level_now != null ? p.weekly.level_now : p.current_level;
   const pzDepthNow = p.altitude_m - levelNow;
@@ -3724,7 +3739,8 @@ function runWellCheck() {
   const nse = f12 ? f12.nse : null;
   const days = daysSince(weekly ? p.weekly.as_of : p.as_of);
   const grade = days > 180 ? "poor" : sameBody && d <= 5 && (nse == null || nse >= 0.5) ? "good" : (sameBody && d <= 15 ? "fair" : "poor");
-  const reasons = [sameBody ? T.sameBody : T.otherBody];
+  const reasons = abroad ? [] : [sameBody ? T.sameBody : T.otherBody];
+  if (abroad && p.dem && dNow == null) reasons.push(T.demNote);
   if (d > 5) reasons.push(T.far(fx(d)));
   if (nse != null) reasons.push(T.skill(fx(nse, 2)));
   if (days > 30) reasons.push(T.lag(days));
@@ -3789,7 +3805,7 @@ function runWellCheck() {
 
   const key = (c, t, op = 1) => `<span><span class="k" style="background:${c};opacity:${op}"></span>${esc(t)}</span>`;
   const keyLine = (c, t) => `<span><span class="kl" style="border-color:${c}"></span>${esc(t)}</span>`;
-  const legend1 = `<div class="well-legend">${key("var(--good)", T.legLow)}${key("#D9A441", T.legMid)}${key("var(--drought)", T.legHigh)}${key("var(--alert-severe)", T.legVHigh)}${weekly ? (rows.some(x => x.f.src === "seasonal") ? `<span><span class="k" style="background:var(--muted);background-image:repeating-linear-gradient(45deg,transparent 0 2px,var(--paper-raised) 2px 3.5px)"></span>${esc(T.legSeasonal)}</span>` : "") : key("var(--muted)", T.legInterp, 0.45)}</div>`;
+  const legend1 = `<div class="well-legend">${key("var(--good)", T.legLow)}${key("#D9A441", T.legMid)}${key("var(--drought)", T.legHigh)}${key("var(--alert-severe)", T.legVHigh)}${rows.some(x => x.f.src === "seasonal") ? `<span><span class="k" style="background:var(--muted);background-image:repeating-linear-gradient(45deg,transparent 0 2px,var(--paper-raised) 2px 3.5px)"></span>${esc(T.legSeasonal)}</span>` : ""}${weekly ? "" : key("var(--muted)", T.legInterp, 0.45)}</div>`;
   const legend2 = `<div class="well-legend">${keyLine("var(--water)", T.legMedian)}${key("var(--water)", T.leg50, 0.4)}${key("var(--water)", T.leg90, 0.18)}${keyLine("var(--drought)", T.legPump)}</div>`;
   const table = `<details><summary class="hint">${esc(T.table)}</summary><table><thead><tr><th>${T.month}</th><th>${T.chance}</th><th>${T.depth}</th><th>${T.range90}</th></tr></thead><tbody>
       ${rows.map(x => `<tr><td>${esc(when_(x.f.target_date))}${weekly ? (x.f.src === "seasonal" ? " †" : "") : (x.f.tested ? "" : " *")}</td><td class="mono">${fmtP(x.r)}</td>
@@ -4816,6 +4832,18 @@ const CONTACT_PHOTO = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA
 
 function setMode(mode) {
   if (document.body.classList.contains("world-mode")) {
+    if (mode === "well" && worldCountry.ng) {
+      setWorldMode("gw");
+      if (!wellPoint && (worldTown || worldPlace)) {
+        const here = worldTown || worldPlace;
+        wellPoint = { lon: here.lon, lat: here.lat };
+        document.getElementById("well-point").textContent = `${wellPoint.lat.toFixed(4)}°N, ${wellPoint.lon.toFixed(4)}°E`;
+      }
+      const wt = document.getElementById("well-tool");
+      wt.open = true;
+      wt.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
     if ((mode === "soil" && worldCountry.ns) || (mode === "fire" && worldCountry.nf) ||
         (mode === "rivers" && worldCountry.nr) || (mode === "gw" && worldCountry.ng) || (mode === "catnat" && worldCountry.nd)) setWorldMode(mode);
     return;
@@ -4923,7 +4951,7 @@ const COUNTRIES = WORLD.map(w => ({ code: w.code, en: w.en, fr: w.fr, es: w.es |
 const FRANCE_ONLY = new Set(["catnat", "gwcommunes"]);
 function productStatus(c, k) {
   if (c.live) return "live";
-  if ((k === "soil" && c.ns) || (k === "fire" && c.nf) || (k === "rivers" && c.nr) || (k === "gw" && c.ng) || (k === "catnat" && c.nd)) return "live";
+  if ((k === "soil" && c.ns) || (k === "fire" && c.nf) || (k === "rivers" && c.nr) || ((k === "gw" || k === "well") && c.ng) || (k === "catnat" && c.nd)) return "live";
   if (FRANCE_ONLY.has(k)) return "na";
   return c.planned ? "soon" : "later";
 }
@@ -4963,7 +4991,7 @@ function setCountry(c) {
     const t = c.nd ? ddTxt(W, c).ddCard : CT;
     cb.querySelector(".c-title").textContent = t[1]; cb.querySelector(".c-desc").textContent = t[2];
   }
-  document.getElementById("country-note").textContent = c.live ? "" : (c.nr || c.ng) ? W.noteIntl(nm, c.nr, c.ng) + (c.nd ? " " + ddTxt(W, c).noteDd : "") : (c.ns || c.nf) ? W.note(nm) : (c.planned ? T.noteSoon : W.noteNone)(nm);
+  document.getElementById("country-note").textContent = c.live ? "" : (c.nr || c.ng) ? (c.nd ? ddTxt(W, c).noteDd : "") : (c.ns || c.nf) ? W.note(nm) : (c.planned ? T.noteSoon : W.noteNone)(nm);
   if (!c.live && (c.ns || c.nf || c.nr || c.ng)) enterWorld(c); else exitWorld();
 }
 
@@ -4998,7 +5026,6 @@ const WORLD_TXT = {
     desc: { catnat: "Chance each county meets the USDA drought-disaster trigger (severe drought for 8 weeks, or extreme drought), 1 to 6 months ahead",
             soil: "Root-zone wetness on a ~55 km grid, up to 12 months ahead, against the same weeks of past years", fire: "Chance of a month with fire on a ~55 km grid, 1 to 6 months ahead",
             rivers: "River flow at each gauge, 1 to 12 months ahead, against the same weeks of past years", gw: "Groundwater level at each monitoring well, 1 to 12 months ahead, against the same weeks of past years" },
-    noteIntl: (c, r, g) => `${c}: ${r && g ? "river and groundwater" : r ? "river" : "groundwater"} forecasts from public monitoring networks, plus soil moisture and wildfire from satellite and weather data.`,
     stLegNow: "Too little history to compare with past years",
     stLeg: ["Very low (lowest 10%)", "Low (10–20%)", "Below normal (20–40%)", "Normal or above", "Not shown (did not beat the simple references here)"],
     stHint: { rivers: "Click a gauge for its 12-month outlook. Colour: forecast flow against the same weeks of past years.", gw: "Click a well for its 12-month outlook. Colour: forecast level against the same weeks of past years." },
@@ -5095,7 +5122,7 @@ const WORLD_TXT = {
     ddChart: "Chance of meeting the trigger, month by month",
     ddBt: (y0, y1, n, sc, sp, l3) => `Backtest ${y0}–${y1} on ${n} counties, each year predicted from earlier years only: one month ahead, Brier skill ${sc} against each county's own record and ${sp} against persistence. When the chance shown was 60% or more, the county met the trigger ${l3} of the time. Trigger: severe drought (D2) for 8 consecutive weeks or extreme drought (D3) anywhere in the county.`,
     extAll: "Whole country", extMain: "Main territory", extNet: "Network area", extReset: "Back to the whole map",
-    townPh: "Find a town…", townCredit: "Town search: GeoNames (CC BY 4.0).", townNone: q => `No town found for “${q}”`, townLoad: "Loading towns…",
+    townPh: "Find a town…", townCredit: "Town search: GeoNames (CC BY 4.0).", demCredit: "Ground heights for the well tool: Copernicus DEM GLO-90 (© DLR e.V., © Airbus Defence and Space GmbH, provided under COPERNICUS by the EU and ESA).", townNone: q => `No town found for “${q}”`, townLoad: "Loading towns…",
     townNear: (t, what, km) => `Nearest ${what} to ${t}: ${km} km away.`, townWhat: { rivers: "river gauge", gw: "monitoring well", soil: "grid cell", fire: "fire-prone grid cell", catnat: "county" },
     townNoCell: (t, what) => `No ${what} within 150 km of ${t}.`,
     loading: "Loading worldwide data…", failed: "The worldwide data could not be loaded.",
@@ -5105,7 +5132,6 @@ const WORLD_TXT = {
     desc: { catnat: "Probabilité que chaque comté atteigne le seuil de catastrophe sécheresse de l’USDA (sécheresse sévère 8 semaines, ou extrême), de 1 à 6 mois",
             soil: "Humidité de la zone racinaire sur une grille d’environ 55 km, jusqu’à 12 mois, par rapport aux mêmes semaines des années passées", fire: "Probabilité d’un mois avec feux sur une grille d’environ 55 km, de 1 à 6 mois",
             rivers: "Débit à chaque station, de 1 à 12 mois, par rapport aux mêmes semaines des années passées", gw: "Niveau de la nappe à chaque piézomètre, de 1 à 12 mois, par rapport aux mêmes semaines des années passées" },
-    noteIntl: (c, r, g) => `${c} : prévisions ${r && g ? "de rivières et de nappes" : r ? "de rivières" : "de nappes"} à partir des réseaux publics de mesure, plus humidité des sols et incendies à partir de données satellite et météo.`,
     stLegNow: "Trop peu d’historique pour comparer aux années passées",
     stLeg: ["Très bas (10 % les plus bas)", "Bas (10–20 %)", "Sous la normale (20–40 %)", "Normal ou au-dessus", "Non affiché (n’a pas battu les références simples ici)"],
     stHint: { rivers: "Cliquez sur une station pour ses prévisions à 12 mois. Couleur : débit prévu par rapport aux mêmes semaines des années passées.", gw: "Cliquez sur un piézomètre pour ses prévisions à 12 mois. Couleur : niveau prévu par rapport aux mêmes semaines des années passées." },
@@ -5202,7 +5228,7 @@ const WORLD_TXT = {
     ddChart: "Probabilité d’atteindre le seuil, mois par mois",
     ddBt: (y0, y1, n, sc, sp, l3) => `Backtest ${y0}–${y1} sur ${n} comtés, chaque année prévue à partir des seules années antérieures : à un mois, score de Brier ${sc} par rapport à l’historique de chaque comté et ${sp} par rapport à la persistance. Quand la probabilité affichée était de 60 % ou plus, le comté a atteint le seuil ${l3} du temps. Seuil : sécheresse sévère (D2) 8 semaines d’affilée ou sécheresse extrême (D3) sur une partie du comté.`,
     extAll: "Tout le pays", extMain: "Territoire principal", extNet: "Zone du réseau", extReset: "Revenir à toute la carte",
-    townPh: "Trouver une ville…", townCredit: "Recherche de villes : GeoNames (CC BY 4.0).", townNone: q => `Aucune ville trouvée pour « ${q} »`, townLoad: "Chargement des villes…",
+    townPh: "Trouver une ville…", townCredit: "Recherche de villes : GeoNames (CC BY 4.0).", demCredit: "Hauteurs du sol pour l'outil puits : Copernicus DEM GLO-90 (© DLR e.V., © Airbus Defence and Space GmbH, fourni dans le cadre de COPERNICUS par l'UE et l'ESA).", townNone: q => `Aucune ville trouvée pour « ${q} »`, townLoad: "Chargement des villes…",
     townNear: (t, what, km) => `${what[0].toUpperCase() + what.slice(1)} ${["piézomètre", "comté", "bassin"].includes(what) && what !== "municipalité" ? "le plus proche" : "la plus proche"} de ${t} : à ${km} km.`, townWhat: { rivers: "station hydrométrique", gw: "piézomètre", soil: "maille", fire: "maille sujette aux feux", catnat: "comté" },
     townNoCell: (t, what) => `Pas de ${what} à moins de 150 km de ${t}.`,
     loading: "Chargement des données mondiales…", failed: "Les données mondiales n’ont pas pu être chargées.",
@@ -5212,7 +5238,6 @@ const WORLD_TXT = {
     desc: { catnat: "Probabilidad de que cada condado cumpla el criterio de catástrofe por sequía del USDA (sequía severa durante 8 semanas, o sequía extrema), de 1 a 6 meses vista",
             soil: "Humedad de la zona radicular en una cuadrícula de ~55 km, hasta 12 meses vista, frente a las mismas semanas de años anteriores", fire: "Probabilidad de un mes con incendio en una cuadrícula de ~55 km, de 1 a 6 meses vista",
             rivers: "Caudal en cada estación de aforo, de 1 a 12 meses vista, frente a las mismas semanas de años anteriores", gw: "Nivel del agua subterránea en cada pozo de control, de 1 a 12 meses vista, frente a las mismas semanas de años anteriores" },
-    noteIntl: (c, r, g) => `${c}: previsiones ${r && g ? "fluviales y de aguas subterráneas" : r ? "fluviales" : "de aguas subterráneas"} a partir de redes públicas de control, más humedad del suelo e incendios a partir de datos satelitales y meteorológicos.`,
     stLegNow: "Historial demasiado corto para compararlo con años anteriores",
     stLeg: ["Muy bajo (10 % más bajo)", "Bajo (10–20 %)", "Por debajo de lo normal (20–40 %)", "Normal o superior", "No se muestra (no superó aquí a las referencias simples)"],
     stHint: { rivers: "Haga clic en una estación de aforo para ver su previsión a 12 meses. Color: caudal previsto frente a las mismas semanas de años anteriores.", gw: "Haga clic en un pozo para ver su previsión a 12 meses. Color: nivel previsto frente a las mismas semanas de años anteriores." },
@@ -5309,7 +5334,7 @@ const WORLD_TXT = {
     ddChart: "Probabilidad de cumplir el criterio, mes a mes",
     ddBt: (y0, y1, n, sc, sp, l3) => `Prueba retrospectiva ${y0}–${y1} en ${n} condados, cada año previsto solo con años anteriores: a un mes vista, Brier skill ${sc} frente al propio historial de cada condado y ${sp} frente a la persistencia. Cuando la probabilidad mostrada era del 60 % o más, el condado cumplió el criterio el ${l3} de las veces. Criterio: sequía severa (D2) durante 8 semanas seguidas o sequía extrema (D3) en cualquier parte del condado.`,
     extAll: "Todo el país", extMain: "Territorio principal", extNet: "Zona de la red", extReset: "Volver al mapa completo",
-    townPh: "Buscar una localidad…", townCredit: "Búsqueda de localidades: GeoNames (CC BY 4.0).", townNone: q => `No se encontró ninguna localidad para “${q}”`, townLoad: "Cargando localidades…",
+    townPh: "Buscar una localidad…", townCredit: "Búsqueda de localidades: GeoNames (CC BY 4.0).", demCredit: "Cotas del terreno para la herramienta de pozos: Copernicus DEM GLO-90 (© DLR e.V., © Airbus Defence and Space GmbH, suministrado en el marco de COPERNICUS por la UE y la ESA).", townNone: q => `No se encontró ninguna localidad para “${q}”`, townLoad: "Cargando localidades…",
     townNear: (t, what, km) => `Lo más cercano a ${t}: ${what}, a ${km} km.`, townWhat: { rivers: "estación de aforo", gw: "pozo de control", soil: "celda", fire: "celda con riesgo de incendio", catnat: "condado" },
     townNoCell: (t, what) => `No hay ${what} a menos de 150 km de ${t}.`,
     loading: "Cargando datos mundiales…", failed: "No se pudieron cargar los datos mundiales.",
@@ -5319,7 +5344,6 @@ const WORLD_TXT = {
     desc: { catnat: "Wahrscheinlichkeit, dass jedes County das Dürre-Katastrophenkriterium des USDA erfüllt (8 Wochen schwere Dürre oder extreme Dürre), 1 bis 6 Monate voraus",
             soil: "Feuchte im Wurzelraum auf einem ~55-km-Raster, bis 12 Monate voraus, im Vergleich zu denselben Wochen früherer Jahre", fire: "Wahrscheinlichkeit eines Brandmonats auf einem ~55-km-Raster, 1 bis 6 Monate voraus",
             rivers: "Abfluss an jedem Pegel, 1 bis 12 Monate voraus, im Vergleich zu denselben Wochen früherer Jahre", gw: "Grundwasserstand an jeder Messstelle, 1 bis 12 Monate voraus, im Vergleich zu denselben Wochen früherer Jahre" },
-    noteIntl: (c, r, g) => `${c}: ${r && g ? "Abfluss- und Grundwasserprognosen" : r ? "Abflussprognosen" : "Grundwasserprognosen"} aus öffentlichen Messnetzen, dazu Bodenfeuchte und Waldbrand aus Satelliten- und Wetterdaten.`,
     stLegNow: "Zu kurze Reihe für einen Vergleich mit früheren Jahren",
     stLeg: ["Sehr niedrig (unterste 10 %)", "Niedrig (10–20 %)", "Unter normal (20–40 %)", "Normal oder darüber", "Nicht gezeigt (schlug hier die einfachen Referenzen nicht)"],
     stHint: { rivers: "Einen Pegel anklicken für seine 12-Monats-Prognose. Farbe: prognostizierter Abfluss im Vergleich zu denselben Wochen früherer Jahre.", gw: "Eine Messstelle anklicken für ihre 12-Monats-Prognose. Farbe: prognostizierter Stand im Vergleich zu denselben Wochen früherer Jahre." },
@@ -5416,7 +5440,7 @@ const WORLD_TXT = {
     ddChart: "Wahrscheinlichkeit, das Kriterium zu erfüllen, Monat für Monat",
     ddBt: (y0, y1, n, sc, sp, l3) => `Rückrechnung ${y0}–${y1} an ${n} Countys, jedes Jahr nur aus früheren Jahren vorhergesagt: einen Monat voraus Brier Skill ${sc} gegenüber der eigenen Geschichte jedes County und ${sp} gegenüber der Fortschreibung. Lag die gezeigte Wahrscheinlichkeit bei 60 % oder mehr, erfüllte das County in ${l3} der Fälle das Kriterium. Kriterium: schwere Dürre (D2) 8 Wochen in Folge oder extreme Dürre (D3) irgendwo im County.`,
     extAll: "Ganzes Land", extMain: "Hauptgebiet", extNet: "Gebiet des Messnetzes", extReset: "Zurück zur ganzen Karte",
-    townPh: "Ort suchen…", townCredit: "Ortssuche: GeoNames (CC BY 4.0).", townNone: q => `Kein Ort gefunden für „${q}“`, townLoad: "Orte werden geladen…",
+    townPh: "Ort suchen…", townCredit: "Ortssuche: GeoNames (CC BY 4.0).", demCredit: "Geländehöhen für das Brunnenwerkzeug: Copernicus DEM GLO-90 (© DLR e.V., © Airbus Defence and Space GmbH, bereitgestellt im Rahmen von COPERNICUS durch EU und ESA).", townNone: q => `Kein Ort gefunden für „${q}“`, townLoad: "Orte werden geladen…",
     townNear: (t, what, km) => `Am nächsten an ${t}: ${what}, ${km} km entfernt.`, townWhat: { rivers: "Pegel", gw: "Messstelle", soil: "Rasterzelle", fire: "brandgefährdete Rasterzelle", catnat: "County" },
     townNoCell: (t, what) => `Im Umkreis von 150 km um ${t} gibt es nichts dergleichen (${what}).`,
     loading: "Weltweite Daten werden geladen…", failed: "Die weltweiten Daten konnten nicht geladen werden.",
@@ -5432,6 +5456,7 @@ const ddTxt = (W, c) => isBC(c) ? W.bc : isMX(c) ? W.mx : isTW(c) ? W.tw : W;
 const DW = () => (isBC(worldCountry) || isMX(worldCountry) || isTW(worldCountry)) ? Object.assign({}, WT(), ddTxt(WT(), worldCountry)) : WT();
 const DD = () => worldData["catnat_" + (worldCountry ? worldCountry.code : "")];
 const SOIL_COLORS = ["var(--alert-severe)", "var(--drought)", "#D9A441", "var(--good)"];
+let worldProj = null;  // the projection of the station map on screen (for picking a spot)
 let worldCountry = null, worldPick = null, worldStationDates = {}, worldWhole = false, worldTown = null;
 const worldTowns = {};
 const worldData = {};
@@ -5462,6 +5487,8 @@ function enterWorld(c) {
   ti.closest(".world-search").style.display = c.nt ? "" : "none";  // no towns listed for this country
   document.getElementById("world-town-results").hidden = true;
   document.body.classList.add("world-mode");
+  document.body.classList.toggle("world-ng", !!c.ng);  // the well and basement tool runs on its wells
+  wellPoint = null; document.getElementById("well-point").textContent = ""; document.getElementById("well-result").innerHTML = "";
   const cur = document.body.dataset.mode;
   const ok = m => (m === "soil" && c.ns) || (m === "fire" && c.nf) || (m === "rivers" && c.nr) || (m === "gw" && c.ng) || (m === "catnat" && c.nd);
   setWorldMode(ok(cur) ? cur : ["gw", "rivers", "soil", "fire", "catnat"].find(ok));
@@ -5482,7 +5509,7 @@ async function setWorldMode(k) {
   document.getElementById("mode-desc").textContent = W.desc[k];
   document.getElementById("mode-hint").textContent = (k === "rivers" || k === "gw") ? W.stHint[k] : W.hint[k];
   document.getElementById("world-h-label").textContent = W.at;
-  document.getElementById("world-credit").textContent = W.townCredit;
+  document.getElementById("world-credit").textContent = W.townCredit + (worldCountry && worldCountry.ng ? " " + W.demCredit : "");
   document.getElementById("world-bt").textContent = W.loading;
   try { await loadWorld(k); } catch (e) { document.getElementById("world-bt").textContent = W.failed; return; }
   const today = new Date().toISOString().slice(0, 10);
@@ -5851,7 +5878,9 @@ function renderWorldStations(k) {
     return `<circle class="w-cell${worldPick === i ? " picked" : ""}" data-i="${i}" cx="${x}" cy="${y}" r="${rr}" fill="${fill}" stroke="${cls == null ? "var(--muted)" : "var(--paper)"}" stroke-width="1.2"></circle>`;
   }).join("");
   const bm = worldBase(P, z);
-  svg.innerHTML = `${worldSurround(P)}<path class="w-land" d="${path}"></path>${bm.under}${bm.over}<path class="w-edge" d="${path}"></path>${dots}${bm.top}${worldTownMark(P, z)}`;
+  worldProj = P;
+  const wm = wellPoint && k === "gw" ? `<circle id="well-marker-w" cx="${P.px(wellPoint.lon).toFixed(1)}" cy="${P.py(wellPoint.lat).toFixed(1)}" r="${(rr * 0.9).toFixed(1)}"></circle>` : "";
+  svg.innerHTML = `${worldSurround(P)}<path class="w-land" d="${path}"></path>${bm.under}${bm.over}<path class="w-edge" d="${path}"></path>${dots}${bm.top}${worldTownMark(P, z)}${wm}`;
   document.getElementById("world-bt").textContent = W.stData + SD.nets.map(n => W.stSrc[n.key] || W.stSrc[n.key.replace(/\d+$/, "").split("_")[0]] || n.key).join(", ") + ".";
   renderWorldInfo();
 }
@@ -6161,7 +6190,7 @@ function initWellTool() {
   setWellPicking(false);
   document.getElementById("well-pick-btn").addEventListener("click", () => {
     setWellPicking(!wellPicking);
-    if (wellPicking) document.querySelector(".map-wrap").scrollIntoView({ behavior: "smooth", block: "center" });
+    if (wellPicking) document.querySelector(document.body.classList.contains("world-mode") ? "#world-wrap" : ".map-wrap").scrollIntoView({ behavior: "smooth", block: "center" });
   });
   document.getElementById("well-run-btn").addEventListener("click", runWellCheck);
   document.getElementById("france-svg").addEventListener("click", e => {
@@ -6175,6 +6204,20 @@ function initWellTool() {
     document.getElementById("well-point").textContent = `${wellPoint.lat.toFixed(4)}°N, ${wellPoint.lon.toFixed(4)}°E`;
     setWellPicking(false);
     drawWellMarker();
+    document.getElementById("well-tool").scrollIntoView({ behavior: "smooth", block: "start" });
+  }, true);
+  document.getElementById("world-svg").addEventListener("click", e => {
+    if (!wellPicking || !worldProj) return;
+    e.stopPropagation(); e.preventDefault();
+    const svg = document.getElementById("world-svg"), P = worldProj, pt = svg.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    const q = pt.matrixTransform(svg.getScreenCTM().inverse());
+    let lon = P.minx + q.x / (P.kx * P.S); if (lon > 180) lon -= 360;
+    wellPoint = { lon, lat: P.maxy - q.y / P.S };
+    worldPlace = { lon: wellPoint.lon, lat: wellPoint.lat };
+    document.getElementById("well-point").textContent = `${wellPoint.lat.toFixed(4)}°N, ${wellPoint.lon.toFixed(4)}°E`;
+    setWellPicking(false);
+    renderWorld();
     document.getElementById("well-tool").scrollIntoView({ behavior: "smooth", block: "start" });
   }, true);
 }
