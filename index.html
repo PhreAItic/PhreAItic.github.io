@@ -3871,7 +3871,7 @@ const EXTRA_TXT = {
     wkLowM: "Danger stays low every month of the next 12.",
     wkChart1M: "Chance the water table comes within 1 m of the ground, month by month",
     wkChart1bM: "Chance the water table comes within 2 m of the ground, month by month",
-    flSrcModel: "The chance comes from the forecast, where it beat the well's seasonal frequency in the backtest; hatched months show that seasonal frequency (how often past years reached this level in the same weeks), which no model beat there.",
+    flSrcModel: "The chance comes from the forecast where it beat the well's seasonal frequency in the backtest. Hatched months use the better simple guess there, whichever did better in the backtest: the chance read off the simple level forecast below, or the well's seasonal frequency (how often past years reached this level in the same weeks).",
     flSrcSeas: "For now the chance is read off the calibrated range of the level forecast; once it is graded on this network, each month keeps it where it beats the well's seasonal frequency (how often past years reached this level in the same weeks) and otherwise shows that frequency.",
     flGround: g => g === "dem" ? "Ground height from a 90 m elevation model (Copernicus DEM), which can be a few metres off." : "",
     wkChart1: "Chance the water table comes within 1 m of the ground, week by week",
@@ -3879,6 +3879,7 @@ const EXTRA_TXT = {
     wkChart2: "Likely depth of the water table (m below ground)",
     wkLegLvl: ["low < 10%", "moderate 10–30%", "high 30–60%", "very high ≥ 60%"],
     wkLegSeas: "hatched: weeks shown as the seasonal average",
+    wkLegSeasM: "hatched: months where a simple guess gives the chance (no model beat it there)",
     wkLegMed: "most likely", wkLeg50: "50% range", wkLeg90: "90% range", wkLine1: "flood level (1 m)", wkLine2: "2 m",
     wkToday: "today", wkTipChance: "chance", wkTipDanger: "danger", wkTipDepth: "likely depth", wkTipRange: "90% range",
     wkBt: (s1, a1, a0, s4, r3) => `Week-by-week backtest, all flood-prone stations, quarterly forecasts since 2014: Brier skill ${s1} for weeks 1–4 (ROC-AUC ${a1}, seasonal frequency alone ${a0}), ${s4} for weeks 14–26. When the danger shown was “high”, the water reached the flood level ${r3} of the time.`,
@@ -3964,7 +3965,7 @@ const EXTRA_TXT = {
     wkLowM: "Le danger reste faible tous les mois des 12 prochains.",
     wkChart1M: "Probabilité que la nappe monte à moins de 1 m du sol, mois par mois",
     wkChart1bM: "Probabilité que la nappe monte à moins de 2 m du sol, mois par mois",
-    flSrcModel: "La probabilité vient de la prévision, là où elle a battu la fréquence saisonnière du piézomètre en backtest ; les mois hachurés montrent cette fréquence saisonnière (part des années passées où ce niveau a été atteint les mêmes semaines), qu'aucun modèle n'y a battue.",
+    flSrcModel: "La probabilité vient de la prévision là où elle a battu la fréquence saisonnière du piézomètre en backtest. Les mois hachurés utilisent la meilleure estimation simple, celle qui a fait mieux en backtest : la probabilité lue sur la prévision de niveau simple ci-dessous, ou la fréquence saisonnière du piézomètre (part des années passées où ce niveau a été atteint les mêmes semaines).",
     flSrcSeas: "Pour l'instant, la probabilité est lue sur la fourchette calibrée de la prévision de niveau ; une fois évaluée sur ce réseau, chaque mois la garde là où elle bat la fréquence saisonnière du piézomètre (part des années passées où ce niveau a été atteint les mêmes semaines), et montre sinon cette fréquence.",
     flGround: g => g === "dem" ? "Hauteur du sol issue d'un modèle d'élévation à 90 m (Copernicus DEM), qui peut s'écarter de quelques mètres." : "",
     wkChart1: "Probabilité que la nappe monte à moins de 1 m du sol, semaine par semaine",
@@ -3972,6 +3973,7 @@ const EXTRA_TXT = {
     wkChart2: "Profondeur probable de la nappe (m sous le sol)",
     wkLegLvl: ["faible < 10 %", "modéré 10–30 %", "élevé 30–60 %", "très élevé ≥ 60 %"],
     wkLegSeas: "hachuré : semaines affichées en moyenne saisonnière",
+    wkLegSeasM: "hachuré : mois où une estimation simple donne la probabilité (aucun modèle ne l’a battue ici)",
     wkLegMed: "le plus probable", wkLeg50: "fourchette à 50 %", wkLeg90: "fourchette à 90 %", wkLine1: "niveau d'inondation (1 m)", wkLine2: "2 m",
     wkToday: "aujourd'hui", wkTipChance: "probabilité", wkTipDanger: "danger", wkTipDepth: "profondeur probable", wkTipRange: "fourchette à 90 %",
     wkBt: (s1, a1, a0, s4, r3) => `Backtest semaine par semaine, toutes les stations sujettes aux remontées, prévisions trimestrielles depuis 2014 : score de Brier ${s1} pour les semaines 1 à 4 (AUC ${a1}, fréquence saisonnière seule ${a0}), ${s4} pour les semaines 14 à 26. Quand le danger affiché était « élevé », la nappe a atteint le niveau d'inondation ${r3} du temps.`,
@@ -4057,7 +4059,7 @@ const EXTRA_TXT = {
     wkLowM: "El peligro se mantiene bajo todos los meses de los próximos 12.",
     wkChart1M: "Probabilidad de que el nivel freático llegue a menos de 1 m del suelo, mes a mes",
     wkChart1bM: "Probabilidad de que el nivel freático llegue a menos de 2 m del suelo, mes a mes",
-    flSrcModel: "La probabilidad procede de la previsión, donde superó a la frecuencia estacional del pozo en la prueba retrospectiva; los meses rayados muestran esa frecuencia estacional (cuántos años anteriores alcanzaron este nivel en las mismas semanas), que ningún modelo superó allí.",
+    flSrcModel: "La probabilidad procede de la previsión donde superó a la frecuencia estacional del pozo en la prueba retrospectiva. Los meses rayados usan la mejor estimación simple, la que funcionó mejor en la prueba retrospectiva: la probabilidad leída de la previsión de nivel simple de abajo, o la frecuencia estacional del pozo (cuántos años anteriores alcanzaron este nivel en las mismas semanas).",
     flSrcSeas: "Por ahora la probabilidad se lee del rango calibrado de la previsión de nivel; una vez evaluada en esta red, cada mes la conserva donde supera a la frecuencia estacional del pozo (cuántos años anteriores alcanzaron este nivel en las mismas semanas) y si no muestra esa frecuencia.",
     flGround: g => g === "dem" ? "Cota del terreno de un modelo de elevación de 90 m (Copernicus DEM), que puede desviarse unos metros." : "",
     wkChart1: "Probabilidad de que el nivel freático llegue a menos de 1 m del suelo, semana a semana",
@@ -4065,6 +4067,7 @@ const EXTRA_TXT = {
     wkChart2: "Profundidad probable del nivel freático (m bajo el suelo)",
     wkLegLvl: ["bajo < 10 %", "moderado 10–30 %", "alto 30–60 %", "muy alto ≥ 60 %"],
     wkLegSeas: "rayado: semanas mostradas con la media estacional",
+    wkLegSeasM: "rayado: meses en que una estimación simple da la probabilidad (ningún modelo la superó aquí)",
     wkLegMed: "lo más probable", wkLeg50: "rango del 50 %", wkLeg90: "rango del 90 %", wkLine1: "nivel de inundación (1 m)", wkLine2: "2 m",
     wkToday: "hoy", wkTipChance: "probabilidad", wkTipDanger: "peligro", wkTipDepth: "profundidad probable", wkTipRange: "rango del 90 %",
     wkBt: (s1, a1, a0, s4, r3) => `Prueba retrospectiva semana a semana, todas las estaciones propensas a inundación, previsiones trimestrales desde 2014: Brier skill ${s1} para las semanas 1–4 (ROC-AUC ${a1}, frecuencia estacional sola ${a0}), ${s4} para las semanas 14–26. Cuando el peligro mostrado era “alto”, el agua alcanzó el nivel de inundación el ${r3} de las veces.`,
@@ -4150,7 +4153,7 @@ const EXTRA_TXT = {
     wkLowM: "Die Gefahr bleibt in jedem der nächsten 12 Monate gering.",
     wkChart1M: "Wahrscheinlichkeit, dass das Grundwasser näher als 1 m an die Oberfläche kommt, Monat für Monat",
     wkChart1bM: "Wahrscheinlichkeit, dass das Grundwasser näher als 2 m an die Oberfläche kommt, Monat für Monat",
-    flSrcModel: "Die Wahrscheinlichkeit stammt aus der Vorhersage, wo sie in der Rückrechnung die saisonale Häufigkeit der Messstelle schlug; schraffierte Monate zeigen diese saisonale Häufigkeit (wie oft frühere Jahre in denselben Wochen diesen Stand erreichten), die dort kein Modell schlug.",
+    flSrcModel: "Die Wahrscheinlichkeit stammt aus der Vorhersage, wo sie in der Rückrechnung die saisonale Häufigkeit der Messstelle schlug. Schraffierte Monate nutzen die bessere einfache Schätzung, die in der Rückrechnung besser abschnitt: die aus der einfachen Standvorhersage unten abgelesene Wahrscheinlichkeit oder die saisonale Häufigkeit der Messstelle (wie oft frühere Jahre in denselben Wochen diesen Stand erreichten).",
     flSrcSeas: "Vorerst wird die Wahrscheinlichkeit aus dem kalibrierten Bereich der Standvorhersage abgelesen; sobald sie für dieses Messnetz bewertet ist, behält jeder Monat sie, wo sie die saisonale Häufigkeit der Messstelle (wie oft frühere Jahre in denselben Wochen diesen Stand erreichten) schlägt, und zeigt sonst diese Häufigkeit.",
     flGround: g => g === "dem" ? "Geländehöhe aus einem 90-m-Höhenmodell (Copernicus DEM), das einige Meter abweichen kann." : "",
     wkChart1: "Wahrscheinlichkeit, dass das Grundwasser näher als 1 m an die Oberfläche kommt, Woche für Woche",
@@ -4158,6 +4161,7 @@ const EXTRA_TXT = {
     wkChart2: "Wahrscheinlicher Grundwasserabstand (m unter Gelände)",
     wkLegLvl: ["gering < 10 %", "mäßig 10–30 %", "hoch 30–60 %", "sehr hoch ≥ 60 %"],
     wkLegSeas: "schraffiert: Wochen mit saisonalem Mittel",
+    wkLegSeasM: "schraffiert: Monate, in denen eine einfache Schätzung die Wahrscheinlichkeit liefert (kein Modell schlug sie hier)",
     wkLegMed: "am wahrscheinlichsten", wkLeg50: "50-%-Bereich", wkLeg90: "90-%-Bereich", wkLine1: "Überflutungshöhe (1 m)", wkLine2: "2 m",
     wkToday: "heute", wkTipChance: "Wahrscheinlichkeit", wkTipDanger: "Gefahr", wkTipDepth: "wahrscheinliche Tiefe", wkTipRange: "90-%-Bereich",
     wkBt: (s1, a1, a0, s4, r3) => `Wochenweise Rückrechnung, alle überflutungsgefährdeten Messstellen, vierteljährliche Prognosen seit 2014: Brier Skill ${s1} für die Wochen 1–4 (ROC-AUC ${a1}, saisonale Häufigkeit allein ${a0}), ${s4} für die Wochen 14–26. War die gezeigte Gefahr „hoch“, erreichte das Wasser in ${r3} der Fälle die Überflutungshöhe.`,
@@ -4518,7 +4522,7 @@ function gwWeeklyCharts(it) {
     ${xLabels(base2 + 16)}${hits(top2, base2)}</svg>`;
   const k = (c, t, op = 1) => `<span><span class="k" style="background:${c};opacity:${op}"></span>${t}</span>`;
   const kl = (c, t, dash) => `<span><span class="kl" style="border-color:${c};${dash ? "border-top-style:dashed" : ""}"></span>${t}</span>`;
-  const leg1 = `<div class="well-legend">${T.wkLegLvl.map((t, i) => k(FLOOD_COLORS[i], t)).join("")}${wk.src.includes("s") ? `<span><span class="k" style="background:var(--muted);background-image:repeating-linear-gradient(45deg,transparent 0 2px,var(--paper-raised) 2px 3.5px)"></span>${T.wkLegSeas}</span>` : ""}</div>`;
+  const leg1 = `<div class="well-legend">${T.wkLegLvl.map((t, i) => k(FLOOD_COLORS[i], t)).join("")}${wk.src.includes("s") ? `<span><span class="k" style="background:var(--muted);background-image:repeating-linear-gradient(45deg,transparent 0 2px,var(--paper-raised) 2px 3.5px)"></span>${mo ? T.wkLegSeasM : T.wkLegSeas}</span>` : ""}</div>`;
   const leg2 = `<div class="well-legend">${kl("var(--water)", T.wkLegMed)}${k("var(--water)", T.wkLeg50, 0.4)}${k("var(--water)", T.wkLeg90, 0.18)}${kl("var(--water-deep)", T.wkLine1)}</div>`;
   const names = T.dangerNames, risky = P.map((p, i) => [p, i]).filter(([p]) => p >= 0.1);
   const head = Math.max(...P) < 0.1 ? TM("wkLow")
@@ -6029,7 +6033,13 @@ function renderStationInfo(k) {
   const el = document.getElementById("world-info"), W = WT(), SD = worldData["intl_" + worldCountry.intl][k];
   const s = SD.stations[worldPick];
   if (worldPick == null || !s) { el.hidden = true; renderWorldDetail(k); return; }
-  if (worldFlood && k === "gw" && s.fl) return renderFloodInfo(s, el);
+  if (worldFlood && k === "gw" && !s.fl) {
+    let best = null, bd = Infinity;
+    SD.stations.forEach((t, i) => { if (t.fl) { const d = haversineKm(s.lon, s.lat, t.lon, t.lat); if (d < bd) { bd = d; best = i; } } });
+    worldPick = best;
+    return renderWorldStations(k);
+  }
+  if (worldFlood && k === "gw") return renderFloodInfo(s, el);
   const N = SD.nets[s.nt || 0];  // the station's network: its own unit, backtest and low-flow skill
   const ref = s.ref || N.ref;  // GGMN mixes depths and levels within a country
   const dep = ref === "depth", u = SD.unit === "m3/s" ? "m³/s" : W.stUnit[ref] || "m";
@@ -6071,7 +6081,7 @@ function renderFloodInfo(s, el) {
   if (!ms.length) { el.innerHTML = `<h4>${s.name || s.code}</h4><p>${T.riverNoFc}</p>`; el.hidden = false; return; }
   const t0 = s.fl.t.includes(+gwTier) ? gwTier : String(s.fl.t[0]);
   const wk = { start: s.fc[ms[0]].t, dates: ms.map(m => s.fc[m].t),
-    src: ms.map(m => (s.fc[m].pfs || {})[t0] === "s" ? "s" : "m"),
+    src: ms.map(m => ["s", "b"].includes((s.fc[m].pfs || {})[t0]) ? "s" : "m"),
     d: ms.map(m => { const f = s.fc[m]; return [g - f.q[5], g - f.q[3], g - f.med, g - f.q[2], g - f.q[0]]; }) };
   for (const t of s.fl.t) wk["p" + t] = ms.map(m => s.fc[m].pf[t] ?? 0);
   const it = { depth_now: g - s.last, tiers: s.fl.t, wk };
