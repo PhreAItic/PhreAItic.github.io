@@ -467,10 +467,17 @@ body { overflow-x: clip; }
 .chooser .c-title { font-weight: 700; font-size: 14.5px; line-height: 1.25; }
 .chooser .c-desc { font-size: 12px; color: var(--muted); line-height: 1.35; }
 @media (max-width: 640px) {
-  .chooser { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px; margin: 14px 0 16px; }
-  .chooser button { flex: 0 0 150px; scroll-snap-align: start; }
-  .chooser .c-desc, .chooser-head, .chooser .c-group-head { display: none; }
+  
+  .chooser { display: flex; align-items: center; gap: 8px; overflow-x: auto; scroll-snap-type: x proximity;
+    padding: 2px 2px 8px; margin: 14px 0 16px; }
+  .chooser button { flex: 0 0 auto; max-width: 78vw; scroll-snap-align: start; flex-direction: row; align-items: center;
+    padding: 8px 12px; border-radius: 999px; box-shadow: none; }
+  .chooser button:hover { transform: none; }
+  .chooser .c-top { gap: 8px; min-width: 0; }
+  .chooser .c-title { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chooser .c-desc, .chooser .c-kind, .chooser .c-status, .chooser-head, .chooser .c-group-head { display: none; }
   .chooser .c-group { display: contents; }
+  .chooser:empty { min-height: 44px; }
 }
 .chooser-head { grid-column: 1 / -1; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: -2px; }
 
@@ -1129,7 +1136,7 @@ details.disclaimer[open] summary::before { transform: rotate(45deg); }
 .hero-cta a:hover { transform: translateY(-2px); }
 .hero-cta .ghost:hover { background: rgba(255,255,255,.12); }
 .hero-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 40px 0 0; padding: 0; list-style: none; }
-.hero-stats li { display: grid; grid-template-columns: 46px minmax(0, 1fr); column-gap: 14px; align-items: center; padding: 14px 16px;
+.hero-stats li { display: grid; grid-template-columns: 46px minmax(0, 1fr); column-gap: 14px; align-items: center; align-content: center; padding: 14px 16px;
   border-radius: 14px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(2px); }
 .hero-stats .ic { grid-row: span 2; width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: rgba(255,255,255,.14); }
 .hero-stats .ic svg { width: 24px; height: 24px; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
