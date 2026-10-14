@@ -322,14 +322,15 @@ a { color: var(--water); }
   body:not(.world-mode):not([data-mode]) .left-col, body:not(.world-mode)[data-mode="gw"] .left-col,
   body:not(.world-mode)[data-mode="soil"] .left-col { display: flex !important; grid-column: 1; min-width: 0; }
   body:not(.world-mode):not([data-mode]) #detail-panel, body:not(.world-mode)[data-mode="gw"] #detail-panel,
-  body:not(.world-mode)[data-mode="soil"] #detail-panel, body.world-mode[data-mode="gw"]:not(.world-flood) #world-detail {
+  body:not(.world-mode)[data-mode="soil"] #detail-panel, body.world-mode[data-mode="gw"]:not(.world-flood) #world-detail,
+  body.world-mode[data-mode="temp"] #world-detail {
     grid-column: 2; grid-row: 1; position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow-y: auto; }
   
-  body.world-mode[data-mode="gw"]:not(.world-flood) .layout {
+  body.world-mode[data-mode="gw"]:not(.world-flood) .layout, body.world-mode[data-mode="temp"] .layout {
     display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(380px, 1fr); align-items: start; }
-  body.world-mode[data-mode="gw"]:not(.world-flood) .left-col { display: flex !important; grid-column: 1; min-width: 0; }
-  body.world-mode[data-mode="gw"]:not(.world-flood) .map-grid { grid-template-columns: 1fr; }
-  body.world-mode[data-mode="gw"]:not(.world-flood) .map-grid .map-side { grid-column: 1; grid-row: 2; border-left: none; border-top: 1px solid var(--line-soft); }
+  body.world-mode[data-mode="gw"]:not(.world-flood) .left-col, body.world-mode[data-mode="temp"] .left-col { display: flex !important; grid-column: 1; min-width: 0; }
+  body.world-mode[data-mode="gw"]:not(.world-flood) .map-grid, body.world-mode[data-mode="temp"] .map-grid { grid-template-columns: 1fr; }
+  body.world-mode[data-mode="gw"]:not(.world-flood) .map-grid .map-side, body.world-mode[data-mode="temp"] .map-grid .map-side { grid-column: 1; grid-row: 2; border-left: none; border-top: 1px solid var(--line-soft); }
   .bar-on #detail-panel, .bar-on #world-detail { top: 62px !important; max-height: calc(100vh - 74px) !important; }
   body:not(.world-mode):not([data-mode]) .map-grid, body:not(.world-mode)[data-mode="gw"] .map-grid,
   body:not(.world-mode)[data-mode="soil"] .map-grid { grid-template-columns: 1fr; }
@@ -381,7 +382,7 @@ body.world-mode #data-stamp { display: none; }
 .world-side .layer-info { margin: 10px 16px; }
 .world-fine { display: none; }
 body.world-mode .world-fine { display: block; }
-body:not(.world-mode) #world-detail, body.world-mode:not([data-mode="gw"]) #world-detail, body.world-flood #world-detail { display: none !important; }
+body:not(.world-mode) #world-detail, body.world-mode:not([data-mode="gw"]):not([data-mode="temp"]) #world-detail, body.world-flood #world-detail { display: none !important; }
 body.world-mode .map-wrap, body.world-mode #map-side-rest, body.world-mode .gw-only, body.world-mode #extra-layer-wrap,
 body.world-mode #river-horizon-wrap, body.world-mode .panel-head:has(#soil-moisture-toggle), body.world-mode .panel-head:has(#fire-risk-toggle),
 body.world-mode #soil-moisture-horizon-wrap, body.world-mode #fire-risk-horizon-wrap, body.world-mode #map-search-wrap,
@@ -5672,25 +5673,29 @@ const TEMP_TXT = {
         desc: "River water temperature at each gauge, 1 to 12 months ahead, against the same weeks of past years",
         stHint: "Click a gauge for its 12-month outlook. Colour: forecast water temperature against the same weeks of past years.",
         stLeg: ["Very warm (warmest 10%)", "Warm (80–90%)", "Above normal (60–80%)", "Normal or cooler", "No reading"],
-        stClass: ["very warm", "warm", "above normal", "normal or cooler"] },
+        stClass: ["very warm", "warm", "above normal", "normal or cooler"],
+        wdHist: "Measured temperature" },
   fr: { chooser: ["Rivières", "Température des rivières", "Température de l’eau à chaque station, de 1 à 12 mois, par rapport aux mêmes semaines des années passées"],
         hint: "Cliquez sur une station pour ses prévisions à 12 mois. Choisissez l’échéance ci-dessous.",
         desc: "Température de l’eau des rivières à chaque station, de 1 à 12 mois, par rapport aux mêmes semaines des années passées",
         stHint: "Cliquez sur une station pour ses prévisions à 12 mois. Couleur : température prévue par rapport aux mêmes semaines des années passées.",
         stLeg: ["Très chaude (10 % les plus chaudes)", "Chaude (80–90 %)", "Au-dessus de la normale (60–80 %)", "Normale ou plus fraîche", "Pas de données"],
-        stClass: ["très chaude", "chaude", "au-dessus de la normale", "normale ou plus fraîche"] },
+        stClass: ["très chaude", "chaude", "au-dessus de la normale", "normale ou plus fraîche"],
+        wdHist: "Température mesurée" },
   es: { chooser: ["Ríos", "Temperatura de los ríos", "Temperatura del agua en cada estación, de 1 a 12 meses vista, frente a las mismas semanas de años anteriores"],
         hint: "Haga clic en una estación para ver su previsión a 12 meses. Elija los meses de antelación abajo.",
         desc: "Temperatura del agua de los ríos en cada estación, de 1 a 12 meses vista, frente a las mismas semanas de años anteriores",
         stHint: "Haga clic en una estación para ver su previsión a 12 meses. Color: temperatura prevista frente a las mismas semanas de años anteriores.",
         stLeg: ["Muy cálida (10 % más cálido)", "Cálida (80–90 %)", "Por encima de lo normal (60–80 %)", "Normal o más fresca", "Sin datos"],
-        stClass: ["muy cálida", "cálida", "por encima de lo normal", "normal o más fresca"] },
+        stClass: ["muy cálida", "cálida", "por encima de lo normal", "normal o más fresca"],
+        wdHist: "Temperatura medida" },
   de: { chooser: ["Flüsse", "Flusstemperatur", "Wassertemperatur an jedem Pegel 1–12 Monate im Voraus, verglichen mit denselben Wochen früherer Jahre"],
         hint: "Klicken Sie auf einen Pegel für seine 12-Monats-Prognose. Wählen Sie unten den Vorlauf.",
         desc: "Wassertemperatur der Flüsse an jedem Pegel, 1 bis 12 Monate im Voraus, verglichen mit denselben Wochen früherer Jahre",
         stHint: "Klicken Sie auf einen Pegel für seine 12-Monats-Prognose. Farbe: prognostizierte Wassertemperatur gegenüber denselben Wochen früherer Jahre.",
         stLeg: ["Sehr warm (wärmste 10 %)", "Warm (80–90 %)", "Über normal (60–80 %)", "Normal oder kühler", "Keine Daten"],
-        stClass: ["sehr warm", "warm", "über normal", "normal oder kühler"] },
+        stClass: ["sehr warm", "warm", "über normal", "normal oder kühler"],
+        wdHist: "Gemessene Temperatur" },
 };
 const TT = () => TEMP_TXT[LANG] || TEMP_TXT.en;
 for (const l of Object.keys(TEMP_TXT)) {
@@ -6323,7 +6328,7 @@ function renderWorldDetail(k) {
   rg.innerHTML = [["2y", W.wdRange[0]], ["full", W.wdRange[1]]].map(([r, l]) => `<button data-range="${r}" class="${chartRange === r ? "active" : ""}">${l}</button>`).join("");
   rg.onclick = e => { const b = e.target.closest("button[data-range]"); if (!b) return; chartRange = b.dataset.range; renderWorldDetail(k); };
   const south = s.lat < 0;
-  const leg = [["var(--ink-soft)", "", W.wdLeg[0]], ["var(--water)", "", W.wdLeg[1]], ["var(--water-soft)", ";opacity:0.85", W.wdLeg[2]],
+  const leg = [["var(--ink-soft)", "", k === "temp" ? TT().wdHist : W.wdLeg[0]], ["var(--water)", "", W.wdLeg[1]], ["var(--water-soft)", ";opacity:0.85", W.wdLeg[2]],
     ["var(--water-soft)", ";opacity:0.45", W.wdLeg[3]]].concat(south ? [] : [["var(--drought)", "; opacity:0.2", W.wdLeg[4]]]);
   document.getElementById("wd-legend").innerHTML = leg.map(([c, x, l]) => `<span><span class="swatch" style="background:${c}${x}"></span>${l}</span>`).join("");
   const s1 = (N.summary["1"] || {}).share_served;
