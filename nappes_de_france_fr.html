@@ -5986,8 +5986,11 @@ function worldSurround(P) {
     for (const r of o.rings) {
       let a = Infinity, b = -Infinity, e = Infinity, f = -Infinity;
       for (const [x, y] of r) { const xx = P.X(x); if (xx < a) a = xx; if (xx > b) b = xx; if (y < e) e = y; if (y > f) f = y; }
+      const own = b - a > 180;
+      if (own) { a = Infinity; b = -Infinity; for (const [x] of r) { if (x < a) a = x; if (x > b) b = x; } }
       if (b < x0 || a > x1 || f < y0 || e > y1) continue;
-      d += "M" + r.map(([x, y]) => `${P.px(x).toFixed(1)},${P.py(y).toFixed(1)}`).join("L") + "Z";
+      const px = own ? x => (x - P.minx) * P.kx * P.S : P.px;
+      d += "M" + r.map(([x, y]) => `${px(x).toFixed(1)},${P.py(y).toFixed(1)}`).join("L") + "Z";
     }
   }
   return `<rect class="w-sea" x="${(-P.W).toFixed(0)}" y="${(-P.H).toFixed(0)}" width="${(3 * P.W).toFixed(0)}" height="${(3 * P.H).toFixed(0)}"></rect>` +
