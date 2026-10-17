@@ -1362,7 +1362,7 @@ details.disclaimer[open] summary::before { transform: rotate(45deg); }
       </svg>
    </div>
     <ul class="hero-stats">
-      <li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-6-5.6-6-11a6 6 0 0 1 12 0c0 5.4-6 11-6 11z"/><path d="M12 7.5c-1.4 1.8-2.2 3-2.2 4a2.2 2.2 0 0 0 4.4 0c0-1-.8-2.2-2.2-4z"/></svg></span><b class="pending" data-stat="stations">&hellip;</b><span>estaciones con previsión</span></li>
+      <li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-6-5.6-6-11a6 6 0 0 1 12 0c0 5.4-6 11-6 11z"/><path d="M12 7.5c-1.4 1.8-2.2 3-2.2 4a2.2 2.2 0 0 0 4.4 0c0-1-.8-2.2-2.2-4z"/></svg></span><b class="pending" data-stat="stations">&hellip;</b><span>sensores</span></li>
       <li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/></svg></span><b class="pending" data-stat="countries">&hellip;</b><span>países con aforos y pozos</span></li>
       <li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21c-3.6 0-6.5-2.6-6.5-6.2 0-3.4 2.6-5.3 3.6-8.8 2.4 1.4 3.6 3.6 3.6 5.6 1-.6 1.8-1.8 2-3.2 1.8 1.6 3.8 4 3.8 6.4 0 3.6-2.9 6.2-6.5 6.2z"/><path d="M12 21c-1.5 0-2.6-1.1-2.6-2.6 0-1.6 1.4-2.6 2.6-4.2 1.2 1.6 2.6 2.6 2.6 4.2 0 1.5-1.1 2.6-2.6 2.6z"/></svg></span><b class="pending" data-stat="grid">&hellip;</b><span>países con previsión de suelo e incendios</span></li>
       <li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17"/><path d="M8 3v4M16 3v4"/><path d="M10.5 15.2l1.6 1.6 3.4-3.6"/></svg></span><b data-stat="months">12</b><span>meses vista</span></li>
@@ -5246,11 +5246,11 @@ const WORLD_TXT = {
     wdRange: ["2-year window", "Full history"],
     wdLeg: ["Historical level", "Forecast (median)", "50% calibrated interval (typical range)", "90% calibrated interval (rarely exceeded)", "Jul&ndash;Aug (summer)"],
     stBt: (n, y0, y1, s1) => `Backtest ${y0}–${y1} on ${n} stations, each horizon graded on years not used to choose it: one month ahead, a model beats both baselines at ${s1} of them; elsewhere the better baseline is the forecast.`,
-    stSrc: { FRT: "Hub'Eau river temperature (OFB, Naïades)", US: "USGS National Water Information System", PR: "USGS National Water Information System", GB: "Environment Agency hydrology (England)", SCT: "SEPA (Scotland)",
+    stSrc: { FRT: "Hub'Eau river temperature (OFB, Naïades)", GLOFAS: "Copernicus EMS GloFAS v4 reanalysis: modelled river flow, not gauged (contains modified Copernicus Emergency Management Service information 2026)", US: "USGS National Water Information System", PR: "USGS National Water Information System", GB: "Environment Agency hydrology (England)", SCT: "SEPA (Scotland)",
              CA: "Water Survey of Canada (HYDAT and real-time data)", FI: "Finnish Environment Institute (SYKE)", SE: "SMHI (rivers), SGU (groundwater)", NL: "Rijkswaterstaat", NO: "Norwegian Water Resources and Energy Directorate (NVE)", VL: "waterinfo.be (Flanders)",
              IE: "OPW hydro-data (Ireland)", DK: "VandA (Danish Environmental Protection Agency) and GEUS Jupiter (groundwater)", BC: "BC Provincial Groundwater Observation Well Network",
              DE: "NIWIS (BfG) and state agencies (GKD Bayern, HLNUG, Wasserportal Berlin, LANUV NRW, LfU Schleswig-Holstein)",
-             NZ: "regional councils (Greater Wellington, Northland, Marlborough, Horizons)", CH: "Federal Office for the Environment (FOEN)", QC: "Quebec Ministry of the Environment", CZ: "Czech Hydrometeorological Institute (ČHMÚ)", EE: "Estonian Environment Agency", AR: "Instituto Nacional del Agua (INA)", CO: "IDEAM", WAL: "SPW hydrométrie (Wallonia)", QLD: "Queensland Government water monitoring", VIC: "Victorian Water Measurement Information System", AUB: "Bureau of Meteorology Water Data Online via WMO WHOS (CC BY)", UY: "DINAGUA via WMO WHOS", GGMN: "IGRAC Global Groundwater Monitoring Network (GGMN)", NRW: "LANUV North Rhine-Westphalia (HygrisC and OpenHygon open data)", SH: "LfU Schleswig-Holstein (open data, dl-de/by-2.0)", CHJ: "Júcar basin authority (CHJ), ROEA gauges and groundwater control points", BER: "Berlin Senate Wasserportal (dl-de/by-2.0)", CAT: "Catalan Water Agency (Generalitat open data)" },
+             NZ: "regional councils (Greater Wellington, Northland, Marlborough, Horizons)", CH: "Federal Office for the Environment (FOEN)", QC: "Quebec Ministry of the Environment", CZ: "Czech Hydrometeorological Institute (ČHMÚ)", EE: "Estonian Environment Agency", AR: "Instituto Nacional del Agua (INA)", CO: "IDEAM", WAL: "SPW hydrométrie (Wallonia)", QLD: "Queensland Government water monitoring", VIC: "Victorian Water Measurement Information System", BOM: "Bureau of Meteorology Water Data Online (CC BY)", AUB: "Bureau of Meteorology Water Data Online via WMO WHOS (CC BY)", UY: "DINAGUA via WMO WHOS", GGMN: "IGRAC Global Groundwater Monitoring Network (GGMN)", NRW: "LANUV North Rhine-Westphalia (HygrisC and OpenHygon open data)", SH: "LfU Schleswig-Holstein (open data, dl-de/by-2.0)", CHJ: "Júcar basin authority (CHJ), ROEA gauges and groundwater control points", BER: "Berlin Senate Wasserportal (dl-de/by-2.0)", CAT: "Catalan Water Agency (Generalitat open data)" },
     stData: "Data: ",
     stUnit: { depth: "m below ground", aod: "m above sea level" }, stNet: "Network",
     stClass: ["very low", "low", "below normal", "normal or above"],
@@ -5355,11 +5355,11 @@ const WORLD_TXT = {
     wdRange: ["Fenêtre de 2 ans", "Historique complet"],
     wdLeg: ["Niveau historique", "Prévision (médiane)", "Intervalle calibré à 50 % (plage typique)", "Intervalle calibré à 90 % (rarement dépassé)", "Juil.&ndash;août (été)"],
     stBt: (n, y0, y1, s1) => `Backtest ${y0}–${y1} sur ${n} stations, chaque échéance évaluée sur des années qui n’ont pas servi à la choisir : à un mois, un modèle bat les deux références pour ${s1} d’entre elles ; ailleurs, la meilleure référence sert de prévision.`,
-    stSrc: { FRT: "Hub'Eau, température des cours d'eau (OFB, Naïades)", US: "USGS National Water Information System", PR: "USGS National Water Information System", GB: "Environment Agency hydrology (Angleterre)", SCT: "SEPA (Écosse)",
+    stSrc: { FRT: "Hub'Eau, température des cours d'eau (OFB, Naïades)", GLOFAS: "Réanalyse GloFAS v4 du service Copernicus de gestion des urgences : débit modélisé, pas mesuré (contient des informations modifiées du Copernicus Emergency Management Service, 2026)", US: "USGS National Water Information System", PR: "USGS National Water Information System", GB: "Environment Agency hydrology (Angleterre)", SCT: "SEPA (Écosse)",
              CA: "Relevés hydrologiques du Canada (HYDAT et temps réel)", FI: "Institut finlandais de l’environnement (SYKE)", SE: "SMHI (rivières), SGU (nappes)", NL: "Rijkswaterstaat", NO: "Direction norvégienne des ressources en eau et de l’énergie (NVE)", VL: "waterinfo.be (Flandre)",
              IE: "OPW hydro-data (Irlande)", DK: "VandA (Agence danoise de protection de l’environnement) et GEUS Jupiter (nappes)", BC: "Réseau provincial de puits d’observation de la Colombie-Britannique",
              DE: "NIWIS (BfG) et services des Länder (GKD Bayern, HLNUG, Wasserportal Berlin, LANUV NRW, LfU Schleswig-Holstein)",
-             NZ: "conseils régionaux (Greater Wellington, Northland, Marlborough, Horizons)", CH: "Office fédéral de l’environnement (OFEV)", QC: "Ministère de l’Environnement du Québec", CZ: "Institut hydrométéorologique tchèque (ČHMÚ)", EE: "Agence estonienne de l’environnement", AR: "Instituto Nacional del Agua (INA)", CO: "IDEAM", WAL: "SPW hydrométrie (Wallonie)", QLD: "Surveillance de l’eau du Queensland", VIC: "Water Measurement Information System (Victoria)", AUB: "Water Data Online du Bureau of Meteorology via WMO WHOS (CC BY)", UY: "DINAGUA via WMO WHOS", GGMN: "réseau mondial de suivi des eaux souterraines de l’IGRAC (GGMN)", NRW: "LANUV Rhénanie-du-Nord-Westphalie (données ouvertes HygrisC et OpenHygon)", SH: "LfU Schleswig-Holstein (données ouvertes, dl-de/by-2.0)", CHJ: "Confédération hydrographique du Júcar (CHJ), stations ROEA et piézomètres", BER: "Wasserportal du Sénat de Berlin (dl-de/by-2.0)", CAT: "Agence catalane de l’eau (données ouvertes de la Generalitat)" },
+             NZ: "conseils régionaux (Greater Wellington, Northland, Marlborough, Horizons)", CH: "Office fédéral de l’environnement (OFEV)", QC: "Ministère de l’Environnement du Québec", CZ: "Institut hydrométéorologique tchèque (ČHMÚ)", EE: "Agence estonienne de l’environnement", AR: "Instituto Nacional del Agua (INA)", CO: "IDEAM", WAL: "SPW hydrométrie (Wallonie)", QLD: "Surveillance de l’eau du Queensland", VIC: "Water Measurement Information System (Victoria)", BOM: "Water Data Online du Bureau of Meteorology (CC BY)", AUB: "Water Data Online du Bureau of Meteorology via WMO WHOS (CC BY)", UY: "DINAGUA via WMO WHOS", GGMN: "réseau mondial de suivi des eaux souterraines de l’IGRAC (GGMN)", NRW: "LANUV Rhénanie-du-Nord-Westphalie (données ouvertes HygrisC et OpenHygon)", SH: "LfU Schleswig-Holstein (données ouvertes, dl-de/by-2.0)", CHJ: "Confédération hydrographique du Júcar (CHJ), stations ROEA et piézomètres", BER: "Wasserportal du Sénat de Berlin (dl-de/by-2.0)", CAT: "Agence catalane de l’eau (données ouvertes de la Generalitat)" },
     stData: "Données : ",
     stUnit: { depth: "m sous le sol", aod: "m au-dessus du niveau de la mer" }, stNet: "Réseau",
     stClass: ["très bas", "bas", "sous la normale", "normal ou au-dessus"],
@@ -5464,11 +5464,11 @@ const WORLD_TXT = {
     wdRange: ["Ventana de 2 años", "Historial completo"],
     wdLeg: ["Nivel histórico", "Previsión (mediana)", "Intervalo calibrado del 50 % (rango típico)", "Intervalo calibrado del 90 % (rara vez superado)", "Jul.&ndash;ago. (verano)"],
     stBt: (n, y0, y1, s1) => `Prueba retrospectiva ${y0}–${y1} en ${n} estaciones, cada horizonte evaluado en años no usados para elegirlo: a un mes vista, un modelo supera a ambas referencias en el ${s1} de ellas; en las demás, la mejor referencia es la previsión.`,
-    stSrc: { FRT: "Hub'Eau, temperatura de los ríos (OFB, Naïades)", US: "USGS National Water Information System", PR: "USGS National Water Information System", GB: "Environment Agency, hidrología (Inglaterra)", SCT: "SEPA (Escocia)",
+    stSrc: { FRT: "Hub'Eau, temperatura de los ríos (OFB, Naïades)", GLOFAS: "Reanálisis GloFAS v4 del Servicio de Gestión de Emergencias de Copernicus: caudal modelado, no medido (contiene información modificada del Copernicus Emergency Management Service, 2026)", US: "USGS National Water Information System", PR: "USGS National Water Information System", GB: "Environment Agency, hidrología (Inglaterra)", SCT: "SEPA (Escocia)",
              CA: "Water Survey of Canada (HYDAT y datos en tiempo real)", FI: "Instituto Finlandés de Medio Ambiente (SYKE)", SE: "SMHI (ríos), SGU (aguas subterráneas)", NL: "Rijkswaterstaat", NO: "Dirección Noruega de Recursos Hídricos y Energía (NVE)", VL: "waterinfo.be (Flandes)",
              IE: "OPW hydro-data (Irlanda)", DK: "VandA (Agencia Danesa de Protección Ambiental) y GEUS Jupiter (aguas subterráneas)", BC: "Red provincial de pozos de observación de aguas subterráneas de B.C.",
              DE: "NIWIS (BfG) y organismos regionales (GKD Bayern, HLNUG, Wasserportal Berlin, LANUV NRW, LfU Schleswig-Holstein)",
-             NZ: "consejos regionales (Greater Wellington, Northland, Marlborough, Horizons)", CH: "Oficina Federal de Medio Ambiente (FOEN)", QC: "Ministerio de Medio Ambiente de Quebec", CZ: "Instituto Hidrometeorológico Checo (ČHMÚ)", EE: "Agencia Estonia de Medio Ambiente", AR: "Instituto Nacional del Agua (INA)", CO: "IDEAM", WAL: "SPW hydrométrie (Valonia)", QLD: "Gobierno de Queensland, control de aguas", VIC: "Victorian Water Measurement Information System", AUB: "Bureau of Meteorology Water Data Online vía OMM WHOS (CC BY)", UY: "DINAGUA vía OMM WHOS", GGMN: "Red Mundial de Control de Aguas Subterráneas del IGRAC (GGMN)", NRW: "LANUV Renania del Norte-Westfalia (datos abiertos HygrisC y OpenHygon)", SH: "LfU Schleswig-Holstein (datos abiertos, dl-de/by-2.0)", CHJ: "Confederación Hidrográfica del Júcar (CHJ), estaciones ROEA y piezómetros", BER: "Wasserportal del Senado de Berlín (dl-de/by-2.0)", CAT: "Agència Catalana de l’Aigua (datos abiertos de la Generalitat)" },
+             NZ: "consejos regionales (Greater Wellington, Northland, Marlborough, Horizons)", CH: "Oficina Federal de Medio Ambiente (FOEN)", QC: "Ministerio de Medio Ambiente de Quebec", CZ: "Instituto Hidrometeorológico Checo (ČHMÚ)", EE: "Agencia Estonia de Medio Ambiente", AR: "Instituto Nacional del Agua (INA)", CO: "IDEAM", WAL: "SPW hydrométrie (Valonia)", QLD: "Gobierno de Queensland, control de aguas", VIC: "Victorian Water Measurement Information System", BOM: "Bureau of Meteorology Water Data Online (CC BY)", AUB: "Bureau of Meteorology Water Data Online vía OMM WHOS (CC BY)", UY: "DINAGUA vía OMM WHOS", GGMN: "Red Mundial de Control de Aguas Subterráneas del IGRAC (GGMN)", NRW: "LANUV Renania del Norte-Westfalia (datos abiertos HygrisC y OpenHygon)", SH: "LfU Schleswig-Holstein (datos abiertos, dl-de/by-2.0)", CHJ: "Confederación Hidrográfica del Júcar (CHJ), estaciones ROEA y piezómetros", BER: "Wasserportal del Senado de Berlín (dl-de/by-2.0)", CAT: "Agència Catalana de l’Aigua (datos abiertos de la Generalitat)" },
     stData: "Datos: ",
     stUnit: { depth: "m bajo el suelo", aod: "m sobre el nivel del mar" }, stNet: "Red",
     stClass: ["muy bajo", "bajo", "por debajo de lo normal", "normal o superior"],
@@ -5573,11 +5573,11 @@ const WORLD_TXT = {
     wdRange: ["2-Jahres-Fenster", "Gesamter Verlauf"],
     wdLeg: ["Gemessener Stand", "Prognose (Median)", "Kalibrierter 50-%-Bereich (typische Spanne)", "Kalibrierter 90-%-Bereich (selten überschritten)", "Juli&ndash;Aug. (Sommer)"],
     stBt: (n, y0, y1, s1) => `Rückrechnung ${y0}–${y1} an ${n} Messstellen, jeder Horizont an Jahren bewertet, die nicht zu seiner Auswahl dienten: einen Monat voraus an ${s1} davon schlägt ein Modell beide Vergleichswerte; sonst ist der bessere Vergleichswert die Vorhersage.`,
-    stSrc: { FRT: "Hub'Eau, Flusstemperatur (OFB, Naïades)", US: "USGS National Water Information System", PR: "USGS National Water Information System", GB: "Environment Agency, Hydrologie (England)", SCT: "SEPA (Schottland)",
+    stSrc: { FRT: "Hub'Eau, Flusstemperatur (OFB, Naïades)", GLOFAS: "GloFAS-v4-Reanalyse des Copernicus-Katastrophen- und Krisenmanagementdienstes: modellierter, nicht gemessener Abfluss (enthält veränderte Informationen des Copernicus Emergency Management Service, 2026)", US: "USGS National Water Information System", PR: "USGS National Water Information System", GB: "Environment Agency, Hydrologie (England)", SCT: "SEPA (Schottland)",
              CA: "Water Survey of Canada (HYDAT und Echtzeitdaten)", FI: "Finnisches Umweltinstitut (SYKE)", SE: "SMHI (Flüsse), SGU (Grundwasser)", NL: "Rijkswaterstaat", NO: "Norwegische Direktion für Wasserressourcen und Energie (NVE)", VL: "waterinfo.be (Flandern)",
              IE: "OPW hydro-data (Irland)", DK: "VandA (Dänische Umweltschutzbehörde) und GEUS Jupiter (Grundwasser)", BC: "Provinzielles Grundwasser-Beobachtungsnetz von B.C.",
              DE: "NIWIS (BfG) und Landesbehörden (GKD Bayern, HLNUG, Wasserportal Berlin, LANUV NRW, LfU Schleswig-Holstein)",
-             NZ: "Regionalräte (Greater Wellington, Northland, Marlborough, Horizons)", CH: "Bundesamt für Umwelt (BAFU)", QC: "Umweltministerium von Québec", CZ: "Tschechisches Hydrometeorologisches Institut (ČHMÚ)", EE: "Estnische Umweltagentur", AR: "Instituto Nacional del Agua (INA)", CO: "IDEAM", WAL: "SPW hydrométrie (Wallonien)", QLD: "Wassermessnetz der Regierung von Queensland", VIC: "Victorian Water Measurement Information System", AUB: "Bureau of Meteorology Water Data Online über WMO WHOS (CC BY)", UY: "DINAGUA über WMO WHOS", GGMN: "Globales Grundwasser-Messnetz von IGRAC (GGMN)", NRW: "LANUV Nordrhein-Westfalen (offene Daten HygrisC und OpenHygon)", SH: "LfU Schleswig-Holstein (offene Daten, dl-de/by-2.0)", CHJ: "Flussgebietsbehörde Júcar (CHJ), ROEA-Pegel und Grundwassermessstellen", BER: "Wasserportal der Berliner Senatsverwaltung (dl-de/by-2.0)", CAT: "Katalanische Wasseragentur (Open Data der Generalitat)" },
+             NZ: "Regionalräte (Greater Wellington, Northland, Marlborough, Horizons)", CH: "Bundesamt für Umwelt (BAFU)", QC: "Umweltministerium von Québec", CZ: "Tschechisches Hydrometeorologisches Institut (ČHMÚ)", EE: "Estnische Umweltagentur", AR: "Instituto Nacional del Agua (INA)", CO: "IDEAM", WAL: "SPW hydrométrie (Wallonien)", QLD: "Wassermessnetz der Regierung von Queensland", VIC: "Victorian Water Measurement Information System", BOM: "Bureau of Meteorology Water Data Online (CC BY)", AUB: "Bureau of Meteorology Water Data Online über WMO WHOS (CC BY)", UY: "DINAGUA über WMO WHOS", GGMN: "Globales Grundwasser-Messnetz von IGRAC (GGMN)", NRW: "LANUV Nordrhein-Westfalen (offene Daten HygrisC und OpenHygon)", SH: "LfU Schleswig-Holstein (offene Daten, dl-de/by-2.0)", CHJ: "Flussgebietsbehörde Júcar (CHJ), ROEA-Pegel und Grundwassermessstellen", BER: "Wasserportal der Berliner Senatsverwaltung (dl-de/by-2.0)", CAT: "Katalanische Wasseragentur (Open Data der Generalitat)" },
     stData: "Daten: ",
     stUnit: { depth: "m unter Gelände", aod: "m über dem Meer" }, stNet: "Messnetz",
     stClass: ["sehr niedrig", "niedrig", "unter normal", "normal oder darüber"],
@@ -6131,6 +6131,36 @@ function stFc(s, h) {
   return best;
 }
 
+function nearestDot(e, px) {
+  const svg = document.getElementById("world-svg"), m = svg.getScreenCTM();
+  if (!m) return null;
+  const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+  const q = pt.matrixTransform(m.inverse()), lim = px / Math.max(1e-6, m.a);
+  let best = null, bd = lim;
+  svg.querySelectorAll("circle.w-cell").forEach(c => {
+    const d = Math.hypot(+c.getAttribute("cx") - q.x, +c.getAttribute("cy") - q.y);
+    if (d < bd) { bd = d; best = c; }
+  });
+  return best;
+}
+
+function dotRadius(xy, base) {
+  if (xy.length < 30) return base;
+  const cell = base * 4, grid = new Map(), key = (gx, gy) => gx + "," + gy;
+  xy.forEach(([x, y], i) => { const kk = key(Math.floor(x / cell), Math.floor(y / cell)); if (!grid.has(kk)) grid.set(kk, []); grid.get(kk).push(i); });
+  const step = Math.max(1, Math.floor(xy.length / 800)), d = [];
+  for (let i = 0; i < xy.length; i += step) {
+    const [x, y] = xy[i], gx = Math.floor(x / cell), gy = Math.floor(y / cell);
+    let best = cell;
+    for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) for (const j of grid.get(key(gx + a, gy + b)) || []) {
+      if (j !== i) best = Math.min(best, Math.hypot(xy[j][0] - x, xy[j][1] - y));
+    }
+    d.push(best);
+  }
+  d.sort((p, q) => p - q);
+  return Math.max(2.2, Math.min(base, 0.6 * d[Math.floor(d.length / 2)]));
+}
+
 function renderWorldStations(k) {
   const c = worldCountry, W = WT(), SD = worldData["intl_" + c.intl][k];
   const P = worldProjection(c, SD.stations.map(s => [s.lon, s.lat]));
@@ -6138,21 +6168,23 @@ function renderWorldStations(k) {
   svg.setAttribute("viewBox", `0 0 ${P.W.toFixed(1)} ${P.H.toFixed(1)}`);
   const path = c.rings.map(r => "M" + r.map(([x, y]) => `${P.px(x).toFixed(1)},${P.py(y).toFixed(1)}`).join("L") + "Z").join("");
   const z = applyWorldZoom(P, svg);
-  const h = worldH[k], rr = Math.max(4.5, Math.min(8, P.W / 110)) * (z > 1 ? 1.4 / z : 1);
+  const base = Math.max(4.5, Math.min(8, P.W / 110));
+  const r0 = dotRadius(SD.stations.map(s => [P.px(s.lon), P.py(s.lat)]), base);
+  const h = worldH[k], rr = (r0 * (z > 1 ? 1.4 / z : 1)).toFixed(2), sw = r0 < 4 ? 0.6 : 1.2;
   const dots = worldFlood && k === "gw" ? SD.stations.map((s, i) => {
     if (!s.fl) return "";
     const ms = Object.keys(s.fc).sort((a, b) => a - b).filter(m => s.fc[m].pf);
     const f = h === "now" ? (ms.length ? s.fc[ms[0]] : null) : stFc(s, h);
     const pt = f && f.pf ? (f.pf[gwTier] ?? f.pf[Object.keys(f.pf)[0]]) : null;
     const x = P.px(s.lon).toFixed(1), y = P.py(s.lat).toFixed(1);
-    return `<circle class="w-cell${worldPick === i ? " picked" : ""}" data-i="${i}" cx="${x}" cy="${y}" r="${rr}" fill="${pt == null ? "none" : floodColor(pt)}" stroke="${pt == null ? "var(--muted)" : "var(--paper)"}" stroke-width="1.2"></circle>`;
+    return `<circle class="w-cell${worldPick === i ? " picked" : ""}" data-i="${i}" cx="${x}" cy="${y}" r="${rr}" fill="${pt == null ? "none" : floodColor(pt)}" stroke="${pt == null ? "var(--muted)" : "var(--paper)"}" stroke-width="${sw}"></circle>`;
   }).join("") : SD.stations.map((s, i) => {
     const f = h === "now" ? null : stFc(s, h);
     const pc = h === "now" ? s.pn : (f ? f.pct : null);
     const cls = _stClass(pc, k);
     const x = P.px(s.lon).toFixed(1), y = P.py(s.lat).toFixed(1);
     const fill = cls == null ? "none" : SOIL_COLORS[cls];
-    return `<circle class="w-cell${worldPick === i ? " picked" : ""}" data-i="${i}" cx="${x}" cy="${y}" r="${rr}" fill="${fill}" stroke="${cls == null ? "var(--muted)" : "var(--paper)"}" stroke-width="1.2"></circle>`;
+    return `<circle class="w-cell${worldPick === i ? " picked" : ""}" data-i="${i}" cx="${x}" cy="${y}" r="${rr}" fill="${fill}" stroke="${cls == null ? "var(--muted)" : "var(--paper)"}" stroke-width="${sw}"></circle>`;
   }).join("");
   const bm = worldBase(P, z);
   worldProj = P;
@@ -6454,7 +6486,9 @@ function initWorld() {
   });
   document.addEventListener("click", e => { if (!e.target.closest(".world-search")) document.getElementById("world-town-results").hidden = true; });
   document.getElementById("world-svg").addEventListener("click", e => {
-    const t = e.target.closest(".w-cell"); if (!t) return;
+    let t = e.target.closest(".w-cell");
+    if (!t && worldProj) t = nearestDot(e, 14);  // small dots on a dense network: the nearest one within a fingertip
+    if (!t) return;
     worldPick = +t.dataset.i;
     const pt = worldPoints(document.body.dataset.mode)[worldPick];
     if (pt) worldPlace = { lat: pt[0], lon: pt[1] };
