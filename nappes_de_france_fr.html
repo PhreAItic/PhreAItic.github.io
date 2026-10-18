@@ -332,7 +332,12 @@ a { color: var(--water); }
 .map-side .layer-info { margin: 10px 16px; }
 
 .world-wrap { padding: 12px; }
-#world-svg { width: 100%; height: auto; display: block; max-height: 78vh; }
+#world-svg { width: 100%; height: auto; display: block; max-height: 78vh; touch-action: none; cursor: grab; }
+#world-svg.dragging { cursor: grabbing; }
+.world-zoom { position: absolute; top: 10px; right: 10px; z-index: 2; display: flex; flex-direction: column; gap: 4px; }
+.world-zoom button { width: 34px; height: 34px; font: inherit; font-size: 20px; line-height: 1; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--paper); color: var(--ink); cursor: pointer; }
+.world-zoom button:hover { border-color: var(--water); }
 #world-svg .w-land { fill: var(--land); stroke: none; }
 #world-svg .w-sea { fill: var(--sea); pointer-events: none; }
 #world-svg .w-nb { fill: var(--nb-land); stroke: var(--land-line); stroke-width: 0.7; stroke-linejoin: round; vector-effect: non-scaling-stroke; pointer-events: none; }
@@ -1502,7 +1507,7 @@ details.disclaimer[open] summary::before { transform: rotate(45deg); }
         </div>
         </div>
         <div class="map-main">
-        <div class="world-wrap" id="world-wrap" hidden><button type="button" class="world-extent" id="world-extent" hidden></button><svg id="world-svg" role="img"></svg></div>
+        <div class="world-wrap" id="world-wrap" hidden><button type="button" class="world-extent" id="world-extent" hidden></button><div class="world-zoom"><button type="button" id="world-zoom-in">+</button><button type="button" id="world-zoom-out">&minus;</button></div><svg id="world-svg" role="img"></svg></div>
         <div class="map-wrap">
           <div class="map-controls">
             <button class="map-btn" id="zoom-out-btn" disabled>&larr; Toute la France</button>
@@ -5723,6 +5728,8 @@ const SOIL_COLORS = ["var(--alert-severe)", "var(--drought)", "#D9A441", "var(--
 let worldProj = null;
 let worldFlood = false;  // the groundwater-flooding layer: the "gw" stations, flood-prone wells only  // the projection of the station map on screen (for picking a spot)
 let worldCountry = null, worldPick = null, worldStationDates = {}, worldWhole = false, worldTown = null;
+let worldView = null, worldLastP = null, worldRedrawT = null;
+const worldViewKey = () => (worldCountry ? worldCountry.code : "") + "|" + document.body.dataset.mode + "|" + worldWhole;
 const worldTowns = {};
 const worldData = {};
 const worldH = { soil: "now", fire: "1", rivers: "now", gw: "now", temp: "now" };
@@ -5748,7 +5755,7 @@ async function loadWorld(k) {
 }
 
 function enterWorld(c) {
-  worldCountry = c; worldPick = null; worldWhole = false; worldTown = null; worldPlace = null;
+  worldCountry = c; worldPick = null; worldWhole = false; worldTown = null; worldPlace = null; worldView = null;
   const ti = document.getElementById("world-town-input"); ti.value = ""; ti.placeholder = WT().townPh;
   ti.closest(".world-search").style.display = c.nt ? "" : "none";  // no towns listed for this country
   document.getElementById("world-town-results").hidden = true;
@@ -5880,6 +5887,10 @@ function worldValue(k, row, cols) {
 }
 
 function worldZoomBox(P) {
+  if (worldView && worldView.key === worldViewKey()) {
+    const w = worldView.fw * P.W, h = w * P.H / P.W;
+    return { x: worldView.fx * P.W, y: worldView.fy * P.H, w, h, z: 1 / worldView.fw };
+  }
   if (!worldTown) return null;
   if (P.W / (P.kx * P.S) < 3) return null;  // a small country: already close enough
   let w = Math.min(7 * P.kx * P.S, 0.45 * P.W);
@@ -5893,6 +5904,7 @@ function worldZoomBox(P) {
 }
 
 function applyWorldZoom(P, svg) {
+  worldLastP = P;
   const zb = worldZoomBox(P), ext = document.getElementById("world-extent");
   if (zb) {
     svg.setAttribute("viewBox", `${zb.x.toFixed(1)} ${zb.y.toFixed(1)} ${zb.w.toFixed(1)} ${zb.h.toFixed(1)}`);
@@ -6484,7 +6496,8 @@ function initWorld() {
     renderWorld();
   });
   document.getElementById("world-extent").addEventListener("click", () => {
-    if (worldTown) { worldTown = null; document.getElementById("world-town-note").hidden = true; document.getElementById("world-town-input").value = ""; }
+    if (worldView) { worldView = null; if (worldTown) { worldTown = null; document.getElementById("world-town-note").hidden = true; document.getElementById("world-town-input").value = ""; } }
+    else if (worldTown) { worldTown = null; document.getElementById("world-town-note").hidden = true; document.getElementById("world-town-input").value = ""; }
     else worldWhole = !worldWhole;
     worldPick = null; renderWorld();
   });
@@ -6510,6 +6523,76 @@ function initWorld() {
     if (pt) worldPlace = { lat: pt[0], lon: pt[1] };
     renderWorld();
   });
+  wireWorldGestures();
+}
+
+function wireWorldGestures() {
+  const svg = document.getElementById("world-svg"), ptrs = new Map();
+  let drag = null, pinch = null, swallow = false;
+  const user = (cx, cy) => { const m = svg.getScreenCTM(); if (!m) return null; const q = svg.createSVGPoint(); q.x = cx; q.y = cy; return q.matrixTransform(m.inverse()); };
+  const cur = () => { const v = svg.viewBox.baseVal; return { x: v.x, y: v.y, w: v.width, h: v.height }; };
+  function setBox(b) {
+    const P = worldLastP; if (!P) return;
+    b.w = Math.max(P.W / 60, Math.min(P.W, b.w)); b.h = b.w * P.H / P.W;
+    const cx = Math.max(0, Math.min(P.W, b.x + b.w / 2)), cy = Math.max(0, Math.min(P.H, b.y + b.h / 2));
+    b.x = cx - b.w / 2; b.y = cy - b.h / 2;
+    svg.setAttribute("viewBox", `${b.x.toFixed(1)} ${b.y.toFixed(1)} ${b.w.toFixed(1)} ${b.h.toFixed(1)}`);
+    worldView = b.w >= P.W * 0.999 ? null : { key: worldViewKey(), fx: b.x / P.W, fy: b.y / P.H, fw: b.w / P.W };
+    clearTimeout(worldRedrawT);  // redraw once the gesture rests: dots and labels are sized for the new zoom
+    worldRedrawT = setTimeout(() => { if (!ptrs.size) renderWorld(); }, 220);
+  }
+  function zoomAt(p, factor) {
+    const b = cur(), w = b.w / factor;
+    setBox({ x: p.x - (p.x - b.x) * (w / b.w), y: p.y - (p.y - b.y) * (w / b.w), w, h: 0 });
+  }
+  svg.addEventListener("wheel", e => {
+    const p = user(e.clientX, e.clientY); if (!p || !worldLastP) return;
+    e.preventDefault(); zoomAt(p, Math.exp(-e.deltaY * 0.0015));
+  }, { passive: false });
+  svg.addEventListener("pointerdown", e => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (ptrs.size === 1) drag = { x: e.clientX, y: e.clientY, box: cur(), moved: false };
+    else if (ptrs.size === 2) {
+      const [a, b] = [...ptrs.values()];
+      pinch = { d: Math.hypot(a.x - b.x, a.y - b.y), box: cur(), mid: user((a.x + b.x) / 2, (a.y + b.y) / 2) };
+      drag = null; swallow = true;
+    }
+  });
+  svg.addEventListener("pointermove", e => {
+    if (!ptrs.has(e.pointerId) || !worldLastP) return;
+    ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pinch && ptrs.size >= 2) {
+      const [a, b] = [...ptrs.values()], d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (pinch.d > 0 && pinch.mid) {
+        const w = pinch.box.w * pinch.d / Math.max(d, 1), s = w / pinch.box.w;
+        setBox({ x: pinch.mid.x - (pinch.mid.x - pinch.box.x) * s, y: pinch.mid.y - (pinch.mid.y - pinch.box.y) * s, w, h: 0 });
+      }
+      return;
+    }
+    if (!drag) return;
+    const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+    if (!drag.moved) {
+      if (Math.hypot(dx, dy) < 5) return;  // a click, not a drag
+      drag.moved = true; swallow = true; svg.classList.add("dragging");
+      try { svg.setPointerCapture(e.pointerId); } catch (err) {}
+    }
+    const m = svg.getScreenCTM(), s = m ? m.a : 1;
+    setBox({ x: drag.box.x - dx / s, y: drag.box.y - dy / s, w: drag.box.w, h: 0 });
+  });
+  ["pointerup", "pointercancel"].forEach(ev => svg.addEventListener(ev, e => {
+    ptrs.delete(e.pointerId);
+    if (ptrs.size < 2) pinch = null;
+    if (!ptrs.size) { drag = null; svg.classList.remove("dragging"); setTimeout(() => { swallow = false; }, 0); }
+    else if (ptrs.size === 1) { const [q] = [...ptrs.values()]; drag = { x: q.x, y: q.y, box: cur(), moved: true }; }
+  }));
+  svg.addEventListener("click", e => { if (swallow) { e.stopPropagation(); e.preventDefault(); } }, true);
+  const centre = f => { const r = svg.getBoundingClientRect(), p = user(r.left + r.width / 2, r.top + r.height / 2); if (p && worldLastP) zoomAt(p, f); };
+  const L = { en: ["Zoom in", "Zoom out"], fr: ["Zoom avant", "Zoom arrière"], es: ["Acercar", "Alejar"], de: ["Vergrößern", "Verkleinern"] }[LANG] || ["Zoom in", "Zoom out"];
+  const zi = document.getElementById("world-zoom-in"), zo = document.getElementById("world-zoom-out");
+  zi.setAttribute("aria-label", L[0]); zi.title = L[0]; zo.setAttribute("aria-label", L[1]); zo.title = L[1];
+  zi.addEventListener("click", () => centre(1.6));
+  zo.addEventListener("click", () => centre(1 / 1.6));
 }
 
 function setWellMode(mode) {
