@@ -6324,8 +6324,20 @@ function renderStationInfo(k) {
     } else body += `<p>${W.stNo}</p>`;
   }
   if (isFlow(k, s) && !silent) body += `<div id="st-river-card"></div>`;
+  const levelChart = k === "rivers" && !isFlow(k, s) && !silent;
+  if (levelChart) body += `<svg class="chart" id="st-level-chart" viewBox="0 0 720 300" role="img"></svg>`;
   el.innerHTML = body; el.hidden = false;
   if (h !== "now") { const f = stFc(s, h); if (f) worldDetailM = +f.m; }
+  if (levelChart) {
+    const pick = worldPick;
+    stHistory(k, worldPick, s.code).then(hist => {
+      const svg = document.getElementById("st-level-chart");
+      if (!svg || worldPick !== pick) return;
+      const c = worldChartSvg(hist.length ? hist : [{ t: new Date(s.lw + "T00:00:00Z"), v: s.last }], s, nf, s.lat < 0, false);
+      svg.innerHTML = c.g;
+      chartCrosshair(svg, c, nf);
+    });
+  }
   if (isFlow(k, s) && !silent) {
     const pick = worldPick;
     stHistory(k, worldPick, s.code).then(hist => {
