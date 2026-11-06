@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PhreAItic: snow stores</title>
+<meta name="description" content="Weekly snow water equivalent forecasts at SNOTEL and Canadian snow stations, 1 to 13 weeks ahead, with graded skill against the strongest simple baseline.">
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--ink:#14202b;--ink2:#4b5a68;--mute:#7b8995;--line:#dde3e8;--series:#1b6ca8;--band:rgba(27,108,168,.16);--clim:#8b6d2f;--good:#1d7a4b;--warn:#a65b00;--bad:#b3261e}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10171d;--card:#18222a;--ink:#e8eef2;--ink2:#a9b6c0;--mute:#7f8d98;--line:#2a3742;--series:#59a9e0;--band:rgba(89,169,224,.2);--clim:#d1b072;--good:#4cc38a;--warn:#e0a24d;--bad:#ef7d75}}
+:root[data-theme="dark"]{--bg:#10171d;--card:#18222a;--ink:#e8eef2;--ink2:#a9b6c0;--mute:#7f8d98;--line:#2a3742;--series:#59a9e0;--band:rgba(89,169,224,.2);--clim:#d1b072;--good:#4cc38a;--warn:#e0a24d;--bad:#ef7d75}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1060px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:1.5rem;margin:.2em 0}h2{font-size:1.1rem;margin:1.6em 0 .5em}p{margin:.4em 0;color:var(--ink2)}
+a{color:var(--series)}.nav a{margin-right:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:10px 0}
+select,input{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:6px 8px;font:inherit}
+table{width:100%;border-collapse:collapse;font-size:.88rem}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}th{color:var(--ink2);font-weight:600;position:sticky;top:0;background:var(--card)}
+tbody tr{cursor:pointer}tbody tr:hover{background:var(--band)}tbody tr.sel{background:var(--band)}
+.scroll{max-height:420px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:0 8px;font-size:.78rem;color:var(--ink2)}
+.ok{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+svg text{fill:var(--ink2);font:12px system-ui,sans-serif}
+.note{font-size:.85rem;color:var(--mute)}
+@media (max-width:640px){th,td{padding:5px 6px}}
+</style>
+</head>
+<body>
+<main>
+<p class="nav"><a href="index.html">&larr; PhreAItic map</a><a href="trust_page.html">Coverage and performance</a></p>
+<h1>Snow stores</h1>
+<p>Snow water equivalent (SWE) at snow-pillow and snow-course stations, forecast 1 to 13 weeks ahead. Observed data: NRCS SNOTEL (United States) and CanSWE (Canada). Every horizon shown here beat the strongest simple baseline on held-out years 2016-2025.</p>
+<div class="card" id="status" role="status">Loading&hellip;</div>
+
+<h2>Graded skill</h2>
+<p>Skill is the reduction in mean absolute error against the strongest simple baseline (the best of: last value, seasonal median, current percent-of-median carried forward, damped anomaly). Intervals are 95% block bootstraps over water years and over regions.</p>
+<div class="scroll"><table id="skill"><thead><tr><th>Horizon</th><th>Best baseline</th><th>Baseline error (mm)</th><th>Forecast error (mm)</th><th>Skill</th><th>95% interval (water years)</th><th>95% interval (regions)</th></tr></thead><tbody></tbody></table></div>
+
+<h2>Stations</h2>
+<div class="row"><label>Region <select id="region"></select></label><label>Search <input id="q" placeholder="station name"></label><span class="note" id="count"></span></div>
+<div class="scroll"><table id="stations"><thead><tr><th>Station</th><th>Region</th><th>Elev. (m)</th><th>SWE now (mm)</th><th>% of median</th><th>+1 wk</th><th>+4 wk</th><th>+13 wk</th></tr></thead><tbody></tbody></table></div>
+
+<h2 id="detail-h">Station forecast</h2>
+<div class="card"><svg id="chart" viewBox="0 0 640 260" role="img" aria-label="Forecast of snow water equivalent by horizon with 80 percent range"></svg>
+<p class="note" id="chart-note">Pick a station in the table.</p></div>
+
+<h2>How to read this</h2>
+<p class="note">Values are millimetres of water in the snowpack at the station, not areal averages. The line is the median forecast, the shaded band the 80% range (split-conformal on held-out years), the dashed line the station's median for that week. Forecasts begin in November; outside the November-June season this page shows the latest status only. Stations that did not report in the issue week get no forecast. Skill is measured on stations with at least 15 good water years and on station-years with at least 90% complete winter data. Horizons beyond 13 weeks are not shown: the seasonal median was better than the model there. Source: PhreAItic; methods and the plateau analysis in the project repository (<code>projects/snow-stores</code>).</p>
+</main>
+<script>
+(async function(){
+  let d;
+  try{ d=await (await fetch("snow_stores.json",{cache:"no-store"})).json(); }catch(e){ document.getElementById("status").textContent="The snow forecast file could not be loaded."; return; }
+  const st=document.getElementById("status");
+  st.innerHTML=d.in_season
+    ? `Issue week <b>${d.as_of}</b> &middot; ${d.n_stations} stations forecast &middot; horizons ${d.horizons.join(", ")} weeks &middot; generated ${d.generated}`
+    : `Latest data: week of <b>${d.as_of}</b>. ${d.note||"Out of season."} Skill for the horizons below was measured on past winters.`;
+  const hs=d.horizons;
+  const sk=document.querySelector("#skill tbody");
+  hs.forEach(h=>{const s=d.skill[h]; if(!s) return;
+    const cls=s.ci_wy[0]>0&&s.ci_region[0]>0?"ok":"warn";
+    sk.insertAdjacentHTML("beforeend",`<tr><td>${h} week${h>1?"s":""}</td><td>${s.best_baseline.replace("_"," ")}</td><td>${s.baseline_mae.toFixed(1)}</td><td>${s.mae.toFixed(1)}</td><td class="${cls}">${(100*s.skill).toFixed(0)}%</td><td>${(100*s.ci_wy[0]).toFixed(0)}% to ${(100*s.ci_wy[1]).toFixed(0)}%</td><td>${(100*s.ci_region[0]).toFixed(0)}% to ${(100*s.ci_region[1]).toFixed(0)}%</td></tr>`);});
+  const regs=[...new Set(d.stations.map(s=>s.region))].sort();
+  const sel=document.getElementById("region"); sel.innerHTML='<option value="">All regions</option>'+regs.map(r=>`<option>${r}</option>`).join("");
+  const tb=document.querySelector("#stations tbody"); let cur=null;
+  const f=(s,h)=>{const x=s.forecasts[h]; return x?`${Math.round(x.median)} <span class="note">(${Math.round(x.lo80)}-${Math.round(x.hi80)})</span>`:"&ndash;";};
+  function render(){
+    const q=document.getElementById("q").value.toLowerCase(), r=sel.value;
+    const rows=d.stations.filter(s=>(!r||s.region===r)&&(!q||s.name.toLowerCase().includes(q)));
+    document.getElementById("count").textContent=`${rows.length} of ${d.stations.length} stations`;
+    tb.innerHTML=rows.slice(0,600).map(s=>`<tr data-id="${s.id}" class="${cur===s.id?"sel":""}"><td>${s.name}</td><td>${s.region}</td><td>${Math.round(s.elev_m)}</td><td>${Math.round(s.swe_mm)}</td><td>${s.pct_of_median==null?"&ndash;":s.pct_of_median+"%"}</td><td>${f(s,1)}</td><td>${f(s,4)}</td><td>${f(s,13)}</td></tr>`).join("");
+  }
+  tb.addEventListener("click",e=>{const tr=e.target.closest("tr"); if(!tr) return; cur=tr.dataset.id; render(); draw(d.stations.find(s=>s.id===cur));});
+  sel.onchange=render; document.getElementById("q").oninput=render; render();
+  function draw(s){
+    const svg=document.getElementById("chart"); if(!s||!hs.length){svg.innerHTML="";return;}
+    const W=640,H=260,L=48,R=16,T=14,B=34; const pts=hs.filter(h=>s.forecasts[h]).map(h=>({h,...s.forecasts[h]}));
+    if(!pts.length){svg.innerHTML="";return;}
+    const xs=[0,...pts.map(p=>p.h)], ymax=Math.max(s.swe_mm,...pts.map(p=>Math.max(p.hi80,p.climatology)))*1.08||10;
+    const X=h=>L+(W-L-R)*h/Math.max(...xs), Y=v=>T+(H-T-B)*(1-v/ymax);
+    const band=`M${X(0)},${Y(s.swe_mm)} `+pts.map(p=>`L${X(p.h)},${Y(p.hi80)}`).join(" ")+" "+[...pts].reverse().map(p=>`L${X(p.h)},${Y(p.lo80)}`).join(" ")+` L${X(0)},${Y(s.swe_mm)}Z`;
+    const med=`M${X(0)},${Y(s.swe_mm)} `+pts.map(p=>`L${X(p.h)},${Y(p.median)}`).join(" ");
+    const clim=`M${X(0)},${Y(s.median_now_mm)} `+pts.map(p=>`L${X(p.h)},${Y(p.climatology)}`).join(" ");
+    let g=""; for(let i=0;i<=4;i++){const v=ymax*i/4; g+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end">${Math.round(v)}</text>`;}
+    xs.forEach(h=>{g+=`<text x="${X(h)}" y="${H-10}" text-anchor="middle">${h===0?"now":"+"+h+" wk"}</text>`;});
+    svg.innerHTML=g+`<path d="${band}" fill="var(--band)"/><path d="${clim}" fill="none" stroke="var(--clim)" stroke-width="2" stroke-dasharray="5 4"/><path d="${med}" fill="none" stroke="var(--series)" stroke-width="2.4"/>`+pts.map(p=>`<circle cx="${X(p.h)}" cy="${Y(p.median)}" r="4" fill="var(--series)" stroke="var(--card)" stroke-width="2"/>`).join("")+`<circle cx="${X(0)}" cy="${Y(s.swe_mm)}" r="4" fill="var(--ink)" stroke="var(--card)" stroke-width="2"/><text x="${W-R}" y="${T+10}" text-anchor="end">SWE, mm</text>`;
+    document.getElementById("detail-h").textContent=`${s.name} (${s.region}, ${Math.round(s.elev_m)} m)`;
+    document.getElementById("chart-note").innerHTML=`Solid: median forecast &middot; shaded: 80% range &middot; dashed: station median for the week. Now: ${Math.round(s.swe_mm)} mm${s.pct_of_median==null?"":" ("+s.pct_of_median+"% of median)"}. Source: ${s.source}.`;
+  }
+  const first=d.stations.find(s=>s.pct_of_median&&s.pct_of_median>0)||d.stations[0]; if(first){cur=first.id; render(); draw(first);}
+})();
+</script>
+</body>
+</html>
