@@ -31,7 +31,7 @@ svg text{fill:var(--ink2);font:12px system-ui,sans-serif}
 <main>
 <p class="nav"><a href="index.html">&larr; PhreAItic map</a><a href="trust_page.html">Coverage and performance</a></p>
 <h1>Snow stores</h1>
-<p>Snow water equivalent (SWE) at snow-pillow and snow-course stations, forecast 1 to 13 weeks ahead. Observed data: NRCS SNOTEL (United States) and CanSWE (Canada). Every horizon shown here beat the strongest simple baseline on held-out years 2016-2025.</p>
+<p>Snow water equivalent (SWE) at snow-pillow stations, forecast 1 to 13 weeks ahead. Observed data: NRCS SNOTEL stations in the western United States and Alaska (Canadian CanSWE stations are not included yet). Every horizon shown here beat the strongest simple baseline on held-out years 2016-2025.</p>
 <div class="card" id="status" role="status">Loading&hellip;</div>
 
 <h2>Graded skill</h2>
@@ -84,7 +84,7 @@ svg text{fill:var(--ink2);font:12px system-ui,sans-serif}
     const med=`M${X(0)},${Y(s.swe_mm)} `+pts.map(p=>`L${X(p.h)},${Y(p.median)}`).join(" ");
     const clim=`M${X(0)},${Y(s.median_now_mm)} `+pts.map(p=>`L${X(p.h)},${Y(p.climatology)}`).join(" ");
     let g=""; for(let i=0;i<=4;i++){const v=ymax*i/4; g+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end">${Math.round(v)}</text>`;}
-    xs.forEach(h=>{g+=`<text x="${X(h)}" y="${H-10}" text-anchor="middle">${h===0?"now":"+"+h+" wk"}</text>`;});
+    xs.forEach(h=>{g+=`<text x="${X(h)}" y="${H-10}" text-anchor="${h===Math.max(...xs)?"end":"middle"}">${h===0?"now":"+"+h+" wk"}</text>`;});
     svg.innerHTML=g+`<path d="${band}" fill="var(--band)"/><path d="${clim}" fill="none" stroke="var(--clim)" stroke-width="2" stroke-dasharray="5 4"/><path d="${med}" fill="none" stroke="var(--series)" stroke-width="2.4"/>`+pts.map(p=>`<circle cx="${X(p.h)}" cy="${Y(p.median)}" r="4" fill="var(--series)" stroke="var(--card)" stroke-width="2"/>`).join("")+`<circle cx="${X(0)}" cy="${Y(s.swe_mm)}" r="4" fill="var(--ink)" stroke="var(--card)" stroke-width="2"/><text x="${W-R}" y="${T+10}" text-anchor="end">SWE, mm</text>`;
     document.getElementById("detail-h").textContent=`${s.name} (${s.region}, ${Math.round(s.elev_m)} m)`;
     document.getElementById("chart-note").innerHTML=`Solid: median forecast &middot; shaded: 80% range &middot; dashed: station median for the week. Now: ${Math.round(s.swe_mm)} mm${s.pct_of_median==null?"":" ("+s.pct_of_median+"% of median)"}. Source: ${s.source}.`;
