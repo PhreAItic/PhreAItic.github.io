@@ -33,9 +33,9 @@
   "country_layer_template": "https://phreaitic.github.io/api/v1/{CC}/{layer}.json"
  },
  "totals": {
-  "stations": 40335,
-  "countries": 46,
-  "grid_cells": 3036
+  "stations": 40488,
+  "countries": 47,
+  "grid_cells": 3041
  },
  "countries": {
   "AR": {
@@ -184,6 +184,14 @@
     "unit": "m",
     "generated": "2026-10-24",
     "url": "https://phreaitic.github.io/api/v1/CU/gw.json"
+   }
+  },
+  "CY": {
+   "rivers": {
+    "stations": 17,
+    "unit": "m3/s",
+    "generated": "2026-10-29",
+    "url": "https://phreaitic.github.io/api/v1/CY/rivers.json"
    }
   },
   "CZ": {
@@ -600,7 +608,7 @@
     "url": "https://phreaitic.github.io/api/v1/US/gw.json"
    },
    "rivers": {
-    "stations": 8004,
+    "stations": 8140,
     "unit": "m3/s",
     "generated": "2026-11-07",
     "url": "https://phreaitic.github.io/api/v1/US/rivers.json"
