@@ -5625,6 +5625,7 @@ const WORLD_TXT = {
     townPh: "Find a town…", townCredit: "Town search: GeoNames (CC BY 4.0).", demCredit: "Ground heights for the well tool: Copernicus DEM GLO-90 (© DLR e.V., © Airbus Defence and Space GmbH, provided under COPERNICUS by the EU and ESA).", townNone: q => `No town found for “${q}”`, townLoad: "Loading towns…",
     nearTitle: (t) => `Near ${t}`, nearCols: ["Layer", "Nearest sensor", "Distance", "Outlook (percentile for the season)"], nearKind: { gw: "Groundwater", rivers: "River or lake", temp: "River temperature" },
     nearNone: "No sensor within 100 km in the forecast layers of this country.", nearWord: (p, k) => k === "temp" ? (p <= 20 ? "cool for the season" : p >= 80 ? "warm for the season" : "typical") : (p <= 20 ? "low for the season" : p >= 80 ? "high for the season" : "typical"),
+    nearSum: { dry: "Dry-leaning: the nearest groundwater or river sensor expects low for the season within 6 months.", wet: "Wet-leaning: the nearest groundwater or river sensor expects high for the season within 6 months.", mid: "No sign of a low or high season within 6 months at the nearest groundwater and river sensors." }, nearSumNote: "A plain summary of the rows above, not a validated index.",
     nearMonth: (h) => `${h} mo`, nearNote: "The nearest sensor is not your exact spot: groundwater and rivers can differ over short distances. Percentile: where the forecast ranks among the same time of year in the sensor's own history.",
     townNear: (t, what, km) => `Nearest ${what} to ${t}: ${km} km away.`, townWhat: { rivers: "river gauge", gw: "monitoring well", soil: "grid cell", fire: "fire-prone grid cell", catnat: "county" },
     townNoCell: (t, what) => `No ${what} within 150 km of ${t}.`,
@@ -5738,6 +5739,7 @@ const WORLD_TXT = {
     townPh: "Trouver une ville…", townCredit: "Recherche de villes : GeoNames (CC BY 4.0).", demCredit: "Hauteurs du sol pour l'outil puits : Copernicus DEM GLO-90 (© DLR e.V., © Airbus Defence and Space GmbH, fourni dans le cadre de COPERNICUS par l'UE et l'ESA).", townNone: q => `Aucune ville trouvée pour « ${q} »`, townLoad: "Chargement des villes…",
     nearTitle: (t) => `Près de ${t}`, nearCols: ["Couche", "Capteur le plus proche", "Distance", "Perspective (percentile de saison)"], nearKind: { gw: "Nappe", rivers: "Rivière ou lac", temp: "Température de rivière" },
     nearNone: "Aucun capteur à moins de 100 km dans les couches de prévision de ce pays.", nearWord: (p, k) => k === "temp" ? (p <= 20 ? "frais pour la saison" : p >= 80 ? "chaud pour la saison" : "typique") : (p <= 20 ? "bas pour la saison" : p >= 80 ? "haut pour la saison" : "typique"),
+    nearSum: { dry: "Tendance sèche : le capteur de nappe ou de rivière le plus proche prévoit un niveau bas pour la saison d’ici 6 mois.", wet: "Tendance humide : le capteur de nappe ou de rivière le plus proche prévoit un niveau haut pour la saison d’ici 6 mois.", mid: "Aucun signe de niveau bas ou haut pour la saison d’ici 6 mois aux capteurs de nappe et de rivière les plus proches." }, nearSumNote: "Un simple résumé des lignes ci-dessus, pas un indice validé.",
     nearMonth: (h) => `${h} mois`, nearNote: "Le capteur le plus proche n'est pas votre emplacement exact : nappes et rivières peuvent différer sur de courtes distances. Percentile : rang de la prévision parmi la même période de l'année dans l'historique du capteur.",
     townNear: (t, what, km) => `${what[0].toUpperCase() + what.slice(1)} ${["piézomètre", "comté", "bassin"].includes(what) && what !== "municipalité" ? "le plus proche" : "la plus proche"} de ${t} : à ${km} km.`, townWhat: { rivers: "station hydrométrique", gw: "piézomètre", soil: "maille", fire: "maille sujette aux feux", catnat: "comté" },
     townNoCell: (t, what) => `Pas de ${what} à moins de 150 km de ${t}.`,
@@ -5851,6 +5853,7 @@ const WORLD_TXT = {
     townPh: "Buscar una localidad…", townCredit: "Búsqueda de localidades: GeoNames (CC BY 4.0).", demCredit: "Cotas del terreno para la herramienta de pozos: Copernicus DEM GLO-90 (© DLR e.V., © Airbus Defence and Space GmbH, suministrado en el marco de COPERNICUS por la UE y la ESA).", townNone: q => `No se encontró ninguna localidad para “${q}”`, townLoad: "Cargando localidades…",
     nearTitle: (t) => `Cerca de ${t}`, nearCols: ["Capa", "Sensor más cercano", "Distancia", "Perspectiva (percentil de la época)"], nearKind: { gw: "Acuífero", rivers: "Río o lago", temp: "Temperatura del río" },
     nearNone: "Ningún sensor a menos de 100 km en las capas de previsión de este país.", nearWord: (p, k) => k === "temp" ? (p <= 20 ? "fresco para la época" : p >= 80 ? "cálido para la época" : "típico") : (p <= 20 ? "bajo para la época" : p >= 80 ? "alto para la época" : "típico"),
+    nearSum: { dry: "Tendencia seca: el sensor de acuífero o río más cercano prevé un nivel bajo para la época en los próximos 6 meses.", wet: "Tendencia húmeda: el sensor de acuífero o río más cercano prevé un nivel alto para la época en los próximos 6 meses.", mid: "Sin señal de nivel bajo o alto para la época en los próximos 6 meses en los sensores de acuífero y río más cercanos." }, nearSumNote: "Un resumen sencillo de las filas de arriba, no un índice validado.",
     nearMonth: (h) => `${h} m`, nearNote: "El sensor más cercano no es su ubicación exacta: acuíferos y ríos pueden diferir en distancias cortas. Percentil: posición de la previsión entre la misma época del año en el historial del propio sensor.",
     townNear: (t, what, km) => `Lo más cercano a ${t}: ${what}, a ${km} km.`, townWhat: { rivers: "estación de aforo", gw: "pozo de control", soil: "celda", fire: "celda con riesgo de incendio", catnat: "condado" },
     townNoCell: (t, what) => `No hay ${what} a menos de 150 km de ${t}.`,
@@ -5964,6 +5967,7 @@ const WORLD_TXT = {
     townPh: "Ort suchen…", townCredit: "Ortssuche: GeoNames (CC BY 4.0).", demCredit: "Geländehöhen für das Brunnenwerkzeug: Copernicus DEM GLO-90 (© DLR e.V., © Airbus Defence and Space GmbH, bereitgestellt im Rahmen von COPERNICUS durch EU und ESA).", townNone: q => `Kein Ort gefunden für „${q}“`, townLoad: "Orte werden geladen…",
     nearTitle: (t) => `In der Nähe von ${t}`, nearCols: ["Ebene", "Nächster Sensor", "Entfernung", "Ausblick (Perzentil der Jahreszeit)"], nearKind: { gw: "Grundwasser", rivers: "Fluss oder See", temp: "Flusstemperatur" },
     nearNone: "Kein Sensor im Umkreis von 100 km in den Vorhersageebenen dieses Landes.", nearWord: (p, k) => k === "temp" ? (p <= 20 ? "kühl für die Jahreszeit" : p >= 80 ? "warm für die Jahreszeit" : "typisch") : (p <= 20 ? "niedrig für die Jahreszeit" : p >= 80 ? "hoch für die Jahreszeit" : "typisch"),
+    nearSum: { dry: "Trockener Trend: Der nächste Grundwasser- oder Flusssensor erwartet innerhalb von 6 Monaten einen für die Jahreszeit niedrigen Stand.", wet: "Feuchter Trend: Der nächste Grundwasser- oder Flusssensor erwartet innerhalb von 6 Monaten einen für die Jahreszeit hohen Stand.", mid: "Kein Hinweis auf einen niedrigen oder hohen Stand innerhalb von 6 Monaten an den nächsten Grundwasser- und Flusssensoren." }, nearSumNote: "Eine einfache Zusammenfassung der Zeilen oben, kein validierter Index.",
     nearMonth: (h) => `${h} Mon.`, nearNote: "Der nächste Sensor ist nicht genau Ihr Standort: Grundwasser und Flüsse können sich auf kurzer Distanz unterscheiden. Perzentil: Rang der Vorhersage unter derselben Jahreszeit in der eigenen Messreihe des Sensors.",
     townNear: (t, what, km) => `Am nächsten an ${t}: ${what}, ${km} km entfernt.`, townWhat: { rivers: "Pegel", gw: "Messstelle", soil: "Rasterzelle", fire: "brandgefährdete Rasterzelle", catnat: "County" },
     townNoCell: (t, what) => `Im Umkreis von 150 km um ${t} gibt es nichts dergleichen (${what}).`,
@@ -6376,18 +6380,19 @@ function worldNearCard() {
   const el = document.getElementById("world-near"), W = WT();
   const D = worldCountry && worldData["intl_" + worldCountry.intl];
   if (!worldTown || !D) { el.hidden = true; return; }
-  const rows = [];
+  const rows = []; let lows = 0, highs = 0;
   ["gw", "rivers", "temp"].forEach(k => {
     const sts = (D[k] && D[k].stations) || [];
     let best = null, bd = Infinity;
     sts.forEach(x => { if (x.lat == null || x.lon == null || !x.fc) return; const d = _km(worldTown.lat, worldTown.lon, x.lat, x.lon); if (d < bd) { bd = d; best = x; } });
     if (!best || bd > 100) return;
+    if (k !== "temp") { const ps = Object.keys(best.fc).map(Number).filter(h => h <= 6 && best.fc[h].pct != null).map(h => best.fc[h].pct); if (ps.some(p => p <= 20)) lows++; else if (ps.length && ps.every(p => p >= 80)) highs++; }
     const out = Object.keys(best.fc).map(Number).filter(h => [1, 3, 12].includes(h) && best.fc[h].pct != null)
       .map(h => `${W.nearMonth(h)}: ${W.nearWord(best.fc[h].pct, k)} (${best.fc[h].pct})`).join("<br>");
     rows.push(`<tr><td>${W.nearKind[k]}</td><td>${(best.name || best.code).replace(/</g, "&lt;")}</td><td>${Math.max(1, Math.round(bd))} km</td><td>${out || "–"}</td></tr>`);
   });
   el.innerHTML = `<h4>${W.nearTitle(worldTown.name.replace(/</g, "&lt;"))}</h4>` + (rows.length
-    ? `<table><thead><tr>${W.nearCols.map(c => `<th>${c}</th>`).join("")}</tr></thead><tbody>${rows.join("")}</tbody></table><p class="note">${W.nearNote}</p>`
+    ? `<table><thead><tr>${W.nearCols.map(c => `<th>${c}</th>`).join("")}</tr></thead><tbody>${rows.join("")}</tbody></table><p><b>${lows ? W.nearSum.dry : highs ? W.nearSum.wet : W.nearSum.mid}</b></p><p class="note">${W.nearNote} ${W.nearSumNote}</p>`
     : `<p>${W.nearNone}</p>`);
   el.hidden = false;
 }
