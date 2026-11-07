@@ -1,0 +1,24 @@
+<!doctype html><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>PhreAItic API</title><style>body{font:16px/1.5 system-ui,sans-serif;max-width:46rem;margin:2rem auto;padding:0 1rem}pre{white-space:pre-wrap;background:#f3f3f3;padding:1rem;border-radius:8px}</style><h1>PhreAItic read-only API</h1><p><a href='v1/index.json'>v1/index.json</a> · <a href='v1/openapi.json'>openapi.json</a> · <a href='../llms.txt'>llms.txt</a></p><pre># PhreAItic
+
+&gt; Forecasts of groundwater levels, rivers and lakes, river temperature and snow for 46 countries (40,335 monitoring stations), 1 to 12 months ahead, with calibrated 80% bands, graded on years the models never saw.
+
+Read-only JSON API, no key, GET only, CORS open, rebuilt about weekly. Base: https://phreaitic.github.io/api/v1
+
+## How to use it (three requests cover most questions)
+- Near a place: GET https://phreaitic.github.io/api/v1/grid/&lt;floor(lat)&gt;_&lt;floor(lon)&gt;.json  (Brno 49.19N 16.61E -&gt; grid/49_16.json). Pick the station with the smallest distance; also check neighbouring cells near a cell edge.
+- A country and layer: GET https://phreaitic.github.io/api/v1/&lt;CC&gt;/&lt;layer&gt;.json  (CC = ISO 3166-1 alpha-2 such as CZ, US, FR; layer = gw, rivers, temp, snow).
+- Trust and caveats: GET https://phreaitic.github.io/api/v1/live_record.json and read each network&#x27;s backtest_by_horizon_months.
+
+## Reading a forecast
+- median = forecast; q10..q90 = 80% band; pct = percentile of the median among the same time of year in that station&#x27;s own history (below 20 low for the season, above 80 high).
+- model_served false means the stronger simple baseline (last value or seasonal normal) is what the map shows, not the model.
+- The nearest station is not the user&#x27;s exact spot. Say the distance. Do not present these as safety-critical advice.
+- Each network carries its source and licence; attribute the source when you reuse a number.
+
+## Files
+- [index.json](https://phreaitic.github.io/api/v1/index.json): countries, layers, counts, links
+- [openapi.json](https://phreaitic.github.io/api/v1/openapi.json): schema
+- [live_record.json](https://phreaitic.github.io/api/v1/live_record.json): published forecasts scored against what happened
+- [Performance page](https://phreaitic.github.io/trust_page.html): the human version of the evidence
+- [Map](https://phreaitic.github.io/): the interactive version
+</pre>

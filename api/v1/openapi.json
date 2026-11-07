@@ -1,0 +1,264 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "PhreAItic read-only forecast API",
+  "version": "1",
+  "description": "Static JSON files; no authentication; GET only. Forecasts of groundwater, river, river temperature and snow, with calibrated 80% bands."
+ },
+ "servers": [
+  {
+   "url": "https://phreaitic.github.io/api/v1"
+  }
+ ],
+ "paths": {
+  "/index.json": {
+   "get": {
+    "summary": "Start here: layers, countries with counts, links",
+    "responses": {
+     "200": {
+      "description": "index"
+     }
+    }
+   }
+  },
+  "/{country}/{layer}.json": {
+   "get": {
+    "summary": "All stations of a country and layer with forecasts",
+    "parameters": [
+     {
+      "name": "country",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "enum": [
+        "AR",
+        "AT",
+        "AU",
+        "BE",
+        "BR",
+        "CA",
+        "CH",
+        "CL",
+        "CO",
+        "CR",
+        "CU",
+        "CZ",
+        "DE",
+        "DK",
+        "EE",
+        "ES",
+        "FI",
+        "FR",
+        "GB",
+        "GF",
+        "GR",
+        "GU",
+        "HR",
+        "IE",
+        "IN",
+        "IT",
+        "JM",
+        "JP",
+        "KR",
+        "LT",
+        "LU",
+        "LV",
+        "MX",
+        "NL",
+        "NO",
+        "NZ",
+        "PR",
+        "PT",
+        "SE",
+        "SI",
+        "SK",
+        "SV",
+        "TH",
+        "US",
+        "UY",
+        "ZA"
+       ]
+      }
+     },
+     {
+      "name": "layer",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "enum": [
+        "gw",
+        "rivers",
+        "temp",
+        "snow"
+       ]
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "country layer",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CountryLayer"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "that country has no such layer"
+     }
+    }
+   }
+  },
+  "/grid/{lat_floor}_{lon_floor}.json": {
+   "get": {
+    "summary": "Stations in one 1-degree cell (floor of latitude and longitude)",
+    "parameters": [
+     {
+      "name": "lat_floor",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer"
+      }
+     },
+     {
+      "name": "lon_floor",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "cell"
+     },
+     "404": {
+      "description": "no station in that cell"
+     }
+    }
+   }
+  },
+  "/live_record.json": {
+   "get": {
+    "summary": "Published forecasts scored against what happened",
+    "responses": {
+     "200": {
+      "description": "scores"
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "Forecast": {
+    "type": "object",
+    "properties": {
+     "h": {
+      "type": "integer",
+      "description": "months ahead"
+     },
+     "date": {
+      "type": "string",
+      "format": "date"
+     },
+     "median": {
+      "type": "number"
+     },
+     "q10": {
+      "type": [
+       "number",
+       "null"
+      ]
+     },
+     "q90": {
+      "type": [
+       "number",
+       "null"
+      ]
+     },
+     "pct": {
+      "type": [
+       "integer",
+       "null"
+      ],
+      "description": "percentile among the same time of year in the station history"
+     },
+     "model_served": {
+      "type": "boolean"
+     }
+    }
+   },
+   "Station": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "lat": {
+      "type": "number"
+     },
+     "lon": {
+      "type": "number"
+     },
+     "unit": {
+      "type": "string"
+     },
+     "last_value": {
+      "type": [
+       "number",
+       "null"
+      ]
+     },
+     "last_week": {
+      "type": "string"
+     },
+     "forecasts": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Forecast"
+      }
+     }
+    }
+   },
+   "CountryLayer": {
+    "type": "object",
+    "properties": {
+     "country": {
+      "type": "string"
+     },
+     "layer": {
+      "type": "string"
+     },
+     "value_unit": {
+      "type": "string"
+     },
+     "generated": {
+      "type": "string"
+     },
+     "networks": {
+      "type": "array",
+      "items": {
+       "type": "object"
+      }
+     },
+     "stations": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Station"
+      }
+     }
+    }
+   }
+  }
+ }
+}
