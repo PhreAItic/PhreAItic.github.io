@@ -4456,6 +4456,44 @@ function decHtml(k, it) {
       `<p class="hint">${T.decNote(d.n_wells_total)}</p>`;
 }
 
+var _decIdx = null;
+function decIndex() {
+  if (_decIdx) return _decIdx;
+  _decIdx = {};
+  [["decadal", (DATA.decadal_gw || {}).stations || []], ["decriver", (DATA.decadal_river || {}).stations || []]].forEach(([k, L]) => {
+    const ix = _decIdx[k] = { code: new Map(), grid: new Map() };
+    L.forEach(d => {
+      ix.code.set(String(d.code), d);
+      const key = Math.round(d.lat * 200) + ":" + Math.round(d.lon * 200);
+      if (!ix.grid.has(key)) ix.grid.set(key, []);
+      ix.grid.get(key).push(d);
+    });
+  });
+  return _decIdx;
+}
+function decFor(k, s) {
+  const kind = k === "gw" ? "decadal" : k === "rivers" ? "decriver" : null;
+  if (!kind || !s || s.lat == null) return null;
+  const ix = decIndex()[kind], hit = ix.code.get(String(s.code));
+  if (hit) return { kind, it: hit };
+  const la = Math.round(s.lat * 200), lo = Math.round(s.lon * 200), c = Math.cos(s.lat * Math.PI / 180);
+  let best = null, bd = 1e9;
+  for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) for (const d of ix.grid.get((la + a) + ":" + (lo + b)) || []) {
+    const dd = Math.hypot(d.lat - s.lat, (d.lon - s.lon) * c);
+    if (dd < bd) { bd = dd; best = d; }
+  }
+  return best && bd < 0.003 ? { kind, it: best } : null;
+}
+const DEC_OPT = {
+  en: { opt: "10-year outlook", fc: "Forecast" }, fr: { opt: "Perspective à 10 ans", fc: "Prévision" },
+  es: { opt: "Perspectiva a 10 años", fc: "Previsión" }, de: { opt: "Ausblick auf 10 Jahre", fc: "Prognose" } };
+const decOpt = () => DEC_OPT[LANG] || DEC_OPT.en;
+var decView = false;  // true: the open station panel shows its 10-year outlook instead of the chart
+function decToggleHtml(on) {
+  const D = decOpt();
+  return `<div class="range-toggle" id="dec-toggle" role="group" style="margin-bottom:8px"><button data-dv="0" class="${on ? "" : "active"}">${D.fc}</button><button data-dv="1" class="${on ? "active" : ""}">${D.opt}</button></div>`;
+}
+
 const fmtPct = p => p == null ? "–" : (p < 0.01 ? "< 1" + PCT : (Math.round(p * 100) + PCT));
 const fmtNum = (x, n) => x == null || !isFinite(x) ? "–" : (Math.abs(x) < 0.5 * 10 ** -n ? 0 : x).toLocaleString(LOC, { minimumFractionDigits: n, maximumFractionDigits: n });
 function fmtFlow(q) { return q == null ? "–" : fmtNum(q, q >= 100 ? 0 : q >= 10 ? 1 : q >= 1 ? 2 : 3); }
@@ -4849,11 +4887,28 @@ function foldHints(el) {
   el.appendChild(d);
 }
 
+function decCatHtml(it, T) {
+    const d = DATA.decadal_catnat, sk = d.skill || {}, a = sk.vs_persistence || {}, nt = sk.vs_national_rate || {};
+    const meter = (label, v, txt, color) => v == null ? "" :
+      `<div class="meter"><span class="meter-l">${label}</span><span class="meter-t"><span class="meter-f" style="width:${Math.max(1, Math.min(100, v * 100))}%;background:${color}"></span></span><span class="meter-v">${txt}</span></div>`;
+    return `<h4>${T.catHead(it.name)}</h4><div class="meters">` + meter(T.decCMeterP, it.p, fmtPct(it.p), probColor(it.p, [0.1, 0.3, 0.5])) +
+      meter(T.catMeterClay, it.clay, it.clay != null ? fmtPct(it.clay) : "", "#A8501F") + `</div><p>${T.decCP(d.origin_year, fmtPct(it.p))}</p>` +
+      (it.clay != null ? `<p>${T.catClay(fmtPct(it.clay))}</p>` : "") + `<p>${T.decCHist(it.n, it.L)}</p>` +
+      (a.bss != null ? `<p class="hint">${T.decCSkill(fmtNum(a.bss, 3), fmtNum(a.lo, 3), fmtNum(a.hi, 3), fmtNum(nt.bss, 3), fmtNum(sk.auc, 2))}</p>` : "") +
+      `<p class="hint">${T.decCNote}</p>`;
+}
+var _decCatMap = null;
+function decCatFor(code) {
+  if (!_decCatMap) { _decCatMap = new Map(); decCatRows().forEach(r => _decCatMap.set(String(r.code), r)); }
+  return _decCatMap.get(String(code));
+}
+
 function renderExtraInfo() {
   const T = extraT(), el = document.getElementById("layer-info");
   const it = extraPicked;
   if (!it || extraLayer === "off") { el.hidden = true; el.innerHTML = ""; return; }
   el.hidden = false;
+  el.onclick = e => { const b = e.target.closest("button[data-dv]"); if (b) { decView = b.dataset.dv === "1"; renderExtraInfo(); } };
   if (extraLayer === "rivers") {
     const rf = DATA.river_forecast, f = it.fc[riverHorizon] || {};
     const low = (rf.lowflow || {})[riverHorizon] || {};
@@ -4877,19 +4932,16 @@ function renderExtraInfo() {
         fmtNum(fk.brier_skill_seasonal, 3), fmtNum(fk.brier_skill_no_change, 2), fmtNum(fk.auc, 2), fmtNum(fk.auc_seasonal, 2))}</p>` : `<p class="hint">${T.riverFloodSeas}</p>`);
     }
     body += riverChart(it);
-    el.innerHTML = `<h4>${T.riverHead(it)}</h4>${body}<p class="hint">${T.riverSrc}</p>`;
-    wireRiverChart(it);
+    const dcf = decFor("rivers", it);
+    if (dcf && decView) el.innerHTML = decToggleHtml(true) + decHtml(dcf.kind, dcf.it);
+    else {
+      el.innerHTML = (dcf ? decToggleHtml(false) : "") + `<h4>${T.riverHead(it)}</h4>${body}<p class="hint">${T.riverSrc}</p>`;
+      wireRiverChart(it);
+    }
   } else if (extraLayer === "decriver") {
     el.innerHTML = decHtml("decriver", it);
   } else if (extraLayer === "deccat") {
-    const d = DATA.decadal_catnat, sk = d.skill || {}, a = sk.vs_persistence || {}, nt = sk.vs_national_rate || {};
-    const meter = (label, v, txt, color) => v == null ? "" :
-      `<div class="meter"><span class="meter-l">${label}</span><span class="meter-t"><span class="meter-f" style="width:${Math.max(1, Math.min(100, v * 100))}%;background:${color}"></span></span><span class="meter-v">${txt}</span></div>`;
-    el.innerHTML = `<h4>${T.catHead(it.name)}</h4><div class="meters">` + meter(T.decCMeterP, it.p, fmtPct(it.p), probColor(it.p, [0.1, 0.3, 0.5])) +
-      meter(T.catMeterClay, it.clay, it.clay != null ? fmtPct(it.clay) : "", "#A8501F") + `</div><p>${T.decCP(d.origin_year, fmtPct(it.p))}</p>` +
-      (it.clay != null ? `<p>${T.catClay(fmtPct(it.clay))}</p>` : "") + `<p>${T.decCHist(it.n, it.L)}</p>` +
-      (a.bss != null ? `<p class="hint">${T.decCSkill(fmtNum(a.bss, 3), fmtNum(a.lo, 3), fmtNum(a.hi, 3), fmtNum(nt.bss, 3), fmtNum(sk.auc, 2))}</p>` : "") +
-      `<p class="hint">${T.decCNote}</p>`;
+    el.innerHTML = decCatHtml(it, T);
   } else if (extraLayer === "decadal") {
     el.innerHTML = decHtml("decadal", it);
   } else if (extraLayer === "gwflood") {
@@ -4944,7 +4996,9 @@ function renderExtraInfo() {
       meter(T.catMeterP, it.p, fmtPct(it.p), probColor(it.p, [0.05, 0.2, 0.5])) +
       meter(T.catMeterClay, it.clay, it.clay != null ? fmtPct(it.clay) : "", "#A8501F") +
       meter(T.catMeterSwi, it.swi, it.swi != null ? fmtNum(it.swi * 100, 0) : "", it.swi != null ? swiColor(it.swi) : "") + `</div>`;
-    el.innerHTML = `<h4>${T.catHead(it.name)}</h4>${meters}<p>${T.catP(c.year, fmtPct(it.p))}</p>` +
+    const dcc = decCatFor(it.code);
+    if (dcc && decView) { el.innerHTML = decToggleHtml(true) + decCatHtml(dcc, T); return; }
+    el.innerHTML = (dcc ? decToggleHtml(false) : "") + `<h4>${T.catHead(it.name)}</h4>${meters}<p>${T.catP(c.year, fmtPct(it.p))}</p>` +
       (it.clay != null ? `<p>${T.catClay(fmtPct(it.clay))}</p>` : "") +
       (it.swi != null ? `<p>${T.catSwi(fmtDate(c.swi_through), fmtNum(it.swi * 100, 0))}</p>` : "") +
       `<p class="hint">${T.catBt(bt.years[0], bt.years[1], fmtNum(bt.brier_skill, 2), fmtNum(bt.auc, 2), fmtNum(bt.auc_past_rate, 2))}</p>` +
@@ -5005,9 +5059,7 @@ function initExtraLayers() {
   const hasCatnat = !!(DATA.catnat_outlook || {}).communes;
   const hasGw = !!((DATA.gw_flood || {}).stations || []).length;
   const hasGwc = !!((DATA.gw_flood_communes || {}).communes || []).length;
-  const hasDec = !!((DATA.decadal_gw || {}).stations || []).length;
-  const hasDecR = !!((DATA.decadal_river || {}).stations || []).length;
-  const hasDecC = !!(DATA.decadal_catnat || {}).communes;
+  const hasDec = false, hasDecR = false, hasDecC = false;
   if (!hasRivers && !hasCatnat && !hasGw && !hasGwc && !hasDec && !hasDecR && !hasDecC) return;
   const T = extraT();
   document.getElementById("extra-layer-wrap").hidden = false;
@@ -5310,9 +5362,7 @@ function initChooser() {
     gwcommunes: !!((DATA.gw_flood_communes || {}).communes || []).length,
     riverrestr: !!((DATA.river_restrictions || {}).zones || []).length,
     catnat: !!(DATA.catnat_outlook || {}).communes,
-    decadal: !!((DATA.decadal_gw || {}).stations || []).length,
-    decriver: !!((DATA.decadal_river || {}).stations || []).length,
-    deccat: !!(DATA.decadal_catnat || {}).communes,
+    decadal: false, decriver: false, deccat: false,  // now an option inside each station panel
     well: !!document.getElementById("well-tool"),
     temp: WORLD.some(w => w.nw),  // river water temperature: abroad only for now
     snow: WORLD.some(w => w.nsn),  // snow water equivalent stations (SNOTEL, United States)
@@ -6738,8 +6788,20 @@ function renderWorldDetail(k) {
     + (s.bb ? ` <span class="hint">${W.stBackbuilt(s.bb[0], s.bb[1])}</span>` : "") : "";
   document.getElementById("wd-summary").innerHTML += derivedNote(s);
   const rg = document.getElementById("wd-range");
-  rg.innerHTML = [["2y", W.wdRange[0]], ["full", W.wdRange[1]]].map(([r, l]) => `<button data-range="${r}" class="${chartRange === r ? "active" : ""}">${l}</button>`).join("");
-  rg.onclick = e => { const b = e.target.closest("button[data-range]"); if (!b) return; chartRange = b.dataset.range; renderWorldDetail(k); };
+  const dcf = decFor(k, s);
+  if (!dcf) decView = false;
+  const showDec = !!dcf && decView;
+  rg.innerHTML = [["2y", W.wdRange[0]], ["full", W.wdRange[1]]].map(([r, l]) => `<button data-range="${r}" class="${!showDec && chartRange === r ? "active" : ""}">${l}</button>`).join("")
+    + (dcf ? `<button data-range="dec" class="${showDec ? "active" : ""}">${decOpt().opt}</button>` : "");
+  rg.onclick = e => { const b = e.target.closest("button[data-range]"); if (!b) return;
+    if (b.dataset.range === "dec") decView = true; else { decView = false; chartRange = b.dataset.range; }
+    renderWorldDetail(k); };
+  let dp = document.getElementById("wd-dec");
+  if (!dp) { dp = document.createElement("div"); dp.id = "wd-dec"; dp.className = "dec-panel"; dp.style.cssText = "padding:4px 20px 12px"; document.getElementById("wd-chart").after(dp); }
+  dp.hidden = !showDec;
+  dp.innerHTML = showDec ? decHtml(dcf.kind, dcf.it) : "";
+  document.getElementById("wd-chart").style.display = showDec ? "none" : "";
+  document.getElementById("wd-legend").style.display = showDec ? "none" : "";
   const south = s.lat < 0 || k === "snow";  // no summer band on a snow chart
   const leg = [["var(--ink-soft)", "", k === "temp" ? TT().wdHist : k === "snow" ? SNT().wdHist : W.wdLeg[0]], ["var(--water)", "", W.wdLeg[1]], ["var(--water-soft)", ";opacity:0.85", W.wdLeg[2]],
     ["var(--water-soft)", ";opacity:0.45", W.wdLeg[3]]].concat(south ? [] : [["var(--drought)", "; opacity:0.2", W.wdLeg[4]]]);
