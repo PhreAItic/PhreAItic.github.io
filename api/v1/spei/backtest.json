@@ -1,0 +1,170 @@
+{
+ "SPEI3_h1": {
+  "n_cells": 6122,
+  "n_origins": 80,
+  "skill_vs_persistence": 0.2999,
+  "skill_vs_climatology": 0.5574,
+  "ci95_vs_persistence_year_blocks": [
+   0.2925,
+   0.3081
+  ],
+  "ci95_vs_persistence_block_blocks": [
+   0.2835,
+   0.3122
+  ]
+ },
+ "SPEI3_h2": {
+  "n_cells": 6122,
+  "n_origins": 80,
+  "skill_vs_persistence": 0.244,
+  "skill_vs_climatology": 0.2979,
+  "ci95_vs_persistence_year_blocks": [
+   0.2296,
+   0.2551
+  ],
+  "ci95_vs_persistence_block_blocks": [
+   0.222,
+   0.2595
+  ]
+ },
+ "SPEI6_h1": {
+  "n_cells": 6122,
+  "n_origins": 80,
+  "skill_vs_persistence": 0.3369,
+  "skill_vs_climatology": 0.7208,
+  "ci95_vs_persistence_year_blocks": [
+   0.3283,
+   0.3455
+  ],
+  "ci95_vs_persistence_block_blocks": [
+   0.3259,
+   0.3469
+  ]
+ },
+ "SPEI6_h2": {
+  "n_cells": 6122,
+  "n_origins": 80,
+  "skill_vs_persistence": 0.311,
+  "skill_vs_climatology": 0.569,
+  "ci95_vs_persistence_year_blocks": [
+   0.2986,
+   0.3228
+  ],
+  "ci95_vs_persistence_block_blocks": [
+   0.2946,
+   0.3238
+  ]
+ },
+ "SPEI6_h3": {
+  "n_cells": 6122,
+  "n_origins": 80,
+  "skill_vs_persistence": 0.2947,
+  "skill_vs_climatology": 0.4392,
+  "ci95_vs_persistence_year_blocks": [
+   0.2779,
+   0.3081
+  ],
+  "ci95_vs_persistence_block_blocks": [
+   0.274,
+   0.3114
+  ]
+ },
+ "SPEI6_h4": {
+  "n_cells": 6122,
+  "n_origins": 80,
+  "skill_vs_persistence": 0.2582,
+  "skill_vs_climatology": 0.3244,
+  "ci95_vs_persistence_year_blocks": [
+   0.2451,
+   0.2725
+  ],
+  "ci95_vs_persistence_block_blocks": [
+   0.2359,
+   0.2746
+  ]
+ },
+ "SPEI12_h1": {
+  "n_cells": 6122,
+  "n_origins": 80,
+  "skill_vs_persistence": 0.2878,
+  "skill_vs_climatology": 0.8404,
+  "ci95_vs_persistence_year_blocks": [
+   0.2779,
+   0.2982
+  ],
+  "ci95_vs_persistence_block_blocks": [
+   0.2766,
+   0.2963
+  ]
+ },
+ "SPEI12_h2": {
+  "n_cells": 6122,
+  "n_origins": 80,
+  "skill_vs_persistence": 0.2401,
+  "skill_vs_climatology": 0.748,
+  "ci95_vs_persistence_year_blocks": [
+   0.2237,
+   0.2559
+  ],
+  "ci95_vs_persistence_block_blocks": [
+   0.2236,
+   0.2534
+  ]
+ },
+ "SPEI12_h3": {
+  "n_cells": 6122,
+  "n_origins": 80,
+  "skill_vs_persistence": 0.2087,
+  "skill_vs_climatology": 0.6664,
+  "ci95_vs_persistence_year_blocks": [
+   0.19,
+   0.2284
+  ],
+  "ci95_vs_persistence_block_blocks": [
+   0.1908,
+   0.2222
+  ]
+ },
+ "SPEI12_h4": {
+  "n_cells": 6122,
+  "n_origins": 80,
+  "skill_vs_persistence": 0.1888,
+  "skill_vs_climatology": 0.5952,
+  "ci95_vs_persistence_year_blocks": [
+   0.1699,
+   0.2097
+  ],
+  "ci95_vs_persistence_block_blocks": [
+   0.1684,
+   0.2057
+  ]
+ },
+ "SPEI12_h6": {
+  "n_cells": 6122,
+  "n_origins": 80,
+  "skill_vs_persistence": 0.1515,
+  "skill_vs_climatology": 0.4593,
+  "ci95_vs_persistence_year_blocks": [
+   0.1199,
+   0.1836
+  ],
+  "ci95_vs_persistence_block_blocks": [
+   0.129,
+   0.1735
+  ]
+ },
+ "SPEI12_h9": {
+  "n_cells": 6122,
+  "n_origins": 79,
+  "skill_vs_persistence": 0.109,
+  "skill_vs_climatology": 0.2794,
+  "ci95_vs_persistence_year_blocks": [
+   0.0702,
+   0.1397
+  ],
+  "ci95_vs_persistence_block_blocks": [
+   0.0815,
+   0.137
+  ]
+ }
+}

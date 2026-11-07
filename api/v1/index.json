@@ -37,12 +37,18 @@
   "countries": 47,
   "grid_cells": 3041,
   "spi_tiles": 371,
+  "spei_tiles": 320,
   "tws_tiles": 255
  },
  "spi": {
   "meaning": "Standardised Precipitation Index outlook on a 1-degree land grid (GPCC rainfall): current SPI-3/6/12 and ensemble forecasts (median, q10, q90) for horizons below the window length; 0 is normal, below -1 dry, below -2 very dry",
   "tile_template": "https://phreaitic.github.io/api/v1/spi/tile/{lat10}_{lon10}.json (lat10 and lon10 = floor(lat/10)*10 and floor(lon/10)*10)",
   "evidence": "https://phreaitic.github.io/api/v1/spi/backtest.json"
+ },
+ "spei": {
+  "meaning": "Standardised Precipitation-Evapotranspiration Index outlook (rainfall minus potential evapotranspiration, so heat counts) on the same 1-degree land grid: current SPEI-3/6/12 and ensemble forecasts; 0 normal, below -1 dry",
+  "tile_template": "https://phreaitic.github.io/api/v1/spei/tile/{lat10}_{lon10}.json",
+  "evidence": "https://phreaitic.github.io/api/v1/spei/backtest.json"
  },
  "tws": {
   "meaning": "Terrestrial water storage anomaly (GRACE / GRACE-FO, everything stored on land) on a 1-degree land grid: now and forecasts at 1, 3 and 6 months (median, q10, q90), in cm of water height against the 2002-2020 mean; 12 months is not published (worse than no change)",
