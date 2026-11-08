@@ -51,7 +51,7 @@
   "evidence": "https://phreaitic.github.io/api/v1/spei/backtest.json"
  },
  "tws": {
-  "meaning": "Terrestrial water storage anomaly (GRACE / GRACE-FO, everything stored on land) on a 1-degree land grid: now and forecasts at 1, 3 and 6 months (median, q10, q90), in cm of water height against the 2002-2020 mean; 12 months is not published (worse than no change)",
+  "meaning": "Terrestrial water storage anomaly (GRACE / GRACE-FO, everything stored on land) on a 1-degree land grid: now and forecasts at 1, 3, 6, 9 and 12 months (median, q10, q90), in cm of water height against the 2002-2020 mean; where the graded model does not beat no change (12 months) the published forecast is no change and the horizon is flagged in the methods field",
   "tile_template": "https://phreaitic.github.io/api/v1/tws/tile/{lat10}_{lon10}.json",
   "evidence": "https://phreaitic.github.io/api/v1/tws/backtest.json"
  },

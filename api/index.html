@@ -9,7 +9,7 @@ Read-only JSON API, no key, GET only, CORS open, rebuilt about weekly. Base: htt
 - A country and layer: GET https://phreaitic.github.io/api/v1/&lt;CC&gt;/&lt;layer&gt;.json  (CC = ISO 3166-1 alpha-2 such as CZ, US, FR; layer = gw, rivers, temp, snow).
 - Trust and caveats: GET https://phreaitic.github.io/api/v1/live_record.json and read each network&#x27;s backtest_by_horizon_months.
 - Drought index anywhere on land: GET https://phreaitic.github.io/api/v1/spi/tile/&lt;floor(lat/10)*10&gt;_&lt;floor(lon/10)*10&gt;.json (Madrid 40.4N 3.7W -&gt; spi/tile/40_-10.json): SPI-3/6/12 now and forecasts (median, q10, q90); evidence in spi/backtest.json. The same with heat counted (rainfall minus potential evapotranspiration): GET https://phreaitic.github.io/api/v1/spei/tile/&lt;same tile&gt;.json, evidence in spei/backtest.json.
-- Water stored on land anywhere: GET https://phreaitic.github.io/api/v1/tws/tile/&lt;floor(lat/10)*10&gt;_&lt;floor(lon/10)*10&gt;.json: GRACE storage anomaly (cm) now and 1, 3, 6 months ahead; evidence in tws/backtest.json.
+- Water stored on land anywhere: GET https://phreaitic.github.io/api/v1/tws/tile/&lt;floor(lat/10)*10&gt;_&lt;floor(lon/10)*10&gt;.json: GRACE storage anomaly (cm) now and 1, 3, 6, 9, 12 months ahead; evidence in tws/backtest.json.
 
 ## Reading a forecast
 - median = forecast; q10..q90 = 80% band; pct = percentile of the median among the same time of year in that station&#x27;s own history (below 20 low for the season, above 80 high).

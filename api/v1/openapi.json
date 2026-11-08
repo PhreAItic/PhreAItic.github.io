@@ -188,7 +188,7 @@
   },
   "/tws/tile/{lat10}_{lon10}.json": {
    "get": {
-    "summary": "Terrestrial water storage anomaly now and at 1, 3, 6 months, 1-degree land cells of one 10-degree tile",
+    "summary": "Terrestrial water storage anomaly now and at 1, 3, 6, 9, 12 months, 1-degree land cells of one 10-degree tile",
     "parameters": [
      {
       "name": "lat10",
