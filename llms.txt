@@ -1,6 +1,6 @@
 # PhreAItic
 
-> Forecasts of groundwater levels, rivers and lakes, river temperature and snow for 47 countries (40,488 monitoring stations), 1 to 12 months ahead, with calibrated 80% bands, graded on years the models never saw.
+> Forecasts of groundwater levels, rivers and lakes, river temperature and snow for 47 countries (41,187 monitoring stations), 1 to 12 months ahead, with calibrated 80% bands, graded on years the models never saw.
 
 Read-only JSON API, no key, GET only, CORS open, rebuilt about weekly. Base: https://phreaitic.github.io/api/v1
 

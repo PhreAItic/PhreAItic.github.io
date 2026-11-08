@@ -1,7 +1,7 @@
 {
  "name": "PhreAItic read-only forecast API",
  "version": "v1",
- "generated": "2026-11-07",
+ "generated": "2026-11-08",
  "base_url": "https://phreaitic.github.io/api/v1",
  "auth": "none",
  "methods": "GET only; static JSON files",
@@ -33,9 +33,9 @@
   "country_layer_template": "https://phreaitic.github.io/api/v1/{CC}/{layer}.json"
  },
  "totals": {
-  "stations": 40488,
+  "stations": 41187,
   "countries": 47,
-  "grid_cells": 3041,
+  "grid_cells": 3107,
   "spi_tiles": 371,
   "spei_tiles": 320,
   "tws_tiles": 255
@@ -120,9 +120,9 @@
     "url": "https://phreaitic.github.io/api/v1/BR/gw.json"
    },
    "rivers": {
-    "stations": 832,
+    "stations": 1223,
     "unit": "m3/s",
-    "generated": "2026-10-29",
+    "generated": "2026-11-07",
     "url": "https://phreaitic.github.io/api/v1/BR/rivers.json"
    }
   },
@@ -300,9 +300,9 @@
     "url": "https://phreaitic.github.io/api/v1/ES/gw.json"
    },
    "rivers": {
-    "stations": 117,
+    "stations": 425,
     "unit": "m3/s",
-    "generated": "2026-11-04",
+    "generated": "2026-11-07",
     "url": "https://phreaitic.github.io/api/v1/ES/rivers.json"
    }
   },
