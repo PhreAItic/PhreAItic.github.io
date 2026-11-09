@@ -63,6 +63,7 @@ svg.ch .cur{stroke:var(--ink);stroke-width:1;opacity:.55}
 .mapbox canvas{display:block;width:100%;height:auto}
 .mapbox .tip{position:absolute;pointer-events:none;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12px;box-shadow:var(--shadow);display:none;white-space:nowrap}
 .mapbox .lg{position:absolute;left:12px;bottom:10px;font-size:11.5px;background:color-mix(in srgb,var(--card) 88%,transparent);border-radius:8px;padding:5px 9px;border:1px solid var(--line)}
+.bleed .mapbox .lg{position:static;display:flex;align-items:center;gap:14px;flex-wrap:wrap;border:0;background:none;padding:10px 16px 0;max-width:1180px;margin:0 auto}.bleed .mapbox .lg .lt{flex:1;font-weight:600;color:var(--deep)}.bleed .mapbox .lg .lgs{width:230px}.bleed .mapbox .lg .bar{width:100%;margin:0}.bleed .mapbox{background:var(--paper);border:0}
 .mapbox .lg div.bar{height:8px;width:170px;border-radius:4px;margin:3px 0}
 .mapbox .lg div.tk{display:flex;justify-content:space-between;color:var(--muted)}
 .ovs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
@@ -406,7 +407,7 @@ function stationSeries(s) {
 class MapView {
   constructor(host, opts = {}) {
     this.host = host; this.opts = opts; this.layer = null; this.bbox = [0, 0, 1, 1]; this.hover = null;
-    host.innerHTML = `<div class="mapbox"><canvas></canvas><div class="tip"></div><div class="lg"><div class="lt"></div><div class="bar"></div><div class="tk"></div></div></div>`;
+    host.innerHTML = `<div class="mapbox"><canvas></canvas><div class="tip"></div><div class="lg"><div class="lt"></div><div class="lgs"><div class="bar"></div><div class="tk"></div></div></div></div>`;
     this.cv = $("canvas", host); this.ctx = this.cv.getContext("2d"); this.tip = $(".tip", host);
     this.cv.addEventListener("pointermove", e => this.onMove(e)); this.cv.addEventListener("pointerleave", () => { this.tip.style.display = "none"; });
     this.cv.addEventListener("click", e => { if (opts.onClick) { const p = this.unproject(e); opts.onClick(p.lon, p.lat); } });
@@ -438,7 +439,7 @@ class MapView {
   }
   valueAt(item, m) { return interp(item.pts, m); }
   draw(m) {
-    if (!this.ctx || !this.W) return; if (this.nnMed) this.ptR = clamp(0.3 * this.nnMed * this.scale, 1.3, 4.5); const c = this.ctx; c.clearRect(0, 0, this.W, this.H);
+    if (!this.ctx || !this.W) return; if (this.opts.smooth && this.data && (this.data.pts || this.data.cells)) return this.drawSmooth(m); if (this.nnMed) this.ptR = clamp(0.3 * this.nnMed * this.scale, 1.3, 4.5); const c = this.ctx; c.clearRect(0, 0, this.W, this.H);
     const cs = getComputedStyle(document.documentElement);
     const land = cs.getPropertyValue("--card").trim() || "#fff", line = cs.getPropertyValue("--line").trim() || "#ccc";
     c.fillStyle = cs.getPropertyValue("--hero1").trim(); c.fillRect(0, 0, this.W, this.H);
@@ -471,6 +472,58 @@ class MapView {
     // clock
     c.font = "600 13px system-ui"; c.textAlign = "right"; c.fillStyle = cs.getPropertyValue("--ink").trim(); c.globalAlpha = .85;
     c.fillText(dateAt(m).toLocaleDateString(L, {month: "long", year: "numeric"}), this.W - 12, 22); c.globalAlpha = 1;
+  }
+  drawSmooth(m) {      // the PDF's regional map: a smooth surface (no dots), commune borders, rivers, the town outlined and labelled
+    const c = this.ctx, W = this.W, H = this.H, dk = document.documentElement.dataset.theme === "dark" || (document.documentElement.dataset.theme === "auto" && matchMedia("(prefers-color-scheme: dark)").matches), X = this.extra || {};
+    const S2 = 2, gw = Math.ceil(W / S2), gh = Math.ceil(H / S2), bb = this.bbox, kk = this.k * this.scale;
+    const lonAt = x => bb[0] + ((x * S2 + S2 / 2) - this.ox) / kk, latAt = y => bb[3] - ((y * S2 + S2 / 2) - this.oy) / this.scale, d = this.data, o = OV[this.ov];
+    c.fillStyle = dk ? "#17303f" : "#DCE9EE"; c.fillRect(0, 0, W, H);
+    const landPath = () => { c.beginPath(); for (const co of S.world || []) { if (co.bbox[2] < bb[0] || co.bbox[0] > bb[2] || co.bbox[3] < bb[1] || co.bbox[1] > bb[3]) continue; for (const r of co.rings) { r.forEach((p, i) => { const q = this.px(p[0], p[1]); i ? c.lineTo(q[0], q[1]) : c.moveTo(q[0], q[1]); }); c.closePath(); } } };
+    c.save(); landPath(); c.fillStyle = dk ? "#22333c" : "#EEF0EC"; c.fill(); c.clip();
+    const key = [W, H, bb.join(","), this.ov].join("|"); let vals;
+    if (d.pts) {      // scattered values: inverse-distance weights of the 4 nearest points, kept within 12 km of a point
+      if (this.sKey !== key) { const P = d.pts, n = P.length, sc = Math.cos((bb[1] + bb[3]) * Math.PI / 360) * 111.32, v = new Float32Array(gw * gh), idx = new Int16Array(gw * gh);
+        const PX = P.map(q => q.lon * sc), PY = P.map(q => q.lat * 111.32);
+        for (let y = 0; y < gh; y++) for (let x = 0; x < gw; x++) { const wx = lonAt(x) * sc, wy = latAt(y) * 111.32; let d1 = 1e9, d2 = 1e9, d3 = 1e9, d4 = 1e9, i1 = 0, i2 = 0, i3 = 0, i4 = 0;
+          for (let j = 0; j < n; j++) { const dx = PX[j] - wx, dy = PY[j] - wy, dd = dx * dx + dy * dy; if (dd < d4) { if (dd < d3) { d4 = d3; i4 = i3; if (dd < d2) { d3 = d2; i3 = i2; if (dd < d1) { d2 = d1; i2 = i1; d1 = dd; i1 = j; } else { d2 = dd; i2 = j; } } else { d3 = dd; i3 = j; } } else { d4 = dd; i4 = j; } } }
+          const ws = [Math.sqrt(d1), Math.sqrt(d2), Math.sqrt(d3), Math.sqrt(d4)].map(q => 1 / Math.max(q, 0.5) ** 2), is = [i1, i2, i3, i4]; let sw = 0, sv = 0; for (let k = 0; k < 4; k++) { sw += ws[k]; sv += ws[k] * P[is[k]].v; }
+          v[y * gw + x] = Math.sqrt(d1) > 12 ? NaN : sv / sw; idx[y * gw + x] = i1; }
+        this.sKey = key; this.sVals = v; this.sIdx = idx; this.sEdge = null; }
+      vals = this.sVals;
+    } else {          // grid cells: bilinear on the grid at the cursor's time, gaps filled from the neighbours
+      const cells = d.cells, dla = d.cell[0], dlo = d.cell[1]; if (this.gKey !== key) { const la = [...new Set(cells.map(q => Math.round(q.lat / dla)))].sort((a, b) => a - b), lo = [...new Set(cells.map(q => Math.round(q.lon / dlo)))].sort((a, b) => a - b); this.gLa = [la[0], la[la.length - 1]]; this.gLo = [lo[0], lo[lo.length - 1]]; this.gKey = key; }
+      const ny = this.gLa[1] - this.gLa[0] + 1, nx = this.gLo[1] - this.gLo[0] + 1, Z = new Float32Array(nx * ny).fill(NaN), V = new Uint8Array(nx * ny);
+      for (const q of cells) { const v = this.valueAt(q, m); if (v == null) continue; const i = Math.round(q.lat / dla) - this.gLa[0], j = Math.round(q.lon / dlo) - this.gLo[0]; Z[i * nx + j] = v; V[i * nx + j] = 1; }
+      for (let pass = 0; pass < 8; pass++) { const Z2 = Z.slice(); for (let i = 0; i < ny; i++) for (let j = 0; j < nx; j++) if (!isFinite(Z[i * nx + j])) { let s_ = 0, n_ = 0; for (const [a, b] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const ii = i + a, jj = j + b; if (ii >= 0 && jj >= 0 && ii < ny && jj < nx && isFinite(Z[ii * nx + jj])) { s_ += Z[ii * nx + jj]; n_++; } } if (n_) Z2[i * nx + j] = s_ / n_; } Z.set(Z2); }
+      vals = new Float32Array(gw * gh); for (let y = 0; y < gh; y++) for (let x = 0; x < gw; x++) { const fi = latAt(y) / dla - this.gLa[0], fj = lonAt(x) / dlo - this.gLo[0]; if (fi < -0.6 || fj < -0.6 || fi > ny - 0.4 || fj > nx - 0.4) { vals[y * gw + x] = NaN; continue; }
+        const i0 = clamp(Math.floor(fi), 0, ny - 2), j0 = clamp(Math.floor(fj), 0, nx - 2), ti = clamp(fi - i0, 0, 1), tj = clamp(fj - j0, 0, 1), q = (a, b) => Z[(i0 + a) * nx + j0 + b];
+        const nearOk = V[clamp(Math.round(fi), 0, ny - 1) * nx + clamp(Math.round(fj), 0, nx - 1)] || [[0, 0], [0, 1], [1, 0], [1, 1]].some(([a, b]) => V[(i0 + a) * nx + j0 + b]); const v = lerp(lerp(q(0, 0), q(0, 1), tj), lerp(q(1, 0), q(1, 1), tj), ti); vals[y * gw + x] = nearOk && isFinite(v) ? v : NaN; }
+    }
+    if (!this.off || this.off.width !== gw || this.off.height !== gh) { this.off = document.createElement("canvas"); this.off.width = gw; this.off.height = gh; }
+    const og = this.off.getContext("2d"), img = og.createImageData(gw, gh), id = img.data;
+    for (let i = 0; i < gw * gh; i++) { const v = vals[i]; if (!isFinite(v)) continue; const col = ovColor(this.ov, v); id[i * 4] = col[0]; id[i * 4 + 1] = col[1]; id[i * 4 + 2] = col[2]; id[i * 4 + 3] = 255; }
+    og.putImageData(img, 0, 0); c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high"; c.drawImage(this.off, 0, 0, gw * S2, gh * S2);
+    if (d.pts) {      // commune borders: the edges between nearest-point cells, as thin dark lines
+      if (!this.sEdge) { const e = document.createElement("canvas"); e.width = gw; e.height = gh; const eg = e.getContext("2d"), ei = eg.createImageData(gw, gh), ed = ei.data, ix = this.sIdx; for (let y = 0; y < gh - 1; y++) for (let x = 0; x < gw - 1; x++) { const i = y * gw + x; if ((ix[i] !== ix[i + 1] || ix[i] !== ix[i + gw]) && isFinite(vals[i])) { ed[i * 4] = 28; ed[i * 4 + 1] = 40; ed[i * 4 + 2] = 48; ed[i * 4 + 3] = 105; } } eg.putImageData(ei, 0, 0); this.sEdge = e; }
+      c.drawImage(this.sEdge, 0, 0, gw * S2, gh * S2); }
+    c.restore();
+    const cs = dk ? "#e8eef3" : "#14202b";
+    c.lineJoin = "round"; c.lineCap = "round";
+    if (X.rivers) { c.strokeStyle = "#2C7FA8"; c.lineWidth = 1.4; c.globalAlpha = .85; for (const r of X.rivers) { c.beginPath(); for (let i = 1; i < r.length; i += 2) { const q = this.px(r[i], r[i + 1]); i > 1 ? c.lineTo(q[0], q[1]) : c.moveTo(q[0], q[1]); } c.stroke(); } c.globalAlpha = 1; }
+    c.strokeStyle = "rgba(60,70,66,.55)"; c.lineWidth = 0.8; c.setLineDash([5, 4]); for (const a of X.admin || []) { c.beginPath(); for (let i = 0; i < a.length; i += 2) { const q = this.px(a[i], a[i + 1]); i ? c.lineTo(q[0], q[1]) : c.moveTo(q[0], q[1]); } c.stroke(); } c.setLineDash([]);
+    for (const s of X.stations || []) { const q = this.px(s.lon, s.lat); if (q[0] < 0 || q[1] < 0 || q[0] > W || q[1] > H) continue; c.beginPath(); c.arc(q[0], q[1], 3.2, 0, 6.3); c.strokeStyle = "#fff"; c.lineWidth = 1.2; c.stroke(); }
+    c.font = "600 12px system-ui,sans-serif"; c.textAlign = "left"; const placed = [];
+    for (const n of X.labels || []) { const q = this.px(n[2], n[3]); if (q[0] < 20 || q[1] < 14 || q[0] > W - 60 || q[1] > H - 14 || placed.some(p => Math.abs(p[0] - q[0]) < 90 && Math.abs(p[1] - q[1]) < 16)) continue; placed.push(q); c.lineWidth = 3.5; c.strokeStyle = "rgba(255,255,255,.9)"; c.strokeText(n[0], q[0] + 5, q[1] + 4); c.fillStyle = "#1b2830"; c.fillText(n[0], q[0] + 5, q[1] + 4); c.beginPath(); c.arc(q[0], q[1], 2, 0, 6.3); c.fill(); }
+    if (X.rings) { for (const pass of [0, 1]) { c.lineWidth = pass ? 3 : 7; c.strokeStyle = pass ? "#111" : "#fff"; for (const r of X.rings) { c.beginPath(); r.forEach((p, i) => { const q = this.px(p[0], p[1]); i ? c.lineTo(q[0], q[1]) : c.moveTo(q[0], q[1]); }); c.closePath(); c.stroke(); } }
+      if (this.city) { const q = this.px(this.city.lon, this.city.lat); c.beginPath(); c.arc(q[0], q[1], 3, 0, 6.3); c.fillStyle = "#111"; c.fill(); c.font = "800 17px system-ui,sans-serif"; c.textAlign = "center"; c.lineWidth = 5; c.strokeStyle = "#fff"; c.strokeText(X.name || "", q[0], q[1] - 22); c.fillStyle = "#111"; c.fillText(X.name || "", q[0], q[1] - 22); c.textAlign = "left"; } }
+    // locator inset (the country with the town as a dot), scale bar
+    const co = (S.world || []).find(x => x.code === X.iso); if (co && this.city) { const R = 38, cx0 = W - R - 18, cy0 = H - R - 26; c.save(); c.beginPath(); c.arc(cx0, cy0, R, 0, 6.3); c.fillStyle = "rgba(255,255,255,.92)"; c.fill(); c.clip();
+      let bx0 = 1e9, by0 = 1e9, bx1 = -1e9, by1 = -1e9; const big = co.rings.slice().sort((a, b) => b.length - a.length)[0]; for (const p of big) { bx0 = Math.min(bx0, p[0]); bx1 = Math.max(bx1, p[0]); by0 = Math.min(by0, p[1]); by1 = Math.max(by1, p[1]); }
+      const kx = Math.cos((by0 + by1) * Math.PI / 360), sc2 = (R * 1.5) / Math.max((bx1 - bx0) * kx, by1 - by0), mx = (bx0 + bx1) / 2, my = (by0 + by1) / 2, P2 = (lo, la) => [cx0 + (lo - mx) * kx * sc2, cy0 - (la - my) * sc2];
+      c.fillStyle = "#DADFD6"; c.strokeStyle = "#fff"; c.lineWidth = .8; for (const r of co.rings) { c.beginPath(); r.forEach((p, i) => { const q = P2(p[0], p[1]); i ? c.lineTo(q[0], q[1]) : c.moveTo(q[0], q[1]); }); c.closePath(); c.fill(); c.stroke(); }
+      const dq = P2(this.city.lon, this.city.lat); c.beginPath(); c.arc(dq[0], dq[1], 4, 0, 6.3); c.fillStyle = "#C4622D"; c.fill(); c.restore(); }
+    { const km10 = 10 / 111.32 * this.scale; c.fillStyle = cs; c.fillRect(18, H - 22, km10, 3); c.font = "11px system-ui"; c.textAlign = "left"; c.lineWidth = 3; c.strokeStyle = "rgba(255,255,255,.85)"; c.strokeText("10 km", 18, H - 28); c.fillText("10 km", 18, H - 28); }
+    c.font = "600 13px system-ui"; c.textAlign = "right"; c.fillStyle = cs; c.globalAlpha = .85; if (this.ov !== "cat") c.fillText(dateAt(m).toLocaleDateString(L, {month: "long", year: "numeric"}), W - 12, 22); c.globalAlpha = 1;
   }
   onMove(e) {
     if (!this.data) return; const p = this.unproject(e); let it = null;
@@ -771,7 +824,7 @@ const Hero = (() => {
 })();
 
 /* ============================================================ the bulletin (page 1 = hero; the rest below) */
-let cityToken = 0, cityMapView = null, cityLayers = null;
+let cityToken = 0, cityMapView = null, cityLayers = null, cityExtra = null;
 const C1 = "#1C6E8C", C2 = "#C4622D", C3 = "#2A7D77", C4 = "#2A7D77", CSOIL = "#A97142", BAND = "#8CBFD1";
 const stationWet = s => { const dir = s.direction || "", neg = /minus the depth/.test(s.quantity || "") || (/lower value = wetter/.test(dir) && (s.last_value || 0) < 0), lw = /lower value = wetter/.test(dir) && !neg; return {lowerWetter: lw}; };
 function sevFromWet(p) { return p == null ? null : p < 10 ? 3 : p < 25 ? 2 : p < 40 ? 1 : 0; }
@@ -868,6 +921,8 @@ async function openCity(c, push = true) {
   if (twsCell) { const cd = mk(t("tws"), "cm"); plot(cd, {series: [{pts: twsCell.pts, band: twsCell.band, color: C4}], zeroLine: true, zones: [t("zWet"), t("zDry")], shade: {below: -3}, label: t("tws")}, m => { const v = interp(twsCell.pts, m); return `<b style="color:${C4}">${v > 0 ? "+" : ""}${v.toFixed(1)} cm</b><span>${t("twsU")}</span>`; }, lg(C4, t("median")) + lg(BAND, t("range"))); }
   if (card && card.clay) { const k = card.clay; $("#clayRow").innerHTML = `<div class="clay"><span>${t("catYears").replace("{c}", c.name)}</span><b style="color:${k.recognised ? SEV[3] : SEV[1] > 0 ? "var(--accent2)" : ""}">${k.recognised == null ? "—" : k.recognised + " " + t("outOf") + " " + k.record}</b></div><p class="fine" style="margin:4px 0 0">${t("catChance").replace("{y}", k.year).replace("{p}", (k.p * 100).toFixed(1)).replace("{r}", Math.round(k.rank * 100))}</p>`; }
   // map card
+  { const kx0 = 111.32 * Math.cos(cc.lat * Math.PI / 180), ringsLL = hs.rings.map(r => r.map(p => [cc.lon + p[0] / kx0, cc.lat - p[1] / 111.32])); const R_ = 3.2;
+    cityExtra = {name: c.name, iso: c.iso, rings: ringsLL, rivers: (bm && bm.rivers) || [], admin: (bm && bm.admin1) || [], stations: stns, labels: (S.index.t || []).filter(x => x[4] >= 8000 && x[0] !== c.name && Math.abs(x[3] - c.lat) < 3.4 && Math.abs(x[2] - c.lon) < 4.6).sort((a, b) => b[4] - a[4]).slice(0, 40)}; }
   cityLayers = {soil, fire, spi, tws, reg, cat: hasCat ? {pts: card.catmap.map(x => ({lon: x[0], lat: x[1], v: x[2]}))} : null}; await buildCityMap(c, tok, hasCat); if (tok !== cityToken) return;
   // enrich fallback panels in the background-ish (bounded wait)
   await Promise.race([Promise.all(Object.values(PH).map(enrich)), new Promise(r => setTimeout(r, 6000))]); if (tok !== cityToken) return;
@@ -977,15 +1032,15 @@ function countUp(node, v, f) { if (v == null) { node.textContent = "—"; return
 function fillTicks() { const tk = $("#ticks"); tk.innerHTML = ""; for (let m = 0; m <= 12; m += 3) tk.appendChild(el("span", {}, dateAt(m).toLocaleDateString(L, {month: "short"}))); }
 async function buildCityMap(c, tok, hasCat) {
   const layers = cityLayers; if (tok !== cityToken) return;
-  const h = $("#mapCity"); cityMapView = new MapView(h, {maxH: 460, clip: false, onClick: (lon, lat) => nearestTownOpen(lon, lat)});
+  const h = $("#mapCity"); cityMapView = new MapView(h, {maxH: 480, clip: false, smooth: true, onClick: (lon, lat) => nearestTownOpen(lon, lat)});
   const avail = {cat: !!hasCat, soil: !!layers.soil, fire: !!layers.fire, spi: !!layers.spi && layers.spi.cells.length, tws: !!layers.tws && layers.tws.cells.length, reg: !!layers.reg};
   const ovs = $("#ovCity"); ovs.innerHTML = ""; const ov = hasCat ? "cat" : avail[S.ov] ? S.ov : Object.keys(avail).find(k => avail[k]) || "soil";
   for (const k of ["cat", "soil", "fire", "spi", "tws", "reg"]) { const b = el("button", {}, t("overlays")[k]); if (!avail[k]) b.disabled = true; if (k === ov) b.classList.add("on"); b.onclick = () => { S.ov = k; setCityOv(k, c); [...ovs.children].forEach(x => x.classList.toggle("on", x === b)); }; ovs.appendChild(b); }
   setCityOv(ov, c); viewOnce(h, () => { if (!S.playing && tok === cityToken) startPlay(0); }, 0.4);
 }
 function setCityOv(ov, c) {
-  const d = cityLayers[ov], R = ov === "cat" ? 0.4 : 3.2, k = Math.cos(c.lat * Math.PI / 180); cityMapView.setView([c.lon - R / k * 1.25, c.lat - R, c.lon + R / k * 1.25, c.lat + R]);
-  const data = ov === "reg" && d ? {areas: d.areas.filter(a => Math.abs(a.lon - c.lon) < 8 && Math.abs(a.lat - c.lat) < 8), kind: "reg"} : d; cityMapView.set(data, ov, null, c); cityMapView.draw(S.m);
+  const d = cityLayers[ov], R = ov === "cat" ? 0.36 : 3.2, k = Math.cos(c.lat * Math.PI / 180), asp = ov === "cat" ? 2.45 : 1.25; cityMapView.setView([c.lon - R / k * asp, c.lat - R, c.lon + R / k * asp, c.lat + R]);
+  const data = ov === "reg" && d ? {areas: d.areas.filter(a => Math.abs(a.lon - c.lon) < 8 && Math.abs(a.lat - c.lat) < 8), kind: "reg"} : d; cityMapView.extra = cityExtra; cityMapView.set(data, ov, null, c); cityMapView.draw(S.m);
 }
 async function nearestTownOpen(lon, lat) {
   const ix = S.index; if (!ix) return; let best = null, bd = (80 / 111.32) ** 2;
