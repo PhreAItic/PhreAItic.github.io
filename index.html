@@ -163,6 +163,7 @@ body.m-country #city{display:none}body.m-country #country{display:block}
 .bleed .mapbox{border-radius:0;border-left:0;border-right:0}
 .ind .it b{font-size:15px;font-weight:700}.ind .it small{color:var(--accent);font-size:12.5px}
 .zl{font-size:10px}
+.clay{display:flex;justify-content:space-between;gap:12px;margin-top:22px;padding:12px 4px;border-top:1px solid var(--line);font-family:ui-monospace,Menlo,monospace;font-weight:700;color:var(--deep)}.clay b{color:var(--accent2)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -186,7 +187,7 @@ body.m-country #city{display:none}body.m-country #country{display:block}
     <div class="hero" id="hero"><canvas id="gl"></canvas><div class="skel" id="skel"></div></div>
     <div class="herometa">
       <div class="hm"><div class="h4" id="lgT"></div><div class="elegend"><i></i><div><span id="eMin"></span><span id="eMax"></span></div></div><div class="lgl" id="lgItems"></div><p class="fine" id="hNote"></p></div>
-      <div class="hm mid"><div class="h4" id="midT"></div><p class="fine" id="midS"></p></div>
+      <div class="hm mid"><div class="h4" id="midT"></div><p class="fine" id="midS"></p><canvas id="reliefMap" style="width:100%;max-width:520px;display:none"></canvas><p class="fine" id="reliefCap"></p><div id="clayLegend" style="text-align:left"></div></div>
       <div class="hm nums"><div class="h4" id="numT"></div><div class="num"><b id="nElev"></b><span id="nElevS"></span></div><div class="num"><b id="nArea"></b><span id="nAreaS"></span></div><div class="num"><b id="nDens"></b><span id="nDensS"></span></div></div>
     </div>
     <div id="bulletin"></div>
@@ -231,6 +232,9 @@ let L = lang(); if (!["en", "fr", "es", "de"].includes(L)) L = "en";
 const TXT = {
  en: {city: "Town", country: "Country", search: "Search a town or a country…", classic: "Classic map", trust: "Accuracy", play: "Play", pause: "Pause", back: "Back to start", fwd: "Next month", loop: "loop",
  tag1: "Current state", tag2: "Sensors", tag3: "What is coming", tag4: "Possible actions", zWet: "wetter than normal", zDry: "drier than normal", disc: "Statistical forecasts provided for information. They do not replace the bulletins of the national meteorological and flood services, nor prefectoral orders.",
+ catYears: "Years {c} was recognised as a natural disaster for drought (clay shrink-swell)", outOf: "out of", catChance: "Chance of recognition in {y}: {p} %, higher than {r} % of communes.", catU: "chance of a drought-disaster recognition this year", ov_cat: "x",
+ luBuilt: "Built-up", luForest: "Woods and forests", luOther: "Gardens, parks, roads and other", luMeadow: "Meadows", luCrops: "Crops", luSrc: "Land cover: ESA WorldCover 2021", contourEvery: "Rivers and lakes. One contour every {n} m.",
+ ugTitle: "{n} aquifers under {c}", ugLow: ", {k} at very low levels", stRecord: "Record low", stVlow: "Very low", stLow: "Low", stNormal: "Normal", stHigh: "High", noMeasure: "no tracked measure", depth: "depth", ugNote: "Layers ordered by geological age (indicative); the black outline is the commune.", underComm: "Under the commune", hazMed: "Medium clay hazard", hazHigh: "High clay hazard", hazShares: "{h} % of the commune in high hazard, {m} % in medium hazard (200 m map).",
   forecastsTo: "forecasts up to 12 months ahead", bulletin: "Water & soil bulletin", edition: "Edition of", onMap: "On the map above", riversLakes: "Rivers and lakes", midT: "Relief, rivers and sensors", midRel: "The block is the town's outline, raised on its real ground (heights exaggerated). Drag to turn it.", midFlat: "The block is the town's outline. Relief is only drawn for towns of 100,000+, so the ground stays flat.", inNumbers: "The town in numbers", elevRange: "from lowest to highest point", areaS: "surface of the town", densS: "inhabitants per km²",
   toWatch: "To watch:", allQuiet: "Nothing to flag at this time.", latest: "Latest data", w_gw_hi: "low groundwater.", w_gw_lo: "groundwater a little low.", w_soil_hi: "very dry soils.", w_soil_lo: "soils drying.", w_spi_hi: "marked rain deficit.", w_spi_lo: "rain slightly short.", w_tws_hi: "low stored water.", w_tws_lo: "stored water below average.", w_fire_hi: "high wildfire chance.", w_fire_lo: "some wildfire chance.",
   ind1: "1 indicator out of 5 on alert", indN: "{n} indicators out of 5 on alert", indNone: "No indicator on alert", nostationShort: "no station", stable: "stable", wetter: "wetter", drier: "drier", rain12: "Rain, last 12 months", deficit: "deficit", surplus: "surplus", peakIn: "peak in", sev_none: "nothing to report", sev_watch: "to watch", sev_concerning: "concerning", sev_severe: "severe",
@@ -245,13 +249,16 @@ const TXT = {
   nostation: "No monitoring station within 150 km in our network.", nodata: "No forecast here yet.", nearest: "Nearest station", km: "km away", normal: "typical season", climate: "usual for the month", median: "median forecast", range: "likely range (10–90%)",
   vlow: "very low", low: "low", typ: "near normal", high: "high", vhigh: "very high", dry: "dry", wet: "wet", vdry: "very dry", vwet: "very wet",
   tempWhy: "Forecast from the station's own history and the weather outlook.", soilWhy: "Weekly satellite-based wetness, compared with the same week of other years.", fireWhy: "From satellite fire history and the weather outlook.", spiWhy: "Rain over the last 12 months against what is usual.", twsWhy: "Satellite gravity (GRACE) change in all water stored: ground, rivers, soil, snow.", regWhy: "Chance that the local authority imposes drought restrictions.", gwWhy: "Forecast from the station's own history and the weather outlook.", riverWhy: "Forecast from the station's own history and the weather outlook.",
-  overlays: {soil: "Soil wetness", fire: "Wildfire", spi: "Drought index", tws: "Water storage", reg: "Restrictions"},
+  overlays: {cat: "Drought disaster", soil: "Soil wetness", fire: "Wildfire", spi: "Drought index", tws: "Water storage", reg: "Restrictions"},
   low_s: "drier", high_s: "wetter", fewer: "less", more: "more", cells: "map cells", stations: "stations", towns: "towns",
   cHint: "Pick an overlay and press play: the year runs forward on its own. Click the map to open the nearest large town.",
   footer: "PhreAItic: independent project, not an official product. Forecasts up to 12 months ahead from public data, graded on held-out years. The previous map is still available as the classic map.", loading: "Loading…", pick: "Pick a town", tz: "Terrain: AWS Terrain Tiles (NASADEM, SRTM, GMTED)."},
  fr: {city: "Ville", country: "Pays", search: "Chercher une ville ou un pays…", classic: "Carte classique", trust: "Fiabilité", play: "Lecture", pause: "Pause", back: "Retour au début", fwd: "Mois suivant", loop: "boucle",
   tempWhy: "Prévision d'après l'historique de la station et les prévisions météo.",
  tag1: "État des lieux", tag2: "Capteurs", tag3: "Évolution à venir", tag4: "Actions possibles", zWet: "plus humide que la normale", zDry: "plus sec que la normale", disc: "Prévisions statistiques fournies à titre d'information. Elles ne remplacent ni les bulletins de Météo-France et de Vigicrues, ni les arrêtés de la préfecture.",
+ catYears: "Années où {c} a été reconnue en catastrophe naturelle « sécheresse »", outOf: "sur", catChance: "Chance de reconnaissance en {y} : {p} %, plus élevée que {r} % des communes.", catU: "chance de reconnaissance en catastrophe naturelle sécheresse cette année",
+ luBuilt: "Bâti", luForest: "Bois et forêts", luOther: "Jardins, parcs, voirie et divers", luMeadow: "Prairies", luCrops: "Cultures", luSrc: "Occupation du sol : ESA WorldCover 2021", contourEvery: "Rivières et lacs. Une courbe tous les {n} m.",
+ ugTitle: "{n} nappes sous {c}", ugLow: ", dont {k} à des niveaux très bas", stRecord: "Record bas", stVlow: "Très bas", stLow: "Bas", stNormal: "Normal", stHigh: "Haut", noMeasure: "pas de mesure suivie", depth: "profondeur", ugNote: "Couches empilées par âge géologique (ordre indicatif) ; le contour noir est la commune.", underComm: "Sous la commune", hazMed: "Aléa moyen", hazHigh: "Aléa fort", hazShares: "{h} % de la commune en aléa fort, {m} % en aléa moyen (carte au pas de 200 m).",
   forecastsTo: "prévisions jusqu'à 12 mois", bulletin: "Bulletin eau & sols", edition: "Édition du", onMap: "Sur la carte du dessus", riversLakes: "Rivières et lacs", midT: "Relief, cours d'eau et capteurs", midRel: "Le bloc est le contour de la ville, soulevé sur son vrai relief (hauteurs exagérées). Glissez pour le tourner.", midFlat: "Le bloc est le contour de la ville. Le relief n'est dessiné que pour les villes de 100 000 habitants et plus : le sol reste plat.", inNumbers: "La ville en chiffres", elevRange: "du point le plus bas au plus haut", areaS: "surface de la ville", densS: "habitants par km²",
   toWatch: "À surveiller :", allQuiet: "Rien à signaler pour le moment.", latest: "Dernières données", w_gw_hi: "nappe basse.", w_gw_lo: "nappe un peu basse.", w_soil_hi: "sols très secs.", w_soil_lo: "sols qui sèchent.", w_spi_hi: "déficit de pluie marqué.", w_spi_lo: "pluie un peu juste.", w_tws_hi: "eau stockée basse.", w_tws_lo: "eau stockée sous la moyenne.", w_fire_hi: "forte chance d'incendie.", w_fire_lo: "chance d'incendie.",
   ind1: "1 indicateur sur 5 en alerte", indN: "{n} indicateurs sur 5 en alerte", indNone: "Aucun indicateur en alerte", nostationShort: "pas de station", stable: "stable", wetter: "plus humide", drier: "plus sec", rain12: "Pluie des 12 derniers mois", deficit: "déficit", surplus: "excédent", peakIn: "pic en", sev_none: "rien à signaler", sev_watch: "à suivre", sev_concerning: "préoccupant", sev_severe: "sévère",
@@ -266,7 +273,7 @@ const TXT = {
   nostation: "Aucune station de mesure à moins de 150 km dans notre réseau.", nodata: "Pas encore de prévision ici.", nearest: "Station la plus proche", km: "km", normal: "saison habituelle", climate: "habituel pour le mois", median: "prévision médiane", range: "fourchette probable (10–90 %)",
   vlow: "très bas", low: "bas", typ: "proche de la normale", high: "haut", vhigh: "très haut", dry: "sec", wet: "humide", vdry: "très sec", vwet: "très humide",
   soilWhy: "Humidité hebdomadaire par satellite, comparée à la même semaine des autres années.", fireWhy: "D'après l'historique des feux (satellite) et les prévisions météo.", spiWhy: "Pluie des 12 derniers mois comparée à l'habituel.", twsWhy: "Variation par gravimétrie satellite (GRACE) de toute l'eau stockée : sol, rivières, neige.", regWhy: "Chance que l'autorité locale impose des restrictions sécheresse.", gwWhy: "Prévision d'après l'historique de la station et les prévisions météo.", riverWhy: "Prévision d'après l'historique de la station et les prévisions météo.",
-  overlays: {soil: "Humidité du sol", fire: "Incendie", spi: "Indice de sécheresse", tws: "Stock d'eau", reg: "Restrictions"},
+  overlays: {cat: "Catastrophe sécheresse", soil: "Humidité du sol", fire: "Incendie", spi: "Indice de sécheresse", tws: "Stock d'eau", reg: "Restrictions"},
   low_s: "plus sec", high_s: "plus humide", fewer: "moins", more: "plus", cells: "mailles", stations: "stations", towns: "villes",
   cHint: "Choisissez une couche puis lancez la lecture : l'année défile toute seule. Cliquez sur la carte pour ouvrir la grande ville la plus proche.",
   footer: "PhreAItic : projet indépendant, pas un produit officiel. Prévisions jusqu'à 12 mois à partir de données publiques, vérifiées sur des années mises de côté. L'ancienne carte reste disponible : carte classique.", loading: "Chargement…", pick: "Choisissez une ville", tz: "Relief : AWS Terrain Tiles (NASADEM, SRTM, GMTED)."}
@@ -334,6 +341,7 @@ const OV = {
   fire: {ramp: ramp([[0, "#fff7d6"], [.08, "#fee08b"], [.25, "#fdae61"], [.5, "#f46d43"], [.8, "#a50026"], [1, "#4a0014"]]), lo: 0, hi: 1, lab: ["0", "50", "100 %"], u: "%", f: v => Math.sqrt(v)},
   spi: {ramp: ramp([[-2.5, "#7f3b08"], [-1.5, "#d8803a"], [-.5, "#f3d9b0"], [0, "#f4f4f2"], [.5, "#bcd9ee"], [1.5, "#4a90c4"], [2.5, "#08306b"]]), lo: -2.5, hi: 2.5, lab: ["−2.5", "0", "+2.5"], u: ""},
   tws: {ramp: ramp([[-30, "#7f3b08"], [-12, "#d8803a"], [-3, "#f3d9b0"], [0, "#f4f4f2"], [3, "#bcd9ee"], [12, "#4a90c4"], [30, "#08306b"]]), lo: -30, hi: 30, lab: ["−30", "0", "+30 cm"], u: " cm"},
+  cat: {ramp: ramp([[0, "#2E75B6"], [.04, "#9CC3D8"], [.1, "#F4EFE6"], [.2, "#E8A878"], [.35, "#C4622D"], [.5, "#A32F2F"]]), lo: 0, hi: .5, lab: ["0", "25", "50 %"], u: "%"},
   reg: {ramp: ramp([[0, "#f6f1fa"], [.1, "#fdd49e"], [.3, "#fc8d59"], [.6, "#d7301f"], [1, "#4a0014"]]), lo: 0, hi: 1, lab: ["0", "50", "100 %"], u: "%", f: v => Math.sqrt(v)}
 };
 function ovColor(ov, v) { const o = OV[ov]; return o.ramp(o.f ? o.lo + (o.hi - o.lo) * o.f(clamp((v - o.lo) / (o.hi - o.lo), 0, 1)) : v); }
@@ -417,19 +425,20 @@ class MapView {
   set(layerData, ov, focusIso, cityPt) { this.data = layerData; this.ov = ov; this.focus = focusIso; this.city = cityPt; this.build(); this.legend(); this.draw(S.m); }
   build() {         // spatial hash for hover
     this.hash = new Map();
-    const items = this.data ? (this.data.cells || this.data.areas) : [];
+    const items = this.data ? (this.data.cells || this.data.areas || this.data.pts || []) : [];
     this.items = items;
+    if (this.data && this.data.pts) { const P = this.data.pts, ds = []; const step = Math.max(1, Math.floor(P.length / 160)); for (let i = 0; i < P.length; i += step) { let b = 1e9; for (let j = 0; j < P.length; j++) if (j !== i) { const d2 = dist2(P[i].lat, P[i].lon, P[j].lat, P[j].lon); if (d2 < b) b = d2; } ds.push(Math.sqrt(b)); } ds.sort((a, b) => a - b); this.nnMed = ds[Math.floor(ds.length / 2)] || 0.01; }
     if (this.data && this.data.cells) { const [dla, dlo] = [this.data.cell[0], this.data.cell[1]]; this.dla = dla; this.dlo = dlo; items.forEach(c => this.hash.set(Math.round(c.lat / dla) + "_" + Math.round(c.lon / dlo), c)); }
   }
   legend() {
     const o = OV[this.ov], lg = $(".lg", this.host); if (!o || !this.data) { lg.style.display = "none"; return; }
-    lg.style.display = ""; $(".lt", lg).textContent = t("overlays")[this.ov] + " · " + ({soil: t("soilU"), fire: t("fireU"), spi: t("spiU"), tws: t("twsU"), reg: t("regU")})[this.ov];
+    lg.style.display = ""; $(".lt", lg).textContent = t("overlays")[this.ov] + " · " + ({soil: t("soilU"), fire: t("fireU"), spi: t("spiU"), tws: t("twsU"), reg: t("regU"), cat: t("catU")})[this.ov];
     const stops = []; for (let i = 0; i <= 12; i++) { const v = o.lo + (o.hi - o.lo) * i / 12; stops.push(rgb(ovColor(this.ov, v))); }
     $(".bar", lg).style.background = `linear-gradient(90deg,${stops.join(",")})`; $(".tk", lg).innerHTML = o.lab.map(x => `<span>${x}</span>`).join("");
   }
   valueAt(item, m) { return interp(item.pts, m); }
   draw(m) {
-    if (!this.ctx || !this.W) return; const c = this.ctx; c.clearRect(0, 0, this.W, this.H);
+    if (!this.ctx || !this.W) return; if (this.nnMed) this.ptR = clamp(0.3 * this.nnMed * this.scale, 1.3, 4.5); const c = this.ctx; c.clearRect(0, 0, this.W, this.H);
     const cs = getComputedStyle(document.documentElement);
     const land = cs.getPropertyValue("--card").trim() || "#fff", line = cs.getPropertyValue("--line").trim() || "#ccc";
     c.fillStyle = cs.getPropertyValue("--hero1").trim(); c.fillRect(0, 0, this.W, this.H);
@@ -449,6 +458,8 @@ class MapView {
       if (d.cells) {
         const w = d.cell[1] * this.k * this.scale, h = d.cell[0] * this.scale;
         for (const it of d.cells) { const v = this.valueAt(it, m); if (v == null) continue; const q = this.px(it.lon, it.lat); c.fillStyle = rgb(ovColor(this.ov, v)); c.fillRect(q[0] - w / 2 - .4, q[1] - h / 2 - .4, w + .8, h + .8); }
+      } else if (d.pts) {
+        const r = this.ptR || 2; for (const it of d.pts) { const q = this.px(it.lon, it.lat); c.beginPath(); c.arc(q[0], q[1], r, 0, 6.3); c.fillStyle = rgb(ovColor(this.ov, it.v)); c.globalAlpha = .92; c.fill(); c.globalAlpha = 1; c.lineWidth = .6; c.strokeStyle = "rgba(20,32,43,.45)"; c.stroke(); }
       } else if (d.areas) {
         for (const a of d.areas) { const v = this.valueAt(a, m); if (v == null) continue; c.fillStyle = rgb(ovColor(this.ov, v)); c.beginPath();
           for (const r of ringsOf(a.rings)) { for (let i = 0; i < r.length; i += 2) { const q = this.px(r[i], r[i + 1]); i ? c.lineTo(q[0], q[1]) : c.moveTo(q[0], q[1]); } c.closePath(); } c.fill(); }
@@ -463,6 +474,7 @@ class MapView {
   }
   onMove(e) {
     if (!this.data) return; const p = this.unproject(e); let it = null;
+    if (this.data.pts) { let bd = 0.05 ** 2; for (const q of this.data.pts) { const d2 = dist2(q.lat, q.lon, p.lat, p.lon); if (d2 < bd) { bd = d2; it = q; } } if (it) { const r = this.cv.getBoundingClientRect(); this.tip.innerHTML = `<b>${(it.v * 100).toFixed(1)} %</b>`; this.tip.style.display = "block"; this.tip.style.left = clamp(e.clientX - r.left + 12, 0, r.width - 150) + "px"; this.tip.style.top = clamp(e.clientY - r.top + 12, 0, r.height - 30) + "px"; } else this.tip.style.display = "none"; return; }
     if (this.data.cells) it = this.hash.get(Math.round(p.lat / this.dla) + "_" + Math.round(p.lon / this.dlo));
     else if (this.data.areas) it = areaAt(this.data.areas, p.lon, p.lat);
     if (!it) { this.tip.style.display = "none"; return; }
@@ -544,7 +556,7 @@ function lineChart(host, o) {
   if (o.zeroLine) g += `<line x1="${ml}" x2="${W - mr}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--muted)" opacity=".5"/>`;
   const layer = S0.map(s => {
     const c = s.color;
-    return (s.band ? `<path d="${area(s.band)}" fill="${BAND}" opacity=".75"/>` : "") + (s.clim ? `<path d="${path(s.clim)}" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4 3"/>` : "") +
+    return (s.band ? `<path d="${area(s.band)}" fill="${BAND}" opacity="${s.band50 ? 0.45 : 0.75}"/>` : "") + (s.band50 ? `<path d="${area(s.band50)}" fill="${BAND}" opacity=".8"/>` : "") + (s.clim ? `<path d="${path(s.clim)}" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4 3"/>` : "") +
       (s.hist && s.hist.length ? `<path d="${path(s.hist.filter(p => p[0] >= x0))}" fill="none" stroke="${c}" stroke-width="1.6" stroke-linejoin="round" opacity=".9"/>` : "") +
       `<path d="${path(s.pts)}" fill="none" stroke="${c}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>` +
       s.pts.map(p => `<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="2.7" fill="${c}" stroke="var(--card)" stroke-width="1.5"/>`).join("");
@@ -633,6 +645,14 @@ const Hero = (() => {
     for (const s of ctx.pins || []) { const x = (s.lon - c.lon) * kx, z = -(s.lat - c.lat) * 111.32; if ((x / AX) ** 2 + (z / Wg) ** 2 > 1) continue; const q = P(x, z); g.beginPath(); g.arc(q[0], q[1], 9, 0, 6.3); g.fillStyle = s.color; g.fill(); g.lineWidth = 3; g.strokeStyle = "#fff"; g.stroke(); }
     return cvs;
   }
+  const LUCOL = [null, "#E4E7DF", "#5E8C68", "#B5D29A", "#DDAE55", "#7C7872", "#7FB6CC"];
+  function luCanvas(lu) {      // class grid -> texture over the 2W x 2W window (north at the top)
+    const m = 1024, cvs = document.createElement("canvas"); cvs.width = cvs.height = m; const g = cvs.getContext("2d"), img = g.createImageData(m, m), d = img.data, [w, h] = lu.n, [x0, z0, x1, z1] = lu.b;
+    const grid = new Uint8Array(w * h); let o = 0; const bin = atob(lu.d); for (let i = 0; i < bin.length; i++) { const b = bin.charCodeAt(i), r = (b & 31) + 1; grid.fill(b >> 5, o, o + r); o += r; }
+    const rgbs = LUCOL.map(c => c ? [parseInt(c.slice(1, 3), 16), parseInt(c.slice(3, 5), 16), parseInt(c.slice(5, 7), 16)] : null), W = st.W;
+    for (let py = 0; py < m; py++) for (let px = 0; px < m; px++) { const x = (px / m - .5) * 2 * W, z = (py / m - .5) * 2 * W; const i = Math.round((x - x0) / (x1 - x0) * (w - 1)), j = Math.round((z - z0) / (z1 - z0) * (h - 1)); if (i < 0 || j < 0 || i >= w || j >= h) continue; const c = rgbs[grid[j * w + i]]; if (!c) continue; const q = (py * m + px) * 4; d[q] = c[0]; d[q + 1] = c[1]; d[q + 2] = c[2]; d[q + 3] = 255; }
+    g.putImageData(img, 0, 0); return cvs;
+  }
   function maskCanvas() {
     const m = 512, cvs = document.createElement("canvas"); cvs.width = cvs.height = m; const g = cvs.getContext("2d"); g.fillStyle = "#000"; g.fillRect(0, 0, m, m); g.fillStyle = "#fff";
     const sc = m / (2 * st.W); for (const r of st.rings) { g.beginPath(); r.forEach((p, i) => { const x = m / 2 + p[0] * sc, y = m / 2 + p[1] * sc; i ? g.lineTo(x, y) : g.moveTo(x, y); }); g.closePath(); g.fill(); }
@@ -645,7 +665,7 @@ const Hero = (() => {
   function clear() { if (group) { scene.remove(group); group.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material) { if (o.material.map) o.material.map.dispose(); o.material.dispose(); } }); } group = new THREE.Group(); scene.add(group); streams = []; }
   async function load(c, ctx) {
     if (!ready && !init()) return false; clear();
-    const ent = ctx.ent, W = ctx.W; st = {W, Wg: ctx.Wg || 0.5 * W, rings: ctx.rings, baseT: 0.045 * W, Hd: 0, H: !!ent, c};
+    const ent = ctx.ent, W = ctx.W; st = {W, Wg: ctx.Wg || 0.5 * W, rings: ctx.rings, baseT: 0.025 * W, Hd: 0, H: !!ent, c};
     st.hv = new Float32Array(N * N); st.Hraw = new Float32Array(N * N);
     maskCanvasTex = new THREE.CanvasTexture(maskCanvas());
     let emin = 0, emax = 0, range = 1;
@@ -654,7 +674,7 @@ const Hero = (() => {
       st.Hraw = bicubic(q, n, N); emin = Infinity; emax = -Infinity;
       for (let i = 0; i < N * N; i++) { const x = ((i % N) / (N - 1) - .5) * 2 * W, z = (Math.floor(i / N) / (N - 1) - .5) * 2 * W; if (insideAt(x, z)) { emin = Math.min(emin, st.Hraw[i]); emax = Math.max(emax, st.Hraw[i]); } }
       if (!isFinite(emin)) { emin = ent[4]; emax = ent[5]; } range = Math.max(emax - emin, 1);
-      st.Hd = Math.min(0.16 * W, range / 1000 * 12); if (range < 3) st.Hd = 0;
+      st.Hd = Math.min(0.12 * W, range / 1000 * 18); if (range < 3) st.Hd = 0;
       { const iv = []; for (let i = 0; i < N * N; i++) { const x = ((i % N) / (N - 1) - .5) * 2 * W, z = (Math.floor(i / N) / (N - 1) - .5) * 2 * W; if (insideAt(x, z)) iv.push(st.Hraw[i]); } iv.sort((a, b) => a - b); const q = iv.length ? iv[Math.floor(iv.length * 0.93)] : emax; const cap = h => h <= q ? h : q + (h - q) * 0.3; st.cap = cap;
       for (let i = 0; i < N * N; i++) st.hv[i] = clamp((cap(st.Hraw[i]) - emin) / (cap(emax) - emin || 1), 0, 1.1) * st.Hd; }
       st.exag = st.Hd ? Math.round(st.Hd * 1000 / range) : 0;
@@ -669,13 +689,15 @@ const Hero = (() => {
     const rim = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 0.045 * st.Wg, 160, 1, true), new THREE.MeshLambertMaterial({color: dark() ? 0x2a3a45 : 0xdfe4df})); rim.scale.set(1.6 * st.Wg, 1, st.Wg); rim.position.y = -0.0225 * st.Wg; group.add(rim);
     // town block (top surface clipped by the outline, walls along it)
     topGeo = new THREE.PlaneBufferGeometry(2 * W, 2 * W, N - 1, N - 1); topGeo.rotateX(-Math.PI / 2); topGeo.setAttribute("color", new THREE.BufferAttribute(new Float32Array(N * N * 3), 3));
-    top = new THREE.Mesh(topGeo, new THREE.MeshLambertMaterial({vertexColors: true, alphaMap: maskCanvasTex, alphaTest: 0.5, transparent: false})); group.add(top);
+    let luTex = null; if (ctx.lu) luTex = new THREE.CanvasTexture(luCanvas(ctx.lu)); st.lu = !!luTex;
+    top = new THREE.Mesh(topGeo, new THREE.MeshLambertMaterial(luTex ? {map: luTex, alphaMap: maskCanvasTex, alphaTest: 0.5} : {vertexColors: true, alphaMap: maskCanvasTex, alphaTest: 0.5, transparent: false})); group.add(top);
     const col = topGeo.attributes.color.array; const inH = []; for (let i = 0; i < N * N; i++) { const x = ((i % N) / (N - 1) - .5) * 2 * W, z = (Math.floor(i / N) / (N - 1) - .5) * 2 * W; if (ent && insideAt(x, z)) inH.push(st.Hraw[i]); } inH.sort((a, b) => a - b); const p92 = inH.length ? Math.max(inH[Math.floor(inH.length * 0.92)], emin + 1) : emin + 1;
     for (let i = 0; i < N * N; i++) { const e = ent ? clamp((st.Hraw[i] - emin) / (p92 - emin), 0, 1) : 0.45; let cc = ent ? hypso(e) : [128, 168, 148]; if (ent && emin <= 0.5 && st.Hraw[i] < 0.6) cc = [92, 150, 190]; col[i * 3] = cc[0] / 255; col[i * 3 + 1] = cc[1] / 255; col[i * 3 + 2] = cc[2] / 255; }
     // walls
     const pts = []; for (const r of st.rings) { const seg = []; for (let i = 0; i < r.length; i++) { const a = r[i], b = r[(i + 1) % r.length], n = Math.max(1, Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / (0.012 * W))); for (let k = 0; k < n; k++) seg.push([lerp(a[0], b[0], k / n), lerp(a[1], b[1], k / n)]); } pts.push(seg); }
     const total = pts.reduce((s, q) => s + q.length, 0), pos = new Float32Array(total * 6), wc = new Float32Array(total * 6), idx = []; let o = 0; wallBase = [];
     for (const seg of pts) { const o0 = o; seg.forEach((p, i) => { wallBase.push(p); const e = ent ? clamp(hGrid(p[0], p[1]) / (st.Hd || 1) * (st.range / Math.max(p92 - emin, 1)), 0, 1) : 0.45, c1 = ent ? hypso(e) : [128, 168, 148]; pos[o * 6] = pos[o * 6 + 3] = p[0]; pos[o * 6 + 2] = pos[o * 6 + 5] = p[1];
+      if (ctx.lu) { wc[o * 6] = 0.55; wc[o * 6 + 1] = 0.44; wc[o * 6 + 2] = 0.34; wc[o * 6 + 3] = 0.33; wc[o * 6 + 4] = 0.26; wc[o * 6 + 5] = 0.2; o++; return; }
       wc[o * 6] = c1[0] / 255 * 0.62; wc[o * 6 + 1] = c1[1] / 255 * 0.55; wc[o * 6 + 2] = c1[2] / 255 * 0.5; wc[o * 6 + 3] = c1[0] / 255 * 0.42; wc[o * 6 + 4] = c1[1] / 255 * 0.36; wc[o * 6 + 5] = c1[2] / 255 * 0.32; o++; });
       for (let i = 0; i < seg.length; i++) { const a = o0 + i, b = o0 + (i + 1) % seg.length; idx.push(a * 2, a * 2 + 1, b * 2, a * 2 + 1, b * 2 + 1, b * 2); } }
     wallGeo = new THREE.BufferGeometry(); wallGeo.setAttribute("position", new THREE.BufferAttribute(pos, 3)); wallGeo.setAttribute("color", new THREE.BufferAttribute(wc, 3)); wallGeo.setIndex(idx);
@@ -769,7 +791,8 @@ async function openCity(c, push = true) {
   document.title = c.name + " · PhreAItic";
   const [soil, fire, spi, tws, reg, stns, T, bm] = await Promise.all([soilCells(c.iso), fireCells(c.iso), tileCells("spi", [c.lon, c.lat, c.lon, c.lat]), tileCells("tws", [c.lon, c.lat, c.lon, c.lat]), regAreas(c.iso), stationsNear(c.lat, c.lon), J(`terrain/${c.iso}.json`), J(`basemap/${c.iso}.json`)]);
   if (tok !== cityToken) return; setTime(0); fillTicks();
-  let ent = null, bd = 0.2 ** 2; if (T && c.pop >= 100000) for (const e of T.t) { const d = dist2(e[2], e[1], c.lat, c.lon) , dd = dist2(e[2], e[1], c.lat, c.lon); if (dd < bd) { bd = dd; ent = e; } }
+  const card = (c.pop >= 100000 || c.iso === "FRA") ? await J(`cards/${c.iso}/${(+c.lon).toFixed(4)}_${(+c.lat).toFixed(4)}.json`) : null; if (tok !== cityToken) return;
+  let ent = null; if (T) { let bd = 0.2 ** 2; for (const e of T.t) { const dd = dist2(e[2], e[1], c.lat, c.lon); if (norm(e[0]) === norm(c.name) && dd < bd) { bd = dd; ent = e; } } if (!ent) { bd = 0.03 ** 2; for (const e of T.t) { const dd = dist2(e[2], e[1], c.lat, c.lon); if (dd < bd) { bd = dd; ent = e; } } } }
   const kxy = (a) => a; let rings, W, areaKm2, cc = c;
   if (ent && ent[9]) { rings = ent[9].map(r => { const o = []; for (let i = 0; i < r.length; i += 2) o.push([r[i] / 100, -r[i + 1] / 100]); return o; }); W = ent[7]; areaKm2 = ent[8]; }
   else { const o = await osmOutline(c); if (tok !== cityToken) return; const r = clamp(2.6 * Math.sqrt((c.pop || 20000) / 1e5) + 1.2, 1.2, 18);
@@ -781,129 +804,187 @@ async function openCity(c, push = true) {
   const sR = pick("rivers"), sT = pick("temp"), sG = pick("gw");
   const near = (layer, lat, lon, km) => layer && nearest(layer.cells.map(x => [x.lat, x.lon, x]), lat, lon, km), sc = soil && near(soil, c.lat, c.lon, 120), fc = fire && near(fire, c.lat, c.lon, 120), spc = spi && near(spi, c.lat, c.lon, 160), twc = tws && near(tws, c.lat, c.lon, 160);
   const soilCell = sc && sc[2], fireCell = fc && fc[2], spiCell = spc && spc[2], twsCell = twc && twc[2], regArea = reg && areaAt(reg.areas, c.lon, c.lat);
+  // ---- the hydro panels: the town card (same sources as the PDF) first, the static grid stations as a fallback
+  const monthOf = d => (new Date(String(d).slice(0, 10) + "T00:00:00") - S.T0) / (30.44 * 864e5);
+  const normPanel = h => { const fcs = (h.fc || []).filter(f => f[0] <= 12.5), pts = [[0, h.last]], b90 = [[0, h.last, h.last]], b50 = [[0, h.last, h.last]];
+    for (const f of fcs) { pts.push([f[0], f[1]]); b90.push([f[0], f[4], f[5]]); if (f[2] != null && f[3] != null) b50.push([f[0], f[2], f[3]]); }
+    return {kind: h.kind, title: h.title, unit: h.unit, last: h.last, lastDate: h.last_date, dist: h.dist, pts, band: b90, band50: b50.length > 1 ? b50 : null, hist: (h.hist || []).map(p => [monthOf(p[0]), p[1]]).filter(p => p[0] >= -24 && p[0] <= 0.3), thr: h.thr, lw: h.lw, wet: h.pct, body: h.body}; };
+  const PH = {}; if (card && card.hydro) for (const h of card.hydro) if (["rivers", "temp", "gw"].includes(h.kind)) PH[h.kind] = normPanel(h);
+  for (const [layer, s] of [["rivers", sR], ["temp", sT], ["gw", sG]]) if (!PH[layer] && s) { const ser = stationSeries(s), lw = stationWet(s).lowerWetter, f1 = s.forecasts.slice().sort((a, b) => a.h - b.h)[0];
+    PH[layer] = {kind: layer, title: s.name.replace(/\s*\(.*$/, ""), unit: s.unit, last: s.last_value, lastDate: s.last_week, dist: Math.round(kmBetween(s.lat, s.lon, c.lat, c.lon)), pts: ser.pts, band: ser.band, band50: null, hist: [], thr: null, lw, wet: f1 && f1.pct != null ? (lw ? 100 - f1.pct : f1.pct) : null, _s: s}; }
+  const enrich = async p => { if (!p._s) return; const [h, fl] = await Promise.all([fetchHistory(p._s), (async () => { const f = p._s.country && await J(`api/v1/${p._s.country}/${p._s.layer}.json`); return f && f.stations.find(y => y.id === p._s.id); })()]);
+    if (h.length) p.hist = h; if (fl && fl.forecasts && fl.forecasts.length) { const ser = stationSeries({...fl, last_value: fl.last_value}); p.pts = ser.pts; p.band = ser.band; } };
   const pins = [sR && {...sR, color: C1}, sT && {...sT, color: C2}, sG && {...sG, color: C3}].filter(Boolean);
   const neigh = (S.index.t || []).filter(x => x[4] >= 1500 && x[0] !== c.name && Math.abs(x[3] - c.lat) < 0.5 && Math.abs(x[2] - c.lon) < 0.8).sort((a, b) => b[4] - a[4]).slice(0, 70).map(x => [x[0], x[1], x[2], x[3]]);
-  // hero numbers
-  const emin = ent ? ent[4] : null;
   let Wg; { let hx = 0, hz = 0; for (const q of rings) for (const p of q) { hx = Math.max(hx, Math.abs(p[0])); hz = Math.max(hz, Math.abs(p[1])); } Wg = clamp(Math.max(hx / 1.6, hz) * 1.4, 2.5, 26); if (Wg * 2 > W) W = Wg * 2; }
-  await Hero.load(cc, {ent, W, Wg, rings, basemap: bm, neigh, pins});
+  const lu = ent ? await J(`landuse/${c.iso}/${(+ent[1]).toFixed(4)}_${(+ent[2]).toFixed(4)}.json`) : null; if (tok !== cityToken) return;
+  const ug = ent && c.iso === "FRA" ? await J(`underground/FRA/${(+ent[1]).toFixed(4)}_${(+ent[2]).toFixed(4)}.json`) : null; if (tok !== cityToken) return;
+  await Hero.load(cc, {ent, W, Wg, rings, basemap: bm, neigh, pins, lu});
   if (tok !== cityToken) return; $("#skel").style.opacity = 0;
   const hs = Hero.stats(); const flatTown = !ent;
   $("#lgT").textContent = t("onMap"); $("#eMin").textContent = flatTown ? "" : Math.round(hs.emin) + " m"; $("#eMax").textContent = flatTown ? "" : Math.round(hs.emax) + " m"; $(".elegend").style.opacity = flatTown ? .35 : 1;
-  const L_ = [[C1, "", t("river")], [C2, "", t("temp")], [C3, "", t("gw")]].filter((_, i) => [sR, sT, sG][i]).map(x => `<span><s style="background:${x[0]}"></s>${x[2]}</span>`);
-  $("#lgItems").innerHTML = `<span><s class="ln" style="background:#6fa8d0"></s>${t("riversLakes")}</span>` + L_.join("");
-  $("#hNote").textContent = flatTown ? t("relief_na") : t("relief") + (hs.exag || 1) + " · " + t("tz");
+  const L_ = [[C1, t("river")], [C2, t("temp")], [C3, t("gw")]].filter((_, i) => [sR, sT, sG][i]).map(x => `<span><s style="background:${x[0]}"></s>${x[1]}</span>`);
+  const luItems = lu ? [["bati", "#7C7872", t("luBuilt")], ["foret", "#5E8C68", t("luForest")], ["autre", "#E4E7DF", t("luOther")], ["prairie", "#B5D29A", t("luMeadow")], ["culture", "#DDAE55", t("luCrops")]].filter(x => (lu.sh[x[0]] || 0) >= 0.005 || x[0] === "bati").map(x => `<span><s class="sq" style="background:${x[1]};box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)"></s>${x[2]} <small style="color:var(--muted)">${Math.round((lu.sh[x[0]] || 0) * 100)} %</small></span>`).join("") : "";
+  $("#lgItems").innerHTML = luItems + `<span><s class="sq" style="background:#8FC3DA"></s>${t("riversLakes")}${lu && lu.sh.eau ? ` <small style="color:var(--muted)">${Math.round(lu.sh.eau * 100)} %</small>` : ""}</span>` + L_.join("");
+  $(".elegend").style.display = lu ? "none" : "";
+  reliefMap(hs, ug);
+  $("#hNote").textContent = flatTown ? t("relief_na") : t("relief") + (hs.exag || 1) + " · " + t("tz") + (lu ? " · " + t("luSrc") : "");
   $("#midT").textContent = t("midT"); $("#midS").textContent = flatTown ? t("midFlat") : t("midRel");
   $("#numT").textContent = t("inNumbers"); const dens = c.pop && areaKm2 ? Math.round(c.pop / areaKm2) : null;
   $("#nElev").textContent = flatTown ? "—" : `${Math.round(hs.emin)}–${Math.round(hs.emax)} m`; $("#nElevS").textContent = t("elevRange");
   countUp($("#nArea"), areaKm2, v => (v < 10 ? v.toFixed(1) : Math.round(v)) + " km²"); $("#nAreaS").textContent = t("areaS");
   countUp($("#nDens"), dens, v => Math.round(v).toLocaleString(L) + " /km²"); $("#nDensS").textContent = t("densS");
-  // signals
-  const sig = [];
-  const wetOf = (s, h) => { if (!s) return null; const f = s.forecasts.slice().sort((a, b) => a.h - b.h)[0]; if (!f || f.pct == null) return null; return stationWet(s).lowerWetter ? 100 - f.pct : f.pct; };
-  const gwWet = wetOf(sG, 1), soilNow = soilCell ? soilCell.pts[0][1] : null, spiNow = spiCell ? spiCell.pts[0][1] : null, twsNow = twsCell ? twsCell.pts[0][1] : null;
+  // ---- soil series: the detailed French cell (history + bands) when the card has it
+  const soilS = card && card.soil ? {now: card.soil.now, pts: [[0, card.soil.now]].concat(card.soil.fc.map(f => [monthOf(f[0]), f[1]]).filter(p => p[0] > 0 && p[0] <= 12.2)),
+    band: [[0, card.soil.now, card.soil.now]].concat(card.soil.fc.map(f => [monthOf(f[0]), f[4], f[5]]).filter(p => p[0] > 0 && p[0] <= 12.2)), band50: [[0, card.soil.now, card.soil.now]].concat(card.soil.fc.map(f => [monthOf(f[0]), f[2], f[3]]).filter(p => p[0] > 0 && p[0] <= 12.2)),
+    hist: card.soil.hist.map(p => [monthOf(p[0]), p[1]]).filter(p => p[0] >= -24 && p[0] <= 0.3)} : (soilCell ? {now: soilCell.pts[0][1], pts: soilCell.pts, hist: []} : null);
+  // ---- signals
+  const gwWet = PH.gw ? PH.gw.wet : null, soilNow = soilS ? soilS.now : null, spiNow = spiCell ? spiCell.pts[0][1] : null, twsNow = twsCell ? twsCell.pts[0][1] : null;
   const firePeak = fireCell ? fireCell.pts.reduce((b, p) => p[1] > b[1] ? p : b, fireCell.pts[0]) : null;
   const sevSoil = soilNow == null ? null : soilNow < 10 ? 3 : soilNow < 20 ? 2 : soilNow < 40 ? 1 : 0, sevGw = sevFromWet(gwWet), sevSpi = spiNow == null ? null : spiNow < -1.5 ? 3 : spiNow < -1 ? 2 : spiNow < -0.5 ? 1 : 0,
     sevTws = twsNow == null ? null : twsNow < -15 ? 3 : twsNow < -8 ? 2 : twsNow < -3 ? 1 : 0, sevFire = firePeak == null ? null : firePeak[1] >= 0.3 ? 3 : firePeak[1] >= 0.1 ? 2 : firePeak[1] >= 0.04 ? 1 : 0;
   const sevs = [sevGw, sevSoil, sevSpi, sevTws, sevFire].filter(x => x != null), alerts = sevs.filter(x => x >= 2).length;
   const worst = [["gw", sevGw], ["soil", sevSoil], ["spi", sevSpi], ["tws", sevTws], ["fire", sevFire]].filter(x => x[1] != null).sort((a, b) => b[1] - a[1])[0];
   $("#hWatch").textContent = worst && worst[1] >= 1 ? t("toWatch") + " " + t("w_" + worst[0] + "_" + (worst[1] >= 2 ? "hi" : "lo")) : t("allQuiet");
-  $("#mData").textContent = t("latest") + ": " + [soil && S.soilAsOf && t("soil") + " " + S.soilAsOf, sG && sG.last_week && t("gw") + " " + sG.last_week, spiCell && spi.asOf && "SPI " + spi.asOf].filter(Boolean).join(" · ");
+  $("#mData").textContent = t("latest") + ": " + [soilNow != null && t("soil") + " " + (card && card.soil ? card.soil.as_of : S.soilAsOf), PH.gw && PH.gw.lastDate && t("gw") + " " + PH.gw.lastDate, spiCell && spi.asOf && "SPI " + spi.asOf].filter(Boolean).join(" · ");
   // ===== the page below
-  const B = $("#bulletin"); const ups = [], intros = [];
-  const sec = (html) => { const d = el("div", {}, html); B.appendChild(d); return d; };
-  // --- 01 indicators + regional map
-  const s1 = sec(chapter(1, alerts ? (alerts === 1 ? t("ind1") : t("indN").replace("{n}", alerts)) : t("indNone")) + `<div class="ovs" id="ovCity" style="margin-bottom:6px"></div><div class="bleed" id="mapCity"></div><p class="hint" id="mapCityHint">${t("mapHint")}</p><div class="two" style="margin-top:16px"><div class="card"><div class="ind" id="indList"></div></div><div class="stack" id="s1charts"></div></div>`);
+  const B = $("#bulletin"); const ups = [];
+  const sec = html => { const d = el("div", {}, html); B.appendChild(d); return d; };
+  const trendOf = p => { if (!p) return ""; const a = p.pts[0][1], b = interp(p.pts, 6); const vs = p.pts.map(x => x[1]), tol = 0.06 * (Math.max(...vs) - Math.min(...vs) || 1); const d = (b - a) * (p.lw ? -1 : 1); return d > tol ? "↗ " + t("wetter") : d < -tol ? "↘ " + t("drier") : "→ " + t("stable"); };
+  const hasCat = !!(card && card.catmap && card.catmap.length);
+  sec(chapter(1, alerts ? (alerts === 1 ? t("ind1") : t("indN").replace("{n}", alerts)) : t("indNone")) + `<div class="ovs" id="ovCity" style="margin-bottom:6px"></div><div class="bleed" id="mapCity"></div><p class="hint" id="mapCityHint">${t("mapHint")}</p><div class="two" style="margin-top:16px"><div class="card"><div class="ind" id="indList"></div></div><div class="stack" id="s1charts"></div></div><div id="clayRow"></div>`);
   const ind = (sev, ttl, val, sub) => `<div class="it"><span class="dot" style="color:${SEV[sev == null ? 0 : sev]};background:${sev == null ? "var(--line)" : SEV[sev]}"></span><div><h4>${ttl}</h4><b style="color:${SEV[sev == null ? 0 : sev]}">${val}</b><small>${sub || ""}</small></div></div>`;
-  const gwTr = sG ? trendWord(gwWet, wetOf(sG), 6) : "";
   $("#indList").innerHTML = [
-    ind(sevGw, t("gw") + (sG ? " · " + sG.name.replace(/\s*\(.*$/, "") : ""), sG ? pctWord(gwWet) : t("nostationShort"), gwTr),
-    ind(sevSoil, t("soil"), soilNow == null ? "—" : soilWord(soilNow) + " (" + Math.round(soilNow) + ")", soilCell ? trendWord(soilNow, interp(soilCell.pts, 6), 8) : ""),
-    ind(sevSpi, t("rain12"), spiNow == null ? "—" : (spiNow > 0 ? "+" : "") + spiNow.toFixed(1) + " · " + (spiNow < -1 ? t("deficit") : spiNow > 1 ? t("surplus") : t("typ")), spiCell ? trendWord(spiNow, interp(spiCell.pts, 6), 0.3) : ""),
-    ind(sevTws, t("tws"), twsNow == null ? "—" : (twsNow > 0 ? "+" : "") + twsNow.toFixed(1) + " cm", twsCell ? trendWord(twsNow, interp(twsCell.pts, 9), 2) : ""),
+    ind(sevGw, t("gw") + (PH.gw ? " · " + PH.gw.title : ""), PH.gw ? pctWord(gwWet) : t("nostationShort"), trendOf(PH.gw)),
+    ind(sevSoil, t("soil"), soilNow == null ? "—" : soilWord(soilNow) + " (" + Math.round(soilNow) + ")", soilS ? trendOf({pts: soilS.pts}) : ""),
+    ind(sevSpi, t("rain12"), spiNow == null ? "—" : (spiNow > 0 ? "+" : "") + spiNow.toFixed(1) + " · " + (spiNow < -1 ? t("deficit") : spiNow > 1 ? t("surplus") : t("typ")), spiCell ? trendOf({pts: spiCell.pts}) : ""),
+    ind(sevTws, t("tws"), twsNow == null ? "—" : (twsNow > 0 ? "+" : "") + twsNow.toFixed(1) + " cm", twsCell ? trendOf({pts: twsCell.pts}) : ""),
     ind(sevFire, t("fire"), firePeak ? t("peakIn") + " " + shortMonth(firePeak[0]) : "—", firePeak ? (firePeak[1] * 100).toFixed(1) + " %" : "")].join("");
   const ch1 = $("#s1charts");
   const mk = (title, sub) => { const d = el("div", {class: "card"}, `<h3>${title}<small>${sub || ""}</small></h3><div class="read"></div><div class="plot"></div><div class="leg"></div>`); ch1.appendChild(d); return d; };
-  const plot = (card, o, readFn, legend) => { const u = lineChart($(".plot", card), o); const r = m => { u(m); if (readFn) $(".read", card).innerHTML = readFn(m); }; ups.push(r); $(".leg", card).innerHTML = legend || ""; };
-  const lg = (c, tx, o = "") => `<span><i style="background:${c};${o}"></i>${tx}</span>`;
-  if (soilCell) { const cd = mk(t("soil"), t("soilU")); plot(cd, {series: [{pts: soilCell.pts, color: CSOIL}], zones: [t("zWet"), t("zDry")], yMin: 0, yMax: 100, yfmt: v => Math.round(v), refs: [{v: 20, c: "#c0762a", t: t("dry")}], shade: {below: 20}, label: t("soil")}, m => { const v = interp(soilCell.pts, m); return `<b>${Math.round(v)}</b><span>${soilWord(v)}</span>`; }, lg(CSOIL, t("soil"))); }
-  if (twsCell) { const cd = mk(t("tws"), "cm"); plot(cd, {series: [{pts: twsCell.pts, band: twsCell.band, color: C4}], zeroLine: true, zones: [t("zWet"), t("zDry")], shade: {below: -3}, label: t("tws")}, m => { const v = interp(twsCell.pts, m); return `<b>${v > 0 ? "+" : ""}${v.toFixed(1)} cm</b><span>${t("twsU")}</span>`; }, lg(C4, t("median")) + lg(BAND, t("range"))); }
+  const plot = (card_, o, readFn, legend) => { const u = lineChart($(".plot", card_), o); const r = m => { u(m); if (readFn) $(".read", card_).innerHTML = readFn(m); }; ups.push(r); $(".leg", card_).innerHTML = legend || ""; };
+  const lg = (c_, tx, o = "") => `<span><i style="background:${c_};${o}"></i>${tx}</span>`;
+  if (soilS) { const cd = mk(t("soil"), t("soilU")); plot(cd, {series: [{pts: soilS.pts, band: soilS.band, band50: soilS.band50, hist: soilS.hist, color: CSOIL}], zones: [t("zWet"), t("zDry")], yMin: 0, yMax: 100, yfmt: v => Math.round(v), shade: {below: 20}, label: t("soil")}, m => { const v = interp(soilS.pts, m); return `<b style="color:${CSOIL}">${Math.round(v)}</b><span>${soilWord(v)}</span>`; }, lg(CSOIL, t("soil")) + (soilS.band ? lg(BAND, t("range")) : "")); }
+  if (twsCell) { const cd = mk(t("tws"), "cm"); plot(cd, {series: [{pts: twsCell.pts, band: twsCell.band, color: C4}], zeroLine: true, zones: [t("zWet"), t("zDry")], shade: {below: -3}, label: t("tws")}, m => { const v = interp(twsCell.pts, m); return `<b style="color:${C4}">${v > 0 ? "+" : ""}${v.toFixed(1)} cm</b><span>${t("twsU")}</span>`; }, lg(C4, t("median")) + lg(BAND, t("range"))); }
+  if (card && card.clay) { const k = card.clay; $("#clayRow").innerHTML = `<div class="clay"><span>${t("catYears").replace("{c}", c.name)}</span><b style="color:${k.recognised ? SEV[3] : SEV[1] > 0 ? "var(--accent2)" : ""}">${k.recognised == null ? "—" : k.recognised + " " + t("outOf") + " " + k.record}</b></div><p class="fine" style="margin:4px 0 0">${t("catChance").replace("{y}", k.year).replace("{p}", (k.p * 100).toFixed(1)).replace("{r}", Math.round(k.rank * 100))}</p>`; }
   // map card
-  cityLayers = {soil, fire, spi, tws, reg}; await buildCityMap(c, tok); if (tok !== cityToken) return;
+  cityLayers = {soil, fire, spi, tws, reg, cat: hasCat ? {pts: card.catmap.map(x => ({lon: x[0], lat: x[1], v: x[2]}))} : null}; await buildCityMap(c, tok, hasCat); if (tok !== cityToken) return;
+  // enrich fallback panels in the background-ish (bounded wait)
+  await Promise.race([Promise.all(Object.values(PH).map(enrich)), new Promise(r => setTimeout(r, 6000))]); if (tok !== cityToken) return;
   // --- 02 sensors
-  const stRows = [[sR, "river", C1], [sT, "temp", C2], [sG, "gw", C3]].filter(x => x[0]);
-  const s2 = sec(chapter(2, stRows.length ? t("sensorsT") : t("sensorsNone")) + `<div class="threecol" id="sensors"></div>`);
-  for (const [s, key, col] of stRows) { const km = Math.round(kmBetween(s.lat, s.lon, c.lat, c.lon)); const wet = wetOf(s); const sev = sevFromWet(wet);
-    $("#sensors").appendChild(el("div", {class: "card"}, `<h3>${t(key)}<small>${km} ${t("km")}</small></h3><div class="read"><b style="color:${sev >= 2 ? SEV[sev] : "var(--ink)"}">${pctWord(wet)}</b><span>${fmt(s.last_value, 2)} ${s.unit || ""}</span></div><p class="why">${s.name} · ${t("lastMeasure")}: ${s.last_week || ""}. ${t(key + "Why")}</p>`)); }
+  const stRows = [[PH.rivers, "river", C1], [PH.temp, "temp", C2], [PH.gw, "gw", C3]].filter(x => x[0]);
+  const nLow = ug && ug.bodies ? ug.bodies.filter(b => b.has && b.pct <= 10).length : 0;
+  sec(chapter(2, ug && ug.bodies && ug.bodies.length ? t("ugTitle").replace("{n}", ug.n_bodies || ug.bodies.length).replace("{c}", c.name) + (nLow ? t("ugLow").replace("{k}", nLow) : "") : (stRows.length ? t("sensorsT") : t("sensorsNone"))) + (ug && ug.bodies && ug.bodies.length ? `<div class="card wide" id="aqCard"></div>` : "") + `<div class="threecol" id="sensors" style="margin-top:16px"></div>`);
+  if (ug && ug.bodies && ug.bodies.length) aquiferStack($("#aqCard"), ug, hs.rings);
+  for (const [p, key, col] of stRows) { const sev = sevFromWet(p.wet); $("#sensors").appendChild(el("div", {class: "card"}, `<h3>${t(key)}<small>${p.dist} ${t("km")}</small></h3><div class="read"><b style="color:${sev >= 2 ? SEV[sev] : "var(--ink)"}">${p.wet == null ? "" : pctWord(p.wet)}</b><span>${fmt(p.last, 2)} ${p.unit || ""}</span></div><p class="why">${p.title} · ${t("lastMeasure")}: ${p.lastDate || ""}. ${t(key + "Why")}</p>`)); }
   // --- 03 what is coming
-  const s3 = sec(chapter(3, worst && worst[1] >= 1 ? t("comingT") : t("comingT0")) + `<div class="stack" id="s3"></div><div class="threecol" id="s3b" style="margin-top:16px"></div>`);
-  const hist = {}; const histP = Promise.all([[sR, "r"], [sT, "t"], [sG, "g"]].map(async ([s, k]) => { hist[k] = await fetchHistory(s); }));
-  await Promise.race([histP, new Promise(r => setTimeout(r, 6000))]); if (tok !== cityToken) return;
-  const full = async s => { if (!s || !s.country) return s; const f = await J(`api/v1/${s.country}/${s.layer}.json`); const x = f && f.stations.find(y => y.id === s.id); return x ? {...x, country: s.country, layer: s.layer} : s; };
-  const [fR, fT, fG] = await Promise.race([Promise.all([full(sR), full(sT), full(sG)]), new Promise(r => setTimeout(() => r([sR, sT, sG]), 5000))]);
+  sec(chapter(3, worst && worst[1] >= 1 ? t("comingT") : t("comingT0")) + `<div class="stack" id="s3"></div><div class="threecol" id="s3b" style="margin-top:16px"></div>`);
   const s3h = $("#s3"); const wideCard = (title, sub) => { const d = el("div", {class: "card wide"}, `<h3>${title}<small>${sub || ""}</small></h3><div class="read"></div><div class="plotrow"></div><div class="leg"></div><p class="why"></p>`); s3h.appendChild(d); return d; };
-  const pl2 = (card, o, readFn, legend, why) => { const u = lineChart($(".plotrow", card), o); const r = m => { u(m); if (readFn) $(".read", card).innerHTML = readFn(m); }; ups.push(r); $(".leg", card).innerHTML = legend || ""; if (why) $(".why", card).textContent = why; };
-  if (fR || fT) {
-    const cd = wideCard(t("river") + (fR && fT ? " + " + t("temp") : ""), (fR || fT).name); const row = $(".plotrow", cd); row.innerHTML = `<div class="r1"></div><div class="r2"></div>`; let n = 0; const rs = [];
-    for (const [s, k, col, nm] of [[fR, "r", C1, t("river")], [fT, "t", C2, t("temp")]]) { if (!s) continue; const ser = stationSeries(s), hh = hist[k] || []; const u = lineChart($(k === "r" ? ".r1" : ".r2", row), {series: [{pts: ser.pts, band: ser.band, hist: hh, color: col}], h: 140, label: nm, yfmt: v => fmt(v, 1)}); rs.push([u, s, ser, col, nm]); }
-    const r = m => { rs.forEach(x => x[0](m)); $(".read", cd).innerHTML = rs.map(x => `<b style="color:${x[3]}">${fmt(interp(x[2].pts, m), 1)}</b><span>${x[4]} (${x[1].unit})</span>`).join(""); }; ups.push(r);
-    $(".leg", cd).innerHTML = rs.map(x => lg(x[3], x[4] + " · " + x[1].unit)).join("") + lg(BAND, t("range"));
-    $(".why", cd).textContent = t("riverWhy");
-    if (fR) { const pc = fR.forecasts.map(f => [f.h, f.pct]).filter(p => p[1] != null); if (pc.length) ups.push(m => Hero.setSpeed(0.25 + 1.1 * interp(pc, m) / 100)); }
+  const serOf = (p, color) => ({pts: p.pts, band: p.band, band50: p.band50, hist: p.hist, color});
+  if (PH.rivers || PH.temp) {
+    const cd = wideCard(t("river") + (PH.rivers && PH.temp ? " + " + t("temp") : ""), (PH.rivers || PH.temp).title); const row = $(".plotrow", cd); row.innerHTML = `<div class="r1"></div><div class="r2"></div>`; const rs = [];
+    for (const [p, k, col, nm] of [[PH.rivers, "r1", C1, t("river")], [PH.temp, "r2", C2, t("temp")]]) { if (!p) continue; const u = lineChart($("." + k, row), {series: [serOf(p, col)], h: 140, label: nm, yfmt: v => fmt(v, 1)}); rs.push([u, p, col, nm]); }
+    ups.push(m => { rs.forEach(x => x[0](m)); $(".read", cd).innerHTML = rs.map(x => `<b style="color:${x[2]}">${fmt(interp(x[1].pts, m), 1)}</b><span>${x[3]} (${x[1].unit})</span>`).join(""); });
+    $(".leg", cd).innerHTML = rs.map(x => lg(x[2], x[3] + " · " + x[1].unit)).join("") + lg(BAND, t("range")); $(".why", cd).textContent = t("riverWhy");
+    if (PH.rivers && PH.rivers.wet != null) ups.push(m => Hero.setSpeed(0.3 + 1.0 * PH.rivers.wet / 100));
   }
-  if (fG) { const ser = stationSeries(fG), hh = hist.g || [], cd = wideCard(t("gw"), fG.name.replace(/\s*\(.*$/, ""));
-    const thr = hh.length > 20 ? hh.map(p => p[1]).sort((a, b) => a - b)[Math.floor(hh.length * 0.2)] : null; const lw = stationWet(fG).lowerWetter;
-    pl2(cd, {series: [{pts: ser.pts, band: ser.band, hist: hh, color: C3}], h: 180, refs: thr != null ? [{v: thr, c: "#c0762a", t: t("lowThreshold")}] : [], label: t("gw")}, m => { const v = interp(ser.pts, m); return `<b style="color:${C3}">${fmt(v, 2)}</b><span>${fG.unit}</span>`; }, lg(C3, t("median")) + lg(BAND, t("range")), t("gwWhy")); }
+  if (PH.gw) { const p = PH.gw, cd = wideCard(t("gw"), p.title); const thr = p.thr != null ? p.thr : (p.hist.length > 20 ? p.hist.map(q => q[1]).sort((a, b) => a - b)[Math.floor(p.hist.length * 0.2)] : null);
+    const u = lineChart($(".plotrow", cd), {series: [serOf(p, C1)], h: 180, refs: thr != null ? [{v: thr, c: "#C4622D", t: t("lowThreshold")}] : [], label: t("gw")}); ups.push(m => { u(m); $(".read", cd).innerHTML = `<b style="color:${C1}">${fmt(interp(p.pts, m), 2)}</b><span>${p.unit}</span>`; });
+    $(".leg", cd).innerHTML = lg(C1, t("median")) + lg(BAND, t("range")); $(".why", cd).textContent = t("gwWhy"); }
   const s3b = $("#s3b");
   if (fireCell) { const cd = el("div", {class: "card"}, `<h3>${t("fire")}<small>${t("fireU2")}</small></h3><div class="read"></div><div class="plot"></div><div class="leg"></div><p class="why">${t("fireWhy")}</p>`); s3b.appendChild(cd);
-    const pp = fireCell.pts.map(p => [p[0], p[1] * 100]), cc = fireCell.clim.map(p => [p[0], p[1] * 100]); const u = lineChart($(".plot", cd), {series: [{pts: pp, clim: cc, color: C2}], zero0: true, yfmt: v => Math.round(v) + "%", h: 160, label: t("fire")}); ups.push(m => { u(m); $(".read", cd).innerHTML = `<b style="color:${C2}">${fmt(interp(pp, m), 1)} %</b><span>${t("climate")}: ${fmt(interp(cc, m), 1)} %</span>`; });
+    const pp = fireCell.pts.map(p => [p[0], p[1] * 100]), cc2 = fireCell.clim.map(p => [p[0], p[1] * 100]); const u = lineChart($(".plot", cd), {series: [{pts: pp, clim: cc2, color: C2}], zero0: true, yfmt: v => Math.round(v) + "%", h: 160, label: t("fire")}); ups.push(m => { u(m); $(".read", cd).innerHTML = `<b style="color:${C2}">${fmt(interp(pp, m), 1)} %</b><span>${t("climate")}: ${fmt(interp(cc2, m), 1)} %</span>`; });
     $(".leg", cd).innerHTML = lg(C2, t("fire")) + lg("var(--muted)", t("climate")); }
   if (spiCell) { const cd = el("div", {class: "card"}, `<h3>${t("rain12")}<small>SPI-12</small></h3><div class="read"></div><div class="plot"></div><div class="leg"></div><p class="why">${t("spiWhy")}</p>`); s3b.appendChild(cd);
     const u = lineChart($(".plot", cd), {series: [{pts: spiCell.pts, band: spiCell.band, color: C1}], zeroLine: true, h: 160, zones: [t("zWet"), t("zDry")], shade: {below: -1}, label: "SPI"}); ups.push(m => { u(m); const v = interp(spiCell.pts, m); $(".read", cd).innerHTML = `<b style="color:${C1}">${v > 0 ? "+" : ""}${v.toFixed(2)}</b><span>${v < -1 ? t("deficit") : v > 1 ? t("surplus") : t("typ")}</span>`; });
     $(".leg", cd).innerHTML = lg(C1, t("median")) + lg(BAND, t("range")); }
   if (regArea) { const cd = el("div", {class: "card"}, `<h3>${t("reg")} · ${regArea.name}<small>%</small></h3><div class="read"></div><div class="plot"></div><div class="leg"></div><p class="why">${t("regWhy")}</p>`); s3b.appendChild(cd);
-    const pp = regArea.pts.map(p => [p[0], p[1] * 100]), cc = regArea.clim.map(p => [p[0], p[1] * 100]); const u = lineChart($(".plot", cd), {series: [{pts: pp, clim: cc, color: C2}], zero0: true, h: 160, yfmt: v => Math.round(v) + "%", label: t("reg")}); ups.push(m => { u(m); $(".read", cd).innerHTML = `<b style="color:${C2}">${fmt(interp(pp, m), 1)} %</b><span>${t("climate")}: ${fmt(interp(cc, m), 1)} %</span>`; });
+    const pp = regArea.pts.map(p => [p[0], p[1] * 100]), cc2 = regArea.clim.map(p => [p[0], p[1] * 100]); const u = lineChart($(".plot", cd), {series: [{pts: pp, clim: cc2, color: C2}], zero0: true, h: 160, yfmt: v => Math.round(v) + "%", label: t("reg")}); ups.push(m => { u(m); $(".read", cd).innerHTML = `<b style="color:${C2}">${fmt(interp(pp, m), 1)} %</b><span>${t("climate")}: ${fmt(interp(cc2, m), 1)} %</span>`; });
     $(".leg", cd).innerHTML = lg(C2, t("reg")) + lg("var(--muted)", t("climate")); }
   // --- 04 act first
   const evs = [];
-  if (fG) { const ser = stationSeries(fG); const lw = stationWet(fG).lowerWetter; const m0 = ser.pts.reduce((b, p) => (lw ? p[1] > b[1] : p[1] < b[1]) ? p : b, ser.pts[0]); if (m0[0] > 0.4) evs.push([m0[0], t("evGwLow"), shortMonth(m0[0]) + " · " + fmt(m0[1], 1) + " " + fG.unit, C3]); }
-  if (fR) { const ser = stationSeries(fR); const m0 = ser.pts.reduce((b, p) => p[1] < b[1] ? p : b, ser.pts[0]); if (m0[0] > 0.4) evs.push([m0[0], t("evRiverLow"), shortMonth(m0[0]) + " · " + fmt(m0[1], 1) + " " + fR.unit, C1]); }
-  if (fT) { const ser = stationSeries(fT); const m0 = ser.pts.reduce((b, p) => p[1] > b[1] ? p : b, ser.pts[0]); if (m0[0] > 0.4) evs.push([m0[0], t("evWarm"), shortMonth(m0[0]) + " · " + fmt(m0[1], 1) + " " + fT.unit, C2]); }
+  if (PH.gw) { const p = PH.gw, m0 = p.pts.reduce((b, q) => (p.lw ? q[1] > b[1] : q[1] < b[1]) ? q : b, p.pts[0]); if (m0[0] > 0.4) evs.push([m0[0], t("evGwLow"), shortMonth(m0[0]) + " · " + fmt(m0[1], 1) + " " + p.unit, C3]); }
+  if (PH.rivers) { const p = PH.rivers, m0 = p.pts.reduce((b, q) => q[1] < b[1] ? q : b, p.pts[0]); if (m0[0] > 0.4) evs.push([m0[0], t("evRiverLow"), shortMonth(m0[0]) + " · " + fmt(m0[1], 1) + " " + p.unit, C1]); }
+  if (PH.temp) { const p = PH.temp, m0 = p.pts.reduce((b, q) => q[1] > b[1] ? q : b, p.pts[0]); if (m0[0] > 0.4) evs.push([m0[0], t("evWarm"), shortMonth(m0[0]) + " · " + fmt(m0[1], 1) + " " + p.unit, C2]); }
   if (firePeak) evs.push([firePeak[0], t("evFire"), shortMonth(firePeak[0]) + " · " + (firePeak[1] * 100).toFixed(1) + " %", C2]);
-  if (soilCell) { const lo = soilCell.pts.reduce((b, p) => p[1] < b[1] ? p : b, soilCell.pts[0]); if (lo[0] > 0.4 && lo[1] < 40) evs.push([lo[0], t("evSoil"), shortMonth(lo[0]) + " · " + Math.round(lo[1]), C3]); }
+  if (soilS) { const lo = soilS.pts.reduce((b, p) => p[1] < b[1] ? p : b, soilS.pts[0]); if (lo[0] > 0.4 && lo[1] < 40) evs.push([lo[0], t("evSoil"), shortMonth(lo[0]) + " · " + Math.round(lo[1]), CSOIL]); }
   evs.sort((a, b) => a[0] - b[0]);
   const acts = []; const A = (n, col, title, items) => acts.push(`<div class="act"><div class="no" style="background:${col}">${n}</div><div><h4>${title}</h4><ul>${items.map(x => `<li>${x}</li>`).join("")}</ul></div></div>`);
   const ordered = [["soil", sevSoil], ["gw", sevGw], ["fire", sevFire], ["spi", sevSpi], ["tws", sevTws]].filter(x => x[1] >= 1).sort((a, b) => b[1] - a[1]).slice(0, 2);
   ordered.forEach((x, i) => A(i + 1, SEV[x[1]], t("a_" + x[0] + "_t"), [t("a_" + x[0] + "_1"), t("a_" + x[0] + "_2")]));
   if (!acts.length) A(1, SEV[0], t("a_none_t"), [t("a_none_1")]);
   const bt = (co && S.soilBt && S.soilBt.by[co.continent] && S.soilBt.by[co.continent]["13"]) || null, fbt = (co && S.fireBt && S.fireBt.by[co.continent]) || null;
-  const donut = (pct, txt, col) => { const r = 30, C = 2 * Math.PI * r; return `<div class="donut"><svg width="78" height="78" viewBox="0 0 78 78"><circle cx="39" cy="39" r="${r}" fill="none" stroke="var(--line)" stroke-width="9"/><circle class="dn" cx="39" cy="39" r="${r}" fill="none" stroke="${col}" stroke-width="9" stroke-linecap="round" stroke-dasharray="0 ${C}" data-to="${pct / 100 * C}" data-c="${C}" transform="rotate(-90 39 39)"/><text x="39" y="44" text-anchor="middle" style="font-weight:800;font-size:16px;fill:var(--ink)">${Math.round(pct)}%</text></svg><p>${txt}</p></div>`; };
-  const lvl = fbt && fbt["3"] && fbt["3"].by_level;
-  const s4 = sec(chapter(4, t("actT")) + `<div class="card wide"><div class="h4" style="font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">${t("keyDates")}</div><div class="timeline" id="tl"><div class="ax"><i></i></div></div></div><div class="acts" style="margin-top:16px">${acts.join("")}</div>
-    <div class="threecol" style="margin-top:16px"><div class="card"><div class="h4" style="font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">${t("trustT")}</div><div class="donuts">${bt ? donut(bt.closer_than_seasonal * 100, t("trustSoil"), C3) + donut(bt.in80 * 100, t("trustBand"), C1) : `<p class="fine">${t("nodata")}</p>`}</div></div>
-    <div class="card"><div class="h4" style="font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">${t("fireWorth")}</div><div class="plot" id="fbars"></div><p class="fine">${t("fireWorthS")}</p></div></div>
+  const donut = (pct, txt, col) => { const r = 30, C_ = 2 * Math.PI * r; return `<div class="donut"><svg width="78" height="78" viewBox="0 0 78 78"><circle cx="39" cy="39" r="${r}" fill="none" stroke="var(--line)" stroke-width="9"/><circle class="dn" cx="39" cy="39" r="${r}" fill="none" stroke="${col}" stroke-width="9" stroke-linecap="round" stroke-dasharray="0 ${C_}" data-to="${pct / 100 * C_}" data-c="${C_}" transform="rotate(-90 39 39)"/><text x="39" y="44" text-anchor="middle" style="font-weight:800;font-size:16px;fill:var(--ink)">${Math.round(pct)}%</text></svg><p>${txt}</p></div>`; };
+  const lvl = fbt && fbt["3"] && fbt["3"].by_level, hh = "font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--deep);font-weight:700";
+  sec(chapter(4, t("actT")) + `<div class="card wide"><div style="${hh}">${t("keyDates")}</div><div class="timeline" id="tl"><div class="ax"><i></i></div></div></div><div class="acts" style="margin-top:16px">${acts.join("")}</div>
+    <div class="threecol" style="margin-top:16px"><div class="card"><div style="${hh};margin-bottom:10px">${t("trustT")}</div><div class="donuts">${bt ? donut(bt.closer_than_seasonal * 100, t("trustSoil"), C3) + donut(bt.in80 * 100, t("trustBand"), C1) : `<p class="fine">${t("nodata")}</p>`}</div></div>
+    <div class="card"><div style="${hh};margin-bottom:6px">${t("fireWorth")}</div><div class="plot" id="fbars"></div><p class="fine">${t("fireWorthS")}</p></div></div>
     <div class="cta"><div><h3>${t("ctaT").replace("{n}", c.name)}</h3><p>${t("ctaP")}</p><p><b>${t("ctaQ")}</b> <a href="mailto:antoinedesjard@gmail.com">antoinedesjard@gmail.com</a></p></div><div><a class="btn" href="classic.html">${t("classic")}</a> <a class="btn" href="api/v1/openapi.json" style="margin-left:6px">API</a></div></div>`);
   { const tl = $("#tl"), evEls = []; evs.forEach((e, i) => { const x = 3 + e[0] / 12 * 94, up = i % 2 === 0; const d = el("div", {class: "ev " + (up ? "up" : "dn"), style: `left:${x}%`}, `<b>${e[1]}</b>${e[2]}<span class="pt" style="background:${e[3]}"></span>`); tl.appendChild(d); evEls.push([e[0], d]); });
     const fill = $(".ax i", tl); ups.push(m => { fill.style.width = (m / 12 * 100) + "%"; evEls.forEach(([em, d]) => d.classList.toggle("on", m >= em - 0.05)); }); }
-  if (lvl) { const labs = ["<10%", "10–30%", "30–60%", ">60%"], vals = [0, 1, 2, 3].map(k => (lvl[k] ? lvl[k].fire * 100 : 0)), w = 300, h = 150; const sv = labs.map((l, i) => { const bh = vals[i] / 100 * 100; return `<rect x="${30 + i * 66}" y="${120 - bh}" width="44" height="${bh}" rx="4" fill="${["#e0a030", "#d2691e", "#b3261e", "#6b0f1a"][i]}" class="fb" data-h="${bh}" data-y="${120 - bh}"/><text x="${52 + i * 66}" y="${114 - bh}" text-anchor="middle" style="font-weight:700;fill:var(--ink)">${Math.round(vals[i])}%</text><text x="${52 + i * 66}" y="140" text-anchor="middle">${l}</text>`; }).join(""); $("#fbars").innerHTML = `<svg class="ch" viewBox="0 0 ${w} ${h}">${sv}</svg>`;
+  if (lvl) { const labs = ["<10%", "10–30%", "30–60%", ">60%"], vals = [0, 1, 2, 3].map(k => (lvl[k] ? lvl[k].fire * 100 : 0)), w = 300, h = 150; const sv = labs.map((l, i) => { const bh = vals[i] / 100 * 100; return `<rect x="${30 + i * 66}" y="${120 - bh}" width="44" height="${bh}" rx="4" fill="${["#D9A04A", "#C4622D", "#A32F2F", "#6b0f1a"][i]}" class="fb" data-h="${bh}" data-y="${120 - bh}"/><text x="${52 + i * 66}" y="${114 - bh}" text-anchor="middle" style="font-weight:700;fill:var(--ink)">${Math.round(vals[i])}%</text><text x="${52 + i * 66}" y="140" text-anchor="middle">${l}</text>`; }).join(""); $("#fbars").innerHTML = `<svg class="ch" viewBox="0 0 ${w} ${h}">${sv}</svg>`;
     viewOnce($("#fbars"), () => $$(".fb", $("#fbars")).forEach((r, i) => { r.animate([{y: "120px", height: "0px"}, {y: r.dataset.y + "px", height: r.dataset.h + "px"}], {duration: 900, delay: i * 120, easing: "ease-out", fill: "backwards"}); })); }
   $$(".dn", B).forEach(d => viewOnce(d, () => { d.animate([{strokeDasharray: `0 ${d.dataset.c}`}, {strokeDasharray: `${d.dataset.to} ${d.dataset.c}`}], {duration: 1200, easing: "ease-out", fill: "forwards"}); }));
   sec(`<div class="fband"><svg viewBox="0 0 1200 24" preserveAspectRatio="none"><path d="M0 0V10C200 24 400 0 600 12C800 24 1000 2 1200 14V0Z" fill="var(--paper)"/></svg><div class="in"><span>PhreAItic · https://phreaitic.github.io</span><span style="max-width:640px">${t("disc")}</span></div></div>`);
   listeners.length = 0; listeners.push(...ups); if (cityMapView) listeners.push(m => cityMapView.draw(m)); setTime(0);
   Hero.onRisen = () => { if (tok === cityToken && !REDUCED) setTimeout(() => startPlay(0), 250); };
 }
+function aquiferStack(host, ug, rings) {       // the aquifers under the town as exploded isometric sheets, shallowest on top
+  const bodies = ug.bodies, n = bodies.length, [wx, wy] = ug.win, k45 = 0.70711, sq = 0.42, Wd = 1100, sheetW = n >= 5 ? 330 : 420, sc = sheetW / ((wx + wy) * 2 * k45), cx = 60 + sheetW / 2 + 40;
+  const sp = n >= 5 ? 74 : 120, top = 50, sheetH = (wx + wy) * 2 * k45 * sq * sc * 0.5 + 20, Ht = top + (n - 1) * sp + sheetH + 40;
+  const iso = (X, Y, cy) => [(cx + (X - Y) * k45 * sc).toFixed(1), (cy - (X + Y) * k45 * sq * sc).toFixed(1)];
+  const word = p => p <= 2 ? 0 : p <= 10 ? 1 : p <= 30 ? 2 : p <= 70 ? 3 : 4, fills = ["#C77A6B", "#C77A6B", "#E0A36F", "#9CC3A6", "#7FB6CC"], pills = ["#A32F2F", "#A32F2F", "#C4622D", "#3E7A54", "#1C6E8C"], words = [t("stRecord"), t("stVlow"), t("stLow"), t("stNormal"), t("stHigh")];
+  const polyPts = (pts, cy) => pts.map(p => iso(p[0], p[1], cy).join(",")).join(" "), toKm = r => { const o = []; for (let i = 0; i < r.length; i += 2) o.push([r[i] / 100, r[i + 1] / 100]); return o; };
+  const wrap = (s, m) => { const w = s.split(" "), l = [""]; for (const x of w) { if ((l[l.length - 1] + " " + x).trim().length > m && l[l.length - 1]) l.push(x); else l[l.length - 1] = (l[l.length - 1] + " " + x).trim(); } return l.slice(0, 2); };
+  let g = `<line x1="${cx}" x2="${cx}" y1="${top - 16}" y2="${top + (n - 1) * sp + 14}" stroke="var(--ink)" stroke-dasharray="3 3" opacity=".6"/>`;
+  const groups = []; for (let i = n - 1; i >= 0; i--) { const b = bodies[i], cy = top + i * sp + sheetH / 2, st = b.has ? word(b.pct) : null, fill = st == null ? "#B8C4C8" : fills[st];
+    const corners = [[-wx, -wy], [wx, -wy], [wx, wy], [-wx, wy]];
+    let sheet = `<polygon points="${polyPts(corners, cy + 5)}" fill="#C9CEC4" opacity=".7"/><polygon points="${polyPts(corners, cy)}" fill="#F7F8F4" stroke="#B9BDB3" stroke-width=".8" opacity=".92"/>`;
+    for (const r of b.rings) { const pts = toKm(r); sheet += `<polygon points="${polyPts(pts, cy + 3)}" fill="${fill}" style="filter:brightness(.72)"/><polygon points="${polyPts(pts, cy)}" fill="${fill}" stroke="#fff" stroke-width=".5"/>`; }
+    for (const r of rings) sheet += `<polygon points="${polyPts(r.map(p => [p[0], -p[1]]), cy)}" fill="none" stroke="var(--ink)" stroke-width="1.2"/>`;
+    const nm = wrap(b.name, 44), lx = cx + sheetW / 2 + 30, pillX = Wd - 118;
+    sheet += `<circle cx="${cx}" cy="${cy}" r="3" fill="var(--ink)"/><line x1="${cx + sheetW * 0.43}" x2="${lx - 6}" y1="${cy}" y2="${cy}" stroke="var(--line)"/>` + nm.map((l, k) => `<text x="${lx}" y="${cy + 4 + (k - (nm.length - 1) / 2) * 15}" style="fill:var(--ink);font-weight:600;font-size:13px">${l}</text>`).join("") +
+      (st == null ? `<text x="${Wd}" y="${cy + 4}" text-anchor="end" style="fill:var(--muted);font-size:12px">${t("noMeasure")}</text>` : `<rect x="${pillX}" y="${cy - 12}" width="112" height="24" rx="12" fill="${pills[st]}"/><text x="${pillX + 56}" y="${cy + 4}" text-anchor="middle" style="fill:#fff;font-weight:700;font-size:12px">${words[st]}</text>`);
+    groups.push(`<g class="aq" data-i="${i}" style="opacity:0;transform:translateY(-26px);transition:opacity .6s ease,transform .6s ease">${sheet}</g>`); }
+  host.innerHTML = `<svg viewBox="0 0 ${Wd} ${Ht}" class="ch" style="overflow:visible"><text x="8" y="${top - 22}" style="fill:var(--muted);font-size:12px">${t("depth")}</text><line x1="14" x2="14" y1="${top - 12}" y2="${Ht - 40}" stroke="var(--muted)" marker-end="url(#ah)"/><defs><marker id="ah" viewBox="0 0 8 8" refX="4" refY="6" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L4 8L8 0Z" fill="var(--muted)"/></marker></defs>${g}${groups.join("")}</svg><p class="fine">${t("ugNote")}</p>`;
+  const gs = [...host.querySelectorAll(".aq")], start = () => gs.slice().sort((a, b) => a.dataset.i - b.dataset.i).forEach((e, k) => setTimeout(() => { e.style.opacity = 1; e.style.transform = "none"; }, REDUCED ? 0 : 160 * k));
+  viewOnce(host, start, 0.25);
+}
+function reliefMap(hs, ug) {      // the PDF's second map: outline, elevation contours, drainage
+  const cv = $("#reliefMap"), cap = $("#reliefCap"); if (!hs || !hs.H || !hs.rings || !hs.rings.length) { cv.style.display = "none"; cap.textContent = ""; return; }
+  cv.style.display = "block"; const N = 129, W = hs.W; let x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9; for (const r of hs.rings) for (const p of r) { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); z0 = Math.min(z0, p[1]); z1 = Math.max(z1, p[1]); }
+  const cw = 720, pad = 16, sc = Math.min((cw - 2 * pad) / (x1 - x0), 360 / (z1 - z0)), ch = Math.round((z1 - z0) * sc + 2 * pad); cv.width = cw; cv.height = ch; const g = cv.getContext("2d");
+  const P = (x, z) => [cw / 2 + (x - (x0 + x1) / 2) * sc, ch / 2 + (z - (z0 + z1) / 2) * sc], dk = document.documentElement.dataset.theme === "dark";
+  g.clearRect(0, 0, cw, ch); const path = () => { g.beginPath(); for (const r of hs.rings) { r.forEach((p, i) => { const q = P(p[0], p[1]); i ? g.lineTo(q[0], q[1]) : g.moveTo(q[0], q[1]); }); g.closePath(); } };
+  path(); g.fillStyle = dk ? "#6e5a3c" : "#E0B573"; g.fill(); g.save(); path(); g.clip();
+  const cl = ug && ug.clay; $("#clayLegend").innerHTML = "";
+  if (cl) { const [w, h] = cl.n, [bx0, bz0, bx1, bz1] = cl.b, cwid = (bx1 - bx0) / (w - 1), chei = (bz1 - bz0) / (h - 1), bin = atob(cl.d), grid = new Uint8Array(w * h); let o = 0; for (let i = 0; i < bin.length; i++) { const b = bin.charCodeAt(i), r = (b & 31) + 1; grid.fill(b >> 5, o, o + r); o += r; }
+    const col = [null, "#EDEEE8", "#F1E3C8", "#E0B573", "#8F6E4B"]; for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) { const v = grid[j * w + i]; if (!v) continue; const a = P(bx0 + i * cwid - cwid / 2, bz0 + j * chei - chei / 2); g.fillStyle = col[v]; g.fillRect(a[0], a[1], cwid * sc + 1, Math.abs(chei) * sc + 1); }
+    const sh = cl.sh || {}; $("#clayLegend").innerHTML = `<div class="h4" style="margin-top:12px">${t("underComm")}</div><div class="lgl"><span><s class="sq" style="background:#E0B573"></s>${t("hazMed")}</span><span><s class="sq" style="background:#8F6E4B"></s>${t("hazHigh")}</span></div><p class="fine">${t("hazShares").replace("{h}", Math.round((sh[3] || 0) * 100)).replace("{m}", Math.round((sh[2] || 0) * 100))}</p>`; }
+  const step = [1, 2, 5, 10, 20, 50, 100, 200].find(v => hs.range / v <= 14) || 200, H = hs.Hraw, gx = i => ((i / (N - 1)) - .5) * 2 * W;
+  const lo = Math.ceil(hs.emin / step) * step; g.lineWidth = 0.8;
+  for (let lv = lo; lv <= hs.emax; lv += step) { g.strokeStyle = (Math.round(lv / step) % 5 === 0) ? "rgba(60,50,40,.75)" : "rgba(60,50,40,.35)"; g.beginPath();
+    for (let j = 0; j < N - 1; j++) for (let i = 0; i < N - 1; i++) { const a = H[j * N + i] - lv, b = H[j * N + i + 1] - lv, c2 = H[(j + 1) * N + i + 1] - lv, d = H[(j + 1) * N + i] - lv, pts = [];
+      const edge = (u, v, ax, az, bx, bz) => { if ((u < 0) !== (v < 0)) { const f = u / (u - v); pts.push([ax + (bx - ax) * f, az + (bz - az) * f]); } };
+      edge(a, b, gx(i), gx(j), gx(i + 1), gx(j)); edge(b, c2, gx(i + 1), gx(j), gx(i + 1), gx(j + 1)); edge(c2, d, gx(i + 1), gx(j + 1), gx(i), gx(j + 1)); edge(d, a, gx(i), gx(j + 1), gx(i), gx(j));
+      if (pts.length >= 2) { const q1 = P(pts[0][0], pts[0][1]), q2 = P(pts[1][0], pts[1][1]); g.moveTo(q1[0], q1[1]); g.lineTo(q2[0], q2[1]); } }
+    g.stroke(); }
+  if (hs.streams) { g.strokeStyle = "#2C7FA8"; g.lineCap = "round"; for (const s of hs.streams) { g.lineWidth = Math.max(1.2, s[4] * sc * 1.8); const a = P(s[0], s[1]), b = P(s[2], s[3]); g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke(); } }
+  g.restore(); path(); g.lineWidth = 2.4; g.strokeStyle = dk ? "#e8eef3" : "#14202b"; g.lineJoin = "round"; g.stroke();
+  cap.textContent = t("contourEvery").replace("{n}", step);
+}
 function countUp(node, v, f) { if (v == null) { node.textContent = "—"; return; } if (REDUCED) { node.textContent = f(v); return; } const t0 = performance.now(); const s = now => { const k = EASE((now - t0 - 500) / 1600); node.textContent = f(v * k); if (k < 1) requestAnimationFrame(s); }; requestAnimationFrame(s); }
 function fillTicks() { const tk = $("#ticks"); tk.innerHTML = ""; for (let m = 0; m <= 12; m += 3) tk.appendChild(el("span", {}, dateAt(m).toLocaleDateString(L, {month: "short"}))); }
-async function buildCityMap(c, tok) {
+async function buildCityMap(c, tok, hasCat) {
   const layers = cityLayers; if (tok !== cityToken) return;
   const h = $("#mapCity"); cityMapView = new MapView(h, {maxH: 460, clip: false, onClick: (lon, lat) => nearestTownOpen(lon, lat)});
-  const avail = {soil: !!layers.soil, fire: !!layers.fire, spi: !!layers.spi && layers.spi.cells.length, tws: !!layers.tws && layers.tws.cells.length, reg: !!layers.reg};
-  const ovs = $("#ovCity"); ovs.innerHTML = ""; const ov = avail[S.ov] ? S.ov : Object.keys(avail).find(k => avail[k]) || "soil";
-  for (const k of ["soil", "fire", "spi", "tws", "reg"]) { const b = el("button", {}, t("overlays")[k]); if (!avail[k]) b.disabled = true; if (k === ov) b.classList.add("on"); b.onclick = () => { S.ov = k; setCityOv(k, c); [...ovs.children].forEach(x => x.classList.toggle("on", x === b)); }; ovs.appendChild(b); }
+  const avail = {cat: !!hasCat, soil: !!layers.soil, fire: !!layers.fire, spi: !!layers.spi && layers.spi.cells.length, tws: !!layers.tws && layers.tws.cells.length, reg: !!layers.reg};
+  const ovs = $("#ovCity"); ovs.innerHTML = ""; const ov = hasCat ? "cat" : avail[S.ov] ? S.ov : Object.keys(avail).find(k => avail[k]) || "soil";
+  for (const k of ["cat", "soil", "fire", "spi", "tws", "reg"]) { const b = el("button", {}, t("overlays")[k]); if (!avail[k]) b.disabled = true; if (k === ov) b.classList.add("on"); b.onclick = () => { S.ov = k; setCityOv(k, c); [...ovs.children].forEach(x => x.classList.toggle("on", x === b)); }; ovs.appendChild(b); }
   setCityOv(ov, c); viewOnce(h, () => { if (!S.playing && tok === cityToken) startPlay(0); }, 0.4);
 }
 function setCityOv(ov, c) {
-  const d = cityLayers[ov], R = 3.2, k = Math.cos(c.lat * Math.PI / 180); cityMapView.setView([c.lon - R / k * 1.25, c.lat - R, c.lon + R / k * 1.25, c.lat + R]);
+  const d = cityLayers[ov], R = ov === "cat" ? 0.4 : 3.2, k = Math.cos(c.lat * Math.PI / 180); cityMapView.setView([c.lon - R / k * 1.25, c.lat - R, c.lon + R / k * 1.25, c.lat + R]);
   const data = ov === "reg" && d ? {areas: d.areas.filter(a => Math.abs(a.lon - c.lon) < 8 && Math.abs(a.lat - c.lat) < 8), kind: "reg"} : d; cityMapView.set(data, ov, null, c); cityMapView.draw(S.m);
 }
 async function nearestTownOpen(lon, lat) {
