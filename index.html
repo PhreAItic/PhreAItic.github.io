@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PhreAItic: the underground weather, city by city</title>
 <meta name="description" content="Groundwater, rivers, soil moisture, wildfire and drought restrictions for any town or country, forecast up to 12 months ahead. Watch your town rise out of the map and the year play forward.">
+<link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">
+<link rel="preload" as="fetch" href="search_index.json" crossorigin>
+<link rel="preload" as="fetch" href="data/world_countries.ef0001bb28.json" crossorigin>
 <link rel="icon" href="data:image/png;base64,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">
 <style>
 :root{--ink:#16232B;--paper:#EEF0EC;--card:#F8F9F6;--line:#C9CCC3;--muted:#5B6660;--accent:#1C6E8C;--accent2:#C4622D;--ok:#3E7A54;--warn:#D9A04A;--deep:#0B3D4C;--severe:#A32F2F;
@@ -110,7 +113,8 @@ body.m-country #city{display:none}body.m-country #country{display:block}
 .hero{position:relative;margin:-6px -16px 0;background:var(--paper);height:min(58vh,520px);min-height:340px;overflow:hidden}
 .hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:pan-y}
 .hero .skel{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:13px;pointer-events:none;transition:opacity .6s}
-.herometa{display:grid;grid-template-columns:1.1fr 1.2fr 1fr;gap:24px;padding:6px 4px 10px;border-bottom:1px solid var(--line)}
+.stage{position:relative}.guides{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:2}
+.herometa{display:grid;grid-template-columns:1fr 1.8fr 1fr;gap:24px;padding:6px 4px 10px;border-bottom:1px solid var(--line)}
 .hm .h4{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:8px}
 .hm.mid{text-align:center}.hm.mid .h4{font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink)}
 .elegend i{display:block;height:8px;border-radius:4px;background:linear-gradient(90deg,#3f8fa6,#8fc0b8,#e9e3b4,#d9a860,#9a6428)}
@@ -165,6 +169,9 @@ body.m-country #city{display:none}body.m-country #country{display:block}
 .ind .it b{font-size:15px;font-weight:700}.ind .it small{color:var(--accent);font-size:12.5px}
 .zl{font-size:10px}
 .clay{display:flex;justify-content:space-between;gap:12px;margin-top:22px;padding:12px 4px;border-top:1px solid var(--line);font-family:ui-monospace,Menlo,monospace;font-weight:700;color:var(--deep)}.clay b{color:var(--accent2)}
+body.m-city .timebar button,body.m-city #loopL{display:none}
+#bulletin>div{margin-top:28px}
+.perf{margin:26px 0 0;text-align:center;font-size:15px}.perf a{font-weight:700}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -185,11 +192,13 @@ body.m-country #city{display:none}body.m-country #country{display:block}
       </div>
       <svg class="wave" viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0 60V30C220 6 380 52 620 30C860 8 1000 46 1200 22V60Z" fill="#fff" opacity=".18"/><path d="M0 60V38C200 18 420 56 640 36C880 16 1020 50 1200 32V60Z" fill="#fff" opacity=".22"/><path d="M0 60V46C240 30 400 60 640 44C880 28 1040 58 1200 42V60Z" fill="var(--paper)"/></svg>
     </div>
+    <div class="stage" id="stage"><svg class="guides" id="guides"></svg>
     <div class="hero" id="hero"><canvas id="gl"></canvas><div class="skel" id="skel"></div></div>
     <div class="herometa">
       <div class="hm"><div class="h4" id="lgT"></div><div class="elegend"><i></i><div><span id="eMin"></span><span id="eMax"></span></div></div><div class="lgl" id="lgItems"></div><p class="fine" id="hNote"></p></div>
-      <div class="hm mid"><div class="h4" id="midT"></div><p class="fine" id="midS"></p><canvas id="reliefMap" style="width:100%;max-width:520px;display:none"></canvas><p class="fine" id="reliefCap"></p><div id="clayLegend" style="text-align:left"></div></div>
+      <div class="hm mid"><div class="h4" id="midT"></div><p class="fine" id="midS" style="display:none"></p><canvas id="reliefMap" style="width:100%;display:none"></canvas><p class="fine" id="reliefCap"></p><div id="clayLegend" style="text-align:left"></div></div>
       <div class="hm nums"><div class="h4" id="numT"></div><div class="num"><b id="nElev"></b><span id="nElevS"></span></div><div class="num"><b id="nArea"></b><span id="nAreaS"></span></div><div class="num"><b id="nDens"></b><span id="nDensS"></span></div></div>
+    </div>
     </div>
     <div id="bulletin"></div>
   </section>
@@ -231,7 +240,7 @@ function lang() { try { const s = localStorage.getItem("nappes-lang"); if (s) re
 let L = lang(); if (!["en", "fr", "es", "de"].includes(L)) L = "en";
 
 const TXT = {
- en: {city: "Town", country: "Country", search: "Search a town or a country…", classic: "Classic map", trust: "Accuracy", play: "Play", pause: "Pause", back: "Back to start", fwd: "Next month", loop: "loop",
+ en: {perfLink: "How accurate are these forecasts? See the performance page", city: "Town", country: "Country", search: "Search a town or a country…", classic: "Classic map", trust: "Accuracy", play: "Play", pause: "Pause", back: "Back to start", fwd: "Next month", loop: "loop",
  tag1: "Current state", tag2: "Sensors", tag3: "What is coming", tag4: "Possible actions", zWet: "wetter than normal", zDry: "drier than normal", disc: "Statistical forecasts provided for information. They do not replace the bulletins of the national meteorological and flood services, nor prefectoral orders.",
  catYears: "Years {c} was recognised as a natural disaster for drought (clay shrink-swell)", outOf: "out of", catChance: "Chance of recognition in {y}: {p} %, higher than {r} % of communes.", catU: "chance of a drought-disaster recognition this year", ov_cat: "x",
  luBuilt: "Built-up", luForest: "Woods and forests", luOther: "Gardens, parks, roads and other", luMeadow: "Meadows", luCrops: "Crops", luSrc: "Land cover: ESA WorldCover 2021", contourEvery: "Rivers and lakes. One contour every {n} m.",
@@ -254,7 +263,7 @@ const TXT = {
   low_s: "drier", high_s: "wetter", fewer: "less", more: "more", cells: "map cells", stations: "stations", towns: "towns",
   cHint: "Pick an overlay and press play: the year runs forward on its own. Click the map to open the nearest large town.",
   footer: "PhreAItic: independent project, not an official product. Forecasts up to 12 months ahead from public data, graded on held-out years. The previous map is still available as the classic map.", loading: "Loading…", pick: "Pick a town", tz: "Terrain: AWS Terrain Tiles (NASADEM, SRTM, GMTED)."},
- fr: {city: "Ville", country: "Pays", search: "Chercher une ville ou un pays…", classic: "Carte classique", trust: "Fiabilité", play: "Lecture", pause: "Pause", back: "Retour au début", fwd: "Mois suivant", loop: "boucle",
+ fr: {perfLink: "Quelle est la fiabilité de ces prévisions ? Voir la page de performance", city: "Ville", country: "Pays", search: "Chercher une ville ou un pays…", classic: "Carte classique", trust: "Fiabilité", play: "Lecture", pause: "Pause", back: "Retour au début", fwd: "Mois suivant", loop: "boucle",
   tempWhy: "Prévision d'après l'historique de la station et les prévisions météo.",
  tag1: "État des lieux", tag2: "Capteurs", tag3: "Évolution à venir", tag4: "Actions possibles", zWet: "plus humide que la normale", zDry: "plus sec que la normale", disc: "Prévisions statistiques fournies à titre d'information. Elles ne remplacent ni les bulletins de Météo-France et de Vigicrues, ni les arrêtés de la préfecture.",
  catYears: "Années où {c} a été reconnue en catastrophe naturelle « sécheresse »", outOf: "sur", catChance: "Chance de reconnaissance en {y} : {p} %, plus élevée que {r} % des communes.", catU: "chance de reconnaissance en catastrophe naturelle sécheresse cette année",
@@ -279,8 +288,50 @@ const TXT = {
   cHint: "Choisissez une couche puis lancez la lecture : l'année défile toute seule. Cliquez sur la carte pour ouvrir la grande ville la plus proche.",
   footer: "PhreAItic : projet indépendant, pas un produit officiel. Prévisions jusqu'à 12 mois à partir de données publiques, vérifiées sur des années mises de côté. L'ancienne carte reste disponible : carte classique.", loading: "Chargement…", pick: "Choisissez une ville", tz: "Relief : AWS Terrain Tiles (NASADEM, SRTM, GMTED)."}
 };
-TXT.es = Object.assign({}, TXT.en, {city: "Ciudad", country: "País", search: "Buscar una ciudad o un país…", classic: "Mapa clásico", trust: "Fiabilidad"});
-TXT.de = Object.assign({}, TXT.en, {city: "Stadt", country: "Land", search: "Stadt oder Land suchen…", classic: "Klassische Karte", trust: "Genauigkeit"});
+TXT.es = Object.assign({}, TXT.en, {catYears: "Años en que {c} fue reconocida como catástrofe natural por sequía (arcillas)", outOf: "de", catChance: "Probabilidad de reconocimiento en {y}: {p} %, superior a la de {r} % de los municipios.", catU: "probabilidad de reconocimiento de catástrofe por sequía este año", midT: "Relieve, ríos y sensores", midRel: "El bloque es el contorno de la ciudad, elevado sobre su terreno real (alturas exageradas). Arrastre para girarlo.", midFlat: "El bloque es el contorno de la ciudad. El relieve solo se dibuja para ciudades de más de 100 000 habitantes: el suelo queda plano.", perfLink: "¿Qué fiabilidad tienen estas previsiones? Ver la página de rendimiento", city: "Ciudad", country: "País", search: "Buscar una ciudad o un país…", classic: "Mapa clásico", trust: "Fiabilidad", play: "Reproducir", pause: "Pausa", back: "Volver al inicio", fwd: "Mes siguiente", loop: "bucle",
+ tag1: "Estado actual", tag2: "Sensores", tag3: "Lo que viene", tag4: "Acciones posibles", zWet: "más húmedo de lo normal", zDry: "más seco de lo normal", disc: "Previsiones estadísticas facilitadas a título informativo. No sustituyen a los boletines de los servicios meteorológicos y de crecidas nacionales ni a las órdenes prefectorales.",
+ luBuilt: "Zona urbanizada", luForest: "Bosques", luOther: "Jardines, parques, calles y otros", luMeadow: "Prados", luCrops: "Cultivos", luSrc: "Cobertura del suelo: ESA WorldCover 2021", contourEvery: "Ríos y lagos. Una curva de nivel cada {n} m.",
+ ugTitle: "{n} acuíferos bajo {c}", ugLow: ", {k} con niveles muy bajos", stRecord: "Mínimo histórico", stVlow: "Muy bajo", stLow: "Bajo", stNormal: "Normal", stHigh: "Alto", noMeasure: "sin medida seguida", depth: "profundidad", ugNote: "Capas ordenadas por edad geológica (orientativo); el contorno negro es el municipio.", underComm: "Bajo el municipio", hazMed: "Peligro medio de arcillas", hazHigh: "Peligro alto de arcillas", hazShares: "{h} % del municipio en peligro alto, {m} % en peligro medio (mapa de 200 m).",
+ forecastsTo: "previsiones hasta 12 meses", bulletin: "Boletín de agua y suelo", edition: "Edición del", onMap: "En el mapa de arriba", riversLakes: "Ríos y lagos", inNumbers: "La ciudad en cifras", elevRange: "del punto más bajo al más alto", areaS: "superficie de la ciudad", densS: "habitantes por km²",
+ toWatch: "A vigilar:", allQuiet: "Nada que señalar por ahora.", latest: "Últimos datos", w_gw_hi: "aguas subterráneas bajas.", w_gw_lo: "aguas subterráneas algo bajas.", w_soil_hi: "suelos muy secos.", w_soil_lo: "suelos que se secan.", w_spi_hi: "déficit de lluvia marcado.", w_spi_lo: "lluvia algo escasa.", w_tws_hi: "poca agua almacenada.", w_tws_lo: "agua almacenada por debajo de la media.", w_fire_hi: "alta probabilidad de incendio.", w_fire_lo: "cierta probabilidad de incendio.",
+ ind1: "1 indicador de 5 en alerta", indN: "{n} indicadores de 5 en alerta", indNone: "Ningún indicador en alerta", nostationShort: "sin estación", stable: "estable", wetter: "más húmedo", drier: "más seco", rain12: "Lluvia, últimos 12 meses", deficit: "déficit", surplus: "superávit", peakIn: "pico en", sev_none: "nada que señalar", sev_watch: "a vigilar", sev_concerning: "preocupante", sev_severe: "grave",
+ sensorsT: "Sensores alrededor de la ciudad", sensorsNone: "Ningún sensor nuestro cerca de la ciudad", lastMeasure: "última medida", comingT: "Lo que viene", comingT0: "Cómo se presentan los próximos meses", lowThreshold: "bajo para la estación", fireU2: "probabilidad por mes", evGwLow: "Aguas subterráneas en mínimos", evRiverLow: "Río en mínimos", evWarm: "Río más cálido", evFire: "Pico de incendios", evSoil: "Suelos más secos",
+ keyDates: "Fechas clave", actT: "Actuar primero", a_none_t: "Nada sobre lo que actuar", a_none_1: "Siga el seguimiento: la previsión se actualiza cada semana.", a_soil_t: "Suelos y vegetación secos", a_soil_1: "Decidir el riego de zonas verdes y árboles", a_soil_2: "Anticipar órdenes de restricción de agua", a_gw_t: "Aguas subterráneas profundas y agua potable", a_gw_1: "Hablar con el gestor del servicio de agua sobre la seguridad del suministro", a_gw_2: "Preparar una comunicación discreta para la temporada seca", a_fire_t: "Incendios", a_fire_1: "Revisar cortafuegos y pistas de acceso antes del mes pico", a_fire_2: "Informar a los servicios de los periodos secos que vienen", a_spi_t: "Déficit de lluvia", a_spi_1: "Revisar niveles de embalses y almacenamiento", a_spi_2: "Planificar la reducción de la demanda para el verano", a_tws_t: "Poca agua almacenada", a_tws_1: "Vigilar con más frecuencia los niveles de ríos y acuíferos", a_tws_2: "Guardar reservas para la temporada seca",
+ trustT: "Hasta qué punto fiarse", trustSoil: "de los casos probados: la previsión del suelo se acercó más a la realidad que la media estacional", trustBand: "de los valores observados cayeron dentro de nuestra banda del 80 %", fireWorth: "Incendios: nuestras probabilidades", fireWorthS: "Proporción de meses con incendio para cada nivel de probabilidad anunciado (3 meses vista, todo el continente, 2008–2023, años no vistos en el entrenamiento).",
+ ctaT: "Siga {n} semana a semana", ctaP: "El boletín se actualiza cada semana, con el mapa, cada estación y una API abierta.", ctaQ: "¿Una pregunta, una necesidad para su ciudad, datos que compartir? Escríbanos:", bulletinWord: "boletín",
+ now: "Ahora", ahead: "meses vista", pop: "habitantes", relief: "Relieve ×", relief_na: "El relieve solo se dibuja para ciudades de más de 100 000 habitantes. Esta ciudad conserva el mismo diseño con terreno plano.", relief_mix: "Alturas exageradas, 20 × 20 km alrededor de la ciudad. Suelo teñido según la humedad prevista.",
+ secAt: "Lo que hace el agua aquí, mes a mes", secAround: "Alrededor de la ciudad", mapHint: "El mapa se mueve con la barra de tiempo. Arrastre el cursor.",
+ river: "Nivel / caudal del río", temp: "Temperatura del río", gw: "Nivel de aguas subterráneas", soil: "Humedad del suelo", fire: "Probabilidad de incendio", spi: "Índice de sequía (SPI)", tws: "Agua total almacenada", reg: "Restricciones de agua", snow: "Nieve",
+ soilU: "percentil de lo normal", fireU: "probabilidad de que arda una celda de 50 km", regU: "probabilidad de restricciones", spiU: "SPI-12: por debajo de 0 es más seco de lo habitual", twsU: "cm de agua frente a 2002–2020",
+ nostation: "Ninguna estación de seguimiento a menos de 150 km en nuestra red.", nodata: "Aún no hay previsión aquí.", nearest: "Estación más cercana", km: "km", normal: "estación típica", climate: "habitual para el mes", median: "previsión mediana", range: "rango probable (10–90 %)",
+ vlow: "muy bajo", low: "bajo", typ: "casi normal", high: "alto", vhigh: "muy alto", dry: "seco", wet: "húmedo", vdry: "muy seco", vwet: "muy húmedo",
+ tempWhy: "Previsión a partir del historial propio de la estación y de las previsiones meteorológicas.", soilWhy: "Humedad semanal por satélite, comparada con la misma semana de otros años.", fireWhy: "A partir del historial de incendios por satélite y de las previsiones meteorológicas.", spiWhy: "Lluvia de los últimos 12 meses frente a lo habitual.", twsWhy: "Gravedad por satélite (GRACE): cambio en toda el agua almacenada: subsuelo, ríos, suelo, nieve.", regWhy: "Probabilidad de que la autoridad local imponga restricciones por sequía.", gwWhy: "Previsión a partir del historial propio de la estación y de las previsiones meteorológicas.", riverWhy: "Previsión a partir del historial propio de la estación y de las previsiones meteorológicas.",
+ overlays: {cat: "Catástrofe por sequía", soil: "Humedad del suelo", fire: "Incendios", spi: "Índice de sequía", tws: "Agua almacenada", reg: "Restricciones"},
+ low_s: "más seco", high_s: "más húmedo", fewer: "menos", more: "más", cells: "celdas del mapa", stations: "estaciones", towns: "ciudades",
+ cHint: "Elija una capa y pulse reproducir: el año avanza solo. Pulse el mapa para abrir la ciudad grande más cercana.",
+ footer: "PhreAItic: proyecto independiente, no un producto oficial. Previsiones hasta 12 meses a partir de datos públicos, evaluadas en años no vistos. El mapa anterior sigue disponible como mapa clásico.", loading: "Cargando…", pick: "Elija una ciudad", tz: "Relieve: AWS Terrain Tiles (NASADEM, SRTM, GMTED)."});
+TXT.de = Object.assign({}, TXT.en, {catYears: "Jahre, in denen {c} als Naturkatastrophe wegen Dürre (Tonschwund) anerkannt wurde", outOf: "von", catChance: "Chance auf Anerkennung {y}: {p} %, höher als bei {r} % der Gemeinden.", catU: "Chance auf Anerkennung als Dürrekatastrophe in diesem Jahr", midT: "Relief, Flüsse und Messstellen", midRel: "Der Block ist der Stadtumriss, auf dem echten Gelände angehoben (Höhen überhöht). Ziehen, um ihn zu drehen.", midFlat: "Der Block ist der Stadtumriss. Relief wird nur für Städte ab 100 000 Einwohnern gezeichnet, das Gelände bleibt flach.", perfLink: "Wie zuverlässig sind diese Prognosen? Zur Genauigkeitsseite", city: "Stadt", country: "Land", search: "Stadt oder Land suchen…", classic: "Klassische Karte", trust: "Genauigkeit", play: "Abspielen", pause: "Pause", back: "Zurück zum Anfang", fwd: "Nächster Monat", loop: "Schleife",
+ tag1: "Aktueller Stand", tag2: "Messstellen", tag3: "Was kommt", tag4: "Mögliche Maßnahmen", zWet: "feuchter als normal", zDry: "trockener als normal", disc: "Statistische Prognosen zur Information. Sie ersetzen weder die Bulletins der nationalen Wetter- und Hochwasserdienste noch behördliche Anordnungen.",
+ luBuilt: "Bebaut", luForest: "Wälder", luOther: "Gärten, Parks, Straßen und Sonstiges", luMeadow: "Wiesen", luCrops: "Ackerland", luSrc: "Landbedeckung: ESA WorldCover 2021", contourEvery: "Flüsse und Seen. Eine Höhenlinie alle {n} m.",
+ ugTitle: "{n} Grundwasserleiter unter {c}", ugLow: ", {k} mit sehr niedrigem Stand", stRecord: "Rekordtief", stVlow: "Sehr niedrig", stLow: "Niedrig", stNormal: "Normal", stHigh: "Hoch", noMeasure: "keine verfolgte Messung", depth: "Tiefe", ugNote: "Schichten nach geologischem Alter geordnet (Richtwert); die schwarze Linie ist die Gemeindegrenze.", underComm: "Unter der Gemeinde", hazMed: "Mittlere Tongefahr", hazHigh: "Hohe Tongefahr", hazShares: "{h} % der Gemeinde mit hoher, {m} % mit mittlerer Gefahr (200-m-Karte).",
+ forecastsTo: "Prognosen bis 12 Monate im Voraus", bulletin: "Wasser- und Bodenbulletin", edition: "Ausgabe vom", onMap: "Auf der Karte oben", riversLakes: "Flüsse und Seen", inNumbers: "Die Stadt in Zahlen", elevRange: "vom tiefsten zum höchsten Punkt", areaS: "Fläche der Stadt", densS: "Einwohner pro km²",
+ toWatch: "Im Blick behalten:", allQuiet: "Derzeit nichts Auffälliges.", latest: "Neueste Daten", w_gw_hi: "niedriges Grundwasser.", w_gw_lo: "Grundwasser etwas niedrig.", w_soil_hi: "sehr trockene Böden.", w_soil_lo: "Böden trocknen aus.", w_spi_hi: "deutliches Regendefizit.", w_spi_lo: "Regen etwas knapp.", w_tws_hi: "wenig gespeichertes Wasser.", w_tws_lo: "gespeichertes Wasser unter dem Durchschnitt.", w_fire_hi: "hohe Waldbrandgefahr.", w_fire_lo: "etwas Waldbrandgefahr.",
+ ind1: "1 von 5 Indikatoren in Alarmstufe", indN: "{n} von 5 Indikatoren in Alarmstufe", indNone: "Kein Indikator in Alarmstufe", nostationShort: "keine Messstelle", stable: "stabil", wetter: "feuchter", drier: "trockener", rain12: "Regen, letzte 12 Monate", deficit: "Defizit", surplus: "Überschuss", peakIn: "Höhepunkt im", sev_none: "nichts zu melden", sev_watch: "beobachten", sev_concerning: "besorgniserregend", sev_severe: "schwerwiegend",
+ sensorsT: "Messstellen rund um die Stadt", sensorsNone: "Keine unserer Messstellen in der Nähe der Stadt", lastMeasure: "letzte Messung", comingT: "Was kommt", comingT0: "Wie die kommenden Monate aussehen", lowThreshold: "niedrig für die Jahreszeit", fireU2: "Wahrscheinlichkeit pro Monat", evGwLow: "Grundwasser am niedrigsten", evRiverLow: "Fluss am niedrigsten", evWarm: "Fluss am wärmsten", evFire: "Waldbrandspitze", evSoil: "Trockenste Böden",
+ keyDates: "Wichtige Termine", actT: "Zuerst handeln", a_none_t: "Kein Handlungsbedarf", a_none_1: "Weiter beobachten: die Prognose wird jede Woche aktualisiert.", a_soil_t: "Trockene Böden und Vegetation", a_soil_1: "Bewässerung von Grünflächen und Bäumen abwägen", a_soil_2: "Wasserbeschränkungen vorausschauend einplanen", a_gw_t: "Tiefes Grundwasser und Trinkwasser", a_gw_1: "Mit dem Wasserversorger über die Versorgungssicherheit sprechen", a_gw_2: "Zurückhaltende Kommunikation für die trockene Jahreszeit vorbereiten", a_fire_t: "Waldbrand", a_fire_1: "Brandschneisen und Zufahrtswege vor dem Spitzenmonat prüfen", a_fire_2: "Einsatzdienste über die kommenden Trockenphasen informieren", a_spi_t: "Regendefizit", a_spi_1: "Pegel von Speichern und Reservoiren prüfen", a_spi_2: "Nachfragesenkung für den Sommer planen", a_tws_t: "Wenig gespeichertes Wasser", a_tws_1: "Fluss- und Grundwasserstände häufiger beobachten", a_tws_2: "Reserven für die trockene Jahreszeit halten",
+ trustT: "Wie weit man vertrauen kann", trustSoil: "der getesteten Fälle: die Bodenprognose lag näher an der Realität als der Saisondurchschnitt", trustBand: "der beobachteten Werte lagen in unserem 80-%-Band", fireWorth: "Waldbrand: unsere Wahrscheinlichkeiten", fireWorthS: "Anteil der Monate mit Brand für jede angekündigte Wahrscheinlichkeitsstufe (3 Monate im Voraus, europaweit, 2008–2023, im Training nicht gesehene Jahre).",
+ ctaT: "{n} Woche für Woche verfolgen", ctaP: "Das Bulletin wird jede Woche aktualisiert, mit Karte, allen Messstellen und offener API.", ctaQ: "Eine Frage, ein Bedarf für Ihre Stadt, Daten zu teilen? Schreiben Sie uns:", bulletinWord: "Bulletin",
+ now: "Jetzt", ahead: "Monate voraus", pop: "Einwohner", relief: "Relief ×", relief_na: "Relief wird nur für Städte ab 100 000 Einwohnern gezeichnet. Diese Stadt behält dasselbe Layout mit flachem Gelände.", relief_mix: "Höhen überhöht, 20 × 20 km um die Stadt. Boden nach prognostizierter Bodenfeuchte eingefärbt.",
+ secAt: "Was das Wasser hier tut, Monat für Monat", secAround: "Rund um die Stadt", mapHint: "Die Karte folgt der Zeitleiste. Cursor ziehen.",
+ river: "Flusspegel / Abfluss", temp: "Flusstemperatur", gw: "Grundwasserstand", soil: "Bodenfeuchte", fire: "Waldbrandwahrscheinlichkeit", spi: "Dürreindex (SPI)", tws: "Gesamtwasserspeicher", reg: "Wasserbeschränkungen", snow: "Schnee",
+ soilU: "Perzentil des Normalen", fireU: "Wahrscheinlichkeit, dass eine 50-km-Zelle brennt", regU: "Wahrscheinlichkeit von Beschränkungen", spiU: "SPI-12: unter 0 ist trockener als üblich", twsU: "cm Wasser gegenüber 2002–2020",
+ nostation: "Keine Messstelle in unserem Netz im Umkreis von 150 km.", nodata: "Hier noch keine Prognose.", nearest: "Nächste Messstelle", km: "km entfernt", normal: "typische Jahreszeit", climate: "üblich für den Monat", median: "Median-Prognose", range: "wahrscheinlicher Bereich (10–90 %)",
+ vlow: "sehr niedrig", low: "niedrig", typ: "nahe normal", high: "hoch", vhigh: "sehr hoch", dry: "trocken", wet: "feucht", vdry: "sehr trocken", vwet: "sehr feucht",
+ tempWhy: "Prognose aus der eigenen Historie der Messstelle und dem Wetterausblick.", soilWhy: "Wöchentliche Satelliten-Bodenfeuchte, verglichen mit derselben Woche anderer Jahre.", fireWhy: "Aus der Satelliten-Brandhistorie und dem Wetterausblick.", spiWhy: "Regen der letzten 12 Monate im Vergleich zum Üblichen.", twsWhy: "Satellitengravimetrie (GRACE): Änderung des gesamten gespeicherten Wassers: Untergrund, Flüsse, Boden, Schnee.", regWhy: "Wahrscheinlichkeit, dass die Behörde Dürrebeschränkungen verhängt.", gwWhy: "Prognose aus der eigenen Historie der Messstelle und dem Wetterausblick.", riverWhy: "Prognose aus der eigenen Historie der Messstelle und dem Wetterausblick.",
+ overlays: {cat: "Dürre-Katastrophe", soil: "Bodenfeuchte", fire: "Waldbrand", spi: "Dürreindex", tws: "Wasserspeicher", reg: "Beschränkungen"},
+ low_s: "trockener", high_s: "feuchter", fewer: "weniger", more: "mehr", cells: "Kartenzellen", stations: "Messstellen", towns: "Städte",
+ cHint: "Ebene wählen und auf Abspielen drücken: das Jahr läuft von allein. Karte anklicken, um die nächste Großstadt zu öffnen.",
+ footer: "PhreAItic: unabhängiges Projekt, kein offizielles Produkt. Prognosen bis 12 Monate im Voraus aus öffentlichen Daten, an ungesehenen Jahren bewertet. Die frühere Karte bleibt als klassische Karte verfügbar.", loading: "Laden…", pick: "Stadt wählen", tz: "Gelände: AWS Terrain Tiles (NASADEM, SRTM, GMTED)."});
 const t = k => (TXT[L] && TXT[L][k]) || TXT.en[k] || k;
 const MON = () => Array.from({length: 12}, (_, i) => new Date(2000, i, 1).toLocaleDateString(L, {month: "short"}));
 
@@ -349,14 +400,14 @@ function ovColor(ov, v) { const o = OV[ov]; return o.ramp(o.f ? o.lo + (o.hi - o
 
 /* ============================================================ data adapters: every one returns {pts:[[m,v]...], band?:[[m,lo,hi]], clim?:[[m,v]], unit, ...} per cell */
 async function soilCells(iso) {
-  const d = await J("world_soil.json"); if (!d || !d.countries[iso]) return null;
+  const d = await J(`world_layers/soil_${iso}.json`); if (!d) return null;
   const H = [0, ...d.horizons_weeks], T0 = d.data_through;
   if (T0) { S.T0 = new Date(T0 + "T00:00:00"); S.soilAsOf = T0; }
-  return {kind: "soil", cell: d.cell, cuts: d.class_cuts, cells: d.countries[iso].map(r => ({lat: r[0], lon: r[1], pts: H.map((w, i) => [wk2m(w), r[2 + i]]).filter(p => p[0] <= 12.2)}))};
+  return {kind: "soil", cell: d.cell, cuts: d.class_cuts, cells: d.cells.map(r => ({lat: r[0], lon: r[1], pts: H.map((w, i) => [wk2m(w), r[2 + i]]).filter(p => p[0] <= 12.2)}))};
 }
 async function fireCells(iso) {
-  const d = await J("world_fire.json"); if (!d || !d.countries[iso]) return null;
-  return {kind: "fire", cell: d.cell, cells: d.countries[iso].map(r => {
+  const d = await J(`world_layers/fire_${iso}.json`); if (!d) return null;
+  return {kind: "fire", cell: d.cell, cells: d.cells.map(r => {
     const pts = [[0, r[2]]], clim = [[0, r[3]]];
     for (let h = 1; h <= 15; h++) { const p = r[2 + (h - 1) * 2], c = r[3 + (h - 1) * 2]; pts.push([h - 0.5, p]); clim.push([h - 0.5, c]); }
     return {lat: r[0], lon: r[1], pts: pts.slice(1).filter(p => p[0] <= 12.2), clim: clim.slice(1).filter(p => p[0] <= 12.2)}; })};
@@ -482,12 +533,13 @@ class MapView {
     c.save(); landPath(); c.fillStyle = dk ? "#22333c" : "#EEF0EC"; c.fill(); c.clip();
     const key = [W, H, bb.join(","), this.ov].join("|"); let vals;
     if (d.pts) {      // scattered values: inverse-distance weights of the 4 nearest points, kept within 12 km of a point
-      if (this.sKey !== key) { const P = d.pts, n = P.length, sc = Math.cos((bb[1] + bb[3]) * Math.PI / 360) * 111.32, v = new Float32Array(gw * gh), idx = new Int16Array(gw * gh);
-        const PX = P.map(q => q.lon * sc), PY = P.map(q => q.lat * 111.32);
-        for (let y = 0; y < gh; y++) for (let x = 0; x < gw; x++) { const wx = lonAt(x) * sc, wy = latAt(y) * 111.32; let d1 = 1e9, d2 = 1e9, d3 = 1e9, d4 = 1e9, i1 = 0, i2 = 0, i3 = 0, i4 = 0;
-          for (let j = 0; j < n; j++) { const dx = PX[j] - wx, dy = PY[j] - wy, dd = dx * dx + dy * dy; if (dd < d4) { if (dd < d3) { d4 = d3; i4 = i3; if (dd < d2) { d3 = d2; i3 = i2; if (dd < d1) { d2 = d1; i2 = i1; d1 = dd; i1 = j; } else { d2 = dd; i2 = j; } } else { d3 = dd; i3 = j; } } else { d4 = dd; i4 = j; } } }
-          const ws = [Math.sqrt(d1), Math.sqrt(d2), Math.sqrt(d3), Math.sqrt(d4)].map(q => 1 / Math.max(q, 0.5) ** 2), is = [i1, i2, i3, i4]; let sw = 0, sv = 0; for (let k = 0; k < 4; k++) { sw += ws[k]; sv += ws[k] * P[is[k]].v; }
-          v[y * gw + x] = Math.sqrt(d1) > 12 ? NaN : sv / sw; idx[y * gw + x] = i1; }
+      if (this.sKey !== key) { const P = d.pts, n = P.length, sc = Math.cos((bb[1] + bb[3]) * Math.PI / 360) * 111.32, v = new Float32Array(gw * gh), idx = new Int16Array(gw * gh), BS = 4, bk = new Map();
+        const PX = P.map(q => q.lon * sc), PY = P.map(q => q.lat * 111.32); P.forEach((q, j) => { const k = Math.floor(PX[j] / BS) * 100003 + Math.floor(PY[j] / BS); (bk.get(k) || bk.set(k, []).get(k)).push(j); });
+        for (let y = 0; y < gh; y++) for (let x = 0; x < gw; x++) { const wx = lonAt(x) * sc, wy = latAt(y) * 111.32, bx = Math.floor(wx / BS), by = Math.floor(wy / BS); const D = [], I = [];
+          for (let rad = 0; rad <= 4; rad++) { for (let ix = bx - rad; ix <= bx + rad; ix++) for (let iy = by - rad; iy <= by + rad; iy++) { if (Math.max(Math.abs(ix - bx), Math.abs(iy - by)) !== rad) continue; const L2 = bk.get(ix * 100003 + iy); if (!L2) continue; for (const j of L2) { const dx = PX[j] - wx, dy = PY[j] - wy; D.push(dx * dx + dy * dy); I.push(j); } }
+            if (D.length >= 4) { const sd = D.slice().sort((a, b) => a - b); if (Math.sqrt(sd[3]) <= rad * BS) break; } }
+          if (D.length < 1) { v[y * gw + x] = NaN; continue; } const ord = D.map((d_, k) => k).sort((a, b) => D[a] - D[b]).slice(0, 4); let sw = 0, sv = 0; for (const k of ord) { const w_ = 1 / Math.max(Math.sqrt(D[k]), 0.5) ** 2; sw += w_; sv += w_ * P[I[k]].v; }
+          v[y * gw + x] = Math.sqrt(D[ord[0]]) > 12 ? NaN : sv / sw; idx[y * gw + x] = I[ord[0]]; }
         this.sKey = key; this.sVals = v; this.sIdx = idx; this.sEdge = null; }
       vals = this.sVals;
     } else {          // grid cells: bilinear on the grid at the cursor's time, gaps filled from the neighbours
@@ -623,7 +675,8 @@ function lineChart(host, o) {
   let done = REDUCED;
   const upd = m => {
     if (!done) return; const x = X(m); cur.setAttribute("x1", x); cur.setAttribute("x2", x); cur.setAttribute("opacity", ".55");
-    dots.innerHTML = S0.map(s => { const v = interp(s.pts, m); return v == null ? "" : `<circle cx="${x}" cy="${Y(v)}" r="4.4" fill="${s.color}" stroke="var(--card)" stroke-width="2"/>`; }).join("");
+    const right = x > W * 0.68, halo = "paint-order:stroke;stroke:var(--card);stroke-width:3px;font-size:11px;font-weight:700";
+    dots.innerHTML = S0.map(s => { const v = interp(s.pts, m); return v == null ? "" : `<circle cx="${x}" cy="${Y(v)}" r="4.4" fill="${s.color}" stroke="var(--card)" stroke-width="2"/><text x="${x + (right ? -9 : 9)}" y="${Y(v) - 8}" text-anchor="${right ? "end" : "start"}" style="fill:${s.color};${halo}">${o.vfmt ? o.vfmt(v) : fmt(v, 1)}</text>`; }).join("") + `<text x="${x}" y="${mt + 9}" text-anchor="middle" style="fill:var(--muted);${halo}">${shortMonth(m)}</text>`;
     if (o.onCursor) o.onCursor(m);
   };
   const intro = () => { if (done) return; const t0 = performance.now(), dur = 2800; const f = now => { const k = EASE((now - t0) / dur); clip.setAttribute("width", ml + (W - ml) * k); if (k < 1) requestAnimationFrame(f); else { done = true; clip.setAttribute("width", W); upd(S.m); } }; requestAnimationFrame(f); };
@@ -636,7 +689,7 @@ function lineChart(host, o) {
 
 /* ============================================================ the hero: 2D map of the surroundings, the town block rising from it */
 const Hero = (() => {
-  let R, scene, cam, ready = false, group = null, rise = 0, riseT0 = 0, speed = 0.6, flowU = {value: 0}, az = 0.0, pol = 0.95, dist = 10, drag = null, tgt = new THREE.Vector3();
+  let hov = {x: 0, y: 0}, hAz = 0, hPol = 0, R, scene, cam, ready = false, group = null, rise = 0, riseT0 = 0, speed = 0.6, flowU = {value: 0}, az = 0.0, pol = 0.95, dist = 10, drag = null, tgt = new THREE.Vector3();
   let top, topGeo, wall, wallGeo, wallBase, streams = [], st = null;
   const N = 129;
   const hypso = ramp([[0, "#3f8fa6"], [.28, "#8fc0b8"], [.5, "#e9e3b4"], [.78, "#d9a860"], [1, "#9a6428"]]);
@@ -646,12 +699,13 @@ const Hero = (() => {
     scene.add(new THREE.AmbientLight(0xffffff, 0.78)); const dl = new THREE.DirectionalLight(0xffffff, 0.8); dl.position.set(-5, 8, 4); scene.add(dl);
     const cv = $("#gl");
     cv.addEventListener("pointerdown", e => { drag = {x: e.clientX, y: e.clientY}; cv.setPointerCapture(e.pointerId); cv.style.cursor = "grabbing"; });
-    cv.addEventListener("pointermove", e => { if (!drag) return; az -= (e.clientX - drag.x) * 0.006; pol = clamp(pol - (e.clientY - drag.y) * 0.004, 0.35, 1.35); drag = {x: e.clientX, y: e.clientY}; });
+    cv.addEventListener("pointerleave", () => { hov.x = 0; hov.y = 0; });
+    cv.addEventListener("pointermove", e => { const r_ = cv.getBoundingClientRect(); hov.x = (e.clientX - r_.left) / r_.width - .5; hov.y = (e.clientY - r_.top) / r_.height - .5; if (!drag) return; az -= (e.clientX - drag.x) * 0.006; pol = clamp(pol - (e.clientY - drag.y) * 0.004, 0.35, 1.35); drag = {x: e.clientX, y: e.clientY}; });
     cv.addEventListener("pointerup", () => { drag = null; cv.style.cursor = "grab"; });
     new ResizeObserver(resize).observe($("#hero")); resize(); ready = true; loop(); return true;
   }
   function resize() { if (!R) return; const h = $("#hero"); R.setSize(h.clientWidth, h.clientHeight, false); cam.aspect = h.clientWidth / h.clientHeight; cam.updateProjectionMatrix(); fit(); }
-  function fit() { if (!st) return; const tv = Math.tan(cam.fov * Math.PI / 360), th = tv * cam.aspect, W = st.Wg; dist = Math.max(1.68 * W / th * 1.04, 0.8 * ((0.62 * W + st.Hd * 1.1 + 0.12 * W) / tv * 0.98 + 0.3 * W)); }
+  function fit() { if (!st) return; const tv = Math.tan(cam.fov * Math.PI / 360), th = tv * cam.aspect, W = st.Wg; dist = Math.max(1.68 * W / th * 1.0, 0.72 * ((0.62 * W + st.Hd * 1.1 + 0.12 * W) / tv * 0.98 + 0.3 * W)); }
   function bicubic(src, n, M) {
     const out = new Float32Array(M * M), cr = (p0, p1, p2, p3, t) => 0.5 * ((2 * p1) + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t + (-p0 + 3 * p1 - 3 * p2 + p3) * t * t * t);
     const g = (i, j) => src[clamp(j, 0, n - 1) * n + clamp(i, 0, n - 1)];
@@ -662,7 +716,7 @@ const Hero = (() => {
   const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
   const dark = () => { const t = document.documentElement.dataset.theme; return t === "dark" || (t === "auto" && matchMedia("(prefers-color-scheme: dark)").matches); };
   function groundCanvas(c, ctx) {
-    const W = st.W, Wg = st.Wg, AX = 1.6 * Wg, cw = 2048, ch = 1280, sx = cw / (2 * AX), sz = ch / (2 * Wg), cvs = document.createElement("canvas"); cvs.width = cw; cvs.height = ch; const g = cvs.getContext("2d");
+    const W = st.W, Wg = st.Wg, AX = 1.6 * Wg, cw = 1536, ch = 960, sx = cw / (2 * AX), sz = ch / (2 * Wg), cvs = document.createElement("canvas"); cvs.width = cw; cvs.height = ch; const g = cvs.getContext("2d");
     const dk = dark(); g.fillStyle = dk ? "#1d2a33" : "#F1F2EC"; g.fillRect(0, 0, cw, ch);
     const P = (x, z) => [cw / 2 + x * sx, ch / 2 + z * sz], kx = 111.32 * Math.cos(c.lat * Math.PI / 180);
     { // patchwork of neighbouring communes: nearest-town cells, tinted, white borders (like the PDF's commune map)
@@ -731,7 +785,7 @@ const Hero = (() => {
       for (let i = 0; i < N * N; i++) { const x = ((i % N) / (N - 1) - .5) * 2 * W, z = (Math.floor(i / N) / (N - 1) - .5) * 2 * W; if (insideAt(x, z)) { emin = Math.min(emin, st.Hraw[i]); emax = Math.max(emax, st.Hraw[i]); } }
       if (!isFinite(emin)) { emin = ent[4]; emax = ent[5]; } range = Math.max(emax - emin, 1);
       st.Hd = Math.min(0.12 * W, range / 1000 * 18); if (range < 3) st.Hd = 0;
-      { const iv = []; for (let i = 0; i < N * N; i++) { const x = ((i % N) / (N - 1) - .5) * 2 * W, z = (Math.floor(i / N) / (N - 1) - .5) * 2 * W; if (insideAt(x, z)) iv.push(st.Hraw[i]); } iv.sort((a, b) => a - b); const q = iv.length ? iv[Math.floor(iv.length * 0.93)] : emax; const cap = h => h <= q ? h : q + (h - q) * 0.3; st.cap = cap;
+      { const iv = []; for (let i = 0; i < N * N; i++) { const x = ((i % N) / (N - 1) - .5) * 2 * W, z = (Math.floor(i / N) / (N - 1) - .5) * 2 * W; if (insideAt(x, z)) iv.push(st.Hraw[i]); } iv.sort((a, b) => a - b); const q = iv.length ? iv[Math.floor(iv.length * 0.88)] : emax; const cap = h => h <= q ? h : q + (h - q) * 0.18; st.cap = cap;
       for (let i = 0; i < N * N; i++) st.hv[i] = clamp((cap(st.Hraw[i]) - emin) / (cap(emax) - emin || 1), 0, 1.1) * st.Hd; }
       st.exag = st.Hd ? Math.round(st.Hd * 1000 / range) : 0;
     }
@@ -821,9 +875,15 @@ const Hero = (() => {
     if (rise < 1 && !REDUCED) { const x = clamp((now - riseT0) / 3400, 0, 1); rise = EASE(x); if (x >= 1 && Hero.onRisen) { const f = Hero.onRisen; Hero.onRisen = null; f(); } }
     if (rise !== lastRise) { update(); lastRise = rise; }
     flowU.value += dt * speed * 0.3; const W = st.W;
-    cam.position.set(dist * Math.sin(pol) * Math.sin(az), dist * Math.cos(pol), dist * Math.sin(pol) * Math.cos(az)); cam.lookAt(0, st.Hd * 0.25, 0.04 * st.Wg); R.render(scene, cam);
+    hAz += (-hov.x * 0.9 - hAz) * 0.08; hPol += (hov.y * 0.55 - hPol) * 0.08; const az2 = az + hAz, pol2 = clamp(pol + hPol, 0.3, 1.42);
+    cam.position.set(dist * Math.sin(pol2) * Math.sin(az2), dist * Math.cos(pol2), dist * Math.sin(pol2) * Math.cos(az2)); cam.lookAt(0, st.Hd * 0.25, 0.04 * st.Wg); R.render(scene, cam); if (Hero.onFrame) Hero.onFrame();
   }
-  return {load, setSpeed(v) { speed = v; }, retheme: null, onRisen: null, stats: () => st, init};
+  function projectRings() {      // screen positions (client px) of the outline's left-most and right-most points on the ground
+    if (!st || !st.rings || !cam) return null; const cvr = $("#gl").getBoundingClientRect(), v = new THREE.Vector3(); let L_ = null, R_ = null;
+    for (const r of st.rings) for (const p of r) { v.set(p[0], 0, p[1]).project(cam); const x = cvr.left + (v.x + 1) / 2 * cvr.width, y = cvr.top + (1 - v.y) / 2 * cvr.height; if (!L_ || x < L_[0]) L_ = [x, y]; if (!R_ || x > R_[0]) R_ = [x, y]; }
+    return {left: L_, right: R_};
+  }
+  return {projectRings, load, setSpeed(v) { speed = v; }, retheme: null, onRisen: null, stats: () => st, init};
 })();
 
 /* ============================================================ the bulletin (page 1 = hero; the rest below) */
@@ -835,7 +895,7 @@ const sevWord = (s) => ["none", "watch", "concerning", "severe"].map(x => t("sev
 function trendWord(a, b, tol) { if (a == null || b == null) return ""; const d = b - a; return Math.abs(d) < tol ? "→ " + t("stable") : d > 0 ? "↗ " + t("wetter") : "↘ " + t("drier"); }
 const longMonth = m => dateAt(m).toLocaleDateString(L, {month: "long", year: "numeric"});
 const shortMonth = m => dateAt(m).toLocaleDateString(L, {month: "short", year: "numeric"});
-function chapter(n, title) { const tag = t("tag" + n), c = S.city ? S.city.name : ""; return `<div class="pbar"><div class="in"><span>PhreAItic</span><span>${c} · ${tag}</span></div><svg viewBox="0 0 1200 20" preserveAspectRatio="none"><path d="M0 20V10C200 -4 400 22 600 10C800 -2 1000 20 1200 8V20Z" fill="var(--paper)"/></svg></div><div class="chap"><span class="n">${String(n).padStart(2, "0")}</span><div><h2>${title}</h2><svg width="150" height="8" viewBox="0 0 150 8"><path d="M0 4 Q9 0 19 4 T38 4 T57 4 T76 4 T95 4 T114 4 T133 4 T150 4" stroke="var(--accent)" fill="none" stroke-width="2"/></svg></div></div>`; }
+function chapter(n, title) { return ""; }
 
 async function openCity(c, push = true) {
   const tok = ++cityToken; S.city = c; stopPlay(); setMode("city", false);
@@ -845,38 +905,28 @@ async function openCity(c, push = true) {
   $("#mKick").textContent = "PhreAItic · " + t("bulletin"); $("#mEdition").textContent = t("edition") + " " + new Date().toLocaleDateString(L, {day: "numeric", month: "long", year: "numeric"});
   if (push) { try { history.replaceState(null, "", "#city=" + encodeURIComponent([c.name, c.iso, c.lon, c.lat, c.pop].join("|"))); } catch (e) {} }
   document.title = c.name + " · PhreAItic";
-  const [soil, fire, spi, tws, reg, stns, T, bm] = await Promise.all([soilCells(c.iso), fireCells(c.iso), tileCells("spi", [c.lon, c.lat, c.lon, c.lat]), tileCells("tws", [c.lon, c.lat, c.lon, c.lat]), regAreas(c.iso), stationsNear(c.lat, c.lon), J(`terrain/${c.iso}.json`), J(`basemap/${c.iso}.json`)]);
-  if (tok !== cityToken) return; setTime(0); fillTicks();
-  const card = (c.pop >= 50000 || c.iso === "FRA") ? await J(`cards/${c.iso}/${(+c.lon).toFixed(4)}_${(+c.lat).toFixed(4)}.json`) : null; if (tok !== cityToken) return;
+  const pSoil = soilCells(c.iso), pFire = fireCells(c.iso), pSpi = tileCells("spi", [c.lon, c.lat, c.lon, c.lat]), pTws = tileCells("tws", [c.lon, c.lat, c.lon, c.lat]), pReg = regAreas(c.iso);
+  const pCard = (c.pop >= 50000 || c.iso === "FRA") ? J(`cards/${c.iso}/${(+c.lon).toFixed(4)}_${(+c.lat).toFixed(4)}.json`) : Promise.resolve(null), pBord = c.iso === "FRA" ? communeBorders(c.lon, c.lat) : Promise.resolve(null);
+  const [stns, T, bm, O0] = await Promise.all([stationsNear(c.lat, c.lon), J(`terrain/${c.iso}.json`), J(`basemap/${c.iso}.json`), J(`outlines/${c.iso}.json`)]);
+  if (tok !== cityToken) return;
   let ent = null; if (T) { let bd = 0.2 ** 2; for (const e of T.t) { const dd = dist2(e[2], e[1], c.lat, c.lon); if (norm(e[0]) === norm(c.name) && dd < bd) { bd = dd; ent = e; } } if (!ent) { bd = 0.03 ** 2; for (const e of T.t) { const dd = dist2(e[2], e[1], c.lat, c.lon); if (dd < bd && (!c.pop || (e[3] > 0.6 * c.pop && e[3] < 1.7 * c.pop))) { bd = dd; ent = e; } } } }
   let rings, W, areaKm2, cc = c, shiftXZ = [0, 0], oe = null;
-  if (!ent) { const O = await J(`outlines/${c.iso}.json`); if (O) { let bd2 = 0.2 ** 2; for (const e of O.t) { const dd = dist2(e[2], e[1], c.lat, c.lon); if (norm(e[0]) === norm(c.name) && dd < bd2) { bd2 = dd; oe = e; } } if (!oe) { bd2 = 0.03 ** 2; for (const e of O.t) { const dd = dist2(e[2], e[1], c.lat, c.lon); if (dd < bd2 && (!c.pop || (e[3] > 0.6 * c.pop && e[3] < 1.7 * c.pop))) { bd2 = dd; oe = e; } } } } if (tok !== cityToken) return; }
+  if (!ent) { const O = O0; if (O) { let bd2 = 0.2 ** 2; for (const e of O.t) { const dd = dist2(e[2], e[1], c.lat, c.lon); if (norm(e[0]) === norm(c.name) && dd < bd2) { bd2 = dd; oe = e; } } if (!oe) { bd2 = 0.03 ** 2; for (const e of O.t) { const dd = dist2(e[2], e[1], c.lat, c.lon); if (dd < bd2 && (!c.pop || (e[3] > 0.6 * c.pop && e[3] < 1.7 * c.pop))) { bd2 = dd; oe = e; } } } } if (tok !== cityToken) return; }
+  const lsrc = ent || oe, luP = lsrc ? J(`landuse/${c.iso}/${(+lsrc[1]).toFixed(4)}_${(+lsrc[2]).toFixed(4)}.json`) : Promise.resolve(null), ugP = ent && c.iso === "FRA" ? J(`underground/FRA/${(+ent[1]).toFixed(4)}_${(+ent[2]).toFixed(4)}.json`) : Promise.resolve(null);
   if (ent && ent[9]) { rings = ent[9].map(r => { const o = []; for (let i = 0; i < r.length; i += 2) o.push([r[i] / 100, -r[i + 1] / 100]); return o; }); W = ent[7]; areaKm2 = ent[8]; }
   else { const o = oe ? {rings: oe[6].map(r => { const q = []; for (let i = 0; i < r.length; i += 2) q.push([r[i] / 100, -r[i + 1] / 100]); return q; }), area: oe[5]} : await osmOutline(c); if (tok !== cityToken) return; const r = clamp(2.6 * Math.sqrt((c.pop || 20000) / 1e5) + 1.2, 1.2, 18);
     if (o) { rings = o.rings; areaKm2 = o.area; } else { rings = [Array.from({length: 48}, (_, i) => [Math.cos(i / 48 * 6.2832) * r * 0.7, Math.sin(i / 48 * 6.2832) * r * 0.7])]; areaKm2 = Math.PI * (r * 0.7) ** 2; }
     if (!ent) { let x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9; for (const q of rings) for (const p of q) { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); z0 = Math.min(z0, p[1]); z1 = Math.max(z1, p[1]); }
       const cx = (x0 + x1) / 2, cz = (z0 + z1) / 2, kx = 111.32 * Math.cos(c.lat * Math.PI / 180); shiftXZ = [cx, cz]; rings = rings.map(q => q.map(p => [p[0] - cx, p[1] - cz]));
-      cc = {...c, lon: c.lon + cx / kx, lat: c.lat - cz / 111.32}; const Wg = clamp(Math.max((x1 - x0) / 2 / 1.6, (z1 - z0) / 2) * 1.4, 2.5, 20); W = Wg * 2; } }
+      cc = {...c, lon: c.lon + cx / kx, lat: c.lat - cz / 111.32}; const Wg = clamp(Math.max((x1 - x0) / 2 / 1.6, (z1 - z0) / 2) * 1.12, 2.2, 20); W = Wg * 2; } }
   const pick = layer => { let best = null, bd2 = 150 ** 2; for (const s of stns) if (s.layer === layer && s.forecasts && s.forecasts.length) { const d = kmBetween(s.lat, s.lon, c.lat, c.lon) ** 2; if (d < bd2) { bd2 = d; best = s; } } return best; };
   const sR = pick("rivers"), sT = pick("temp"), sG = pick("gw");
-  const near = (layer, lat, lon, km) => layer && nearest(layer.cells.map(x => [x.lat, x.lon, x]), lat, lon, km), sc = soil && near(soil, c.lat, c.lon, 120), fc = fire && near(fire, c.lat, c.lon, 120), spc = spi && near(spi, c.lat, c.lon, 160), twc = tws && near(tws, c.lat, c.lon, 160);
-  const soilCell = sc && sc[2], fireCell = fc && fc[2], spiCell = spc && spc[2], twsCell = twc && twc[2], regArea = reg && areaAt(reg.areas, c.lon, c.lat);
-  // ---- the hydro panels: the town card (same sources as the PDF) first, the static grid stations as a fallback
-  const monthOf = d => (new Date(String(d).slice(0, 10) + "T00:00:00") - S.T0) / (30.44 * 864e5);
-  const normPanel = h => { const fcs = (h.fc || []).filter(f => f[0] <= 12.5), pts = [[0, h.last]], b90 = [[0, h.last, h.last]], b50 = [[0, h.last, h.last]];
-    for (const f of fcs) { pts.push([f[0], f[1]]); b90.push([f[0], f[4], f[5]]); if (f[2] != null && f[3] != null) b50.push([f[0], f[2], f[3]]); }
-    return {kind: h.kind, title: h.title, unit: h.unit, last: h.last, lastDate: h.last_date, dist: h.dist, pts, band: b90, band50: b50.length > 1 ? b50 : null, hist: (h.hist || []).map(p => [monthOf(p[0]), p[1]]).filter(p => p[0] >= -24 && p[0] <= 0.3), thr: h.thr, lw: h.lw, wet: h.pct, body: h.body}; };
-  const PH = {}; if (card && card.hydro) for (const h of card.hydro) if (["rivers", "temp", "gw"].includes(h.kind)) PH[h.kind] = normPanel(h);
-  for (const [layer, s] of [["rivers", sR], ["temp", sT], ["gw", sG]]) if (!PH[layer] && s) { const ser = stationSeries(s), lw = stationWet(s).lowerWetter, f1 = s.forecasts.slice().sort((a, b) => a.h - b.h)[0];
-    PH[layer] = {kind: layer, title: s.name.replace(/\s*\(.*$/, ""), unit: s.unit, last: s.last_value, lastDate: s.last_week, dist: Math.round(kmBetween(s.lat, s.lon, c.lat, c.lon)), pts: ser.pts, band: ser.band, band50: null, hist: [], thr: null, lw, wet: f1 && f1.pct != null ? (lw ? 100 - f1.pct : f1.pct) : null, _s: s}; }
-  const enrich = async p => { if (!p._s) return; const [h, fl] = await Promise.all([fetchHistory(p._s), (async () => { const f = p._s.country && await J(`api/v1/${p._s.country}/${p._s.layer}.json`); return f && f.stations.find(y => y.id === p._s.id); })()]);
-    if (h.length) p.hist = h; if (fl && fl.forecasts && fl.forecasts.length) { const ser = stationSeries({...fl, last_value: fl.last_value}); p.pts = ser.pts; p.band = ser.band; } };
   const pins = [sR && {...sR, color: C1}, sT && {...sT, color: C2}, sG && {...sG, color: C3}].filter(Boolean);
   const neigh = (S.index.t || []).filter(x => x[4] >= 1500 && x[0] !== c.name && Math.abs(x[3] - c.lat) < 0.5 && Math.abs(x[2] - c.lon) < 0.8).sort((a, b) => b[4] - a[4]).slice(0, 70).map(x => [x[0], x[1], x[2], x[3]]);
-  let Wg; { let hx = 0, hz = 0; for (const q of rings) for (const p of q) { hx = Math.max(hx, Math.abs(p[0])); hz = Math.max(hz, Math.abs(p[1])); } Wg = clamp(Math.max(hx / 1.6, hz) * 1.4, 2.5, 26); if (Wg * 2 > W) W = Wg * 2; }
-  const lsrc = ent || oe; let lu = lsrc ? await J(`landuse/${c.iso}/${(+lsrc[1]).toFixed(4)}_${(+lsrc[2]).toFixed(4)}.json`) : null; if (tok !== cityToken) return;
+  let Wg; { let hx = 0, hz = 0; for (const q of rings) for (const p of q) { hx = Math.max(hx, Math.abs(p[0])); hz = Math.max(hz, Math.abs(p[1])); } Wg = clamp(Math.max(hx / 1.6, hz) * 1.12, 2.2, 26); if (Wg * 2 > W) W = Wg * 2; }
+  let lu = await luP; if (tok !== cityToken) return;
   if (lu && (shiftXZ[0] || shiftXZ[1])) lu = {...lu, b: [lu.b[0] - shiftXZ[0], lu.b[1] - shiftXZ[1], lu.b[2] - shiftXZ[0], lu.b[3] - shiftXZ[1]]};
-  const ug = ent && c.iso === "FRA" ? await J(`underground/FRA/${(+ent[1]).toFixed(4)}_${(+ent[2]).toFixed(4)}.json`) : null; if (tok !== cityToken) return;
+  const ug = await ugP; if (tok !== cityToken) return;
   await Hero.load(cc, {ent, W, Wg, rings, basemap: bm, neigh, pins, lu});
   if (tok !== cityToken) return; $("#skel").style.opacity = 0;
   const hs = Hero.stats(); const flatTown = !ent;
@@ -892,6 +942,19 @@ async function openCity(c, push = true) {
   $("#nElev").textContent = flatTown ? "—" : `${Math.round(hs.emin)}–${Math.round(hs.emax)} m`; $("#nElevS").textContent = t("elevRange");
   countUp($("#nArea"), areaKm2, v => (v < 10 ? v.toFixed(1) : Math.round(v)) + " km²"); $("#nAreaS").textContent = t("areaS");
   countUp($("#nDens"), dens, v => Math.round(v).toLocaleString(L) + " /km²"); $("#nDensS").textContent = t("densS");
+  const [soil, fire, spi, tws, reg, card] = await Promise.all([pSoil, pFire, pSpi, pTws, pReg, pCard]); if (tok !== cityToken) return; setTime(0); fillTicks();
+  const near = (layer, lat, lon, km) => layer && nearest(layer.cells.map(x => [x.lat, x.lon, x]), lat, lon, km), sc = soil && near(soil, c.lat, c.lon, 120), fc = fire && near(fire, c.lat, c.lon, 120), spc = spi && near(spi, c.lat, c.lon, 160), twc = tws && near(tws, c.lat, c.lon, 160);
+  const soilCell = sc && sc[2], fireCell = fc && fc[2], spiCell = spc && spc[2], twsCell = twc && twc[2], regArea = reg && areaAt(reg.areas, c.lon, c.lat);
+  // ---- the hydro panels: the town card (same sources as the PDF) first, the static grid stations as a fallback
+  const monthOf = d => (new Date(String(d).slice(0, 10) + "T00:00:00") - S.T0) / (30.44 * 864e5);
+  const normPanel = h => { const fcs = (h.fc || []).filter(f => f[0] <= 12.5), pts = [[0, h.last]], b90 = [[0, h.last, h.last]], b50 = [[0, h.last, h.last]];
+    for (const f of fcs) { pts.push([f[0], f[1]]); b90.push([f[0], f[4], f[5]]); if (f[2] != null && f[3] != null) b50.push([f[0], f[2], f[3]]); }
+    return {kind: h.kind, title: h.title, unit: h.unit, last: h.last, lastDate: h.last_date, dist: h.dist, pts, band: b90, band50: b50.length > 1 ? b50 : null, hist: (h.hist || []).map(p => [monthOf(p[0]), p[1]]).filter(p => p[0] >= -24 && p[0] <= 0.3), thr: h.thr, lw: h.lw, wet: h.pct, body: h.body}; };
+  const PH = {}; if (card && card.hydro) for (const h of card.hydro) if (["rivers", "temp", "gw"].includes(h.kind)) PH[h.kind] = normPanel(h);
+  for (const [layer, s] of [["rivers", sR], ["temp", sT], ["gw", sG]]) if (!PH[layer] && s) { const ser = stationSeries(s), lw = stationWet(s).lowerWetter, f1 = s.forecasts.slice().sort((a, b) => a.h - b.h)[0];
+    PH[layer] = {kind: layer, title: s.name.replace(/\s*\(.*$/, ""), unit: s.unit, last: s.last_value, lastDate: s.last_week, dist: Math.round(kmBetween(s.lat, s.lon, c.lat, c.lon)), pts: ser.pts, band: ser.band, band50: null, hist: [], thr: null, lw, wet: f1 && f1.pct != null ? (lw ? 100 - f1.pct : f1.pct) : null, _s: s}; }
+  const enrich = async p => { if (!p._s) return; const [h, fl] = await Promise.all([fetchHistory(p._s), (async () => { const f = p._s.country && await J(`api/v1/${p._s.country}/${p._s.layer}.json`); return f && f.stations.find(y => y.id === p._s.id); })()]);
+    if (h.length) p.hist = h; if (fl && fl.forecasts && fl.forecasts.length) { const ser = stationSeries({...fl, last_value: fl.last_value}); p.pts = ser.pts; p.band = ser.band; } };
   // ---- soil series: the detailed French cell (history + bands) when the card has it
   const soilS = card && card.soil ? {now: card.soil.now, pts: [[0, card.soil.now]].concat(card.soil.fc.map(f => [monthOf(f[0]), f[1]]).filter(p => p[0] > 0 && p[0] <= 12.2)),
     band: [[0, card.soil.now, card.soil.now]].concat(card.soil.fc.map(f => [monthOf(f[0]), f[4], f[5]]).filter(p => p[0] > 0 && p[0] <= 12.2)), band50: [[0, card.soil.now, card.soil.now]].concat(card.soil.fc.map(f => [monthOf(f[0]), f[2], f[3]]).filter(p => p[0] > 0 && p[0] <= 12.2)),
@@ -910,7 +973,7 @@ async function openCity(c, push = true) {
   const sec = html => { const d = el("div", {}, html); B.appendChild(d); return d; };
   const trendOf = p => { if (!p) return ""; const a = p.pts[0][1], b = interp(p.pts, 6); const vs = p.pts.map(x => x[1]), tol = 0.06 * (Math.max(...vs) - Math.min(...vs) || 1); const d = (b - a) * (p.lw ? -1 : 1); return d > tol ? "↗ " + t("wetter") : d < -tol ? "↘ " + t("drier") : "→ " + t("stable"); };
   const hasCat = !!(card && card.catmap && card.catmap.length);
-  sec(chapter(1, alerts ? (alerts === 1 ? t("ind1") : t("indN").replace("{n}", alerts)) : t("indNone")) + `<div class="ovs" id="ovCity" style="margin-bottom:6px"></div><div class="bleed" id="mapCity"></div><p class="hint" id="mapCityHint">${t("mapHint")}</p><div class="two" style="margin-top:16px"><div class="card"><div class="ind" id="indList"></div></div><div class="stack" id="s1charts"></div></div><div id="clayRow"></div>`);
+  sec(chapter(1, alerts ? (alerts === 1 ? t("ind1") : t("indN").replace("{n}", alerts)) : t("indNone")) + `<div class="ovs" id="ovCity" style="margin-bottom:6px"></div><div class="bleed" id="mapCity"></div><p class="hint" id="mapCityHint">${t("mapHint")}</p><div class="two" style="margin-top:16px"><div class="card"><h3>${alerts ? (alerts === 1 ? t("ind1") : t("indN").replace("{n}", alerts)) : t("indNone")}</h3><div class="ind" id="indList"></div></div><div class="stack" id="s1charts"></div></div><div id="clayRow"></div>`);
   const ind = (sev, ttl, val, sub) => `<div class="it"><span class="dot" style="color:${SEV[sev == null ? 0 : sev]};background:${sev == null ? "var(--line)" : SEV[sev]}"></span><div><h4>${ttl}</h4><b style="color:${SEV[sev == null ? 0 : sev]}">${val}</b><small>${sub || ""}</small></div></div>`;
   $("#indList").innerHTML = [
     ind(sevGw, t("gw") + (PH.gw ? " · " + PH.gw.title : ""), PH.gw ? pctWord(gwWet) : t("nostationShort"), trendOf(PH.gw)),
@@ -927,7 +990,7 @@ async function openCity(c, push = true) {
   if (card && card.clay) { const k = card.clay; $("#clayRow").innerHTML = `<div class="clay"><span>${t("catYears").replace("{c}", c.name)}</span><b style="color:${k.recognised ? SEV[3] : SEV[1] > 0 ? "var(--accent2)" : ""}">${k.recognised == null ? "—" : k.recognised + " " + t("outOf") + " " + k.record}</b></div><p class="fine" style="margin:4px 0 0">${t("catChance").replace("{y}", k.year).replace("{p}", (k.p * 100).toFixed(1)).replace("{r}", Math.round(k.rank * 100))}</p>`; }
   // map card
   { const kx0 = 111.32 * Math.cos(cc.lat * Math.PI / 180), ringsLL = hs.rings.map(r => r.map(p => [cc.lon + p[0] / kx0, cc.lat - p[1] / 111.32])); const R_ = 3.2;
-    cityExtra = {borders: c.iso === "FRA" ? await communeBorders(c.lon, c.lat) : null, name: c.name, iso: c.iso, rings: ringsLL, rivers: (bm && bm.rivers) || [], admin: (bm && bm.admin1) || [], stations: stns, labels: (S.index.t || []).filter(x => x[4] >= 8000 && x[0] !== c.name && Math.abs(x[3] - c.lat) < 3.4 && Math.abs(x[2] - c.lon) < 4.6).sort((a, b) => b[4] - a[4]).slice(0, 40)}; }
+    cityExtra = {borders: await pBord, name: c.name, iso: c.iso, rings: ringsLL, rivers: (bm && bm.rivers) || [], admin: (bm && bm.admin1) || [], stations: stns, labels: (S.index.t || []).filter(x => x[4] >= 8000 && x[0] !== c.name && Math.abs(x[3] - c.lat) < 3.4 && Math.abs(x[2] - c.lon) < 4.6).sort((a, b) => b[4] - a[4]).slice(0, 40)}; }
   cityLayers = {soil, fire, spi, tws, reg, cat: hasCat ? {pts: card.catmap.map(x => ({lon: x[0], lat: x[1], v: x[2]}))} : null}; await buildCityMap(c, tok, hasCat); if (tok !== cityToken) return;
   // enrich fallback panels in the background-ish (bounded wait)
   await Promise.race([Promise.all(Object.values(PH).map(enrich)), new Promise(r => setTimeout(r, 6000))]); if (tok !== cityToken) return;
@@ -935,7 +998,7 @@ async function openCity(c, push = true) {
   const stRows = [[PH.rivers, "river", C1], [PH.temp, "temp", C2], [PH.gw, "gw", C3]].filter(x => x[0]);
   const nLow = ug && ug.bodies ? ug.bodies.filter(b => b.has && b.pct <= 10).length : 0;
   sec(chapter(2, ug && ug.bodies && ug.bodies.length ? t("ugTitle").replace("{n}", ug.n_bodies || ug.bodies.length).replace("{c}", c.name) + (nLow ? t("ugLow").replace("{k}", nLow) : "") : (stRows.length ? t("sensorsT") : t("sensorsNone"))) + (ug && ug.bodies && ug.bodies.length ? `<div class="card wide" id="aqCard"></div>` : "") + `<div class="threecol" id="sensors" style="margin-top:16px"></div>`);
-  if (ug && ug.bodies && ug.bodies.length) aquiferStack($("#aqCard"), ug, hs.rings);
+  if (ug && ug.bodies && ug.bodies.length) aquiferStack($("#aqCard"), ug, hs.rings, ug.bodies.length ? t("ugTitle").replace("{n}", ug.n_bodies || ug.bodies.length).replace("{c}", c.name) + (nLow ? t("ugLow").replace("{k}", nLow) : "") : "");
   for (const [p, key, col] of stRows) { const sev = sevFromWet(p.wet); $("#sensors").appendChild(el("div", {class: "card"}, `<h3>${t(key)}<small>${p.dist} ${t("km")}</small></h3><div class="read"><b style="color:${sev >= 2 ? SEV[sev] : "var(--ink)"}">${p.wet == null ? "" : pctWord(p.wet)}</b><span>${fmt(p.last, 2)} ${p.unit || ""}</span></div><p class="why">${p.title} · ${t("lastMeasure")}: ${p.lastDate || ""}. ${t(key + "Why")}</p>`)); }
   // --- 03 what is coming
   sec(chapter(3, worst && worst[1] >= 1 ? t("comingT") : t("comingT0")) + `<div class="stack" id="s3"></div><div class="threecol" id="s3b" style="margin-top:16px"></div>`);
@@ -973,23 +1036,17 @@ async function openCity(c, push = true) {
   const ordered = [["soil", sevSoil], ["gw", sevGw], ["fire", sevFire], ["spi", sevSpi], ["tws", sevTws]].filter(x => x[1] >= 1).sort((a, b) => b[1] - a[1]).slice(0, 2);
   ordered.forEach((x, i) => A(i + 1, SEV[x[1]], t("a_" + x[0] + "_t"), [t("a_" + x[0] + "_1"), t("a_" + x[0] + "_2")]));
   if (!acts.length) A(1, SEV[0], t("a_none_t"), [t("a_none_1")]);
-  const bt = (co && S.soilBt && S.soilBt.by[co.continent] && S.soilBt.by[co.continent]["13"]) || null, fbt = (co && S.fireBt && S.fireBt.by[co.continent]) || null;
-  const donut = (pct, txt, col) => { const r = 30, C_ = 2 * Math.PI * r; return `<div class="donut"><svg width="78" height="78" viewBox="0 0 78 78"><circle cx="39" cy="39" r="${r}" fill="none" stroke="var(--line)" stroke-width="9"/><circle class="dn" cx="39" cy="39" r="${r}" fill="none" stroke="${col}" stroke-width="9" stroke-linecap="round" stroke-dasharray="0 ${C_}" data-to="${pct / 100 * C_}" data-c="${C_}" transform="rotate(-90 39 39)"/><text x="39" y="44" text-anchor="middle" style="font-weight:800;font-size:16px;fill:var(--ink)">${Math.round(pct)}%</text></svg><p>${txt}</p></div>`; };
-  const lvl = fbt && fbt["3"] && fbt["3"].by_level, hh = "font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--deep);font-weight:700";
+  const perfHref = L === "en" ? "trust_page.html" : `trust_page_${L}.html`;
+  const hh = "font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--deep);font-weight:700";
   sec(chapter(4, t("actT")) + `<div class="card wide"><div style="${hh}">${t("keyDates")}</div><div class="timeline" id="tl"><div class="ax"><i></i></div></div></div><div class="acts" style="margin-top:16px">${acts.join("")}</div>
-    <div class="threecol" style="margin-top:16px"><div class="card"><div style="${hh};margin-bottom:10px">${t("trustT")}</div><div class="donuts">${bt ? donut(bt.closer_than_seasonal * 100, t("trustSoil"), C3) + donut(bt.in80 * 100, t("trustBand"), C1) : `<p class="fine">${t("nodata")}</p>`}</div></div>
-    <div class="card"><div style="${hh};margin-bottom:6px">${t("fireWorth")}</div><div class="plot" id="fbars"></div><p class="fine">${t("fireWorthS")}</p></div></div>
+    <p class="perf"><a href="${perfHref}">${t("perfLink")} →</a></p>
     <div class="cta"><div><h3>${t("ctaT").replace("{n}", c.name)}</h3><p>${t("ctaP")}</p><p><b>${t("ctaQ")}</b> <a href="mailto:antoinedesjard@gmail.com">antoinedesjard@gmail.com</a></p></div><div><a class="btn" href="classic.html">${t("classic")}</a> <a class="btn" href="api/v1/openapi.json" style="margin-left:6px">API</a></div></div>`);
   { const tl = $("#tl"), evEls = []; evs.forEach((e, i) => { const x = 3 + e[0] / 12 * 94, up = i % 2 === 0; const d = el("div", {class: "ev " + (up ? "up" : "dn"), style: `left:${x}%`}, `<b>${e[1]}</b>${e[2]}<span class="pt" style="background:${e[3]}"></span>`); tl.appendChild(d); evEls.push([e[0], d]); });
     const fill = $(".ax i", tl); ups.push(m => { fill.style.width = (m / 12 * 100) + "%"; evEls.forEach(([em, d]) => d.classList.toggle("on", m >= em - 0.05)); }); }
-  if (lvl) { const labs = ["<10%", "10–30%", "30–60%", ">60%"], vals = [0, 1, 2, 3].map(k => (lvl[k] ? lvl[k].fire * 100 : 0)), w = 300, h = 150; const sv = labs.map((l, i) => { const bh = vals[i] / 100 * 100; return `<rect x="${30 + i * 66}" y="${120 - bh}" width="44" height="${bh}" rx="4" fill="${["#D9A04A", "#C4622D", "#A32F2F", "#6b0f1a"][i]}" class="fb" data-h="${bh}" data-y="${120 - bh}"/><text x="${52 + i * 66}" y="${114 - bh}" text-anchor="middle" style="font-weight:700;fill:var(--ink)">${Math.round(vals[i])}%</text><text x="${52 + i * 66}" y="140" text-anchor="middle">${l}</text>`; }).join(""); $("#fbars").innerHTML = `<svg class="ch" viewBox="0 0 ${w} ${h}">${sv}</svg>`;
-    viewOnce($("#fbars"), () => $$(".fb", $("#fbars")).forEach((r, i) => { r.animate([{y: "120px", height: "0px"}, {y: r.dataset.y + "px", height: r.dataset.h + "px"}], {duration: 900, delay: i * 120, easing: "ease-out", fill: "backwards"}); })); }
-  $$(".dn", B).forEach(d => viewOnce(d, () => { d.animate([{strokeDasharray: `0 ${d.dataset.c}`}, {strokeDasharray: `${d.dataset.to} ${d.dataset.c}`}], {duration: 1200, easing: "ease-out", fill: "forwards"}); }));
-  sec(`<div class="fband"><svg viewBox="0 0 1200 24" preserveAspectRatio="none"><path d="M0 0V10C200 24 400 0 600 12C800 24 1000 2 1200 14V0Z" fill="var(--paper)"/></svg><div class="in"><span>PhreAItic · https://phreaitic.github.io</span><span style="max-width:640px">${t("disc")}</span></div></div>`);
   listeners.length = 0; listeners.push(...ups); if (cityMapView) listeners.push(m => cityMapView.draw(m)); setTime(0);
   Hero.onRisen = () => { if (tok === cityToken && !REDUCED) setTimeout(() => startPlay(0), 250); };
 }
-function aquiferStack(host, ug, rings) {       // the aquifers under the town as exploded isometric sheets, shallowest on top
+function aquiferStack(host, ug, rings, title) {       // the aquifers under the town as exploded isometric sheets, shallowest on top
   const bodies = ug.bodies, n = bodies.length, [wx, wy] = ug.win, k45 = 0.70711, sq = 0.42, Wd = 1100, sheetW = n >= 5 ? 330 : 420, sc = sheetW / ((wx + wy) * 2 * k45), cx = 60 + sheetW / 2 + 40;
   const sp = n >= 5 ? 74 : 120, top = 50, sheetH = (wx + wy) * 2 * k45 * sq * sc * 0.5 + 20, Ht = top + (n - 1) * sp + sheetH + 40;
   const iso = (X, Y, cy) => [(cx + (X - Y) * k45 * sc).toFixed(1), (cy - (X + Y) * k45 * sq * sc).toFixed(1)];
@@ -1006,9 +1063,15 @@ function aquiferStack(host, ug, rings) {       // the aquifers under the town as
     sheet += `<circle cx="${cx}" cy="${cy}" r="3" fill="var(--ink)"/><line x1="${cx + sheetW * 0.43}" x2="${lx - 6}" y1="${cy}" y2="${cy}" stroke="var(--line)"/>` + nm.map((l, k) => `<text x="${lx}" y="${cy + 4 + (k - (nm.length - 1) / 2) * 15}" style="fill:var(--ink);font-weight:600;font-size:13px">${l}</text>`).join("") +
       (st == null ? `<text x="${Wd}" y="${cy + 4}" text-anchor="end" style="fill:var(--muted);font-size:12px">${t("noMeasure")}</text>` : `<rect x="${pillX}" y="${cy - 12}" width="112" height="24" rx="12" fill="${pills[st]}"/><text x="${pillX + 56}" y="${cy + 4}" text-anchor="middle" style="fill:#fff;font-weight:700;font-size:12px">${words[st]}</text>`);
     groups.push(`<g class="aq" data-i="${i}" style="opacity:0;transform:translateY(-26px);transition:opacity .6s ease,transform .6s ease">${sheet}</g>`); }
-  host.innerHTML = `<svg viewBox="0 0 ${Wd} ${Ht}" class="ch" style="overflow:visible"><text x="8" y="${top - 22}" style="fill:var(--muted);font-size:12px">${t("depth")}</text><line x1="14" x2="14" y1="${top - 12}" y2="${Ht - 40}" stroke="var(--muted)" marker-end="url(#ah)"/><defs><marker id="ah" viewBox="0 0 8 8" refX="4" refY="6" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L4 8L8 0Z" fill="var(--muted)"/></marker></defs>${g}${groups.join("")}</svg><p class="fine">${t("ugNote")}</p>`;
+  host.innerHTML = `<h3>${title || ""}</h3><svg viewBox="0 0 ${Wd} ${Ht}" class="ch" style="overflow:visible"><text x="8" y="${top - 22}" style="fill:var(--muted);font-size:12px">${t("depth")}</text><line x1="14" x2="14" y1="${top - 12}" y2="${Ht - 40}" stroke="var(--muted)" marker-end="url(#ah)"/><defs><marker id="ah" viewBox="0 0 8 8" refX="4" refY="6" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L4 8L8 0Z" fill="var(--muted)"/></marker></defs>${g}${groups.join("")}</svg><p class="fine">${t("ugNote")}</p>`;
   const gs = [...host.querySelectorAll(".aq")], start = () => gs.slice().sort((a, b) => a.dataset.i - b.dataset.i).forEach((e, k) => setTimeout(() => { e.style.opacity = 1; e.style.transform = "none"; }, REDUCED ? 0 : 160 * k));
   viewOnce(host, start, 0.25);
+}
+let reliefInfo = null;
+function updateGuides() {
+  const g = $("#guides"), cv = $("#reliefMap"); if (!g || !reliefInfo || cv.style.display === "none") { if (g) g.innerHTML = ""; return; }
+  const pr = Hero.projectRings(); if (!pr) return; const sr = $("#stage").getBoundingClientRect(), cr = cv.getBoundingClientRect(), k = cr.width / cv.width, line = (a, b) => `<path d="M${(a[0] - sr.left).toFixed(1)} ${(a[1] - sr.top).toFixed(1)}L${(cr.left + b[0] * k - sr.left).toFixed(1)} ${(cr.top + b[1] * k - sr.top).toFixed(1)}" stroke="var(--muted)" stroke-width="1" stroke-dasharray="2 4" fill="none" opacity=".75"/>`;
+  g.innerHTML = line(pr.left, reliefInfo.left) + line(pr.right, reliefInfo.right);
 }
 function reliefMap(hs, ug) {      // the PDF's second map: outline, elevation contours, drainage
   const cv = $("#reliefMap"), cap = $("#reliefCap"); if (!hs || !hs.H || !hs.rings || !hs.rings.length) { cv.style.display = "none"; cap.textContent = ""; return; }
@@ -1032,6 +1095,8 @@ function reliefMap(hs, ug) {      // the PDF's second map: outline, elevation co
   if (hs.streams) { g.strokeStyle = "#2C7FA8"; g.lineCap = "round"; for (const s of hs.streams) { g.lineWidth = Math.max(1.2, s[4] * sc * 1.8); const a = P(s[0], s[1]), b = P(s[2], s[3]); g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke(); } }
   g.restore(); path(); g.lineWidth = 2.4; g.strokeStyle = dk ? "#e8eef3" : "#14202b"; g.lineJoin = "round"; g.stroke();
   cap.textContent = t("contourEvery").replace("{n}", step);
+  { let lp = null, rp = null; for (const r of hs.rings) for (const p of r) { const q = P(p[0], p[1]); if (!lp || q[0] < lp[0]) lp = q; if (!rp || q[0] > rp[0]) rp = q; } reliefInfo = {left: lp, right: rp}; }
+  Hero.onFrame = updateGuides;
 }
 function countUp(node, v, f) { if (v == null) { node.textContent = "—"; return; } if (REDUCED) { node.textContent = f(v); return; } const t0 = performance.now(); const s = now => { const k = EASE((now - t0 - 500) / 1600); node.textContent = f(v * k); if (k < 1) requestAnimationFrame(s); }; requestAnimationFrame(s); }
 function fillTicks() { const tk = $("#ticks"); tk.innerHTML = ""; for (let m = 0; m <= 12; m += 3) tk.appendChild(el("span", {}, dateAt(m).toLocaleDateString(L, {month: "short"}))); }
@@ -1146,7 +1211,6 @@ async function boot() {
   document.addEventListener("click", e => { if (!e.target.closest(".search")) $("#res").style.display = "none"; });
   const [world, index] = await Promise.all([J(WORLD_FILE), J("search_index.json")]);
   S.world = world || []; S.index = index || {c: [], t: []};
-  J("world_soil.json").then(d => S.soilBt = d && d.backtest); J("world_fire.json").then(d => S.fireBt = d && d.backtest);
   const h = new URLSearchParams(location.hash.slice(1));
   if (h.get("country")) { S.ov = h.get("ov") || "soil"; S.country = h.get("country"); await openCountry(h.get("country"), false); return; }
   let c = DEFAULT_CITY;
