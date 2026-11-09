@@ -503,7 +503,10 @@ class MapView {
     const og = this.off.getContext("2d"), img = og.createImageData(gw, gh), id = img.data;
     for (let i = 0; i < gw * gh; i++) { const v = vals[i]; if (!isFinite(v)) continue; const col = ovColor(this.ov, v); id[i * 4] = col[0]; id[i * 4 + 1] = col[1]; id[i * 4 + 2] = col[2]; id[i * 4 + 3] = 255; }
     og.putImageData(img, 0, 0); c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high"; c.drawImage(this.off, 0, 0, gw * S2, gh * S2);
-    if (d.pts) {      // commune borders: the edges between nearest-point cells, as thin dark lines
+    if (X.borders && X.borders.length) { c.restore(); c.save(); landPath(); c.clip(); c.strokeStyle = dk ? "rgba(232,238,243,.45)" : "rgba(28,40,48,.7)"; c.lineWidth = 0.8; c.lineJoin = "round"; c.beginPath();
+      for (const r of X.borders) { if (r.x1 < bb[0] || r.x0 > bb[2] || r.y1 < bb[1] || r.y0 > bb[3]) continue; const a = r.p; for (let i = 0; i < a.length; i += 2) { const q = this.px(a[i], a[i + 1]); i ? c.lineTo(q[0], q[1]) : c.moveTo(q[0], q[1]); } }
+      c.stroke(); }
+    else if (d.pts) {      // no boundaries for this country: the edges between nearest-point cells, as thin dark lines
       if (!this.sEdge) { const e = document.createElement("canvas"); e.width = gw; e.height = gh; const eg = e.getContext("2d"), ei = eg.createImageData(gw, gh), ed = ei.data, ix = this.sIdx; for (let y = 0; y < gh - 1; y++) for (let x = 0; x < gw - 1; x++) { const i = y * gw + x; if ((ix[i] !== ix[i + 1] || ix[i] !== ix[i + gw]) && isFinite(vals[i])) { ed[i * 4] = 28; ed[i * 4 + 1] = 40; ed[i * 4 + 2] = 48; ed[i * 4 + 3] = 105; } } eg.putImageData(ei, 0, 0); this.sEdge = e; }
       c.drawImage(this.sEdge, 0, 0, gw * S2, gh * S2); }
     c.restore();
@@ -922,7 +925,7 @@ async function openCity(c, push = true) {
   if (card && card.clay) { const k = card.clay; $("#clayRow").innerHTML = `<div class="clay"><span>${t("catYears").replace("{c}", c.name)}</span><b style="color:${k.recognised ? SEV[3] : SEV[1] > 0 ? "var(--accent2)" : ""}">${k.recognised == null ? "—" : k.recognised + " " + t("outOf") + " " + k.record}</b></div><p class="fine" style="margin:4px 0 0">${t("catChance").replace("{y}", k.year).replace("{p}", (k.p * 100).toFixed(1)).replace("{r}", Math.round(k.rank * 100))}</p>`; }
   // map card
   { const kx0 = 111.32 * Math.cos(cc.lat * Math.PI / 180), ringsLL = hs.rings.map(r => r.map(p => [cc.lon + p[0] / kx0, cc.lat - p[1] / 111.32])); const R_ = 3.2;
-    cityExtra = {name: c.name, iso: c.iso, rings: ringsLL, rivers: (bm && bm.rivers) || [], admin: (bm && bm.admin1) || [], stations: stns, labels: (S.index.t || []).filter(x => x[4] >= 8000 && x[0] !== c.name && Math.abs(x[3] - c.lat) < 3.4 && Math.abs(x[2] - c.lon) < 4.6).sort((a, b) => b[4] - a[4]).slice(0, 40)}; }
+    cityExtra = {borders: c.iso === "FRA" ? await communeBorders(c.lon, c.lat) : null, name: c.name, iso: c.iso, rings: ringsLL, rivers: (bm && bm.rivers) || [], admin: (bm && bm.admin1) || [], stations: stns, labels: (S.index.t || []).filter(x => x[4] >= 8000 && x[0] !== c.name && Math.abs(x[3] - c.lat) < 3.4 && Math.abs(x[2] - c.lon) < 4.6).sort((a, b) => b[4] - a[4]).slice(0, 40)}; }
   cityLayers = {soil, fire, spi, tws, reg, cat: hasCat ? {pts: card.catmap.map(x => ({lon: x[0], lat: x[1], v: x[2]}))} : null}; await buildCityMap(c, tok, hasCat); if (tok !== cityToken) return;
   // enrich fallback panels in the background-ish (bounded wait)
   await Promise.race([Promise.all(Object.values(PH).map(enrich)), new Promise(r => setTimeout(r, 6000))]); if (tok !== cityToken) return;
@@ -1039,8 +1042,17 @@ async function buildCityMap(c, tok, hasCat) {
   setCityOv(ov, c); viewOnce(h, () => { if (!S.playing && tok === cityToken) startPlay(0); }, 0.4);
 }
 function setCityOv(ov, c) {
-  const d = cityLayers[ov], R = ov === "cat" ? 0.36 : 3.2, k = Math.cos(c.lat * Math.PI / 180), asp = ov === "cat" ? 2.45 : 1.25; cityMapView.setView([c.lon - R / k * asp, c.lat - R, c.lon + R / k * asp, c.lat + R]);
+  const d = cityLayers[ov], R = ov === "cat" ? 0.3 : 3.2, k = Math.cos(c.lat * Math.PI / 180), asp = ov === "cat" ? 2.45 : 1.25; cityMapView.setView([c.lon - R / k * asp, c.lat - R, c.lon + R / k * asp, c.lat + R]);
   const data = ov === "reg" && d ? {areas: d.areas.filter(a => Math.abs(a.lon - c.lon) < 8 && Math.abs(a.lat - c.lat) < 8), kind: "reg"} : d; cityMapView.extra = cityExtra; cityMapView.set(data, ov, null, c); cityMapView.draw(S.m);
+}
+async function communeBorders(lon, lat) {       // real commune boundaries around a French town (geo.api.gouv.fr, simplified), only the départements the map window touches
+  const idx = await J("communes/index.json"); if (!idx) return null; const w = [lon - 1.3, lat - 0.6, lon + 1.3, lat + 0.6], out = [];
+  const ds = Object.keys(idx).filter(k => { const b = idx[k]; return !(b[2] < w[0] || b[0] > w[2] || b[3] < w[1] || b[1] > w[3]); });
+  for (const d of await Promise.all(ds.map(k => J(`communes/${k}.json`)))) { if (!d) continue;
+    for (const r of d.r) { const p = new Float64Array(r.length); let x = r[0], y = r[1]; p[0] = x / 1e4; p[1] = y / 1e4; let x0 = p[0], x1 = p[0], y0 = p[1], y1 = p[1];
+      for (let i = 2; i < r.length; i += 2) { x += r[i]; y += r[i + 1]; p[i] = x / 1e4; p[i + 1] = y / 1e4; if (p[i] < x0) x0 = p[i]; if (p[i] > x1) x1 = p[i]; if (p[i + 1] < y0) y0 = p[i + 1]; if (p[i + 1] > y1) y1 = p[i + 1]; }
+      out.push({p, x0, x1, y0, y1}); } }
+  return out;
 }
 async function nearestTownOpen(lon, lat) {
   const ix = S.index; if (!ix) return; let best = null, bd = (80 / 111.32) ** 2;
