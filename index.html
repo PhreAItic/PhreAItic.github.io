@@ -847,14 +847,15 @@ async function openCity(c, push = true) {
   document.title = c.name + " · PhreAItic";
   const [soil, fire, spi, tws, reg, stns, T, bm] = await Promise.all([soilCells(c.iso), fireCells(c.iso), tileCells("spi", [c.lon, c.lat, c.lon, c.lat]), tileCells("tws", [c.lon, c.lat, c.lon, c.lat]), regAreas(c.iso), stationsNear(c.lat, c.lon), J(`terrain/${c.iso}.json`), J(`basemap/${c.iso}.json`)]);
   if (tok !== cityToken) return; setTime(0); fillTicks();
-  const card = (c.pop >= 100000 || c.iso === "FRA") ? await J(`cards/${c.iso}/${(+c.lon).toFixed(4)}_${(+c.lat).toFixed(4)}.json`) : null; if (tok !== cityToken) return;
-  let ent = null; if (T) { let bd = 0.2 ** 2; for (const e of T.t) { const dd = dist2(e[2], e[1], c.lat, c.lon); if (norm(e[0]) === norm(c.name) && dd < bd) { bd = dd; ent = e; } } if (!ent) { bd = 0.03 ** 2; for (const e of T.t) { const dd = dist2(e[2], e[1], c.lat, c.lon); if (dd < bd) { bd = dd; ent = e; } } } }
-  const kxy = (a) => a; let rings, W, areaKm2, cc = c;
+  const card = (c.pop >= 50000 || c.iso === "FRA") ? await J(`cards/${c.iso}/${(+c.lon).toFixed(4)}_${(+c.lat).toFixed(4)}.json`) : null; if (tok !== cityToken) return;
+  let ent = null; if (T) { let bd = 0.2 ** 2; for (const e of T.t) { const dd = dist2(e[2], e[1], c.lat, c.lon); if (norm(e[0]) === norm(c.name) && dd < bd) { bd = dd; ent = e; } } if (!ent) { bd = 0.03 ** 2; for (const e of T.t) { const dd = dist2(e[2], e[1], c.lat, c.lon); if (dd < bd && (!c.pop || (e[3] > 0.6 * c.pop && e[3] < 1.7 * c.pop))) { bd = dd; ent = e; } } } }
+  let rings, W, areaKm2, cc = c, shiftXZ = [0, 0], oe = null;
+  if (!ent) { const O = await J(`outlines/${c.iso}.json`); if (O) { let bd2 = 0.2 ** 2; for (const e of O.t) { const dd = dist2(e[2], e[1], c.lat, c.lon); if (norm(e[0]) === norm(c.name) && dd < bd2) { bd2 = dd; oe = e; } } if (!oe) { bd2 = 0.03 ** 2; for (const e of O.t) { const dd = dist2(e[2], e[1], c.lat, c.lon); if (dd < bd2 && (!c.pop || (e[3] > 0.6 * c.pop && e[3] < 1.7 * c.pop))) { bd2 = dd; oe = e; } } } } if (tok !== cityToken) return; }
   if (ent && ent[9]) { rings = ent[9].map(r => { const o = []; for (let i = 0; i < r.length; i += 2) o.push([r[i] / 100, -r[i + 1] / 100]); return o; }); W = ent[7]; areaKm2 = ent[8]; }
-  else { const o = await osmOutline(c); if (tok !== cityToken) return; const r = clamp(2.6 * Math.sqrt((c.pop || 20000) / 1e5) + 1.2, 1.2, 18);
+  else { const o = oe ? {rings: oe[6].map(r => { const q = []; for (let i = 0; i < r.length; i += 2) q.push([r[i] / 100, -r[i + 1] / 100]); return q; }), area: oe[5]} : await osmOutline(c); if (tok !== cityToken) return; const r = clamp(2.6 * Math.sqrt((c.pop || 20000) / 1e5) + 1.2, 1.2, 18);
     if (o) { rings = o.rings; areaKm2 = o.area; } else { rings = [Array.from({length: 48}, (_, i) => [Math.cos(i / 48 * 6.2832) * r * 0.7, Math.sin(i / 48 * 6.2832) * r * 0.7])]; areaKm2 = Math.PI * (r * 0.7) ** 2; }
     if (!ent) { let x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9; for (const q of rings) for (const p of q) { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); z0 = Math.min(z0, p[1]); z1 = Math.max(z1, p[1]); }
-      const cx = (x0 + x1) / 2, cz = (z0 + z1) / 2, kx = 111.32 * Math.cos(c.lat * Math.PI / 180); rings = rings.map(q => q.map(p => [p[0] - cx, p[1] - cz]));
+      const cx = (x0 + x1) / 2, cz = (z0 + z1) / 2, kx = 111.32 * Math.cos(c.lat * Math.PI / 180); shiftXZ = [cx, cz]; rings = rings.map(q => q.map(p => [p[0] - cx, p[1] - cz]));
       cc = {...c, lon: c.lon + cx / kx, lat: c.lat - cz / 111.32}; const Wg = clamp(Math.max((x1 - x0) / 2 / 1.6, (z1 - z0) / 2) * 1.4, 2.5, 20); W = Wg * 2; } }
   const pick = layer => { let best = null, bd2 = 150 ** 2; for (const s of stns) if (s.layer === layer && s.forecasts && s.forecasts.length) { const d = kmBetween(s.lat, s.lon, c.lat, c.lon) ** 2; if (d < bd2) { bd2 = d; best = s; } } return best; };
   const sR = pick("rivers"), sT = pick("temp"), sG = pick("gw");
@@ -873,7 +874,8 @@ async function openCity(c, push = true) {
   const pins = [sR && {...sR, color: C1}, sT && {...sT, color: C2}, sG && {...sG, color: C3}].filter(Boolean);
   const neigh = (S.index.t || []).filter(x => x[4] >= 1500 && x[0] !== c.name && Math.abs(x[3] - c.lat) < 0.5 && Math.abs(x[2] - c.lon) < 0.8).sort((a, b) => b[4] - a[4]).slice(0, 70).map(x => [x[0], x[1], x[2], x[3]]);
   let Wg; { let hx = 0, hz = 0; for (const q of rings) for (const p of q) { hx = Math.max(hx, Math.abs(p[0])); hz = Math.max(hz, Math.abs(p[1])); } Wg = clamp(Math.max(hx / 1.6, hz) * 1.4, 2.5, 26); if (Wg * 2 > W) W = Wg * 2; }
-  const lu = ent ? await J(`landuse/${c.iso}/${(+ent[1]).toFixed(4)}_${(+ent[2]).toFixed(4)}.json`) : null; if (tok !== cityToken) return;
+  const lsrc = ent || oe; let lu = lsrc ? await J(`landuse/${c.iso}/${(+lsrc[1]).toFixed(4)}_${(+lsrc[2]).toFixed(4)}.json`) : null; if (tok !== cityToken) return;
+  if (lu && (shiftXZ[0] || shiftXZ[1])) lu = {...lu, b: [lu.b[0] - shiftXZ[0], lu.b[1] - shiftXZ[1], lu.b[2] - shiftXZ[0], lu.b[3] - shiftXZ[1]]};
   const ug = ent && c.iso === "FRA" ? await J(`underground/FRA/${(+ent[1]).toFixed(4)}_${(+ent[2]).toFixed(4)}.json`) : null; if (tok !== cityToken) return;
   await Hero.load(cc, {ent, W, Wg, rings, basemap: bm, neigh, pins, lu});
   if (tok !== cityToken) return; $("#skel").style.opacity = 0;
