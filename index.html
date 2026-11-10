@@ -174,6 +174,18 @@ body.m-city .timebar button,body.m-city #loopL{display:none}
 #bulletin>div{margin-top:28px}
 .perf{margin:26px 0 0;text-align:center;font-size:15px}.perf a{font-weight:700}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* compact legend strip under the maps */
+.herometa{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;padding:8px 4px 10px}
+.herometa .hm{display:contents}
+.herometa .h4,.herometa #midS,.herometa .elegend{display:none}
+.herometa #clayLegend{display:contents}
+.herometa .lgl{flex-direction:row;flex-wrap:wrap;gap:4px 14px;margin:0;font-size:12.5px}
+.herometa #lgItems{order:1}.herometa #clayLegend .lgl{order:2}
+.herometa .nums{display:contents}
+.herometa .num{order:3;margin:0;display:flex;align-items:baseline;gap:6px}.herometa .num b{display:inline;font-size:15px}.herometa .num span{font-size:12px}
+.herometa .fine{text-align:left;order:5;flex-basis:100%;margin:0;font-size:11.5px;line-height:1.35}
+.herometa #hNote{order:6}.herometa #reliefCap{order:4}
+@media (max-width:860px){.herometa{grid-template-columns:none}}
 </style>
 </head>
 <body class="m-city">
