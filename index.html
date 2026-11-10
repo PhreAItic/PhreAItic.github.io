@@ -114,6 +114,7 @@ body.m-country #city{display:none}body.m-country #country{display:block}
 .hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:pan-y}
 .hero .skel{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:13px;pointer-events:none;transition:opacity .6s}
 .stage{position:relative}.guides{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:2}
+.reliefwrap{max-width:860px;margin:0 auto;padding:0 4px}.reliefwrap canvas{display:block}
 .herometa{display:grid;grid-template-columns:1fr 1.8fr 1fr;gap:24px;padding:6px 4px 10px;border-bottom:1px solid var(--line)}
 .hm .h4{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:8px}
 .hm.mid{text-align:center}.hm.mid .h4{font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink)}
@@ -194,9 +195,10 @@ body.m-city .timebar button,body.m-city #loopL{display:none}
     </div>
     <div class="stage" id="stage"><svg class="guides" id="guides"></svg>
     <div class="hero" id="hero"><canvas id="gl"></canvas><div class="skel" id="skel"></div></div>
+    <div class="reliefwrap"><canvas id="reliefMap" style="width:100%;display:none"></canvas></div>
     <div class="herometa">
       <div class="hm"><div class="h4" id="lgT"></div><div class="elegend"><i></i><div><span id="eMin"></span><span id="eMax"></span></div></div><div class="lgl" id="lgItems"></div><p class="fine" id="hNote"></p></div>
-      <div class="hm mid"><div class="h4" id="midT"></div><p class="fine" id="midS" style="display:none"></p><canvas id="reliefMap" style="width:100%;display:none"></canvas><p class="fine" id="reliefCap"></p><div id="clayLegend" style="text-align:left"></div></div>
+      <div class="hm mid"><div class="h4" id="midT"></div><p class="fine" id="midS" style="display:none"></p><p class="fine" id="reliefCap"></p><div id="clayLegend" style="text-align:left"></div></div>
       <div class="hm nums"><div class="h4" id="numT"></div><div class="num"><b id="nElev"></b><span id="nElevS"></span></div><div class="num"><b id="nArea"></b><span id="nAreaS"></span></div><div class="num"><b id="nDens"></b><span id="nDensS"></span></div></div>
     </div>
     </div>
