@@ -114,7 +114,7 @@ body.m-country #city{display:none}body.m-country #country{display:block}
 .hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:pan-y}
 .hero .skel{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:13px;pointer-events:none;transition:opacity .6s}
 .stage{position:relative}.guides{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:2}
-.reliefwrap{max-width:860px;margin:0 auto;padding:0 4px}.reliefwrap canvas{display:block}
+.reliefwrap{margin:0}.reliefwrap canvas{display:block;width:100%}
 .herometa{display:grid;grid-template-columns:1fr 1.8fr 1fr;gap:24px;padding:6px 4px 10px;border-bottom:1px solid var(--line)}
 .hm .h4{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:8px}
 .hm.mid{text-align:center}.hm.mid .h4{font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink)}
@@ -871,6 +871,29 @@ const Hero = (() => {
     const wp = wallGeo.attributes.position.array; for (let i = 0; i < wallBase.length; i++) { const p = wallBase[i]; wp[i * 6 + 1] = rise * (st.baseT + hGrid(p[0], p[1])) + 0.0005; wp[i * 6 + 4] = 0; } wallGeo.attributes.position.needsUpdate = true;
     for (const s of streams) { const a = s.mesh.geometry.attributes.position.array, P = s.P, off = 0.012 * st.Wg; if (s.quad) { for (let k = 0; k < P.length; k += 4) { let n = 0; for (let m = 0; m < 4; m++) n += insideAt(P[k + m][0], P[k + m][1]) ? 1 : 0; for (let m = 0; m < 4; m++) a[(k + m) * 3 + 1] = n % 4 ? -0.5 * st.W : surf(P[k + m][0], P[k + m][1]) + off; } } else for (let i = 0; i < P.length; i++) { const y = surf(P[i][0], P[i][1]) + off; a[i * 6 + 1] = y; a[i * 6 + 4] = y; } s.mesh.geometry.attributes.position.needsUpdate = true; }
   }
+  let R2 = null, scene2, cam2, gMesh = null, gRings = null, gH = 0, gProj = null;
+  function clearGround() { gMesh = null; gProj = null; const cv = $("#reliefMap"); if (cv) cv.style.display = "none"; }
+  function setGround(oc, W) {     // the flat clay/relief map, drawn through the same camera so it keeps the block's tilt and x-position
+    const cv = $("#reliefMap");
+    if (!R2) { try { R2 = new THREE.WebGLRenderer({canvas: cv, antialias: true, alpha: true}); } catch (e) { cv.style.display = "none"; return false; } R2.setPixelRatio(Math.min(devicePixelRatio || 1, 2)); scene2 = new THREE.Scene(); cam2 = new THREE.PerspectiveCamera(32, 1, 0.1, 500); }
+    if (gMesh) { scene2.remove(gMesh); gMesh.geometry.dispose(); gMesh.material.map.dispose(); gMesh.material.dispose(); }
+    const tex = new THREE.CanvasTexture(oc); tex.anisotropy = 8; const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array([-W, 0, -W, W, 0, -W, -W, 0, W, W, 0, W]), 3)); geo.setAttribute("uv", new THREE.BufferAttribute(new Float32Array([0, 1, 1, 1, 0, 0, 1, 0]), 2)); geo.setIndex([0, 2, 1, 1, 2, 3]);
+    gMesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({map: tex, transparent: true, depthWrite: false, side: THREE.DoubleSide})); scene2.add(gMesh);
+    gRings = []; for (const r of st.rings) for (const p of r) gRings.push(p[0], p[1]); gH = 0; gProj = null; if (R2) R2._w = 0; cv.style.display = "block"; return true;
+  }
+  function renderGround() {
+    if (!R2 || !gMesh || !st || !gRings) return; const hw = R.domElement.clientWidth, hh = R.domElement.clientHeight; if (!hw || !hh) return; const v = new THREE.Vector3(); let y0 = 1e9, y1 = -1e9, L_ = null, R_ = null;
+    for (let i = 0; i < gRings.length; i += 2) { v.set(gRings[i], 0, gRings[i + 1]).project(cam); const x = (v.x + 1) / 2 * hw, y = (1 - v.y) / 2 * hh; if (y < y0) y0 = y; if (y > y1) y1 = y; if (!L_ || x < L_[0]) L_ = [x, y]; if (!R_ || x > R_[0]) R_ = [x, y]; }
+    const pad = Math.max(10, hw * 0.012), need = y1 - y0 + 2 * pad; if (R2._w !== hw) gH = need; else if (need > gH) gH = need; const h = Math.round(gH);
+    if (R2._w !== hw || R2._h !== h) { R2.setSize(hw, h, false); $("#reliefMap").style.height = h + "px"; R2._w = hw; R2._h = h; }
+    const offY = (y0 + y1) / 2 - h / 2; cam2.position.copy(cam.position); cam2.quaternion.copy(cam.quaternion); cam2.fov = cam.fov; cam2.aspect = cam.aspect; cam2.near = cam.near; cam2.far = cam.far; cam2.setViewOffset(hw, hh, 0, offY, hw, h); R2.render(scene2, cam2);
+    gProj = {offY, left: L_, right: R_, h};
+  }
+  function groundGuides() {   // client-px pairs (point on the block's base -> same point on the flat map)
+    if (!gProj) return null; const a = $("#gl").getBoundingClientRect(), b = $("#reliefMap").getBoundingClientRect(), p = gProj;
+    return [[[a.left + p.left[0], a.top + p.left[1]], [b.left + p.left[0], b.top + p.left[1] - p.offY]], [[a.left + p.right[0], a.top + p.right[1]], [b.left + p.right[0], b.top + p.right[1] - p.offY]]];
+  }
   let lastRise = -1, lastT = performance.now();
   function loop() {
     requestAnimationFrame(loop); const now = performance.now(), dt = (now - lastT) / 1000; lastT = now; if (!topGeo || document.hidden) return;
@@ -878,14 +901,14 @@ const Hero = (() => {
     if (rise !== lastRise) { update(); lastRise = rise; }
     flowU.value += dt * speed * 0.3; const W = st.W;
     hAz += (-hov.x * 0.9 - hAz) * 0.08; hPol += (hov.y * 0.55 - hPol) * 0.08; const az2 = az + hAz, pol2 = clamp(pol + hPol, 0.3, 1.42);
-    cam.position.set(dist * Math.sin(pol2) * Math.sin(az2), dist * Math.cos(pol2), dist * Math.sin(pol2) * Math.cos(az2)); cam.lookAt(0, st.Hd * 0.25, 0.04 * st.Wg); R.render(scene, cam); if (Hero.onFrame) Hero.onFrame();
+    cam.position.set(dist * Math.sin(pol2) * Math.sin(az2), dist * Math.cos(pol2), dist * Math.sin(pol2) * Math.cos(az2)); cam.lookAt(0, st.Hd * 0.25, 0.04 * st.Wg); R.render(scene, cam); renderGround(); if (Hero.onFrame) Hero.onFrame();
   }
   function projectRings() {      // screen positions (client px) of the outline's left-most and right-most points on the ground
     if (!st || !st.rings || !cam) return null; const cvr = $("#gl").getBoundingClientRect(), v = new THREE.Vector3(); let L_ = null, R_ = null;
     for (const r of st.rings) for (const p of r) { v.set(p[0], 0, p[1]).project(cam); const x = cvr.left + (v.x + 1) / 2 * cvr.width, y = cvr.top + (1 - v.y) / 2 * cvr.height; if (!L_ || x < L_[0]) L_ = [x, y]; if (!R_ || x > R_[0]) R_ = [x, y]; }
     return {left: L_, right: R_};
   }
-  return {projectRings, load, setSpeed(v) { speed = v; }, retheme: null, onRisen: null, stats: () => st, init};
+  return {projectRings, setGround, clearGround, groundGuides, load, setSpeed(v) { speed = v; }, retheme: null, onRisen: null, stats: () => st, init};
 })();
 
 /* ============================================================ the bulletin (page 1 = hero; the rest below) */
@@ -1069,35 +1092,33 @@ function aquiferStack(host, ug, rings, title) {       // the aquifers under the 
   const gs = [...host.querySelectorAll(".aq")], start = () => gs.slice().sort((a, b) => a.dataset.i - b.dataset.i).forEach((e, k) => setTimeout(() => { e.style.opacity = 1; e.style.transform = "none"; }, REDUCED ? 0 : 160 * k));
   viewOnce(host, start, 0.25);
 }
-let reliefInfo = null;
 function updateGuides() {
-  const g = $("#guides"), cv = $("#reliefMap"); if (!g || !reliefInfo || cv.style.display === "none") { if (g) g.innerHTML = ""; return; }
-  const pr = Hero.projectRings(); if (!pr) return; const sr = $("#stage").getBoundingClientRect(), cr = cv.getBoundingClientRect(), k = cr.width / cv.width, line = (a, b) => `<path d="M${(a[0] - sr.left).toFixed(1)} ${(a[1] - sr.top).toFixed(1)}L${(cr.left + b[0] * k - sr.left).toFixed(1)} ${(cr.top + b[1] * k - sr.top).toFixed(1)}" stroke="var(--muted)" stroke-width="1" stroke-dasharray="2 4" fill="none" opacity=".75"/>`;
-  g.innerHTML = line(pr.left, reliefInfo.left) + line(pr.right, reliefInfo.right);
+  const g = $("#guides"); if (!g) return; const gg = Hero.groundGuides(); if (!gg || $("#reliefMap").style.display === "none") { g.innerHTML = ""; return; }
+  const sr = $("#stage").getBoundingClientRect(), line = ([a, b]) => `<path d="M${(a[0] - sr.left).toFixed(1)} ${(a[1] - sr.top).toFixed(1)}L${(b[0] - sr.left).toFixed(1)} ${(b[1] - sr.top).toFixed(1)}" stroke="var(--muted)" stroke-width="1" stroke-dasharray="2 4" fill="none" opacity=".75"/>`;
+  g.innerHTML = gg.map(line).join("");
 }
 function reliefMap(hs, ug) {      // the PDF's second map: outline, elevation contours, drainage
-  const cv = $("#reliefMap"), cap = $("#reliefCap"); if (!hs || !hs.H || !hs.rings || !hs.rings.length) { cv.style.display = "none"; cap.textContent = ""; return; }
-  cv.style.display = "block"; const N = 129, W = hs.W; let x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9; for (const r of hs.rings) for (const p of r) { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); z0 = Math.min(z0, p[1]); z1 = Math.max(z1, p[1]); }
-  const cw = 720, pad = 16, sc = Math.min((cw - 2 * pad) / (x1 - x0), 360 / (z1 - z0)), ch = Math.round((z1 - z0) * sc + 2 * pad); cv.width = cw; cv.height = ch; const g = cv.getContext("2d");
-  const P = (x, z) => [cw / 2 + (x - (x0 + x1) / 2) * sc, ch / 2 + (z - (z0 + z1) / 2) * sc], dk = document.documentElement.dataset.theme === "dark";
+  const cap = $("#reliefCap"); if (!hs || !hs.H || !hs.rings || !hs.rings.length) { Hero.clearGround(); cap.textContent = ""; return; }
+  const N = 129, W = hs.W, S = 2048, sc = S / (2 * W), cv = document.createElement("canvas"); cv.width = cv.height = S; const g = cv.getContext("2d"), cw = S, ch = S, lw = S / 1000;
+  const P = (x, z) => [(x + W) * sc, (z + W) * sc], dk = document.documentElement.dataset.theme === "dark";
   g.clearRect(0, 0, cw, ch); const path = () => { g.beginPath(); for (const r of hs.rings) { r.forEach((p, i) => { const q = P(p[0], p[1]); i ? g.lineTo(q[0], q[1]) : g.moveTo(q[0], q[1]); }); g.closePath(); } };
   path(); g.fillStyle = dk ? "#6e5a3c" : "#E0B573"; g.fill(); g.save(); path(); g.clip();
   const cl = ug && ug.clay; $("#clayLegend").innerHTML = "";
   if (cl) { const [w, h] = cl.n, [bx0, bz0, bx1, bz1] = cl.b, cwid = (bx1 - bx0) / (w - 1), chei = (bz1 - bz0) / (h - 1), bin = atob(cl.d), grid = new Uint8Array(w * h); let o = 0; for (let i = 0; i < bin.length; i++) { const b = bin.charCodeAt(i), r = (b & 31) + 1; grid.fill(b >> 5, o, o + r); o += r; }
-    const col = [null, "#EDEEE8", "#F1E3C8", "#E0B573", "#8F6E4B"]; for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) { const v = grid[j * w + i]; if (!v) continue; const a = P(bx0 + i * cwid - cwid / 2, bz0 + j * chei - chei / 2); g.fillStyle = col[v]; g.fillRect(a[0], a[1], cwid * sc + 1, Math.abs(chei) * sc + 1); }
+    const col = [null, "#EDEEE8", "#F1E3C8", "#E0B573", "#8F6E4B"]; for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) { const v = grid[j * w + i]; if (!v) continue; const a = P(bx0 + i * cwid - cwid / 2, bz0 + j * chei - chei / 2); g.fillStyle = col[v]; g.fillRect(a[0], a[1], cwid * sc + 2, Math.abs(chei) * sc + 2); }
     const sh = cl.sh || {}; $("#clayLegend").innerHTML = `<div class="h4" style="margin-top:12px">${t("underComm")}</div><div class="lgl"><span><s class="sq" style="background:#E0B573"></s>${t("hazMed")}</span><span><s class="sq" style="background:#8F6E4B"></s>${t("hazHigh")}</span></div><p class="fine">${t("hazShares").replace("{h}", Math.round((sh[3] || 0) * 100)).replace("{m}", Math.round((sh[2] || 0) * 100))}</p>`; }
   const step = [1, 2, 5, 10, 20, 50, 100, 200].find(v => hs.range / v <= 14) || 200, H = hs.Hraw, gx = i => ((i / (N - 1)) - .5) * 2 * W;
-  const lo = Math.ceil(hs.emin / step) * step; g.lineWidth = 0.8;
+  const lo = Math.ceil(hs.emin / step) * step; g.lineWidth = 0.8 * lw;
   for (let lv = lo; lv <= hs.emax; lv += step) { g.strokeStyle = (Math.round(lv / step) % 5 === 0) ? "rgba(60,50,40,.75)" : "rgba(60,50,40,.35)"; g.beginPath();
     for (let j = 0; j < N - 1; j++) for (let i = 0; i < N - 1; i++) { const a = H[j * N + i] - lv, b = H[j * N + i + 1] - lv, c2 = H[(j + 1) * N + i + 1] - lv, d = H[(j + 1) * N + i] - lv, pts = [];
       const edge = (u, v, ax, az, bx, bz) => { if ((u < 0) !== (v < 0)) { const f = u / (u - v); pts.push([ax + (bx - ax) * f, az + (bz - az) * f]); } };
       edge(a, b, gx(i), gx(j), gx(i + 1), gx(j)); edge(b, c2, gx(i + 1), gx(j), gx(i + 1), gx(j + 1)); edge(c2, d, gx(i + 1), gx(j + 1), gx(i), gx(j + 1)); edge(d, a, gx(i), gx(j + 1), gx(i), gx(j));
       if (pts.length >= 2) { const q1 = P(pts[0][0], pts[0][1]), q2 = P(pts[1][0], pts[1][1]); g.moveTo(q1[0], q1[1]); g.lineTo(q2[0], q2[1]); } }
     g.stroke(); }
-  if (hs.streams) { g.strokeStyle = "#2C7FA8"; g.lineCap = "round"; for (const s of hs.streams) { g.lineWidth = Math.max(1.2, s[4] * sc * 1.8); const a = P(s[0], s[1]), b = P(s[2], s[3]); g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke(); } }
-  g.restore(); path(); g.lineWidth = 2.4; g.strokeStyle = dk ? "#e8eef3" : "#14202b"; g.lineJoin = "round"; g.stroke();
+  if (hs.streams) { g.strokeStyle = "#2C7FA8"; g.lineCap = "round"; for (const s of hs.streams) { g.lineWidth = Math.max(1.2 * lw, s[4] * sc * 1.8); const a = P(s[0], s[1]), b = P(s[2], s[3]); g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke(); } }
+  g.restore(); path(); g.lineWidth = 2.4 * lw; g.strokeStyle = dk ? "#e8eef3" : "#14202b"; g.lineJoin = "round"; g.stroke();
   cap.textContent = t("contourEvery").replace("{n}", step);
-  { let lp = null, rp = null; for (const r of hs.rings) for (const p of r) { const q = P(p[0], p[1]); if (!lp || q[0] < lp[0]) lp = q; if (!rp || q[0] > rp[0]) rp = q; } reliefInfo = {left: lp, right: rp}; }
+  Hero.setGround(cv, W);
   Hero.onFrame = updateGuides;
 }
 function countUp(node, v, f) { if (v == null) { node.textContent = "—"; return; } if (REDUCED) { node.textContent = f(v); return; } const t0 = performance.now(); const s = now => { const k = EASE((now - t0 - 500) / 1600); node.textContent = f(v * k); if (k < 1) requestAnimationFrame(s); }; requestAnimationFrame(s); }
