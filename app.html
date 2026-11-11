@@ -46,8 +46,8 @@ main{max-width:1180px;margin:0 auto;padding:0 16px 120px}
 /* cards */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px 12px;box-shadow:var(--shadow);min-width:0}
-.card h3{margin:0;font-size:14px;letter-spacing:.01em;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
-.card h3 small{font-weight:400;color:var(--muted);font-size:12px}
+.card h3{margin:0;font-size:14px;letter-spacing:.01em;display:flex;justify-content:space-between;gap:2px 8px;align-items:baseline;flex-wrap:wrap}
+.card h3 small{font-weight:400;color:var(--muted);font-size:12px;min-width:0;overflow-wrap:anywhere}
 .card .read{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin:6px 0 2px;min-height:34px}
 .card .read b{font-size:24px;letter-spacing:-.01em}
 .card .read span{color:var(--muted);font-size:13px}
@@ -141,6 +141,7 @@ body.m-country #city{display:none}body.m-country #country{display:block}
 .timeline .ax i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:2px}
 .ev{position:absolute;width:150px;transform:translateX(-50%);font-size:12px;line-height:1.35;opacity:.28;transition:opacity .4s}
 .ev.on{opacity:1}.ev b{display:block;font-size:12.5px}
+.ev.r{transform:none;margin-left:-150px;text-align:right}.ev.r::after,.ev.r .pt{left:100%}.ev.l{transform:none;text-align:left}.ev.l::after,.ev.l .pt{left:0}
 .ev::after{content:"";position:absolute;left:50%;width:1px;background:var(--line)}
 .ev.up{bottom:calc(50% + 14px)}.ev.up::after{top:100%;height:12px}.ev.dn{top:calc(50% + 14px)}.ev.dn::after{bottom:100%;height:12px}
 .ev .pt{position:absolute;left:50%;width:13px;height:13px;border-radius:50%;transform:translateX(-50%);border:3px solid var(--card)}
@@ -156,7 +157,7 @@ body.m-country #city{display:none}body.m-country #country{display:block}
 .cta h3{margin:0 0 6px;font-size:20px}.cta p{margin:3px 0;font-size:13.5px;opacity:.92;max-width:640px}.cta a{color:#fff}
 .btn{display:inline-block;background:#fff;color:#0c4a5e!important;border-radius:999px;padding:9px 18px;font-weight:700;text-decoration:none;font-size:14px}
 .stack{display:flex;flex-direction:column;gap:16px}
-@media (max-width:860px){.herometa{grid-template-columns:1fr}.hm.mid{text-align:left}.two{grid-template-columns:1fr}.mast-r{text-align:left;margin-left:0}.ev{width:110px;font-size:11px}}
+@media (max-width:860px){.herometa{grid-template-columns:1fr}.hm.mid{text-align:left}.two{grid-template-columns:1fr}.mast-r{text-align:left;margin-left:0}.ev{width:110px;font-size:11px}.ev.r{margin-left:-110px}}
 .chap h2,.card h3,.hm .h4,.mast h1,.num b,.ind .it b,.read b,.kicker,.cta h3{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 .chap h2,.card h3{color:var(--deep)}.hm .h4{color:var(--deep)}.hm.mid .h4{font-size:14px}
 .card{box-shadow:none;border-radius:14px}
@@ -346,6 +347,10 @@ TXT.de = Object.assign({}, TXT.en, {fireBand: "wahrscheinlicher Bereich (80 %, a
  low_s: "trockener", high_s: "feuchter", fewer: "weniger", more: "mehr", cells: "Kartenzellen", stations: "Messstellen", towns: "Städte",
  cHint: "Ebene wählen und auf Abspielen drücken: das Jahr läuft von allein. Karte anklicken, um die nächste Großstadt zu öffnen.",
  footer: "PhreAItic: unabhängiges Projekt, kein offizielles Produkt. Prognosen bis 12 Monate im Voraus aus öffentlichen Daten, an ungesehenen Jahren bewertet. Die frühere Karte bleibt als klassische Karte verfügbar.", loading: "Laden…", pick: "Stadt wählen", tz: "Gelände: AWS Terrain Tiles (NASADEM, SRTM, GMTED)."});
+const CONTINENT = {fr: {Africa: "Afrique", Asia: "Asie", Europe: "Europe", "North America": "Amérique du Nord", "South America": "Amérique du Sud", Oceania: "Océanie", Antarctica: "Antarctique"},
+  es: {Africa: "África", Asia: "Asia", Europe: "Europa", "North America": "América del Norte", "South America": "América del Sur", Oceania: "Oceanía", Antarctica: "Antártida"},
+  de: {Africa: "Afrika", Asia: "Asien", Europe: "Europa", "North America": "Nordamerika", "South America": "Südamerika", Oceania: "Ozeanien", Antarctica: "Antarktis"}};
+const continentName = c => (CONTINENT[L] && CONTINENT[L][c]) || c;
 const t = k => (TXT[L] && TXT[L][k]) || TXT.en[k] || k;
 const MON = () => Array.from({length: 12}, (_, i) => new Date(2000, i, 1).toLocaleDateString(L, {month: "short"}));
 
@@ -1085,7 +1090,7 @@ async function openCity(c, push = true) {
   sec(chapter(4, t("actT")) + `<div class="card wide"><div style="${hh}">${t("keyDates")}</div><div class="timeline" id="tl"><div class="ax"><i></i></div></div></div><div class="acts" style="margin-top:16px">${acts.join("")}</div>
     <p class="perf"><a href="${perfHref}">${t("perfLink")} →</a></p>
     <div class="cta"><div><h3>${t("ctaT").replace("{n}", c.name)}</h3><p>${t("ctaP")}</p><p><b>${t("ctaQ")}</b> <a href="mailto:antoinedesjard@gmail.com">antoinedesjard@gmail.com</a></p></div><div><a class="btn" href="classic.html">${t("classic")}</a> <a class="btn" href="api/v1/openapi.json" style="margin-left:6px">API</a></div></div>`);
-  { const tl = $("#tl"), evEls = []; evs.forEach((e, i) => { const x = 3 + e[0] / 12 * 94, up = i % 2 === 0; const d = el("div", {class: "ev " + (up ? "up" : "dn"), style: `left:${x}%`}, `<b>${e[1]}</b>${e[2]}<span class="pt" style="background:${e[3]}"></span>`); tl.appendChild(d); evEls.push([e[0], d]); });
+  { const tl = $("#tl"), evEls = []; evs.forEach((e, i) => { const x = 3 + e[0] / 12 * 94, up = i % 2 === 0; const d = el("div", {class: "ev " + (up ? "up" : "dn") + (x > 80 ? " r" : x < 20 ? " l" : ""), style: `left:${x}%`}, `<b>${e[1]}</b>${e[2]}<span class="pt" style="background:${e[3]}"></span>`); tl.appendChild(d); evEls.push([e[0], d]); });
     const fill = $(".ax i", tl); ups.push(m => { fill.style.width = (m / 12 * 100) + "%"; evEls.forEach(([em, d]) => d.classList.toggle("on", m >= em - 0.05)); }); }
   listeners.length = 0; listeners.push(...ups); if (cityMapView) listeners.push(m => cityMapView.draw(m)); setTime(0);
   Hero.onRisen = () => { if (tok === cityToken && !REDUCED) setTimeout(() => startPlay(0), 250); };
@@ -1174,7 +1179,7 @@ let cMap = null, cTok = 0;
 async function openCountry(iso, push = true) {
   const tok = ++cTok; S.country = iso; setMode("country", false); stopPlay();
   const co = S.world.find(x => x.code === iso); if (!co) return;
-  $("#cName").textContent = countryName(iso) + " · " + co.continent;
+  $("#cName").textContent = countryName(iso) + " · " + continentName(co.continent);
   if (push) { try { history.replaceState(null, "", "#country=" + iso + "&ov=" + S.ov); } catch (e) {} }
   document.title = countryName(iso) + " · PhreAItic";
   if (!cMap) cMap = new MapView($("#mapCountry"), {maxH: 640, onClick: (lon, lat) => nearestTownOpen(lon, lat)});
