@@ -6180,19 +6180,19 @@ const HUNT_CARD = {
          src: { en: "DesInventar Sendai (UNDRR), Ecuador national disaster-loss database, 2000–2023; an impact record, not a legal declaration; low skill", fr: "DesInventar Sendai (UNDRR), base nationale des pertes de l’Équateur, 2000–2023 ; un relevé d’impact, pas une déclaration légale ; faible compétence", es: "DesInventar Sendai (UNDRR), base nacional de pérdidas de Ecuador, 2000–2023; un registro de impactos, no una declaración legal; baja habilidad", de: "DesInventar Sendai (UNDRR), nationale Schadensdatenbank Ecuador, 2000–2023; ein Schadensregister, keine rechtliche Erklärung; geringe Güte" } },
 };
 const HUNT_UI = {
-  en: { cat: "Regulatory", lead: "1–15 months ahead", chance: "Chance", noData: "No data", now0: "Not in force at the last record", now2: "In force at the last record",
+  en: { ref: "No model beats this reference yet in the backtest: the chance shown is each unit’s own record (how often the decision was in force that month in past years) or, where that did better, its last recorded state. It will switch to a model forecast once one passes.", cat: "Regulatory", lead: "1–15 months ahead", chance: "Chance", noData: "No data", now0: "Not in force at the last record", now2: "In force at the last record",
         at: (m, p, c) => `Chance on ${m}: <strong>${p}</strong> (in past years, that month: ${c}).`, noH: "No outlook at this horizon here.", chart: "Chance, month by month",
         bt: (y0, y1, n, sc, sp, l3) => `Backtest ${y0}–${y1} on ${n} units, each year predicted from earlier years only: one month ahead, Brier skill ${sc} against each unit's own record${sp && sp !== "–" ? ` and ${sp} against persistence` : ""}. When the chance shown was 60% or more, the decision was in force ${l3} of the time.`,
         nowTxt: (d, on) => `Last record (${d}): <strong>${on ? "in force" : "not in force"}</strong>.`, hint: "Click a unit for its chance at each horizon. “Latest” shows the last recorded state." },
-  fr: { cat: "Réglementaire", lead: "de 1 à 15 mois", chance: "Probabilité", noData: "Pas de données", now0: "Pas en vigueur au dernier relevé", now2: "En vigueur au dernier relevé",
+  fr: { ref: "Aucun modèle ne bat encore cette référence dans la rétro-évaluation : la probabilité affichée est l’historique de chaque unité (fréquence de la décision ce mois-là les années passées) ou, là où c’était meilleur, son dernier état connu. Elle passera à une prévision par modèle dès qu’un modèle réussira le test.", cat: "Réglementaire", lead: "de 1 à 15 mois", chance: "Probabilité", noData: "Pas de données", now0: "Pas en vigueur au dernier relevé", now2: "En vigueur au dernier relevé",
         at: (m, p, c) => `Probabilité en ${m} : <strong>${p}</strong> (les années passées, ce mois-là : ${c}).`, noH: "Pas de prévision à cette échéance ici.", chart: "Probabilité, mois par mois",
         bt: (y0, y1, n, sc, sp, l3) => `Rétro-évaluation ${y0}–${y1} sur ${n} unités, chaque année prévue à partir des années antérieures seulement : à un mois, score de Brier ${sc} par rapport à l’historique de chaque unité${sp && sp !== "–" ? ` et ${sp} par rapport à la persistance` : ""}. Quand la probabilité affichée était de 60 % ou plus, la décision était en vigueur ${l3} du temps.`,
         nowTxt: (d, on) => `Dernier relevé (${d}) : <strong>${on ? "en vigueur" : "pas en vigueur"}</strong>.`, hint: "Cliquez sur une unité pour sa probabilité à chaque échéance. « Dernier » montre l’état au dernier relevé." },
-  es: { cat: "Regulación", lead: "de 1 a 15 meses", chance: "Probabilidad", noData: "Sin datos", now0: "No vigente en el último registro", now2: "Vigente en el último registro",
+  es: { ref: "Ningún modelo supera aún esta referencia en la evaluación retrospectiva: la probabilidad mostrada es el historial de cada unidad (con qué frecuencia la decisión estuvo vigente ese mes en años anteriores) o, donde funcionó mejor, su último estado registrado. Pasará a una previsión por modelo cuando uno supere la prueba.", cat: "Regulación", lead: "de 1 a 15 meses", chance: "Probabilidad", noData: "Sin datos", now0: "No vigente en el último registro", now2: "Vigente en el último registro",
         at: (m, p, c) => `Probabilidad en ${m}: <strong>${p}</strong> (en años anteriores, ese mes: ${c}).`, noH: "No hay previsión a este plazo aquí.", chart: "Probabilidad, mes a mes",
         bt: (y0, y1, n, sc, sp, l3) => `Evaluación retrospectiva ${y0}–${y1} en ${n} unidades, cada año previsto solo con años anteriores: a un mes, puntuación de Brier ${sc} frente al historial de cada unidad${sp && sp !== "–" ? ` y ${sp} frente a la persistencia` : ""}. Cuando la probabilidad mostrada era del 60 % o más, la decisión estuvo vigente el ${l3} del tiempo.`,
         nowTxt: (d, on) => `Último registro (${d}): <strong>${on ? "vigente" : "no vigente"}</strong>.`, hint: "Pulse una unidad para ver su probabilidad en cada plazo. «Último» muestra el estado del último registro." },
-  de: { cat: "Behördlich", lead: "1–15 Monate im Voraus", chance: "Wahrscheinlichkeit", noData: "Keine Daten", now0: "Beim letzten Eintrag nicht in Kraft", now2: "Beim letzten Eintrag in Kraft",
+  de: { ref: "Noch schlägt kein Modell diese Referenz in der rückblickenden Prüfung: Die gezeigte Wahrscheinlichkeit ist die eigene Vorgeschichte jeder Einheit (wie oft die Entscheidung in diesem Monat in früheren Jahren galt) oder, wo das besser war, ihr letzter erfasster Zustand. Sie wechselt zu einer Modellvorhersage, sobald eines die Prüfung besteht.", cat: "Behördlich", lead: "1–15 Monate im Voraus", chance: "Wahrscheinlichkeit", noData: "Keine Daten", now0: "Beim letzten Eintrag nicht in Kraft", now2: "Beim letzten Eintrag in Kraft",
         at: (m, p, c) => `Wahrscheinlichkeit im ${m}: <strong>${p}</strong> (in früheren Jahren, in diesem Monat: ${c}).`, noH: "Hier keine Vorhersage für diesen Horizont.", chart: "Wahrscheinlichkeit, Monat für Monat",
         bt: (y0, y1, n, sc, sp, l3) => `Rückblickende Prüfung ${y0}–${y1} an ${n} Einheiten, jedes Jahr nur aus früheren Jahren vorhergesagt: einen Monat im Voraus Brier-Skill ${sc} gegenüber der eigenen Vorgeschichte jeder Einheit${sp && sp !== "–" ? ` und ${sp} gegenüber der Persistenz` : ""}. Lag die gezeigte Wahrscheinlichkeit bei 60 % oder mehr, war die Entscheidung in ${l3} der Fälle in Kraft.`,
         nowTxt: (d, on) => `Letzter Eintrag (${d}): <strong>${on ? "in Kraft" : "nicht in Kraft"}</strong>.`, hint: "Klicken Sie auf eine Einheit für ihre Wahrscheinlichkeit je Horizont. „Aktuell“ zeigt den letzten erfassten Zustand." },
@@ -6203,7 +6203,7 @@ const huntTxt = c => {
   return {
     ddCard: [L.cat, g(k.title), desc], desc: { catnat: desc }, hint: { catnat: L.hint },
     ddLeg: ["< 10%", "10–30%", "30–60%", "≥ 60%", L.noData], ddLegNow: [L.now0, "", L.now2, ""].filter(Boolean),
-    ddSrc: d => `${g(k.src)} (${d}).`, ddNow: (d, lev) => L.nowTxt(d, lev >= 2), ddAt: L.at, ddNoH: L.noH, ddChart: L.chart, ddBt: L.bt,
+    ddSrc: d => `${g(k.src)} (${d}).`, ddNow: (d, lev) => L.nowTxt(d, lev >= 2), ddAt: L.at, ddNoH: L.noH, ddChart: L.chart, ddBt: L.bt, ddRef: L.ref,
     noteDd: `${g(k.title)} (${L.cat}).`,
   };
 };
@@ -6702,6 +6702,7 @@ function renderCountyInfo() {
   body += `<h5 class="wk-title">${W.ddChart}</h5>` + _worldBars(ls.map(l => r[5][+l - 1]), ls.map(l => worldLabel("catnat", l)), v => _ddColor(v), v => fmtPct(v));
   const b = D.backtest.by["1"];
   if (b) body += `<p class="hint">${W.ddBt(D.backtest.years[0], D.backtest.years[1], D.backtest.n_counties, fmtNum(b.brier_skill_clim, 2), fmtNum(b.brier_skill_persistence, 2), fmtPct((b.by_level["3"] || {}).event))}</p>`;
+  if (D.ref_only && W.ddRef) body += `<p class="hint">${W.ddRef}</p>`;  // no lead beats the reference: the reference outlook is shown
   el.innerHTML = body; el.hidden = false;
 }
 
