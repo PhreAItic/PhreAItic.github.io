@@ -1833,7 +1833,7 @@ DATA.soil_moisture_grid = []; DATA.fire_risk_grid = []; DATA.national_overlays =
 function heroStats() {
   const pz = new Set();
   DATA.basins.concat(Object.values(DATA.national_flagship || {})).forEach(b => (b.piezometers || []).forEach(p => p.forecasts && pz.add(p.code_bss)));
-  const abroad = WORLD.reduce((n, c) => n + (c.nr || 0) + (c.ng || 0) - (c.nsl || 0), 0);  // stations silent for over 180 days are not counted
+  const abroad = WORLD.reduce((n, c) => n + (c.nr || 0) + (c.ng || 0) + (c.nw || 0) + (c.nsn || 0) - (c.nsl || 0), 0);
   const vals = {
     stations: pz.size + ((DATA.river_forecast || {}).stations || []).length + abroad,
     countries: 1 + WORLD.filter(c => c.code !== "FRA" && ((c.nr || 0) + (c.ng || 0) > (c.nsl || 0))).length,
