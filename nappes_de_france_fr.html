@@ -6850,16 +6850,16 @@ let worldSoilPick = null;
 const SST_TXT = {
   en: { leg: "In-situ soil station", h: "Soil-moisture station", now: (v, d) => `Measured ${v} m³/m³ on ${d}`, cls: c => `<strong>${c}</strong> for the time of year at this station`,
         depth: d => d === "field" ? "field-scale (cosmic-ray) reading" : `sensor at ${d}`, grid: (c, p, d) => `The gridded layer showed <strong>${c}</strong> (${p}th percentile) for this cell in the week of ${d}, its latest complete week.`,
-        check: "Checked across 339 stations, the gridded layer agrees with the stations on dry, normal or wet about half the time and flags about two thirds of the stations that are dry: where a station is near, trust the station." },
+        check: "Checked across 838 stations, the gridded layer agrees with the stations on dry, normal or wet about half the time but catches under half of the stations that are dry, and almost none in the mountains: where a station is near, trust the station." },
   fr: { leg: "Station de mesure in situ", h: "Station d’humidité du sol", now: (v, d) => `Mesuré ${v} m³/m³ le ${d}`, cls: c => `<strong>${c}</strong> pour la saison à cette station`,
         depth: d => d === "field" ? "mesure à l’échelle du champ (rayons cosmiques)" : `capteur à ${d}`, grid: (c, p, d) => `La couche en grille indiquait <strong>${c}</strong> (${p}e centile) pour cette maille la semaine du ${d}, sa dernière semaine complète.`,
-        check: "Vérifiée sur 339 stations, la couche en grille s’accorde avec les stations sur sec, normal ou humide environ une fois sur deux et repère environ deux tiers des stations sèches : là où une station est proche, fiez-vous à la station." },
+        check: "Vérifiée sur 838 stations, la couche en grille s’accorde avec les stations sur sec, normal ou humide environ une fois sur deux mais repère moins de la moitié des stations sèches, et presque aucune en montagne : là où une station est proche, fiez-vous à la station." },
   es: { leg: "Estación de medida in situ", h: "Estación de humedad del suelo", now: (v, d) => `Medido ${v} m³/m³ el ${d}`, cls: c => `<strong>${c}</strong> para la época del año en esta estación`,
         depth: d => d === "field" ? "medida a escala de campo (rayos cósmicos)" : `sensor a ${d}`, grid: (c, p, d) => `La capa en cuadrícula indicaba <strong>${c}</strong> (percentil ${p}) para esta celda la semana del ${d}, su última semana completa.`,
-        check: "Comprobada con 339 estaciones, la capa en cuadrícula coincide con las estaciones en seco, normal o húmedo aproximadamente la mitad de las veces y señala unos dos tercios de las estaciones secas: donde haya una estación cerca, fíese de la estación." },
+        check: "Comprobada con 838 estaciones, la capa en cuadrícula coincide con las estaciones en seco, normal o húmedo aproximadamente la mitad de las veces pero señala menos de la mitad de las estaciones secas, y casi ninguna en la montaña: donde haya una estación cerca, fíese de la estación." },
   de: { leg: "In-situ-Bodenstation", h: "Bodenfeuchte-Messstation", now: (v, d) => `Gemessen ${v} m³/m³ am ${d}`, cls: c => `<strong>${c}</strong> für die Jahreszeit an dieser Station`,
         depth: d => d === "field" ? "feldskalige Messung (kosmische Strahlung)" : `Sensor in ${d}`, grid: (c, p, d) => `Die Rasterschicht zeigte <strong>${c}</strong> (${p}. Perzentil) für diese Zelle in der Woche ab ${d}, ihrer letzten vollständigen Woche.`,
-        check: "Geprüft an 339 Stationen stimmt die Rasterschicht bei trocken, normal oder feucht etwa in der Hälfte der Fälle mit den Stationen überein und erkennt etwa zwei Drittel der trockenen Stationen: wo eine Station nahe ist, gilt die Station." },
+        check: "Geprüft an 838 Stationen stimmt die Rasterschicht bei trocken, normal oder feucht etwa in der Hälfte der Fälle mit den Stationen überein, erkennt aber weniger als die Hälfte der trockenen Stationen und im Gebirge fast keine: wo eine Station nahe ist, gilt die Station." },
 };
 const SST = () => SST_TXT[LANG] || SST_TXT.en;
 function renderWorld() {
