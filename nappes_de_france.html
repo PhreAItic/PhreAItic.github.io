@@ -5527,6 +5527,7 @@ const WORLD_TXT = {
     stLeg: ["Very low (lowest 10%)", "Low (10–20%)", "Below normal (20–40%)", "Normal or above", "No data"],
     stHint: { rivers: "Click a gauge for its 12-month outlook. Colour: forecast flow against the same weeks of past years.", gw: "Click a well for its 12-month outlook. Colour: forecast level against the same weeks of past years." },
     stNow: (v, u, d, c) => `Latest reading (week of ${d}): <strong>${v} ${u}</strong>${c ? `, ${c} for the time of year` : ""}.`,
+    stStor: (v, p, r) => `Storage <strong>${v} hm³</strong>${p != null ? ` (${p}% of its record maximum)` : ""}${r != null ? `, release ${r} m³/s` : ""}.`,
     stAt: (d, v, u, lo, hi, c) => `Around ${d}: <strong>${v} ${u}</strong> (80% range ${lo} to ${hi})${c ? `, ${c} for the time of year` : ""}.`,
     stLow: p => `Chance of falling below this gauge's 5-year low-flow reference: <strong>${p}</strong>.`,
     stNo: "No forecast at this horizon here: the station's record stopped, or is too short.",
@@ -5656,6 +5657,7 @@ const WORLD_TXT = {
     stLeg: ["Très bas (10 % les plus bas)", "Bas (10–20 %)", "Sous la normale (20–40 %)", "Normal ou au-dessus", "Pas de données"],
     stHint: { rivers: "Cliquez sur une station pour ses prévisions à 12 mois. Couleur : débit prévu par rapport aux mêmes semaines des années passées.", gw: "Cliquez sur un piézomètre pour ses prévisions à 12 mois. Couleur : niveau prévu par rapport aux mêmes semaines des années passées." },
     stNow: (v, u, d, c) => `Dernière mesure (semaine du ${d}) : <strong>${v} ${u}</strong>${c ? `, ${c} pour la saison` : ""}.`,
+    stStor: (v, p, r) => `Volume stocké <strong>${v} hm³</strong>${p != null ? ` (${p} % de son maximum historique)` : ""}${r != null ? `, lâcher ${r} m³/s` : ""}.`,
     stAt: (d, v, u, lo, hi, c) => `Vers le ${d} : <strong>${v} ${u}</strong> (fourchette à 80 % : ${lo} à ${hi})${c ? `, ${c} pour la saison` : ""}.`,
     stLow: p => `Probabilité de passer sous le débit de référence d’étiage (retour 5 ans) de la station : <strong>${p}</strong>.`,
     stNo: "Pas de prévision à cette échéance ici : la série de la station s’est arrêtée, ou elle est trop courte.",
@@ -5785,6 +5787,7 @@ const WORLD_TXT = {
     stLeg: ["Muy bajo (10 % más bajo)", "Bajo (10–20 %)", "Por debajo de lo normal (20–40 %)", "Normal o superior", "Sin datos"],
     stHint: { rivers: "Haga clic en una estación de aforo para ver su previsión a 12 meses. Color: caudal previsto frente a las mismas semanas de años anteriores.", gw: "Haga clic en un pozo para ver su previsión a 12 meses. Color: nivel previsto frente a las mismas semanas de años anteriores." },
     stNow: (v, u, d, c) => `Última lectura (semana del ${d}): <strong>${v} ${u}</strong>${c ? `, ${c} para la época del año` : ""}.`,
+    stStor: (v, p, r) => `Volumen embalsado <strong>${v} hm³</strong>${p != null ? ` (${p} % de su máximo histórico)` : ""}${r != null ? `, desembalse ${r} m³/s` : ""}.`,
     stAt: (d, v, u, lo, hi, c) => `Hacia el ${d}: <strong>${v} ${u}</strong> (rango del 80 % de ${lo} a ${hi})${c ? `, ${c} para la época del año` : ""}.`,
     stLow: p => `Probabilidad de bajar del caudal de estiaje de referencia a 5 años de esta estación: <strong>${p}</strong>.`,
     stNo: "Sin previsión con esta antelación aquí: el registro de la estación se interrumpió o es demasiado corto.",
@@ -5914,6 +5917,7 @@ const WORLD_TXT = {
     stLeg: ["Sehr niedrig (unterste 10 %)", "Niedrig (10–20 %)", "Unter normal (20–40 %)", "Normal oder darüber", "Keine Daten"],
     stHint: { rivers: "Einen Pegel anklicken für seine 12-Monats-Prognose. Farbe: prognostizierter Abfluss im Vergleich zu denselben Wochen früherer Jahre.", gw: "Eine Messstelle anklicken für ihre 12-Monats-Prognose. Farbe: prognostizierter Stand im Vergleich zu denselben Wochen früherer Jahre." },
     stNow: (v, u, d, c) => `Letzter Messwert (Woche ab ${d}): <strong>${v} ${u}</strong>${c ? `, ${c} für die Jahreszeit` : ""}.`,
+    stStor: (v, p, r) => `Speicherinhalt <strong>${v} hm³</strong>${p != null ? ` (${p} % seines Rekordmaximums)` : ""}${r != null ? `, Abgabe ${r} m³/s` : ""}.`,
     stAt: (d, v, u, lo, hi, c) => `Um den ${d}: <strong>${v} ${u}</strong> (80-%-Bereich ${lo} bis ${hi})${c ? `, ${c} für die Jahreszeit` : ""}.`,
     stLow: p => `Wahrscheinlichkeit, unter die 5-jährliche Niedrigwasser-Referenz dieses Pegels zu fallen: <strong>${p}</strong>.`,
     stNo: "Keine Prognose bei diesem Horizont hier: die Messreihe der Station endete oder ist zu kurz.",
@@ -7101,6 +7105,7 @@ function renderStationInfo(k) {
   let body = `<h4>${s.name || s.code}${s.river ? ` <span class="hint">(${s.river})</span>` : ""}</h4>`;
   const silent = isSilent(s);
   body += silent ? `<p>${W.stNow(nf(s.last), u, fmtDate(s.lw), "")}</p><p class="stale-flag">&#9888; ${silentTxt().note(fmtDate(s.lw))}</p>` : `<p>${W.stNow(nf(s.last), u, fmtDate(s.lw), cls(s.pn))}</p>`;
+  if (s.stor && W.stStor) body += `<p>${W.stStor(nf(s.stor.v), s.stor.p, s.stor.r)}</p>`;
   const h = silent ? "now" : worldH[k];
   if (h !== "now") {
     const f = stFc(s, h);
