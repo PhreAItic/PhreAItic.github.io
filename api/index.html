@@ -1,15 +1,19 @@
 <!doctype html><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>PhreAItic API</title><style>body{font:16px/1.5 system-ui,sans-serif;max-width:46rem;margin:2rem auto;padding:0 1rem}pre{white-space:pre-wrap;background:#f3f3f3;padding:1rem;border-radius:8px}</style><h1>PhreAItic read-only API</h1><p><a href='v1/index.json'>v1/index.json</a> · <a href='v1/openapi.json'>openapi.json</a> · <a href='../llms.txt'>llms.txt</a></p><pre># PhreAItic
 
-&gt; Forecasts of groundwater levels, rivers and lakes, river temperature and snow for 47 countries (41,137 monitoring stations), 1 to 12 months ahead, with calibrated 80% bands, graded on years the models never saw.
+&gt; Forecasts of groundwater levels, rivers and lakes, river temperature and snow at 79,471 monitoring stations in 107 countries, 1 to 12 months ahead, with calibrated 80% bands graded on years the models never saw; plus 817 soil-moisture stations, 69 official drought-status outlooks, global drought indices (SPI, SPEI), GRACE land water storage and a wildfire outlook.
 
-Read-only JSON API, no key, GET only, CORS open, rebuilt about weekly. Base: https://phreaitic.github.io/api/v1
+Everything is static JSON: no key, GET only, CORS open, rebuilt about weekly. API base: https://phreaitic.github.io/api/v1. Full catalogue of every published file: https://phreaitic.github.io/api/v1/datasets.json
 
-## How to use it (three requests cover most questions)
+## Start here
+- What exists and where: GET https://phreaitic.github.io/api/v1/datasets.json (station forecasts, station histories, soil moisture, regulatory outlooks, drought indices, land water storage, wildfire), then GET https://phreaitic.github.io/api/v1/index.json for station counts per country and layer.
 - Near a place: GET https://phreaitic.github.io/api/v1/grid/&lt;floor(lat)&gt;_&lt;floor(lon)&gt;.json  (Brno 49.19N 16.61E -&gt; grid/49_16.json). Pick the station with the smallest distance; also check neighbouring cells near a cell edge.
 - A country and layer: GET https://phreaitic.github.io/api/v1/&lt;CC&gt;/&lt;layer&gt;.json  (CC = ISO 3166-1 alpha-2 such as CZ, US, FR; layer = gw, rivers, temp, snow).
-- Trust and caveats: GET https://phreaitic.github.io/api/v1/live_record.json and read each network&#x27;s backtest_by_horizon_months.
-- Drought index anywhere on land: GET https://phreaitic.github.io/api/v1/spi/tile/&lt;floor(lat/10)*10&gt;_&lt;floor(lon/10)*10&gt;.json (Madrid 40.4N 3.7W -&gt; spi/tile/40_-10.json): SPI-3/6/12 now and forecasts (median, q10, q90); evidence in spi/backtest.json. The same with heat counted (rainfall minus potential evapotranspiration): GET https://phreaitic.github.io/api/v1/spei/tile/&lt;same tile&gt;.json, evidence in spei/backtest.json.
+- A station&#x27;s measured past: https://phreaitic.github.io/intl_hist/&lt;CC&gt;_&lt;layer&gt;_&lt;n&gt;.json (station i of that layer in intl_&lt;CC&gt;.json is in file n = i // 40): code -&gt; [first Monday, weekly values].
+- Soil moisture stations: GET https://phreaitic.github.io/api/v1/soil/stations.json (latest value, percentile for the time of year, date, network).
+- Official drought status ahead (US Drought Monitor counties, national drought declarations, restrictions, disaster records...): the regulatory_outlooks list in datasets.json gives each file, its source and the event it forecasts.
+- Drought index anywhere on land: GET https://phreaitic.github.io/api/v1/spi/tile/&lt;floor(lat/10)*10&gt;_&lt;floor(lon/10)*10&gt;.json (Madrid 40.4N 3.7W -&gt; spi/tile/40_-10.json): SPI-3/6/12 now and forecasts (median, q10, q90); evidence in spi/backtest.json. The same with heat counted: https://phreaitic.github.io/api/v1/spei/tile/&lt;same tile&gt;.json, evidence in spei/backtest.json.
 - Water stored on land anywhere: GET https://phreaitic.github.io/api/v1/tws/tile/&lt;floor(lat/10)*10&gt;_&lt;floor(lon/10)*10&gt;.json: GRACE storage anomaly (cm) now and 1, 3, 6, 9, 12 months ahead; evidence in tws/backtest.json.
+- Trust and caveats: GET https://phreaitic.github.io/api/v1/live_record.json and read each network&#x27;s backtest_by_horizon_months; the performance page https://phreaitic.github.io/trust_page.html covers every country.
 
 ## Reading a forecast
 - median = forecast; q10..q90 = 80% band; pct = percentile of the median among the same time of year in that station&#x27;s own history (below 20 low for the season, above 80 high).
@@ -19,8 +23,10 @@ Read-only JSON API, no key, GET only, CORS open, rebuilt about weekly. Base: htt
 - Reservoir stations (unit Mm3) also carry storage_pct_of_record_max: a share of the highest storage on record, not of design capacity.
 
 ## Files
+- [datasets.json](https://phreaitic.github.io/api/v1/datasets.json): catalogue of every published dataset
 - [index.json](https://phreaitic.github.io/api/v1/index.json): countries, layers, counts, links
 - [openapi.json](https://phreaitic.github.io/api/v1/openapi.json): schema
+- [soil/stations.json](https://phreaitic.github.io/api/v1/soil/stations.json): in-situ soil moisture
 - [live_record.json](https://phreaitic.github.io/api/v1/live_record.json): published forecasts scored against what happened
 - [Performance page](https://phreaitic.github.io/trust_page.html): the human version of the evidence
 - [Map](https://phreaitic.github.io/): the interactive version

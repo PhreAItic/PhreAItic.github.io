@@ -1,7 +1,7 @@
 {
  "name": "PhreAItic read-only forecast API",
  "version": "v1",
- "generated": "2026-11-08",
+ "generated": "2026-11-27",
  "base_url": "https://phreaitic.github.io/api/v1",
  "auth": "none",
  "methods": "GET only; static JSON files",
@@ -33,9 +33,9 @@
   "country_layer_template": "https://phreaitic.github.io/api/v1/{CC}/{layer}.json"
  },
  "totals": {
-  "stations": 41137,
-  "countries": 47,
-  "grid_cells": 3107,
+  "stations": 79471,
+  "countries": 107,
+  "grid_cells": 3669,
   "spi_tiles": 371,
   "spei_tiles": 320,
   "tws_tiles": 255
@@ -56,11 +56,27 @@
   "evidence": "https://phreaitic.github.io/api/v1/tws/backtest.json"
  },
  "countries": {
+  "AF": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/AF/rivers.json"
+   }
+  },
+  "AO": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/AO/rivers.json"
+   }
+  },
   "AR": {
    "rivers": {
-    "stations": 15,
+    "stations": 228,
     "unit": "m3/s",
-    "generated": "2026-11-03",
+    "generated": "2026-11-25",
     "url": "https://phreaitic.github.io/api/v1/AR/rivers.json"
    }
   },
@@ -68,283 +84,413 @@
    "gw": {
     "stations": 96,
     "unit": "m",
-    "generated": "2026-10-24",
+    "generated": "2026-11-21",
     "url": "https://phreaitic.github.io/api/v1/AT/gw.json"
+   },
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/AT/rivers.json"
+   },
+   "snow": {
+    "stations": 159,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/AT/snow.json"
    }
   },
   "AU": {
    "gw": {
-    "stations": 1768,
+    "stations": 2468,
     "unit": "m",
-    "generated": "2026-11-03",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/AU/gw.json"
    },
    "rivers": {
-    "stations": 2458,
+    "stations": 3747,
     "unit": "m3/s",
-    "generated": "2026-11-03",
+    "generated": "2026-11-26",
     "url": "https://phreaitic.github.io/api/v1/AU/rivers.json"
    },
    "temp": {
-    "stations": 1035,
+    "stations": 1243,
     "unit": "°C",
-    "generated": "2026-11-04",
+    "generated": "2026-11-26",
     "url": "https://phreaitic.github.io/api/v1/AU/temp.json"
    }
   },
   "BE": {
    "gw": {
-    "stations": 411,
+    "stations": 661,
     "unit": "m",
-    "generated": "2026-10-24",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/BE/gw.json"
    },
    "rivers": {
-    "stations": 205,
+    "stations": 712,
     "unit": "m3/s",
-    "generated": "2026-11-03",
+    "generated": "2026-11-26",
     "url": "https://phreaitic.github.io/api/v1/BE/rivers.json"
    },
    "temp": {
-    "stations": 34,
+    "stations": 74,
     "unit": "°C",
-    "generated": "2026-11-03",
+    "generated": "2026-11-25",
     "url": "https://phreaitic.github.io/api/v1/BE/temp.json"
    }
   },
-  "BR": {
-   "gw": {
-    "stations": 8,
-    "unit": "m",
-    "generated": "2026-10-24",
-    "url": "https://phreaitic.github.io/api/v1/BR/gw.json"
-   },
+  "BF": {
    "rivers": {
-    "stations": 1223,
+    "stations": 2,
     "unit": "m3/s",
-    "generated": "2026-11-07",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/BF/rivers.json"
+   }
+  },
+  "BJ": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/BJ/rivers.json"
+   }
+  },
+  "BO": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/BO/rivers.json"
+   }
+  },
+  "BR": {
+   "rivers": {
+    "stations": 1662,
+    "unit": "m3/s",
+    "generated": "2026-11-26",
     "url": "https://phreaitic.github.io/api/v1/BR/rivers.json"
+   }
+  },
+  "BS": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/BS/rivers.json"
+   }
+  },
+  "BY": {
+   "snow": {
+    "stations": 7,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/BY/snow.json"
    }
   },
   "CA": {
    "gw": {
-    "stations": 68,
+    "stations": 277,
     "unit": "m",
-    "generated": "2026-11-03",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/CA/gw.json"
    },
    "rivers": {
-    "stations": 1853,
+    "stations": 1989,
     "unit": "m3/s",
-    "generated": "2026-11-04",
+    "generated": "2026-11-26",
     "url": "https://phreaitic.github.io/api/v1/CA/rivers.json"
    },
    "temp": {
     "stations": 15,
     "unit": "°C",
-    "generated": "2026-10-27",
+    "generated": "2026-11-22",
     "url": "https://phreaitic.github.io/api/v1/CA/temp.json"
    },
    "snow": {
-    "stations": 66,
+    "stations": 155,
     "unit": "mm",
-    "generated": "2026-11-07",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/CA/snow.json"
+   }
+  },
+  "CD": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/CD/rivers.json"
    }
   },
   "CH": {
    "gw": {
-    "stations": 69,
+    "stations": 74,
     "unit": "m",
-    "generated": "2026-10-14",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/CH/gw.json"
    },
    "rivers": {
-    "stations": 206,
+    "stations": 267,
     "unit": "m3/s",
-    "generated": "2026-10-29",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/CH/rivers.json"
    },
    "temp": {
-    "stations": 83,
+    "stations": 99,
     "unit": "°C",
-    "generated": "2026-10-29",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/CH/temp.json"
+   },
+   "snow": {
+    "stations": 116,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/CH/snow.json"
+   }
+  },
+  "CI": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/CI/rivers.json"
    }
   },
   "CL": {
    "gw": {
-    "stations": 2,
+    "stations": 5,
     "unit": "m",
-    "generated": "2026-10-24",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/CL/gw.json"
+   },
+   "rivers": {
+    "stations": 6,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/CL/rivers.json"
+   }
+  },
+  "CM": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/CM/rivers.json"
+   }
+  },
+  "CN": {
+   "rivers": {
+    "stations": 27,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/CN/rivers.json"
    }
   },
   "CO": {
    "rivers": {
-    "stations": 123,
+    "stations": 127,
     "unit": "m3/s",
-    "generated": "2026-10-29",
+    "generated": "2026-11-25",
     "url": "https://phreaitic.github.io/api/v1/CO/rivers.json"
    }
   },
   "CR": {
    "gw": {
-    "stations": 4,
+    "stations": 59,
     "unit": "m",
-    "generated": "2026-10-24",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/CR/gw.json"
-   }
-  },
-  "CU": {
-   "gw": {
-    "stations": 277,
-    "unit": "m",
-    "generated": "2026-10-24",
-    "url": "https://phreaitic.github.io/api/v1/CU/gw.json"
-   }
-  },
-  "CY": {
-   "rivers": {
-    "stations": 17,
-    "unit": "m3/s",
-    "generated": "2026-10-29",
-    "url": "https://phreaitic.github.io/api/v1/CY/rivers.json"
    }
   },
   "CZ": {
    "gw": {
-    "stations": 468,
+    "stations": 449,
     "unit": "m",
-    "generated": "2026-10-29",
+    "generated": "2026-11-25",
     "url": "https://phreaitic.github.io/api/v1/CZ/gw.json"
    },
    "rivers": {
-    "stations": 439,
+    "stations": 491,
     "unit": "m3/s",
-    "generated": "2026-10-29",
+    "generated": "2026-11-26",
     "url": "https://phreaitic.github.io/api/v1/CZ/rivers.json"
    },
    "temp": {
-    "stations": 163,
+    "stations": 165,
     "unit": "°C",
-    "generated": "2026-10-29",
+    "generated": "2026-11-22",
     "url": "https://phreaitic.github.io/api/v1/CZ/temp.json"
    }
   },
   "DE": {
    "gw": {
-    "stations": 2106,
+    "stations": 7290,
     "unit": "m",
-    "generated": "2026-11-05",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/DE/gw.json"
    },
    "rivers": {
-    "stations": 175,
+    "stations": 457,
     "unit": "m3/s",
-    "generated": "2026-11-05",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/DE/rivers.json"
    },
    "temp": {
-    "stations": 36,
+    "stations": 135,
     "unit": "°C",
-    "generated": "2026-11-05",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/DE/temp.json"
+   },
+   "snow": {
+    "stations": 44,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/DE/snow.json"
    }
   },
   "DK": {
    "gw": {
-    "stations": 300,
+    "stations": 294,
     "unit": "m",
-    "generated": "2026-11-04",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/DK/gw.json"
    },
    "rivers": {
-    "stations": 99,
+    "stations": 420,
     "unit": "m3/s",
-    "generated": "2026-11-04",
+    "generated": "2026-11-26",
     "url": "https://phreaitic.github.io/api/v1/DK/rivers.json"
    },
    "temp": {
     "stations": 13,
     "unit": "°C",
-    "generated": "2026-10-27",
+    "generated": "2026-11-22",
     "url": "https://phreaitic.github.io/api/v1/DK/temp.json"
    }
   },
-  "EE": {
-   "gw": {
-    "stations": 104,
-    "unit": "m",
-    "generated": "2026-10-18",
-    "url": "https://phreaitic.github.io/api/v1/EE/gw.json"
-   },
+  "EC": {
    "rivers": {
-    "stations": 57,
+    "stations": 1,
     "unit": "m3/s",
-    "generated": "2026-10-28",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/EC/rivers.json"
+   }
+  },
+  "EE": {
+   "rivers": {
+    "stations": 58,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
     "url": "https://phreaitic.github.io/api/v1/EE/rivers.json"
    },
    "temp": {
     "stations": 53,
     "unit": "°C",
-    "generated": "2026-10-28",
+    "generated": "2026-11-21",
     "url": "https://phreaitic.github.io/api/v1/EE/temp.json"
+   },
+   "snow": {
+    "stations": 2,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/EE/snow.json"
+   }
+  },
+  "EG": {
+   "rivers": {
+    "stations": 3,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/EG/rivers.json"
    }
   },
   "ES": {
    "gw": {
-    "stations": 551,
+    "stations": 573,
     "unit": "m",
-    "generated": "2026-11-04",
+    "generated": "2026-11-26",
     "url": "https://phreaitic.github.io/api/v1/ES/gw.json"
    },
    "rivers": {
-    "stations": 425,
+    "stations": 441,
     "unit": "m3/s",
-    "generated": "2026-11-07",
+    "generated": "2026-11-26",
     "url": "https://phreaitic.github.io/api/v1/ES/rivers.json"
+   },
+   "snow": {
+    "stations": 11,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/ES/snow.json"
+   }
+  },
+  "ET": {
+   "rivers": {
+    "stations": 5,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/ET/rivers.json"
    }
   },
   "FI": {
-   "gw": {
-    "stations": 25,
-    "unit": "m",
-    "generated": "2026-10-18",
-    "url": "https://phreaitic.github.io/api/v1/FI/gw.json"
-   },
    "rivers": {
-    "stations": 847,
+    "stations": 861,
     "unit": "m3/s",
-    "generated": "2026-11-06",
+    "generated": "2026-11-24",
     "url": "https://phreaitic.github.io/api/v1/FI/rivers.json"
+   },
+   "temp": {
+    "stations": 34,
+    "unit": "°C",
+    "generated": "2026-11-22",
+    "url": "https://phreaitic.github.io/api/v1/FI/temp.json"
+   },
+   "snow": {
+    "stations": 117,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/FI/snow.json"
    }
   },
   "FR": {
    "temp": {
-    "stations": 99,
+    "stations": 81,
     "unit": "°C",
-    "generated": "2026-10-28",
+    "generated": "2026-11-24",
     "url": "https://phreaitic.github.io/api/v1/FR/temp.json"
+   },
+   "snow": {
+    "stations": 51,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/FR/snow.json"
    },
    "gw": {
     "stations": 64,
     "unit": "m",
-    "generated": "2026-11-02",
+    "generated": "2026-11-10",
     "url": "https://phreaitic.github.io/api/v1/FR/gw.json"
+   }
+  },
+  "GA": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/GA/rivers.json"
    }
   },
   "GB": {
    "gw": {
-    "stations": 795,
+    "stations": 2152,
     "unit": "m",
-    "generated": "2026-11-04",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/GB/gw.json"
    },
    "rivers": {
-    "stations": 990,
+    "stations": 2971,
     "unit": "m3/s",
-    "generated": "2026-11-07",
+    "generated": "2026-11-26",
     "url": "https://phreaitic.github.io/api/v1/GB/rivers.json"
    }
   },
@@ -362,19 +508,57 @@
     "url": "https://phreaitic.github.io/api/v1/GF/rivers.json"
    }
   },
+  "GH": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/GH/rivers.json"
+   }
+  },
+  "GL": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/GL/rivers.json"
+   }
+  },
+  "GN": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/GN/rivers.json"
+   }
+  },
   "GR": {
    "rivers": {
-    "stations": 11,
+    "stations": 13,
     "unit": "m3/s",
-    "generated": "2026-10-28",
+    "generated": "2026-11-22",
     "url": "https://phreaitic.github.io/api/v1/GR/rivers.json"
    }
   },
+  "GT": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/GT/rivers.json"
+   }
+  },
   "GU": {
+   "gw": {
+    "stations": 7,
+    "unit": "m",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/GU/gw.json"
+   },
    "rivers": {
     "stations": 5,
     "unit": "m3/s",
-    "generated": "2026-10-29",
+    "generated": "2026-11-21",
     "url": "https://phreaitic.github.io/api/v1/GU/rivers.json"
    }
   },
@@ -382,27 +566,43 @@
    "gw": {
     "stations": 43,
     "unit": "m",
-    "generated": "2026-10-18",
+    "generated": "2026-11-21",
     "url": "https://phreaitic.github.io/api/v1/HR/gw.json"
+   }
+  },
+  "HU": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/HU/rivers.json"
+   }
+  },
+  "ID": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/ID/rivers.json"
    }
   },
   "IE": {
    "gw": {
-    "stations": 85,
+    "stations": 81,
     "unit": "m",
-    "generated": "2026-10-28",
+    "generated": "2026-11-21",
     "url": "https://phreaitic.github.io/api/v1/IE/gw.json"
    },
    "rivers": {
-    "stations": 260,
+    "stations": 267,
     "unit": "m3/s",
-    "generated": "2026-11-04",
+    "generated": "2026-11-26",
     "url": "https://phreaitic.github.io/api/v1/IE/rivers.json"
    },
    "temp": {
     "stations": 371,
     "unit": "°C",
-    "generated": "2026-11-04",
+    "generated": "2026-11-23",
     "url": "https://phreaitic.github.io/api/v1/IE/temp.json"
    }
   },
@@ -414,32 +614,48 @@
     "url": "https://phreaitic.github.io/api/v1/IN/gw.json"
    },
    "rivers": {
-    "stations": 418,
+    "stations": 458,
     "unit": "m3/s",
-    "generated": "2026-11-03",
+    "generated": "2026-11-26",
     "url": "https://phreaitic.github.io/api/v1/IN/rivers.json"
+   }
+  },
+  "IQ": {
+   "rivers": {
+    "stations": 5,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/IQ/rivers.json"
+   }
+  },
+  "IR": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/IR/rivers.json"
+   }
+  },
+  "IS": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/IS/rivers.json"
    }
   },
   "IT": {
    "rivers": {
-    "stations": 24,
+    "stations": 123,
     "unit": "m3/s",
-    "generated": "2026-11-02",
+    "generated": "2026-11-25",
     "url": "https://phreaitic.github.io/api/v1/IT/rivers.json"
    },
    "temp": {
     "stations": 20,
     "unit": "°C",
-    "generated": "2026-11-02",
+    "generated": "2026-11-22",
     "url": "https://phreaitic.github.io/api/v1/IT/temp.json"
-   }
-  },
-  "JM": {
-   "gw": {
-    "stations": 24,
-    "unit": "m",
-    "generated": "2026-10-18",
-    "url": "https://phreaitic.github.io/api/v1/JM/gw.json"
    }
   },
   "JP": {
@@ -448,21 +664,85 @@
     "unit": "m",
     "generated": "2026-10-30",
     "url": "https://phreaitic.github.io/api/v1/JP/gw.json"
+   },
+   "rivers": {
+    "stations": 9,
+    "unit": "m3/s",
+    "generated": "2026-11-23",
+    "url": "https://phreaitic.github.io/api/v1/JP/rivers.json"
+   },
+   "snow": {
+    "stations": 246,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/JP/snow.json"
+   }
+  },
+  "KE": {
+   "rivers": {
+    "stations": 3,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/KE/rivers.json"
+   }
+  },
+  "KG": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/KG/rivers.json"
+   },
+   "snow": {
+    "stations": 1,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/KG/snow.json"
+   }
+  },
+  "KH": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/KH/rivers.json"
    }
   },
   "KR": {
    "gw": {
-    "stations": 246,
+    "stations": 409,
     "unit": "m",
-    "generated": "2026-10-18",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/KR/gw.json"
+   }
+  },
+  "KZ": {
+   "rivers": {
+    "stations": 19,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/KZ/rivers.json"
+   },
+   "snow": {
+    "stations": 17,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/KZ/snow.json"
+   }
+  },
+  "LA": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/LA/rivers.json"
    }
   },
   "LT": {
    "gw": {
-    "stations": 11,
+    "stations": 9,
     "unit": "m",
-    "generated": "2026-10-18",
+    "generated": "2026-11-21",
     "url": "https://phreaitic.github.io/api/v1/LT/gw.json"
    }
   },
@@ -470,43 +750,131 @@
    "gw": {
     "stations": 3,
     "unit": "m",
-    "generated": "2026-10-18",
+    "generated": "2026-11-21",
     "url": "https://phreaitic.github.io/api/v1/LU/gw.json"
    }
   },
   "LV": {
    "gw": {
-    "stations": 134,
+    "stations": 138,
     "unit": "m",
-    "generated": "2026-10-18",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/LV/gw.json"
+   }
+  },
+  "MA": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/MA/rivers.json"
+   }
+  },
+  "MD": {
+   "snow": {
+    "stations": 1,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/MD/snow.json"
+   }
+  },
+  "ME": {
+   "snow": {
+    "stations": 1,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/ME/snow.json"
+   }
+  },
+  "MG": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/MG/rivers.json"
+   }
+  },
+  "ML": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/ML/rivers.json"
+   }
+  },
+  "MN": {
+   "rivers": {
+    "stations": 3,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/MN/rivers.json"
+   }
+  },
+  "MR": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/MR/rivers.json"
+   }
+  },
+  "MW": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/MW/rivers.json"
    }
   },
   "MX": {
    "rivers": {
-    "stations": 7,
+    "stations": 12,
     "unit": "m3/s",
-    "generated": "2026-11-03",
+    "generated": "2026-11-21",
     "url": "https://phreaitic.github.io/api/v1/MX/rivers.json"
+   }
+  },
+  "MZ": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/MZ/rivers.json"
+   }
+  },
+  "NG": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/NG/rivers.json"
+   }
+  },
+  "NI": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/NI/rivers.json"
    }
   },
   "NL": {
    "gw": {
-    "stations": 4445,
+    "stations": 18476,
     "unit": "m",
-    "generated": "2026-10-18",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/NL/gw.json"
    },
    "rivers": {
-    "stations": 18,
+    "stations": 126,
     "unit": "m3/s",
-    "generated": "2026-11-03",
+    "generated": "2026-11-26",
     "url": "https://phreaitic.github.io/api/v1/NL/rivers.json"
    },
    "temp": {
-    "stations": 12,
+    "stations": 42,
     "unit": "°C",
-    "generated": "2026-11-04",
+    "generated": "2026-11-26",
     "url": "https://phreaitic.github.io/api/v1/NL/temp.json"
    }
   },
@@ -514,92 +882,180 @@
    "gw": {
     "stations": 60,
     "unit": "m",
-    "generated": "2026-10-28",
+    "generated": "2026-11-23",
     "url": "https://phreaitic.github.io/api/v1/NO/gw.json"
    },
    "rivers": {
-    "stations": 479,
+    "stations": 480,
     "unit": "m3/s",
-    "generated": "2026-10-28",
+    "generated": "2026-11-23",
     "url": "https://phreaitic.github.io/api/v1/NO/rivers.json"
    },
    "temp": {
     "stations": 172,
     "unit": "°C",
-    "generated": "2026-10-28",
+    "generated": "2026-11-23",
     "url": "https://phreaitic.github.io/api/v1/NO/temp.json"
    },
    "snow": {
-    "stations": 1,
+    "stations": 3,
     "unit": "mm",
-    "generated": "2026-11-07",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/NO/snow.json"
    }
   },
   "NZ": {
    "gw": {
-    "stations": 290,
+    "stations": 820,
     "unit": "m",
-    "generated": "2026-10-28",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/NZ/gw.json"
    },
    "rivers": {
-    "stations": 114,
+    "stations": 565,
     "unit": "m3/s",
-    "generated": "2026-10-28",
+    "generated": "2026-11-26",
     "url": "https://phreaitic.github.io/api/v1/NZ/rivers.json"
    },
    "temp": {
-    "stations": 25,
+    "stations": 179,
     "unit": "°C",
-    "generated": "2026-10-28",
+    "generated": "2026-11-26",
     "url": "https://phreaitic.github.io/api/v1/NZ/temp.json"
    }
   },
+  "PE": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/PE/rivers.json"
+   }
+  },
+  "PK": {
+   "rivers": {
+    "stations": 4,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/PK/rivers.json"
+   }
+  },
+  "PL": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/PL/rivers.json"
+   }
+  },
   "PR": {
+   "gw": {
+    "stations": 31,
+    "unit": "m",
+    "generated": "2026-11-23",
+    "url": "https://phreaitic.github.io/api/v1/PR/gw.json"
+   },
    "rivers": {
     "stations": 46,
     "unit": "m3/s",
-    "generated": "2026-10-28",
+    "generated": "2026-11-23",
     "url": "https://phreaitic.github.io/api/v1/PR/rivers.json"
    }
   },
   "PT": {
    "gw": {
-    "stations": 136,
+    "stations": 187,
     "unit": "m",
-    "generated": "2026-10-09",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/PT/gw.json"
+   }
+  },
+  "PY": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/PY/rivers.json"
+   }
+  },
+  "RO": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/RO/rivers.json"
+   },
+   "snow": {
+    "stations": 1,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/RO/snow.json"
+   }
+  },
+  "RU": {
+   "rivers": {
+    "stations": 34,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/RU/rivers.json"
+   },
+   "snow": {
+    "stations": 6,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/RU/snow.json"
+   }
+  },
+  "SD": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/SD/rivers.json"
    }
   },
   "SE": {
    "gw": {
-    "stations": 263,
+    "stations": 273,
     "unit": "m",
-    "generated": "2026-11-03",
+    "generated": "2026-11-25",
     "url": "https://phreaitic.github.io/api/v1/SE/gw.json"
    },
    "rivers": {
-    "stations": 199,
+    "stations": 244,
     "unit": "m3/s",
-    "generated": "2026-11-07",
+    "generated": "2026-11-24",
     "url": "https://phreaitic.github.io/api/v1/SE/rivers.json"
+   },
+   "snow": {
+    "stations": 191,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/SE/snow.json"
    }
   },
   "SI": {
-   "gw": {
-    "stations": 80,
-    "unit": "m",
-    "generated": "2026-10-14",
-    "url": "https://phreaitic.github.io/api/v1/SI/gw.json"
+   "rivers": {
+    "stations": 165,
+    "unit": "m3/s",
+    "generated": "2026-11-25",
+    "url": "https://phreaitic.github.io/api/v1/SI/rivers.json"
    }
   },
-  "SK": {
-   "gw": {
-    "stations": 21,
-    "unit": "m",
-    "generated": "2026-10-13",
-    "url": "https://phreaitic.github.io/api/v1/SK/gw.json"
+  "SN": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/SN/rivers.json"
+   }
+  },
+  "SS": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/SS/rivers.json"
    }
   },
   "SV": {
@@ -610,37 +1066,115 @@
     "url": "https://phreaitic.github.io/api/v1/SV/gw.json"
    }
   },
+  "SY": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/SY/rivers.json"
+   }
+  },
+  "TD": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/TD/rivers.json"
+   }
+  },
   "TH": {
    "rivers": {
-    "stations": 948,
+    "stations": 950,
     "unit": "m3/s",
-    "generated": "2026-11-03",
+    "generated": "2026-11-22",
     "url": "https://phreaitic.github.io/api/v1/TH/rivers.json"
+   }
+  },
+  "TJ": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/TJ/rivers.json"
+   }
+  },
+  "TM": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/TM/rivers.json"
+   }
+  },
+  "TN": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/TN/rivers.json"
+   }
+  },
+  "TR": {
+   "rivers": {
+    "stations": 11,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/TR/rivers.json"
+   }
+  },
+  "TZ": {
+   "rivers": {
+    "stations": 6,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/TZ/rivers.json"
+   }
+  },
+  "UA": {
+   "rivers": {
+    "stations": 10,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/UA/rivers.json"
+   },
+   "snow": {
+    "stations": 4,
+    "unit": "mm",
+    "generated": "2026-11-27",
+    "url": "https://phreaitic.github.io/api/v1/UA/snow.json"
+   }
+  },
+  "UG": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/UG/rivers.json"
    }
   },
   "US": {
    "gw": {
-    "stations": 3240,
+    "stations": 5296,
     "unit": "m",
-    "generated": "2026-11-04",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/US/gw.json"
    },
    "rivers": {
-    "stations": 8140,
+    "stations": 12174,
     "unit": "m3/s",
-    "generated": "2026-11-07",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/US/rivers.json"
    },
    "temp": {
-    "stations": 1111,
+    "stations": 1378,
     "unit": "°C",
-    "generated": "2026-11-03",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/US/temp.json"
    },
    "snow": {
-    "stations": 788,
+    "stations": 2832,
     "unit": "mm",
-    "generated": "2026-11-07",
+    "generated": "2026-11-27",
     "url": "https://phreaitic.github.io/api/v1/US/snow.json"
    }
   },
@@ -648,16 +1182,64 @@
    "rivers": {
     "stations": 10,
     "unit": "m3/s",
-    "generated": "2026-10-28",
+    "generated": "2026-11-23",
     "url": "https://phreaitic.github.io/api/v1/UY/rivers.json"
    }
   },
-  "ZA": {
+  "UZ": {
+   "rivers": {
+    "stations": 3,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/UZ/rivers.json"
+   }
+  },
+  "VE": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/VE/rivers.json"
+   }
+  },
+  "VI": {
    "gw": {
-    "stations": 196,
+    "stations": 3,
     "unit": "m",
-    "generated": "2026-10-15",
-    "url": "https://phreaitic.github.io/api/v1/ZA/gw.json"
+    "generated": "2026-11-18",
+    "url": "https://phreaitic.github.io/api/v1/VI/gw.json"
+   }
+  },
+  "VN": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/VN/rivers.json"
+   }
+  },
+  "ZA": {
+   "rivers": {
+    "stations": 8,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/ZA/rivers.json"
+   }
+  },
+  "ZM": {
+   "rivers": {
+    "stations": 2,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/ZM/rivers.json"
+   }
+  },
+  "ZW": {
+   "rivers": {
+    "stations": 1,
+    "unit": "m3/s",
+    "generated": "2026-11-21",
+    "url": "https://phreaitic.github.io/api/v1/ZW/rivers.json"
    }
   }
  }
